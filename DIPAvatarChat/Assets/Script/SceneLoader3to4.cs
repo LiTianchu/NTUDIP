@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader3to4 : MonoBehaviour
 {
     public void LoadScene()
     {
-        SceneManager.LoadScene("RegisterPage");
+        SceneManager.LoadScene("4-ChatList");
     }
 }
