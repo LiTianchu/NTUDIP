@@ -526,6 +526,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 382675935}
   m_CullTransparentMesh: 1
+--- !u!1 &434681624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 434681626}
+  - component: {fileID: 434681625}
+  m_Layer: 0
+  m_Name: AppManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &434681625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434681624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e8bf86e6f652c408966c934d935f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &434681626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434681624}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 545.2575, y: 960, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &475128798
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,7 +891,6 @@ GameObject:
   - component: {fileID: 557677981}
   - component: {fileID: 557677980}
   - component: {fileID: 557677979}
-  - component: {fileID: 557677982}
   m_Layer: 5
   m_Name: Back ChatList
   m_TagString: Untagged
@@ -918,16 +961,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 557677982}
-        m_TargetAssemblyTypeName: SceneLoader5to4, Assembly-CSharp
-        m_MethodName: LoadScene
+      - m_Target: {fileID: 1837475181}
+        m_TargetAssemblyTypeName: NewChat, Assembly-CSharp
+        m_MethodName: Back
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ChatList
+          m_StringArgument: 4-ChatList
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &557677980
@@ -968,18 +1011,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557677977}
   m_CullTransparentMesh: 1
---- !u!114 &557677982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557677977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c86e377c9a7048c4aa58ddc61cd7c0ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &569967369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1357,7 +1388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00036621094, y: -57.600006}
+  m_AnchoredPosition: {x: 0.00036621094, y: -57.599976}
   m_SizeDelta: {x: -0.06, y: -115.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &700275080
@@ -5103,7 +5134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1837475176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbfa37d13e4209c43be55b29a9c31173, type: 3}
+  m_Script: {fileID: 11500000, guid: f8db64bb34009f9479098c218b4e1565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1838738351
@@ -6356,3 +6387,4 @@ SceneRoots:
   - {fileID: 2022900707}
   - {fileID: 507172835}
   - {fileID: 1837475180}
+  - {fileID: 434681626}
