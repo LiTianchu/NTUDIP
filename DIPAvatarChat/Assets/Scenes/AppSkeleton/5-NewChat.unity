@@ -892,7 +892,7 @@ GameObject:
   - component: {fileID: 557677980}
   - component: {fileID: 557677979}
   m_Layer: 5
-  m_Name: Back ChatList
+  m_Name: BackChatList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -961,8 +961,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1837475181}
-        m_TargetAssemblyTypeName: NewChat, Assembly-CSharp
+      - m_Target: {fileID: 1837475182}
+        m_TargetAssemblyTypeName: BackToChatList, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 1
         m_Arguments:
@@ -993,7 +993,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 91f687269d00d8548a0c2a0e7e4736e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f1737b486a23f634bb246de79b8d4f4b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5030,7 +5030,7 @@ GameObject:
   - component: {fileID: 1837475179}
   - component: {fileID: 1837475178}
   - component: {fileID: 1837475177}
-  - component: {fileID: 1837475181}
+  - component: {fileID: 1837475182}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5087,7 +5087,7 @@ Canvas:
   m_GameObject: {fileID: 1837475176}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 2022900706}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -5125,7 +5125,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1837475181
+--- !u!114 &1837475182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5134,7 +5134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1837475176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8db64bb34009f9479098c218b4e1565, type: 3}
+  m_Script: {fileID: 11500000, guid: 515591ea02b11e648940ca3591e4b807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1838738351
