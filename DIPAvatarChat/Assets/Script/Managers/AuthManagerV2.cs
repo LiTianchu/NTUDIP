@@ -127,6 +127,19 @@ public class AuthManagerV2 : MonoBehaviour
     private IEnumerator Register(string _email, string _password)
     {
 
+        // Input validation
+        if (string.IsNullOrEmpty(_email) || string.IsNullOrEmpty(_password))
+        {
+            warningRegisterText.text = "Please enter both email and password.";
+            yield break; // Exit the method if input is invalid
+        }
+
+        if (!IsValidEmail(_email))
+        {
+            warningRegisterText.text = "Invalid email format.";
+            yield break; // Exit the method if email format is invalid
+        }
+
         //Call the Firebase auth signin function passing the email and password
         Task<AuthResult> RegisterTask = auth.CreateUserWithEmailAndPasswordAsync(_email, _password);
         //Wait until the task completes
@@ -177,32 +190,64 @@ public class AuthManagerV2 : MonoBehaviour
 
             if (User != null)
             {
-                /*//Create a user profile and set the username
-                UserProfile profile = new UserProfile { DisplayName = _username };
+                // Send email verification
+                Task emailVerificationTask = User.SendEmailVerificationAsync();
 
-                //Call the Firebase auth update user profile function passing the profile with the username
-                Task ProfileTask = User.UpdateUserProfileAsync(profile);
-                //Wait until the task completes
-                yield return new WaitUntil(predicate: () => ProfileTask.IsCompleted);
+                // Wait until the email verification task completes
+                yield return new WaitUntil(() => emailVerificationTask.IsCompleted);
 
-                if (ProfileTask.Exception != null)
+                if (emailVerificationTask.Exception != null)
                 {
-                    //If there are errors handle them
-                    Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
-                    FirebaseException firebaseEx = ProfileTask.Exception.GetBaseException() as FirebaseException;
-                    AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                    warningRegisterText.text = "Username Set Failed!";
+                    // Handle email verification error
+                    Debug.LogWarning($"Failed to send email verification: {emailVerificationTask.Exception}");
+                    warningRegisterText.text = "Email verification failed!";
                 }
                 else
                 {
-                    //Username is now set
-                    //Now return to login screen
-                    UIManager.instance.LoginScreen();
-                    warningRegisterText.text = "";
-                }*/
-                UIManager.Instance.LoginScreen();
+                    // Email verification sent successfully
+                    // You can provide a message to the user here or prompt them to check their email.
+                    warningRegisterText.text = "Registration successful. Please check your email to verify your account.";
+                }
+            
+            /*//Create a user profile and set the username
+            UserProfile profile = new UserProfile { DisplayName = _username };
+
+            //Call the Firebase auth update user profile function passing the profile with the username
+            Task ProfileTask = User.UpdateUserProfileAsync(profile);
+            //Wait until the task completes
+            yield return new WaitUntil(predicate: () => ProfileTask.IsCompleted);
+
+            if (ProfileTask.Exception != null)
+            {
+                //If there are errors handle them
+                Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
+                FirebaseException firebaseEx = ProfileTask.Exception.GetBaseException() as FirebaseException;
+                AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+                warningRegisterText.text = "Username Set Failed!";
+            }
+            else
+            {
+                //Username is now set
+                //Now return to login screen
+                UIManager.instance.LoginScreen();
+                warningRegisterText.text = "";
+            }*/
+            UIManager.Instance.LoginScreen();
                 warningRegisterText.text = "";
             }
+        }
+    }
+    // Helper method to validate email format
+    private bool IsValidEmail(string email)
+    {
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
         }
     }
 }
