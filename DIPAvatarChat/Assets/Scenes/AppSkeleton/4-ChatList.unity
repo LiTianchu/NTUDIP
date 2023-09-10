@@ -1010,7 +1010,6 @@ GameObject:
   - component: {fileID: 189700200}
   - component: {fileID: 189700199}
   - component: {fileID: 189700198}
-  - component: {fileID: 189700201}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1084,16 +1083,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 189700201}
-        m_TargetAssemblyTypeName: SceneLoader4to6, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 1
+      - m_Target: {fileID: 410354668}
+        m_TargetAssemblyTypeName: AppManager, Assembly-CSharp
+        m_MethodName: LoadSceneByName
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 6-ChatFrontEnd
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &189700199
@@ -1134,18 +1133,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 189700196}
   m_CullTransparentMesh: 1
---- !u!114 &189700201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189700196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 901a6a7edd3108f42a30cb1e5e6f76a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &202913019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,6 +1766,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327141175}
   m_CullTransparentMesh: 1
+--- !u!1 &410354667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 410354669}
+  - component: {fileID: 410354668}
+  m_Layer: 0
+  m_Name: AppManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &410354668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410354667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e8bf86e6f652c408966c934d935f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &410354669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410354667}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 545.2575, y: 960, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &501008183
 GameObject:
   m_ObjectHideFlags: 0
@@ -2451,7 +2482,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 692963935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbfa37d13e4209c43be55b29a9c31173, type: 3}
+  m_Script: {fileID: 11500000, guid: e52dcab5ba19cda409642860cfe2181f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &701017581
@@ -5818,27 +5849,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 692963940}
-        m_TargetAssemblyTypeName: NewChatScene, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: NewChat
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1494365263}
-        m_TargetAssemblyTypeName: SceneLoader4to5, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_TargetAssemblyTypeName: ChatList, Assembly-CSharp
+        m_MethodName: NewChat
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 5-NewChat
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1494365261
@@ -7231,7 +7250,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1889018532}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 692963940}
+        m_TargetAssemblyTypeName: ChatList, Assembly-CSharp
+        m_MethodName: EnterChat
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SampleID
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1889018532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7999,3 +8030,4 @@ SceneRoots:
   - {fileID: 1998778170}
   - {fileID: 1778429856}
   - {fileID: 202913021}
+  - {fileID: 410354669}

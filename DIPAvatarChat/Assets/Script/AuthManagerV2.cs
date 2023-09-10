@@ -1,9 +1,9 @@
-using System.Collections;
-using UnityEngine;
 using Firebase;
 using Firebase.Auth;
-using TMPro;
+using System.Collections;
 using System.Threading.Tasks;
+using TMPro;
+using UnityEngine;
 
 public class AuthManagerV2 : MonoBehaviour
 {
@@ -36,6 +36,7 @@ public class AuthManagerV2 : MonoBehaviour
             {
                 //If they are avalible Initialize Firebase
                 InitializeFirebase();
+
             }
             else
             {
@@ -108,50 +109,52 @@ public class AuthManagerV2 : MonoBehaviour
             Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
             warningLoginText.text = "";
             confirmLoginText.text = "Logged In";
+            AppManager.Instance.LoadScene("3-RegisterUsername");
+
         }
     }
 
     private IEnumerator Register(string _email, string _password)
     {
 
-            //Call the Firebase auth signin function passing the email and password
-            Task<AuthResult> RegisterTask = auth.CreateUserWithEmailAndPasswordAsync(_email, _password);
-            //Wait until the task completes
-            yield return new WaitUntil(predicate: () => RegisterTask.IsCompleted);
+        //Call the Firebase auth signin function passing the email and password
+        Task<AuthResult> RegisterTask = auth.CreateUserWithEmailAndPasswordAsync(_email, _password);
+        //Wait until the task completes
+        yield return new WaitUntil(predicate: () => RegisterTask.IsCompleted);
 
-            if (RegisterTask.Exception != null)
+        if (RegisterTask.Exception != null)
+        {
+            //If there are errors handle them
+            Debug.LogWarning(message: $"Failed to register task with {RegisterTask.Exception}");
+            FirebaseException firebaseEx = RegisterTask.Exception.GetBaseException() as FirebaseException;
+            AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+
+            string message = "Register Failed!";
+            switch (errorCode)
             {
-                //If there are errors handle them
-                Debug.LogWarning(message: $"Failed to register task with {RegisterTask.Exception}");
-                FirebaseException firebaseEx = RegisterTask.Exception.GetBaseException() as FirebaseException;
-                AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-
-                string message = "Register Failed!";
-                switch (errorCode)
-                {
-                    case AuthError.MissingEmail:
-                        message = "Missing Email";
-                        break;
-                    case AuthError.MissingPassword:
-                        message = "Missing Password";
-                        break;
-                    case AuthError.WeakPassword:
-                        message = "Weak Password";
-                        break;
-                    case AuthError.EmailAlreadyInUse:
-                        message = "Email Already In Use";
-                        break;
-                }
-                warningRegisterText.text = message;
+                case AuthError.MissingEmail:
+                    message = "Missing Email";
+                    break;
+                case AuthError.MissingPassword:
+                    message = "Missing Password";
+                    break;
+                case AuthError.WeakPassword:
+                    message = "Weak Password";
+                    break;
+                case AuthError.EmailAlreadyInUse:
+                    message = "Email Already In Use";
+                    break;
             }
-            else
-            {
-                //User has now been created
-                //Now get the result
-                User = RegisterTask.Result.User;
+            warningRegisterText.text = message;
+        }
+        else
+        {
+            //User has now been created
+            //Now get the result
+            User = RegisterTask.Result.User;
 
-                if (User != null)
-                {
+            if (User != null)
+            {
                 /*//Create a user profile and set the username
                 UserProfile profile = new UserProfile { DisplayName = _username };
 
@@ -175,9 +178,9 @@ public class AuthManagerV2 : MonoBehaviour
                     UIManager.instance.LoginScreen();
                     warningRegisterText.text = "";
                 }*/
-                UIManager.instance.LoginScreen();
+                UIManager.Instance.LoginScreen();
                 warningRegisterText.text = "";
             }
-            }
+        }
     }
 }
