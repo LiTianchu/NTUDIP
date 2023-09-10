@@ -1,5 +1,6 @@
 using Firebase;
 using Firebase.Auth;
+using Firebase.Firestore;
 using System.Collections;
 using System.Threading.Tasks;
 using TMPro;
@@ -25,6 +26,13 @@ public class AuthManagerV2 : MonoBehaviour
     public TMP_InputField emailRegisterField;
     public TMP_InputField passwordRegisterField;
     public TMP_Text warningRegisterText;
+
+    //For Firestore Database
+    FirebaseFirestore db;
+
+    public static string emailData;
+    public static string passwordData;
+    public static string userPathData;
 
     void Awake()
     {
@@ -105,6 +113,8 @@ public class AuthManagerV2 : MonoBehaviour
         {
             //User is now logged in
             //Now get the result
+            userPathData = "user/" + _email;
+
             User = LoginTask.Result.User;
             Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
             warningLoginText.text = "";
@@ -152,6 +162,18 @@ public class AuthManagerV2 : MonoBehaviour
             //User has now been created
             //Now get the result
             User = RegisterTask.Result.User;
+            emailData = _email;
+            passwordData = _password;
+            userPathData = "user/" + _email;
+
+            var userData = new UserData
+            {
+                email = emailData,
+                password = passwordData,
+            };
+
+            db = FirebaseFirestore.DefaultInstance;
+            db.Document(userPathData).SetAsync(userData);
 
             if (User != null)
             {
