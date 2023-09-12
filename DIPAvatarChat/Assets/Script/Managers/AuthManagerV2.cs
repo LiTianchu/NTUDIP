@@ -73,6 +73,15 @@ public class AuthManagerV2 : MonoBehaviour
         StartCoroutine(Register(emailRegisterField.text, passwordRegisterField.text));
     }
 
+    /*Function for the password reset button
+    public void ResetPasswordButton()
+    {
+        string email = emailInput.text;
+
+        StartCoroutine(ResetPassword(email));
+    }*/
+    
+    //Login Function
     private IEnumerator Login(string _email, string _password)
     {
         //Call the Firebase auth signin function passing the email and password
@@ -113,17 +122,28 @@ public class AuthManagerV2 : MonoBehaviour
         {
             //User is now logged in
             //Now get the result
-            userPathData = "user/" + _email;
+            //Verify result
+            if (LoginTask.Result.User.IsEmailVerified)
+            {
+                // Email is verified, proceed with your logic
+                userPathData = "user/" + _email;
 
-            User = LoginTask.Result.User;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
-            warningLoginText.text = "";
-            confirmLoginText.text = "Logged In";
-            AppManager.Instance.LoadScene("3-RegisterUsername");
+                User = LoginTask.Result.User;
+                Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
+                warningLoginText.text = "";
+                confirmLoginText.text = "Logged In";
+                AppManager.Instance.LoadScene("3-RegisterUsername");
+            }
+            else
+            {
+                // Email is not verified, show a message to the user
+                warningLoginText.text = "Email is not verified. Please verify your email.";
+                confirmLoginText.text = "";
+            }
 
         }
     }
-
+    //Register Function
     private IEnumerator Register(string _email, string _password)
     {
 
@@ -192,6 +212,7 @@ public class AuthManagerV2 : MonoBehaviour
             {
                 // Send email verification
                 Task emailVerificationTask = User.SendEmailVerificationAsync();
+                warningRegisterText.text = "Registration successful. Please check your email to verify your account.";
 
                 // Wait until the email verification task completes
                 yield return new WaitUntil(() => emailVerificationTask.IsCompleted);
@@ -206,7 +227,9 @@ public class AuthManagerV2 : MonoBehaviour
                 {
                     // Email verification sent successfully
                     // You can provide a message to the user here or prompt them to check their email.
-                    warningRegisterText.text = "Registration successful. Please check your email to verify your account.";
+                    //warningRegisterText.text = "Registration successful. Please check your email to verify your account.";
+                    UIManager.Instance.LoginScreen();
+                    warningRegisterText.text = "";
                 }
             
             /*//Create a user profile and set the username
@@ -232,8 +255,8 @@ public class AuthManagerV2 : MonoBehaviour
                 UIManager.instance.LoginScreen();
                 warningRegisterText.text = "";
             }*/
-            UIManager.Instance.LoginScreen();
-                warningRegisterText.text = "";
+            //UIManager.Instance.LoginScreen();
+             //  warningRegisterText.text = "";
             }
         }
     }
@@ -250,4 +273,24 @@ public class AuthManagerV2 : MonoBehaviour
             return false;
         }
     }
+   /*Reset Password Function
+    private IEnumerator ResetPassword(string _email)
+    {
+        Task resetTask = auth.SendPasswordResetEmailAsync(_email);
+        yield return new WaitUntil(() => resetTask.IsCompleted);
+
+        if (resetTask.Exception != null)
+        {
+            // Handle password reset errors
+            Debug.LogWarning($"Failed to reset password with error: {resetTask.Exception.Message}");
+            // Display an error message to the user
+            warningLoginText.text = "Password reset failed. Check your email address.";
+        }
+        else
+        {
+            // Password reset email sent successfully
+            // Display a confirmation message to the user
+            warningLoginText.text = "Password reset email sent. Check your inbox.";
+        }
+    }*/
 }
