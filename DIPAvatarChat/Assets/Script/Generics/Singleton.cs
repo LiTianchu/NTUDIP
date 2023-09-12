@@ -16,22 +16,19 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 {
                     //load singleton into instance
                     _instance = new GameObject().AddComponent<T>();
-                    Debug.Log("Loaded New Manager");
                 }
                 else {
-                    Debug.Log("Loaded Old Manager");
                 }
             }
         return _instance;
         }
     }
 
-    private void Awake()
+    protected void Awake()
     {
         //if there is already a instance, destroy
         if (_instance != null)
         {
-            Debug.Log("Destoryed Manager");
             Destroy(this);
             
         }

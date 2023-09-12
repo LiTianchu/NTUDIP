@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/AppSkeleton/1-StartingPage.unity
     guid: 114679b02ac8ae940889bafbfd608872
   - enabled: 1
-    path: Assets/Scenes/AppSkeleton/2-MalvinRegisterAndLogin.unity
+    path: Assets/Scenes/AppSkeleton/2-RegisterAndLogin.unity
     guid: a059f9835d7ea174e9dd1a71a4ff0b07
   - enabled: 1
-    path: Assets/Scenes/AppSkeleton/3-RegisterUsername.unity
+    path: Assets/Scenes/AppSkeleton/3-EditProfile.unity
     guid: b1ab3b34cb5c56c4a8c3048423118e8e
   - enabled: 1
     path: Assets/Scenes/AppSkeleton/4-ChatList.unity
