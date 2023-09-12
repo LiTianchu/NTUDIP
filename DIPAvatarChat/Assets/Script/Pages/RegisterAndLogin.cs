@@ -38,6 +38,7 @@ public class RegisterAndLogin : MonoBehaviour
         AuthManager.Instance.LoginWarning += SetLoginWarning;
         AuthManager.Instance.RegisterConfirm += SetRegisterConfirm;
         AuthManager.Instance.LoginConfirm += SetLoginConfirm;
+        AuthManager.Instance.ClearWarning += ClearText;
     }
 
     private void OnDisable()
@@ -47,6 +48,7 @@ public class RegisterAndLogin : MonoBehaviour
         AuthManager.Instance.LoginWarning -= SetLoginWarning;
         AuthManager.Instance.RegisterConfirm -= SetRegisterConfirm;
         AuthManager.Instance.LoginConfirm -= SetLoginConfirm;
+        AuthManager.Instance.ClearWarning -= ClearText;
     }
 
     public void LoginButton()

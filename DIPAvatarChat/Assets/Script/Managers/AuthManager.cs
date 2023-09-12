@@ -32,6 +32,7 @@ public class AuthManager : Singleton<AuthManager>
     public event Action<string> LoginConfirm;
     public event Action<string> RegisterWarning;
     public event Action<string> RegisterConfirm;
+    public event Action ClearWarning;
 
 
     void Start()
@@ -76,14 +77,7 @@ public class AuthManager : Singleton<AuthManager>
         StartCoroutine(Register(email, password));
     }
 
-    /*Function for the password reset button
-    public void ResetPasswordButton()
-    {
-        string email = emailInput.text;
 
-        StartCoroutine(ResetPassword(email));
-    }*/
-    
     //Login Function
     private IEnumerator Login(string _email, string _password)
     {
@@ -119,13 +113,7 @@ public class AuthManager : Singleton<AuthManager>
                     break;
             }
 
-            //raise event
-            if (LoginWarning != null)
-            {
-                LoginWarning(message);
-            }
-            //warningLoginText.text = message;
-            //confirmLoginText.text = "";
+            LoginWarning?.Invoke(message);
         }
         else
         {
@@ -137,16 +125,14 @@ public class AuthManager : Singleton<AuthManager>
                 // Email is verified, proceed with your logic
                 userPathData = "user/" + _email;
 
-            user = LoginTask.Result.User;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.Email);
-            //raise event
-            LoginConfirm?.Invoke("Logged In");
+                user = LoginTask.Result.User;
+                Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.Email);
+                //raise event
+                LoginConfirm?.Invoke("Logged In");
 
-            //warningLoginText.text = "";
-            //confirmLoginText.text = "Logged In";
-            AppManager.Instance.LoadScene("3-EditProfile");
+                AppManager.Instance.LoadScene("3-EditProfile");
 
-              
+
             }
             else
             {
@@ -163,8 +149,6 @@ public class AuthManager : Singleton<AuthManager>
         // Input validation
         if (string.IsNullOrEmpty(_email) || string.IsNullOrEmpty(_password))
         {
-            //warningRegisterText.text = "Please enter both email and password.";
-
             RegisterWarning?.Invoke("Please enter both email and password.");
 
             yield break; // Exit the method if input is invalid
@@ -174,8 +158,6 @@ public class AuthManager : Singleton<AuthManager>
         {
 
             RegisterWarning?.Invoke("Invalid email format.");
-
-            //warningRegisterText.text = "Invalid email format.";
             yield break; // Exit the method if email format is invalid
         }
 
@@ -209,9 +191,6 @@ public class AuthManager : Singleton<AuthManager>
             }
             //raise event
             RegisterWarning?.Invoke(message);
-
-
-            //warningRegisterText.text = message;
         }
         else
         {
@@ -233,7 +212,7 @@ public class AuthManager : Singleton<AuthManager>
                 // Send email verification
 
                 Task emailVerificationTask = user.SendEmailVerificationAsync();
-                warningRegisterText.text = "Registration successful. Please check your email to verify your account.";
+                RegisterConfirm?.Invoke("Registration successful. Please check your email to verify your account.");
 
 
                 // Wait until the email verification task completes
@@ -252,36 +231,40 @@ public class AuthManager : Singleton<AuthManager>
                 {
                     // Email verification sent successfully
                     // You can provide a message to the user here or prompt them to check their email.
-                    //warningRegisterText.text = "Registration successful. Please check your email to verify your account.";
-
-
-                    RegisterConfirm?.Invoke("Registration successful. Please check your email to verify your account.");
-
-
                     UIManager.Instance.LoginScreen();
-                    warningRegisterText.text = "";
+                    ClearWarning?.Invoke();
 
                 }
 
 
+                /*//Create a user profile and set the username
+                              UserProfile profile = new UserProfile { DisplayName = _username };
 
-            if (ProfileTask.Exception != null)
-            {
-                //If there are errors handle them
-                Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
-                FirebaseException firebaseEx = ProfileTask.Exception.GetBaseException() as FirebaseException;
-                AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                warningRegisterText.text = "Username Set Failed!";
-            }
-            else
-            {
-                //Username is now set
-                //Now return to login screen
-                UIManager.instance.LoginScreen();
-                warningRegisterText.text = "";
-            }*/
-            //UIManager.Instance.LoginScreen();
-             //  warningRegisterText.text = "";
+                              //Call the Firebase auth update user profile function passing the profile with the username
+                              Task ProfileTask = User.UpdateUserProfileAsync(profile);
+                              //Wait until the task completes
+                              yield return new WaitUntil(predicate: () => ProfileTask.IsCompleted);
+
+                              if (ProfileTask.Exception != null)
+                              {
+                                  //If there are errors handle them
+                                  Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
+                                  FirebaseException firebaseEx = ProfileTask.Exception.GetBaseException() as FirebaseException;
+                                  AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+                                  warningRegisterText.text = "Username Set Failed!";
+                              }
+                              else
+                              {
+                                  //Username is now set
+                                  //Now return to login screen
+                                  UIManager.instance.LoginScreen();
+                                  warningRegisterText.text = "";
+                              }*/
+                // UIManager.Instance.LoginScreen();
+
+                // RegisterConfirm?.Invoke("");
+
+                // warningRegisterText.text = "";
 
             }
         }
@@ -299,24 +282,24 @@ public class AuthManager : Singleton<AuthManager>
             return false;
         }
     }
-   /*Reset Password Function
-    private IEnumerator ResetPassword(string _email)
-    {
-        Task resetTask = auth.SendPasswordResetEmailAsync(_email);
-        yield return new WaitUntil(() => resetTask.IsCompleted);
+    /*Reset Password Function
+     private IEnumerator ResetPassword(string _email)
+     {
+         Task resetTask = auth.SendPasswordResetEmailAsync(_email);
+         yield return new WaitUntil(() => resetTask.IsCompleted);
 
-        if (resetTask.Exception != null)
-        {
-            // Handle password reset errors
-            Debug.LogWarning($"Failed to reset password with error: {resetTask.Exception.Message}");
-            // Display an error message to the user
-            warningLoginText.text = "Password reset failed. Check your email address.";
-        }
-        else
-        {
-            // Password reset email sent successfully
-            // Display a confirmation message to the user
-            warningLoginText.text = "Password reset email sent. Check your inbox.";
-        }
-    }*/
+         if (resetTask.Exception != null)
+         {
+             // Handle password reset errors
+             Debug.LogWarning($"Failed to reset password with error: {resetTask.Exception.Message}");
+             // Display an error message to the user
+             warningLoginText.text = "Password reset failed. Check your email address.";
+         }
+         else
+         {
+             // Password reset email sent successfully
+             // Display a confirmation message to the user
+             warningLoginText.text = "Password reset email sent. Check your inbox.";
+         }
+     }*/
 }

@@ -53,7 +53,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
         Dictionary<string, object> userData = new Dictionary<string, object>
             {
                 { "username", username },
-                { "status", status }
+                { "status", status },
+                { "createdAt", FieldValue.ServerTimestamp }
             };
 
         try
