@@ -17,10 +17,6 @@ public class AuthManager : Singleton<AuthManager>
     public FirebaseAuth auth;
     public FirebaseUser user;
 
-
-    //For Firestore Database
-    //FirebaseFirestore db;
-
     public string emailData { get; set; }
     public string passwordData { get; set; }
     public string userPathData { get; set; }
@@ -33,6 +29,7 @@ public class AuthManager : Singleton<AuthManager>
     public event Action<string> RegisterWarning;
     public event Action<string> RegisterConfirm;
     public event Action ClearWarning;
+    public event Action EmailVerificationSent;
 
 
     void Start()
@@ -66,14 +63,12 @@ public class AuthManager : Singleton<AuthManager>
     public void StartLogin(string email, string password)
     {
         //Call the login coroutine passing the email and password
-        //StartCoroutine(Login(emailLoginField.text, passwordLoginField.text));
         StartCoroutine(Login(email, password));
     }
     //Function for the register button
     public void StartRegistration(string email, string password)
     {
         //Call the register coroutine passing the email, password, and username
-        //StartCoroutine(Register(emailRegisterField.text, passwordRegisterField.text));
         StartCoroutine(Register(email, password));
     }
 
@@ -210,7 +205,6 @@ public class AuthManager : Singleton<AuthManager>
             if (user != null && recordSaved)
             {
                 // Send email verification
-
                 Task emailVerificationTask = user.SendEmailVerificationAsync();
                 RegisterConfirm?.Invoke("Registration successful. Please check your email to verify your account.");
 
@@ -222,8 +216,6 @@ public class AuthManager : Singleton<AuthManager>
                 {
                     // Handle email verification error
                     Debug.LogWarning($"Failed to send email verification: {emailVerificationTask.Exception}");
-                    //warningRegisterText.text = "Email verification failed!";
-
                     RegisterWarning?.Invoke("Email verification failed!");
 
                 }
@@ -231,7 +223,8 @@ public class AuthManager : Singleton<AuthManager>
                 {
                     // Email verification sent successfully
                     // You can provide a message to the user here or prompt them to check their email.
-                    UIManager.Instance.LoginScreen();
+                    
+                    EmailVerificationSent?.Invoke();
                     ClearWarning?.Invoke();
 
                 }

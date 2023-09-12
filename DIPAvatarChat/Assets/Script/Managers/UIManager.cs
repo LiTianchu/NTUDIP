@@ -5,21 +5,15 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
 
-    //Screen object variables
-    public GameObject loginUI;
-    public GameObject registerUI;
-
-  
-
     //Functions to change the login screen UI
-    public void LoginScreen() //Back button
+    public void ToggleLoginResgister(GameObject loginUI,GameObject registerUI) //Back button
     {
-        loginUI.SetActive(true);
-        registerUI.SetActive(false);
+        loginUI.SetActive(!loginUI.activeSelf);
+        registerUI.SetActive(!registerUI.activeSelf);
     }
-    public void RegisterScreen() // Regester button
-    {
-        loginUI.SetActive(false);
-        registerUI.SetActive(true);
-    }
+    //public void RegisterScreen(GameObject loginUI, GameObject registerUI) // Regester button
+    //{
+    //    loginUI.SetActive(false);
+    //    registerUI.SetActive(true);
+    //}
 }

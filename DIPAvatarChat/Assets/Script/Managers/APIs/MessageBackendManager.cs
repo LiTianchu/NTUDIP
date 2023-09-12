@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//This class contains API for Create/Update/Delete/Read(CRUD) database data
+//This class should be called from other classes(page scripts) to perform CRUD operations
+//Do not call this class directly from UI elements
 public class MessageBackendManager : Singleton<MessageBackendManager>
 {
 
