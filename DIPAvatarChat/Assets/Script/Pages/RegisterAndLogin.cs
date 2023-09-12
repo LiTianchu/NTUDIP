@@ -19,6 +19,10 @@ public class RegisterAndLogin : MonoBehaviour
     public TMP_InputField emailRegisterField;
     public TMP_InputField passwordRegisterField;
     public TMP_Text warningRegisterText;
+
+    [Header("Form")]
+    public GameObject loginForm;
+    public GameObject registerForm; 
     // Start is called before the first frame update
     void Start()
     {
@@ -33,22 +37,24 @@ public class RegisterAndLogin : MonoBehaviour
 
     private void OnEnable()
     {
-        //attach event method on enable
+        //attach event listeners on enable
         AuthManager.Instance.RegisterWarning += SetRegisterWarning;
         AuthManager.Instance.LoginWarning += SetLoginWarning;
         AuthManager.Instance.RegisterConfirm += SetRegisterConfirm;
         AuthManager.Instance.LoginConfirm += SetLoginConfirm;
         AuthManager.Instance.ClearWarning += ClearText;
+        AuthManager.Instance.EmailVerificationSent += ToggleUI;
     }
 
     private void OnDisable()
     {
-        //detach event method on disable
+        //detach event listeners on disable
         AuthManager.Instance.RegisterWarning -= SetRegisterWarning;
         AuthManager.Instance.LoginWarning -= SetLoginWarning;
         AuthManager.Instance.RegisterConfirm -= SetRegisterConfirm;
         AuthManager.Instance.LoginConfirm -= SetLoginConfirm;
         AuthManager.Instance.ClearWarning -= ClearText;
+        AuthManager.Instance.EmailVerificationSent += ToggleUI;
     }
 
     public void LoginButton()
@@ -79,6 +85,9 @@ public class RegisterAndLogin : MonoBehaviour
 
     private void SetRegisterConfirm(string confirm) {
         ClearText();
+    }
+    public void ToggleUI() { 
+        UIManager.Instance.ToggleLoginResgister(loginForm, registerForm);
     }
 
     private void ClearText() {

@@ -6,25 +6,23 @@ using TMPro;
 using Firebase.Firestore;
 using System;
 
-//This class contains API for Create/Update/Delete/Read user data
+//This class contains API for Create/Update/Delete/Read(CRUD) database data
 //This class should be called from other classes(page scripts) to perform CRUD operations
 //Do not call this class directly from UI elements
 public class UserBackendManager : Singleton<UserBackendManager>
 {
     FirebaseFirestore db;
 
-    //private string _userPath;
-
- 
-
     // Start is called before the first frame update
     void Start()
     {
         db = FirebaseFirestore.DefaultInstance;
-        //_userPath = AuthManager.Instance.userPathData;
        
     }
 
+    //API for creating user record
+    //Returns true if update is successful
+    //Takes in email as parameter
     public bool AddUser(string email)
     {
 
@@ -35,7 +33,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
         try
         {
-            //_userPath = AuthManager.Instance.userPathData;
             db.Document(AuthManager.Instance.userPathData).SetAsync(userData);
         }
         catch (Exception ex)
