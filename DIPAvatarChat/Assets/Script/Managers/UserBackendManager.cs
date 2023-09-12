@@ -32,7 +32,8 @@ public class UserBackendManager : MonoBehaviour
             Dictionary<string, object> userData = new Dictionary<string, object>
             {
                 { "username", usernameField.text },
-                { "status", statusField.text }
+                { "status", statusField.text },
+                { "createdAt", FieldValue.ServerTimestamp }
             };
 
             db = FirebaseFirestore.DefaultInstance;
