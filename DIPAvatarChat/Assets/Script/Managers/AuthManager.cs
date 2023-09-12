@@ -76,6 +76,15 @@ public class AuthManager : Singleton<AuthManager>
         StartCoroutine(Register(email, password));
     }
 
+    /*Function for the password reset button
+    public void ResetPasswordButton()
+    {
+        string email = emailInput.text;
+
+        StartCoroutine(ResetPassword(email));
+    }*/
+    
+    //Login Function
     private IEnumerator Login(string _email, string _password)
     {
         //Call the Firebase auth signin function passing the email and password
@@ -122,7 +131,11 @@ public class AuthManager : Singleton<AuthManager>
         {
             //User is now logged in
             //Now get the result
-            userPathData = "user/" + _email;
+            //Verify result
+            if (LoginTask.Result.User.IsEmailVerified)
+            {
+                // Email is verified, proceed with your logic
+                userPathData = "user/" + _email;
 
             user = LoginTask.Result.User;
             Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.Email);
@@ -133,9 +146,17 @@ public class AuthManager : Singleton<AuthManager>
             //confirmLoginText.text = "Logged In";
             AppManager.Instance.LoadScene("3-EditProfile");
 
+              
+            }
+            else
+            {
+                // Email is not verified, show a message to the user          
+                LoginWarning?.Invoke("Email is not verified. Please verify your email.");
+            }
+
         }
     }
-
+    //Register Function
     private IEnumerator Register(string _email, string _password)
     {
 
@@ -210,7 +231,10 @@ public class AuthManager : Singleton<AuthManager>
             if (user != null && recordSaved)
             {
                 // Send email verification
+
                 Task emailVerificationTask = user.SendEmailVerificationAsync();
+                warningRegisterText.text = "Registration successful. Please check your email to verify your account.";
+
 
                 // Wait until the email verification task completes
                 yield return new WaitUntil(() => emailVerificationTask.IsCompleted);
@@ -230,39 +254,35 @@ public class AuthManager : Singleton<AuthManager>
                     // You can provide a message to the user here or prompt them to check their email.
                     //warningRegisterText.text = "Registration successful. Please check your email to verify your account.";
 
+
                     RegisterConfirm?.Invoke("Registration successful. Please check your email to verify your account.");
 
-                }
 
-
-                /*//Create a user profile and set the username
-                UserProfile profile = new UserProfile { DisplayName = _username };
-
-                //Call the Firebase auth update user profile function passing the profile with the username
-                Task ProfileTask = User.UpdateUserProfileAsync(profile);
-                //Wait until the task completes
-                yield return new WaitUntil(predicate: () => ProfileTask.IsCompleted);
-
-                if (ProfileTask.Exception != null)
-                {
-                    //If there are errors handle them
-                    Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
-                    FirebaseException firebaseEx = ProfileTask.Exception.GetBaseException() as FirebaseException;
-                    AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                    warningRegisterText.text = "Username Set Failed!";
-                }
-                else
-                {
-                    //Username is now set
-                    //Now return to login screen
-                    UIManager.instance.LoginScreen();
+                    UIManager.Instance.LoginScreen();
                     warningRegisterText.text = "";
-                }*/
-                UIManager.Instance.LoginScreen();
 
-                RegisterConfirm?.Invoke("");
+                }
 
-                //warningRegisterText.text = "";
+
+
+            if (ProfileTask.Exception != null)
+            {
+                //If there are errors handle them
+                Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
+                FirebaseException firebaseEx = ProfileTask.Exception.GetBaseException() as FirebaseException;
+                AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+                warningRegisterText.text = "Username Set Failed!";
+            }
+            else
+            {
+                //Username is now set
+                //Now return to login screen
+                UIManager.instance.LoginScreen();
+                warningRegisterText.text = "";
+            }*/
+            //UIManager.Instance.LoginScreen();
+             //  warningRegisterText.text = "";
+
             }
         }
     }
@@ -279,4 +299,24 @@ public class AuthManager : Singleton<AuthManager>
             return false;
         }
     }
+   /*Reset Password Function
+    private IEnumerator ResetPassword(string _email)
+    {
+        Task resetTask = auth.SendPasswordResetEmailAsync(_email);
+        yield return new WaitUntil(() => resetTask.IsCompleted);
+
+        if (resetTask.Exception != null)
+        {
+            // Handle password reset errors
+            Debug.LogWarning($"Failed to reset password with error: {resetTask.Exception.Message}");
+            // Display an error message to the user
+            warningLoginText.text = "Password reset failed. Check your email address.";
+        }
+        else
+        {
+            // Password reset email sent successfully
+            // Display a confirmation message to the user
+            warningLoginText.text = "Password reset email sent. Check your inbox.";
+        }
+    }*/
 }
