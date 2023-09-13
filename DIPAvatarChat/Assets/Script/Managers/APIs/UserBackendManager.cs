@@ -66,10 +66,43 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
 
     }
+    // API for retrieving username by email
+    // Returns the username if found, or null if not found
+    // Takes in an email as a parameter
+    /*public async Task<string> GetUsernameByEmailAsync(string email)
+    {
+        try
+        {
+            // Query the database for the user document with the given email
+            QuerySnapshot querySnapshot = await db.Collection("user")
+                .WhereEqualTo("email", email)
+                .Limit(1)
+                .GetSnapshotAsync();
 
-    
+            // Check if a document was found
+            if (querySnapshot.Documents.Count > 0)
+            {
+                // Extract the username from the document
+                string username = querySnapshot.Documents[0].GetString("username");
+                return username;
+            }
+            else
+            {
+                // No document with the specified email was found
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Firestore Error: " + ex.Message);
+            return null;
+        }
+
+    }*/
 
 
 
-   
+
+
+
 }
