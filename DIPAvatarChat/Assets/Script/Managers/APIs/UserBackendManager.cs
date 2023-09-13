@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Firebase.Firestore;
+using Firebase.Extensions;
 using System;
+using System.Threading.Tasks;
 
 //This class contains API for Create/Update/Delete/Read(CRUD) database data
 //This class should be called from other classes(page scripts) to perform CRUD operations
@@ -66,39 +68,38 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
 
     }
-    // API for retrieving username by email
-    // Returns the username if found, or null if not found
-    // Takes in an email as a parameter
-    /*public async Task<string> GetUsernameByEmailAsync(string email)
+   
+    public async Task<string> GetUsernameByEmail(string email)
     {
         try
         {
             // Query the database for the user document with the given email
-            QuerySnapshot querySnapshot = await db.Collection("user")
-                .WhereEqualTo("email", email)
+            var querySnapshot = await db.Collection("user")
+                .WhereEqualTo("user", email)
                 .Limit(1)
                 .GetSnapshotAsync();
 
             // Check if a document was found
-            if (querySnapshot.Documents.Count > 0)
+            foreach (var document in querySnapshot.Documents)
             {
-                // Extract the username from the document
-                string username = querySnapshot.Documents[0].GetString("username");
-                return username;
+                // Extract the username from the document using Get method
+                if (document.TryGetValue("username", out object usernameObj) && usernameObj is string username)
+                {
+                    return username;
+                }
             }
-            else
-            {
-                // No document with the specified email was found
-                return null;
-            }
+
+            // No document with the specified email was found
+            return null;
         }
         catch (Exception ex)
         {
             Debug.LogError("Firestore Error: " + ex.Message);
             return null;
         }
+    }
 
-    }*/
+
 
 
 
