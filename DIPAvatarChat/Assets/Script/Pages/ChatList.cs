@@ -8,6 +8,10 @@ public class ChatList : MonoBehaviour
 {
 
     public TMP_InputField getUsernameByEmail;
+    public static TMP_Text nameDisplay;
+    public static TMP_Text emailDisplay;
+    public static TMP_Text statusDisplay;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +37,6 @@ public class ChatList : MonoBehaviour
 
     public void GetUsernameByEmail()
     {
-        
         UserBackendManager.Instance.GetUsernameByEmail(getUsernameByEmail.text);
     }
 }

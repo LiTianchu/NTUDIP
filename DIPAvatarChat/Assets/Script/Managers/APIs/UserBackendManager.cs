@@ -84,6 +84,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 foreach (KeyValuePair<string, object> pair in temp)
                 {
                     Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
+                    
                 }
 
                 // Newline to separate entries
