@@ -19,7 +19,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     void Start()
     {
         db = FirebaseFirestore.DefaultInstance;
-       
+
     }
 
     //API for creating user record
@@ -48,7 +48,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
     //API for updating username and status
     //Returns true if update is successful
     //Takes in username and status as parameters
-    public bool UpdateUsernameAndStatus(string username, string status) {
+    public bool UpdateUsernameAndStatus(string username, string status)
+    {
         Dictionary<string, object> userData = new Dictionary<string, object>
             {
                 { "username", username },
@@ -59,51 +60,38 @@ public class UserBackendManager : Singleton<UserBackendManager>
         try
         {
             db.Document(AuthManager.Instance.userPathData).UpdateAsync(userData);
-            
+
         }
-        catch (Exception ex) { 
+        catch (Exception ex)
+        {
             Debug.LogError("Firestore Error: " + ex.Message);
             return false;
         }
         return true;
 
     }
-   
-    public async Task<string> GetUsernameByEmail(string email)
+    
+    public bool GetUsernameByEmail(string email)
+{
+    Query messageQuery = db.Collection("user").WhereEqualTo("email", email);
+    messageQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
     {
-        try
+        QuerySnapshot snapshot = task.Result;
+        foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
         {
-            // Query the database for the user document with the given email
-            var querySnapshot = await db.Collection("user")
-                .WhereEqualTo("user", email)
-                .Limit(1)
-                .GetSnapshotAsync();
-
-            // Check if a document was found
-            foreach (var document in querySnapshot.Documents)
+            Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
+            Dictionary<string, object> temp = documentSnapShot.ToDictionary();
+            foreach (KeyValuePair<string, object> pair in temp)
             {
-                // Extract the username from the document using Get method
-                if (document.TryGetValue("username", out object usernameObj) && usernameObj is string username)
-                {
-                    return username;
-                }
+                Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
             }
 
-            // No document with the specified email was found
-            return null;
+            // Newline to separate entries
+            Debug.Log("");
+
         }
-        catch (Exception ex)
-        {
-            Debug.LogError("Firestore Error: " + ex.Message);
-            return null;
-        }
-    }
-
-
-
-
-
-
-
+    });
+    return true;
+}
 
 }
