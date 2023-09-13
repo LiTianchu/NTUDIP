@@ -1,4 +1,5 @@
 using Firebase.Firestore;
+using System.Collections.Generic;
 
 [FirestoreData]
 
@@ -7,8 +8,8 @@ public struct UserData
     [FirestoreProperty]
     public string avatars { get; set; }
 
-    [FirestoreProperty]
-    public string blacklist { get; set; }
+    //[FirestoreProperty]
+    //public List<string> blacklist { get; set; }
 
     [FirestoreProperty]
     public string conversations { get; set; }
@@ -23,10 +24,10 @@ public struct UserData
     public string email { get; set; }
 
     [FirestoreProperty]
-    public string friendRequests { get; set; }
+    public List<string> friendRequests { get; set; }
 
     [FirestoreProperty]
-    public string friends { get; set; }
+    public List<string> friends { get; set; }
 
     [FirestoreProperty]
     public string name { get; set; }
@@ -37,8 +38,8 @@ public struct UserData
     [FirestoreProperty]
     public string phone { get; set; }
 
-    [FirestoreProperty]
-    public string settings { get; set; }
+    //[FirestoreProperty]
+    //public string settings { get; set; }
 
     [FirestoreProperty]
     public string status { get; set; }
