@@ -66,10 +66,5 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
 
     }
-
-    
-
-
-
    
 }
