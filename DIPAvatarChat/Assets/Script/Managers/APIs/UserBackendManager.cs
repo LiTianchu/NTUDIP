@@ -15,7 +15,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
 {
     FirebaseFirestore db;
 
-    public event Action<List<object>> UserDataReceived;
+    public event Action<UserData> UserDataReceived;
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +75,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     
     public void GetUsernameByEmail(string email)
     {
-        List<object> userData = new List<object>();
+        UserData userData;
         Query usernameQuery = db.Collection("user").WhereEqualTo("email", email);
 
         //this function is Async, so the return value does not work here.
@@ -87,22 +87,41 @@ public class UserBackendManager : Singleton<UserBackendManager>
             {
                 Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
                 Dictionary<string, object> temp = documentSnapShot.ToDictionary();
+
                 foreach (KeyValuePair<string, object> pair in temp)
                 {
                     Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
-                    userData.Add(pair.Value); 
                     
                 }
+
+                userData = DictionaryToUserData(temp);
+                Debug.Log(userData.username);
+
                 // This line is not working, the event is not invoked when I run
                 UserDataReceived?.Invoke(userData);
 
                 // Newline to separate entries
                 Debug.Log("");
-                Debug.Log(userData.Count);
-                Debug.Log(userData[12]);
 
             }
         });
+    }
+
+    public UserData DictionaryToUserData(Dictionary<string, object> firestorData)
+    {
+        UserData userData = new UserData();
+
+        firestorData.TryGetValue("username", out object username);
+        userData.username = (string)username;
+
+        firestorData.TryGetValue("email", out object email);
+        userData.email = (string)email;
+
+        firestorData.TryGetValue("status", out object status);
+        userData.status = (string)status;
+
+        return userData;
+
     }
 
 }
