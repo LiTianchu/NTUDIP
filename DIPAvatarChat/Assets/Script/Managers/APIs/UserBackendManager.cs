@@ -90,11 +90,11 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 foreach (KeyValuePair<string, object> pair in temp)
                 {
                     Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
-                    userData.Add(pair.Value);
-
-                    // This line is not working, the event is not invoked when I run
-                    UserDataReceived?.Invoke(userData);
+                    userData.Add(pair.Value); 
+                    
                 }
+                // This line is not working, the event is not invoked when I run
+                UserDataReceived?.Invoke(userData);
 
                 // Newline to separate entries
                 Debug.Log("");
