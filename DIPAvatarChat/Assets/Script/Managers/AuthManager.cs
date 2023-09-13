@@ -18,7 +18,7 @@ public class AuthManager : Singleton<AuthManager>
     public FirebaseUser user;
 
     public string emailData { get; set; }
-    public string passwordData { get; set; }
+    //public string passwordData { get; set; }
     public string userPathData { get; set; }
 
     //Login events
