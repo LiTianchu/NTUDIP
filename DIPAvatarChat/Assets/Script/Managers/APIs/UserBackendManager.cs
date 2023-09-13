@@ -72,26 +72,26 @@ public class UserBackendManager : Singleton<UserBackendManager>
     }
     
     public bool GetUsernameByEmail(string email)
-{
-    Query messageQuery = db.Collection("user").WhereEqualTo("email", email);
-    messageQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
     {
-        QuerySnapshot snapshot = task.Result;
-        foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
+        Query messageQuery = db.Collection("user").WhereEqualTo("email", email);
+        messageQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
-            Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
-            Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-            foreach (KeyValuePair<string, object> pair in temp)
+            QuerySnapshot snapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
             {
-                Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
+                Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
+                Dictionary<string, object> temp = documentSnapShot.ToDictionary();
+                foreach (KeyValuePair<string, object> pair in temp)
+                {
+                    Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
+                }
+
+                // Newline to separate entries
+                Debug.Log("");
+
             }
-
-            // Newline to separate entries
-            Debug.Log("");
-
-        }
-    });
+        });
     return true;
-}
+    }
 
 }
