@@ -54,12 +54,12 @@ public class ChatList : MonoBehaviour
 
     }
 
-    public void PrintUserDataTest(List<object> userData)
+    public void PrintUserDataTest(UserData userData)
     {
         Debug.Log("User Data Retrieved");
-        foreach(object obj in userData)
-        {
-            Debug.Log(obj);
-        }
+
+        Debug.Log(userData.username);
+        Debug.Log(userData.email);
+        Debug.Log(userData.status);
     }
 }
