@@ -1816,9 +1816,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getUsernameByEmail: {fileID: 1446951526}
-  nameDisplay: {fileID: 397981290}
-  emailDisplay: {fileID: 1527988024}
-  statusDisplay: {fileID: 909343368}
 --- !u!114 &2005925655
 MonoBehaviour:
   m_ObjectHideFlags: 0
