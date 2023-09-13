@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEngine;
 
 public class ChatList : MonoBehaviour
 {
@@ -24,6 +25,18 @@ public class ChatList : MonoBehaviour
         
     }
 
+    private void OnEnable()
+    {
+        //attach event listeners on enable
+        UserBackendManager.Instance.UserDataReceived += PrintUserDataTest;
+    }
+
+    private void OnDisable()
+    {
+        //attach event listeners on disable
+        UserBackendManager.Instance.UserDataReceived -= PrintUserDataTest;
+    }
+
     public void NewChat()
     {
         AppManager.Instance.LoadScene("5-NewChat");
@@ -38,5 +51,15 @@ public class ChatList : MonoBehaviour
     public void GetUsernameByEmail()
     {
         UserBackendManager.Instance.GetUsernameByEmail(getUsernameByEmail.text);
+
+    }
+
+    public void PrintUserDataTest(List<object> userData)
+    {
+        Debug.Log("User Data Retrieved");
+        foreach(object obj in userData)
+        {
+            Debug.Log(obj);
+        }
     }
 }
