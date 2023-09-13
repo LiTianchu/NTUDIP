@@ -71,10 +71,10 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     }
     
-    public bool GetUsernameByEmail(string email)
+    public void GetUsernameByEmail(string email)
     {
-        Query messageQuery = db.Collection("user").WhereEqualTo("email", email);
-        messageQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        Query usernameQuery = db.Collection("user").WhereEqualTo("email", email);
+        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             QuerySnapshot snapshot = task.Result;
             foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
@@ -92,7 +92,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
             }
         });
-    return true;
     }
 
 }
