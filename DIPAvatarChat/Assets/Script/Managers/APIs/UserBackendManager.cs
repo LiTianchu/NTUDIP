@@ -15,6 +15,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
 {
     FirebaseFirestore db;
 
+    public event Action<List<object>> UserDataReceived;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,7 +75,11 @@ public class UserBackendManager : Singleton<UserBackendManager>
     
     public void GetUsernameByEmail(string email)
     {
+        List<object> userData = new List<object>();
         Query usernameQuery = db.Collection("user").WhereEqualTo("email", email);
+
+        //this function is Async, so the return value does not work here.
+        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
         usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             QuerySnapshot snapshot = task.Result;
@@ -84,11 +90,16 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 foreach (KeyValuePair<string, object> pair in temp)
                 {
                     Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
-                    
+                    userData.Add(pair.Value);
+
+                    // This line is not working, the event is not invoked when I run
+                    UserDataReceived?.Invoke(userData);
                 }
 
                 // Newline to separate entries
                 Debug.Log("");
+                Debug.Log(userData.Count);
+                Debug.Log(userData[12]);
 
             }
         });
