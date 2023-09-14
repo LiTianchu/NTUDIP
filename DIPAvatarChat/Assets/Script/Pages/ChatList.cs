@@ -54,8 +54,11 @@ public class ChatList : MonoBehaviour
 
     }
 
-    public void SendFriendRequestByEmail() {
-
+    public void SendFriendRequest() {
+        //UserBackendManager.Instance.SendFriendRequest(emailSearchBar.text, AuthManager.Instance.emailData);
+        
+        //hardcoded test
+        UserBackendManager.Instance.SendFriendRequest(emailSearchBar.text, "aaaa@gmail.com");
     }
 
     public void DisplayUserData(UserData userData)
