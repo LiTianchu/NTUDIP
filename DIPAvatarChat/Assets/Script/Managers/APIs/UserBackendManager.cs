@@ -114,10 +114,10 @@ public class UserBackendManager : Singleton<UserBackendManager>
         userData.status = (string)status;
 
         firestorData.TryGetValue("friendRequests", out object friendRequests);
-        userData.friendRequests = (string)friendRequests;
+        userData.friendRequests = (List<string>)friendRequests;
 
         firestorData.TryGetValue("friends", out object friends);
-        userData.friends = (string)friends;
+        userData.friends = (List<string>)friends;
 
         return userData;
 
