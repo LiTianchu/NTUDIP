@@ -33,9 +33,15 @@ public class UserBackendManager : Singleton<UserBackendManager>
     {
         db = FirebaseFirestore.DefaultInstance;
 
+        //Initialise null List<string> by default so that it wont cause an error
+        var nullList = new List<string>();
+        nullList.Add(null);
+
         var userData = new UserData
         {
             email = email,
+            friendRequests = nullList,
+            friends = nullList,
         };
 
         try
@@ -93,7 +99,9 @@ public class UserBackendManager : Singleton<UserBackendManager>
             {
                 Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
 
-                var friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
+                var friendRequestsList = new List<string>();
+
+                friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
                 foreach (string friendRequest in friendRequestsList)
                 {
                     Debug.Log("Friend Request: " + friendRequest);
