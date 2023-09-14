@@ -100,6 +100,28 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
+    public bool SendFriendRequest(string senderEmail, string receiverEmail, string description = "Hi, I would like to be your friend!") {
+        Dictionary<string, object> friendRequestData = new Dictionary<string, object>
+            {
+                { "createdAt", FieldValue.ServerTimestamp },
+                { "description", description },
+                { "receiverID", receiverEmail },
+                { "senderID", senderEmail }
+            };
+
+        try
+        {
+            db.Document(AuthManager.Instance.friendRequestPathData).SetAsync(friendRequestData);
+
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Firestore Error: " + ex.Message);
+            return false;
+        }
+        return true;
+    }
+
     public UserData DictionaryToUserData(Dictionary<string, object> firestorData)
     {
         UserData userData = new UserData();

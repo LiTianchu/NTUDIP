@@ -54,6 +54,10 @@ public class ChatList : MonoBehaviour
 
     }
 
+    public void SendFriendRequestByEmail() {
+
+    }
+
     public void DisplayUserData(UserData userData)
     {
         Debug.Log("User Data Retrieved");
