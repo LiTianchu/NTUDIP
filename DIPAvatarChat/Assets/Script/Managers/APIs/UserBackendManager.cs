@@ -88,16 +88,9 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
                 Dictionary<string, object> temp = documentSnapShot.ToDictionary();
 
-                /*foreach (KeyValuePair<string, object> pair in temp)
-                {
-                    Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
-                    
-                }*/
-
                 userData = DictionaryToUserData(temp);
                 Debug.Log(userData.username);
 
-                // This line is not working, the event is not invoked when I run
                 UserDataReceived?.Invoke(userData);
 
                 // Newline to separate entries
@@ -119,6 +112,12 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
         firestorData.TryGetValue("status", out object status);
         userData.status = (string)status;
+
+        firestorData.TryGetValue("friendRequests", out object friendRequests);
+        userData.friendRequests = (string)friendRequests;
+
+        firestorData.TryGetValue("friends", out object friends);
+        userData.friends = (string)friends;
 
         return userData;
 
