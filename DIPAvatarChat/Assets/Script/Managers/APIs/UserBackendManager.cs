@@ -7,6 +7,7 @@ using Firebase.Firestore;
 using Firebase.Extensions;
 using System;
 using System.Threading.Tasks;
+using Random = System.Random;
 
 //This class contains API for Create/Update/Delete/Read(CRUD) database data
 //This class should be called from other classes(page scripts) to perform CRUD operations
@@ -72,7 +73,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
 
     }
-    
+
     public void GetUsernameByEmail(string email)
     {
         UserData userData;
@@ -100,7 +101,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    public bool SendFriendRequest(string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!") {
+    public bool SendFriendRequest(string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!")
+    {
         /*Dictionary<string, object> friendRequestData = new Dictionary<string, object>
             {
                 { "createdAt", FieldValue.ServerTimestamp },
@@ -109,6 +111,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 { "senderID", senderEmail }
             };*/
 
+        string UniqueID = "friendRequest/" + senderEmail + "->" + receiverEmail;
+
         var friendRequestData = new FriendRequestData
         {
             //createdAt = FieldValue.ServerTimestamp,
@@ -116,10 +120,18 @@ public class UserBackendManager : Singleton<UserBackendManager>
             receiverID = receiverEmail,
             senderID = senderEmail,
         };
-        
+
         try
-        {
-            db.Document(AuthManager.Instance.friendRequestPathData).SetAsync(friendRequestData);
+        { 
+            if (receiverEmail != senderEmail && receiverEmail != null)
+            {
+                db.Document(UniqueID).SetAsync(friendRequestData);
+                Debug.Log("Friend Request Sent to " + receiverEmail + "!");
+            } 
+            else 
+            {
+                Debug.Log("You cannot send a friend request to yourself!");
+            }
 
         }
         catch (Exception ex)
@@ -151,6 +163,23 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
         return userData;
 
+    }
+
+    //Random ID generator
+    public static string GenerateRandomID(int length)
+    {
+        Random random = new Random();
+
+        var stringChars = new char[length];
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (int i = 0; i < stringChars.Length; i++)
+        {
+            stringChars[i] = chars[random.Next(chars.Length)];
+        }
+
+        var finalString = new String(stringChars);
+
+        return finalString;
     }
 
 }

@@ -198,8 +198,6 @@ public class AuthManager : Singleton<AuthManager>
             //ps: I don't think we need to store password in database - Tianchu
             //passwordData = _password;
             userPathData = "user/" + _email;
-            friendRequestPathData = "friendRequest/" + _email;
-
 
             bool recordSaved = UserBackendManager.Instance.AddUser(emailData);
 
