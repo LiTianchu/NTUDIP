@@ -49,6 +49,7 @@ public class RegisterAndLogin : MonoBehaviour
     private void OnDisable()
     {
         //detach event listeners on disable
+        if(!this.gameObject.scene.isLoaded) return;
         AuthManager.Instance.RegisterWarning -= SetRegisterWarning;
         AuthManager.Instance.LoginWarning -= SetLoginWarning;
         AuthManager.Instance.RegisterConfirm -= SetRegisterConfirm;

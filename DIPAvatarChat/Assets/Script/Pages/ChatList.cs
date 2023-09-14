@@ -35,6 +35,7 @@ public class ChatList : MonoBehaviour
     private void OnDisable()
     {
         //attach event listeners on disable
+        if(!this.gameObject.scene.isLoaded) return;
         UserBackendManager.Instance.UserDataReceived -= DisplayUserData;
     }
 

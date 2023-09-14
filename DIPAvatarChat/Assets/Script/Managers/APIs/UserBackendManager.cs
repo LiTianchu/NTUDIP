@@ -38,6 +38,9 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
         try
         {
+            Debug.Log("Document Name: " + userData.email);
+            Debug.Log("Document Link: " + AuthManager.Instance.userPathData);
+            
             db.Document(AuthManager.Instance.userPathData).SetAsync(userData);
         }
         catch (Exception ex)
@@ -155,11 +158,11 @@ public class UserBackendManager : Singleton<UserBackendManager>
         firestorData.TryGetValue("status", out object status);
         userData.status = (string)status;
 
-        firestorData.TryGetValue("friendRequests", out object friendRequests);
+        /*firestorData.TryGetValue("friendRequests", out object friendRequests);
         userData.friendRequests = (List<string>)friendRequests;
 
         firestorData.TryGetValue("friends", out object friends);
-        userData.friends = (List<string>)friends;
+        userData.friends = (List<string>)friends;*/
 
         return userData;
 
