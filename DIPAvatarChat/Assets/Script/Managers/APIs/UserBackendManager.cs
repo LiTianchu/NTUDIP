@@ -92,13 +92,16 @@ public class UserBackendManager : Singleton<UserBackendManager>
             foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
             {
                 Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
+
+                var friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
+                foreach (string friendRequest in friendRequestsList)
+                {
+                    Debug.Log("Friend Request: " + friendRequest);
+                }
+
                 Dictionary<string, object> temp = documentSnapShot.ToDictionary();
 
-                Debug.Log("Dictionary username: " + temp["username"]);
-                Debug.Log("Dictionary friendRequests: " + temp["friendRequests"]);
-                
-                userData = DictionaryToUserData(temp);
-                Debug.Log(userData.username);
+                userData = DictionaryToUserData(temp, friendRequestsList);
 
                 UserDataReceived?.Invoke(userData);
 
@@ -109,7 +112,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    public bool SendFriendRequest(string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!")
+    public bool SendFriendRequest(List<string> friendRequests, string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!")
     {
         /*Dictionary<string, object> friendRequestData = new Dictionary<string, object>
             {
@@ -129,18 +132,31 @@ public class UserBackendManager : Singleton<UserBackendManager>
             senderID = senderEmail,
         };
 
-        var list = new List<string>();
-        list.Add(senderEmail);
+        List<string> friendRequestsList = new List<string>(friendRequests);
 
-        Dictionary<string, object> userFriendRequests = new Dictionary<string, object>
+        //checks if friend request already sent by the user
+        bool duplicateFriendRequest = false;
+
+        foreach (string friendRequest in friendRequests)
+        {
+            if (senderEmail == friendRequest)
             {
-                { "friendRequests", list }
-            };
+                duplicateFriendRequest = true;
+                Debug.Log("You already sent this user a friend request...");
+            }
+        }
 
         try
         {
-            if (receiverEmail != senderEmail && receiverEmail != null)
+            if (receiverEmail != senderEmail && receiverEmail != null && !duplicateFriendRequest)
             {
+                friendRequestsList.Add(senderEmail);
+
+                Dictionary<string, object> userFriendRequests = new Dictionary<string, object>
+                {
+                    { "friendRequests", friendRequestsList }
+                };
+
                 db.Document(UniqueID).SetAsync(friendRequestData);
                 Debug.Log("Friend Request Sent to " + receiverEmail + "!");
 
@@ -148,7 +164,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
             }
             else
             {
-                Debug.Log("You cannot send a friend request to yourself!");
+                Debug.Log("Friend Request cannot be sent...");
             }
 
         }
@@ -160,7 +176,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
-    public UserData DictionaryToUserData(Dictionary<string, object> firestorData)
+    public UserData DictionaryToUserData(Dictionary<string, object> firestorData, List<string> friendRequests)
     {
         UserData userData = new UserData();
 
@@ -173,10 +189,10 @@ public class UserBackendManager : Singleton<UserBackendManager>
         firestorData.TryGetValue("status", out object status);
         userData.status = (string)status;
 
-        /*firestorData.TryGetValue("friendRequests", out object friendRequests);
-        userData.friendRequests = (List<string>)friendRequests.ToList();
+        //firestorData.TryGetValue("friendRequests", out object friendRequests);
+        userData.friendRequests = (List<string>)friendRequests;
 
-        firestorData.TryGetValue("friends", out object friends);
+        /*firestorData.TryGetValue("friends", out object friends);
         userData.friends = (List<string>)friends.ToList();*/
 
         return userData;

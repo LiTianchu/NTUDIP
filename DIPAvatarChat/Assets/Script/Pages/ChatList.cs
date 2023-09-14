@@ -14,6 +14,8 @@ public class ChatList : MonoBehaviour
     public TMP_Text statusDisplay;
     public GameObject notificationTab;
 
+    List<string> friendRequestsList;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,7 +62,7 @@ public class ChatList : MonoBehaviour
         //UserBackendManager.Instance.SendFriendRequest(emailSearchBar.text, AuthManager.Instance.emailData);
         
         //hardcoded test
-        UserBackendManager.Instance.SendFriendRequest(emailSearchBar.text, "aaaa@gmail.com");
+        UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, "bbbb@gmail.com");
     }
 
     public void DisplayUserData(UserData userData)
@@ -74,6 +76,8 @@ public class ChatList : MonoBehaviour
         nameDisplay.text = userData.username;
         emailDisplay.text = userData.email;
         statusDisplay.text = userData.status;
+
+        friendRequestsList = userData.friendRequests;
     }
 
     public void ToggleUI() {
