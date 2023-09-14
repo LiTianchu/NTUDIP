@@ -100,15 +100,23 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    public bool SendFriendRequest(string senderEmail, string receiverEmail, string description = "Hi, I would like to be your friend!") {
-        Dictionary<string, object> friendRequestData = new Dictionary<string, object>
+    public bool SendFriendRequest(string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!") {
+        /*Dictionary<string, object> friendRequestData = new Dictionary<string, object>
             {
                 { "createdAt", FieldValue.ServerTimestamp },
                 { "description", description },
                 { "receiverID", receiverEmail },
                 { "senderID", senderEmail }
-            };
+            };*/
 
+        var friendRequestData = new FriendRequestData
+        {
+            //createdAt = FieldValue.ServerTimestamp,
+            description = description,
+            receiverID = receiverEmail,
+            senderID = senderEmail,
+        };
+        
         try
         {
             db.Document(AuthManager.Instance.friendRequestPathData).SetAsync(friendRequestData);
