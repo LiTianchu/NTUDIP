@@ -30,6 +30,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     //Takes in email as parameter
     public bool AddUser(string email)
     {
+        db = FirebaseFirestore.DefaultInstance;
 
         var userData = new UserData
         {
