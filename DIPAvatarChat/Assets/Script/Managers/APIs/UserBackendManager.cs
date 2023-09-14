@@ -33,6 +33,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     {
         db = FirebaseFirestore.DefaultInstance;
 
+        //Initialise null List<string> by default so that it wont cause an error
         var nullList = new List<string>();
         nullList.Add(null);
 
