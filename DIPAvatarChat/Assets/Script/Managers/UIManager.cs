@@ -11,6 +11,12 @@ public class UIManager : Singleton<UIManager>
         loginUI.SetActive(!loginUI.activeSelf);
         registerUI.SetActive(!registerUI.activeSelf);
     }
+
+    public void ToggleNotificationTab(GameObject notificationTabUI)
+    {
+        notificationTabUI.SetActive(!notificationTabUI.activeSelf);
+    }
+
     //public void RegisterScreen(GameObject loginUI, GameObject registerUI) // Regester button
     //{
     //    loginUI.SetActive(false);

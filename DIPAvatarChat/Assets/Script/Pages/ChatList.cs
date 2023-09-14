@@ -12,6 +12,7 @@ public class ChatList : MonoBehaviour
     public TMP_Text nameDisplay;
     public TMP_Text emailDisplay;
     public TMP_Text statusDisplay;
+    public GameObject notificationTab;
 
     // Start is called before the first frame update
     void Start()
@@ -72,5 +73,9 @@ public class ChatList : MonoBehaviour
         nameDisplay.text = userData.username;
         emailDisplay.text = userData.email;
         statusDisplay.text = userData.status;
+    }
+
+    public void ToggleUI() {
+        UIManager.Instance.ToggleNotificationTab(notificationTab);
     }
 }
