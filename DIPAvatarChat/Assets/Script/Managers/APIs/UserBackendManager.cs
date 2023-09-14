@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -41,7 +42,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         {
             Debug.Log("Document Name: " + userData.email);
             Debug.Log("Document Link: " + AuthManager.Instance.userPathData);
-            
+
             db.Document(AuthManager.Instance.userPathData).SetAsync(userData);
         }
         catch (Exception ex)
@@ -93,6 +94,9 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
                 Dictionary<string, object> temp = documentSnapShot.ToDictionary();
 
+                Debug.Log("Dictionary username: " + temp["username"]);
+                Debug.Log("Dictionary friendRequests: " + temp["friendRequests"]);
+                
                 userData = DictionaryToUserData(temp);
                 Debug.Log(userData.username);
 
@@ -125,14 +129,24 @@ public class UserBackendManager : Singleton<UserBackendManager>
             senderID = senderEmail,
         };
 
+        var list = new List<string>();
+        list.Add(senderEmail);
+
+        Dictionary<string, object> userFriendRequests = new Dictionary<string, object>
+            {
+                { "friendRequests", list }
+            };
+
         try
-        { 
+        {
             if (receiverEmail != senderEmail && receiverEmail != null)
             {
                 db.Document(UniqueID).SetAsync(friendRequestData);
                 Debug.Log("Friend Request Sent to " + receiverEmail + "!");
-            } 
-            else 
+
+                db.Document("user/" + receiverEmail).UpdateAsync(userFriendRequests);
+            }
+            else
             {
                 Debug.Log("You cannot send a friend request to yourself!");
             }
@@ -160,10 +174,10 @@ public class UserBackendManager : Singleton<UserBackendManager>
         userData.status = (string)status;
 
         /*firestorData.TryGetValue("friendRequests", out object friendRequests);
-        userData.friendRequests = (List<string>)friendRequests;
+        userData.friendRequests = (List<string>)friendRequests.ToList();
 
         firestorData.TryGetValue("friends", out object friends);
-        userData.friends = (List<string>)friends;*/
+        userData.friends = (List<string>)friends.ToList();*/
 
         return userData;
 
