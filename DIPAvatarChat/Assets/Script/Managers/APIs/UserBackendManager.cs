@@ -100,22 +100,19 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
 
                 var friendRequestsList = new List<string>();
+                var friendsList = new List<string>();
 
                 friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
-                foreach (string friendRequest in friendRequestsList)
-                {
-                    Debug.Log("Friend Request: " + friendRequest);
-                }
+                friendsList = documentSnapShot.GetValue<List<string>>("friends");
 
                 Dictionary<string, object> temp = documentSnapShot.ToDictionary();
 
-                userData = DictionaryToUserData(temp, friendRequestsList);
+                userData = DictionaryToUserData(temp, friendRequestsList, friendsList);
 
                 UserDataReceived?.Invoke(userData);
 
                 // Newline to separate entries
                 Debug.Log("");
-
             }
         });
     }
@@ -184,7 +181,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
-    public UserData DictionaryToUserData(Dictionary<string, object> firestorData, List<string> friendRequests)
+    public UserData DictionaryToUserData(Dictionary<string, object> firestorData, List<string> friendRequests, List<string> friends)
     {
         UserData userData = new UserData();
 
@@ -200,15 +197,15 @@ public class UserBackendManager : Singleton<UserBackendManager>
         //firestorData.TryGetValue("friendRequests", out object friendRequests);
         userData.friendRequests = (List<string>)friendRequests;
 
-        /*firestorData.TryGetValue("friends", out object friends);
-        userData.friends = (List<string>)friends.ToList();*/
+        //firestorData.TryGetValue("friends", out object friends);
+        userData.friends = (List<string>)friends;
 
         return userData;
 
     }
 
     //Random ID generator
-    public static string GenerateRandomID(int length)
+    /*public static string GenerateRandomID(int length)
     {
         Random random = new Random();
 
@@ -222,6 +219,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
         var finalString = new String(stringChars);
 
         return finalString;
-    }
+    }*/
 
 }
