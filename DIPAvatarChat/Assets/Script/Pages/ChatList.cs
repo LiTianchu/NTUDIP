@@ -14,6 +14,7 @@ public class ChatList : MonoBehaviour
     public TMP_Text statusDisplay;
     public GameObject searchFriendTab;
     public GameObject friendRequestsTab;
+    public GameObject friendRequestBoxPrefab;
 
     List<string> friendRequestsList;
 
@@ -102,6 +103,12 @@ public class ChatList : MonoBehaviour
             if (friendRequests != null && friendRequests != "")
             {
                 Debug.Log("Display friend: " + friendRequests);
+
+                for (int i = 1; i < friendRequestsList.Count; i++)
+                {
+                    GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0,-150 - i*80, 0), Quaternion.identity) as GameObject;
+                    box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
+                }
             }
         }
     }
