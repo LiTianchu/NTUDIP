@@ -22,17 +22,20 @@ public class RegisterAndLogin : MonoBehaviour
 
     [Header("Form")]
     public GameObject loginForm;
-    public GameObject registerForm; 
+    public GameObject registerForm;
+
+    public static string emailData { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnEnable()
@@ -49,7 +52,7 @@ public class RegisterAndLogin : MonoBehaviour
     private void OnDisable()
     {
         //detach event listeners on disable
-        if(!this.gameObject.scene.isLoaded) return;
+        if (!this.gameObject.scene.isLoaded) return;
         AuthManager.Instance.RegisterWarning -= SetRegisterWarning;
         AuthManager.Instance.LoginWarning -= SetLoginWarning;
         AuthManager.Instance.RegisterConfirm -= SetRegisterConfirm;
@@ -61,6 +64,7 @@ public class RegisterAndLogin : MonoBehaviour
     public void LoginButton()
     {
         AuthManager.Instance.StartLogin(emailLoginField.text, passwordLoginField.text);
+        emailData = emailLoginField.text;
     }
 
     public void RegisterButton()
@@ -68,7 +72,8 @@ public class RegisterAndLogin : MonoBehaviour
         AuthManager.Instance.StartRegistration(emailRegisterField.text, passwordRegisterField.text);
     }
 
-    private void SetLoginWarning(string warning) {
+    private void SetLoginWarning(string warning)
+    {
         ClearText();
         warningLoginText.text = warning;
     }
@@ -79,23 +84,27 @@ public class RegisterAndLogin : MonoBehaviour
         warningRegisterText.text = warning;
     }
 
-    private void SetLoginConfirm(string confirm) {
+    private void SetLoginConfirm(string confirm)
+    {
         ClearText();
         confirmLoginText.text = confirm;
     }
 
-    private void SetRegisterConfirm(string confirm) {
+    private void SetRegisterConfirm(string confirm)
+    {
         ClearText();
     }
-    public void ToggleUI() { 
+    public void ToggleUI()
+    {
         UIManager.Instance.ToggleLoginResgister(loginForm, registerForm);
     }
 
-    private void ClearText() {
+    private void ClearText()
+    {
         warningLoginText.text = "";
         warningRegisterText.text = "";
         confirmLoginText.text = "";
     }
-  
-    
+
+
 }

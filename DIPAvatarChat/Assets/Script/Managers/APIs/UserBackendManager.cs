@@ -120,14 +120,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     public bool SendFriendRequest(List<string> friendRequests, string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!")
     {
-        /*Dictionary<string, object> friendRequestData = new Dictionary<string, object>
-            {
-                { "createdAt", FieldValue.ServerTimestamp },
-                { "description", description },
-                { "receiverID", receiverEmail },
-                { "senderID", senderEmail }
-            };*/
-
         string UniqueID = "friendRequest/" + senderEmail + "->" + receiverEmail;
 
         var friendRequestData = new FriendRequestData
@@ -141,20 +133,22 @@ public class UserBackendManager : Singleton<UserBackendManager>
         List<string> friendRequestsList = new List<string>(friendRequests);
 
         //checks if friend request already sent by the user
-        bool duplicateFriendRequest = false;
+        bool duplicateFriendRequestCheck = false;
 
         foreach (string friendRequest in friendRequests)
         {
             if (senderEmail == friendRequest)
             {
-                duplicateFriendRequest = true;
+                duplicateFriendRequestCheck = true;
                 Debug.Log("You already sent this user a friend request...");
             }
         }
 
+        Debug.Log(duplicateFriendRequestCheck);
+
         try
         {
-            if (receiverEmail != senderEmail && receiverEmail != null && !duplicateFriendRequest)
+            if (receiverEmail != senderEmail && receiverEmail != null && !duplicateFriendRequestCheck)
             {
                 friendRequestsList.Add(senderEmail);
 
@@ -214,12 +208,36 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    public bool AcceptFriendRequest()
+    public bool AcceptFriendRequest(string myEmail, string friendRequestEmail, List<string> friends, List<string> friendRequests)
     {
+        List<string> friendsList = new List<string>(friends);
+        List<string> friendRequestsList = new List<string>(friendRequests);
+
+        try
+        {
+            friendsList.Add(friendRequestEmail);
+            friendRequestsList.Remove(friendRequestEmail);
+
+            Dictionary<string, object> userData = new Dictionary<string, object>
+            {
+                { "friends", friendsList },
+                { "friendRequests", friendRequestsList }
+            };
+
+            Debug.Log("Friend Request from " + friendRequestEmail + " accepted!");
+
+            db.Document("user/" + myEmail).UpdateAsync(userData);
+
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Firestore Error: " + ex.Message);
+            return false;
+        }
         return true;
     }
 
-    public bool RejectFriendRequest()
+    public bool RejectFriendRequest(List<string> friends, string friendRequestEmail)
     {
         return true;
     }

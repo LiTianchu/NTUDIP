@@ -9,15 +9,19 @@ public class ChatList : MonoBehaviour
 {
 
     public TMP_InputField emailSearchBar;
-    public TMP_Text nameDisplay;
-    public TMP_Text emailDisplay;
-    public TMP_Text statusDisplay;
+    public TMP_Text SearchNameDisplay;
+    public TMP_Text SearchEmailDisplay;
+    public TMP_Text SearchStatusDisplay;
     public GameObject searchFriendTab;
     public GameObject friendRequestsTab;
     public GameObject friendRequestBoxPrefab;
 
     List<string> friendRequestsList;
     List<string> friendsList;
+    string usernameData;
+    string emailData;
+    string statusData;
+    string friendRequestData;
 
     // Start is called before the first frame update
     void Start()
@@ -60,14 +64,14 @@ public class ChatList : MonoBehaviour
 
     public void SearchUserByEmail()
     {
-        ToggleSearchFriendTab();
+        ClearDisplay();
         UserBackendManager.Instance.SearchUserByEmail(emailSearchBar.text);
 
     }
 
     public void SendFriendRequest()
     {
-        //UserBackendManager.Instance.SendFriendRequest(emailSearchBar.text, AuthManager.Instance.emailData);
+        //UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, RegisterAndLogin.emailData);
 
         //hardcoded test
         UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, "bbbb@gmail.com");
@@ -76,45 +80,53 @@ public class ChatList : MonoBehaviour
     public void DisplayFriendRequests()
     {
         ToggleFriendRequestsTab();
+        Debug.Log(RegisterAndLogin.emailData);
         UserBackendManager.Instance.SearchFriendRequests("bbbb@gmail.com");
+        //UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);  
     }
 
     public void DisplaySearchUserData(UserData userData)
     {
         Debug.Log("User Data Retrieved");
 
-        Debug.Log(userData.username);
-        Debug.Log(userData.email);
-        Debug.Log(userData.status);
-
-        nameDisplay.text = userData.username;
-        emailDisplay.text = userData.email;
-        statusDisplay.text = userData.status;
-
+        usernameData = userData.username;
+        emailData = userData.email;
+        statusData = userData.status;
         friendRequestsList = userData.friendRequests;
+
+        SearchNameDisplay.text = usernameData;
+        SearchEmailDisplay.text = emailData;
+        SearchStatusDisplay.text = statusData;
     }
 
     public void DisplayFriendRequestsData(UserData userData)
     {
         Debug.Log("User Data Retrieved");
 
+        usernameData = userData.username;
+        emailData = userData.email;
+        statusData = userData.status;
+        friendsList = userData.friends;
         friendRequestsList = userData.friendRequests;
         int i = 0;
 
-        foreach (string friendRequests in friendRequestsList)
+        foreach (string friendRequest in friendRequestsList)
         {
-            if (friendRequests != null && friendRequests != "")
+            if (friendRequest != null && friendRequest != "")
             {
-                Debug.Log("Display friend: " + friendRequests);
+                Debug.Log("Display friend: " + friendRequest);
 
                 //Clone prefab for displaying friend request
                 GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, -150 - (i - 1) * 80, 0), Quaternion.identity) as GameObject;
                 box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
+                box.name = friendRequest;
 
                 Debug.Log("Instantiated Friend Request: " + i);
 
                 //Show the email of the friend request sender
-                box.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = friendRequests;
+                box.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = friendRequest;
+
+                friendRequestData = friendRequest;
             }
             i++;
         }
@@ -122,7 +134,9 @@ public class ChatList : MonoBehaviour
 
     public void AcceptFriendRequest()
     {
-
+        UserBackendManager.Instance.AcceptFriendRequest(emailData, FriendRequestBox.id, friendsList, friendRequestsList);
+        ClearDisplay();
+        UserBackendManager.Instance.SearchFriendRequests("bbbb@gmail.com");
     }
 
     public void RejectFriendRequest()
@@ -144,13 +158,18 @@ public class ChatList : MonoBehaviour
 
     public void ClearDisplay()
     {
-        nameDisplay.text = "";
-        emailDisplay.text = "";
-        statusDisplay.text = "";
+        SearchNameDisplay.text = "";
+        SearchEmailDisplay.text = "";
+        SearchStatusDisplay.text = "";
 
         if (friendRequestsList != null)
         {
             friendRequestsList.Clear();
+        }
+
+        if (friendsList != null)
+        {
+            friendsList.Clear();
         }
 
         GameObject[] tempPrefabs;
