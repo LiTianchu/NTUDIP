@@ -12,9 +12,10 @@ public class UIManager : Singleton<UIManager>
         registerUI.SetActive(!registerUI.activeSelf);
     }
 
-    public void ToggleNotificationTab(GameObject notificationTabUI)
+    //General Function to open another UI in the same scene
+    public void ToggleGeneralTab(GameObject tabUI)
     {
-        notificationTabUI.SetActive(!notificationTabUI.activeSelf);
+        tabUI.SetActive(!tabUI.activeSelf);
     }
 
     //public void RegisterScreen(GameObject loginUI, GameObject registerUI) // Regester button
