@@ -109,10 +109,24 @@ public class ChatList : MonoBehaviour
     public void ToggleFriendRequestsTab()
     {
         UIManager.Instance.ToggleGeneralTab(friendRequestsTab);
+        ClearDisplay();
     }
 
     public void ToggleSearchFriendTab()
     {
         UIManager.Instance.ToggleGeneralTab(searchFriendTab);
+        ClearDisplay();
+    }
+
+    public void ClearDisplay()
+    {
+        nameDisplay.text = "";
+        emailDisplay.text = "";
+        statusDisplay.text = "";
+
+        if (friendRequestsList != null)
+        {
+            friendRequestsList.Clear();
+        }
     }
 }
