@@ -85,7 +85,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     }
 
-    public void GetUsernameByEmail(string email)
+    public void SearchUserByEmail(string email)
     {
         UserData userData;
         Query usernameQuery = db.Collection("user").WhereEqualTo("email", email);

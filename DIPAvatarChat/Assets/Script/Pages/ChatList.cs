@@ -12,7 +12,8 @@ public class ChatList : MonoBehaviour
     public TMP_Text nameDisplay;
     public TMP_Text emailDisplay;
     public TMP_Text statusDisplay;
-    public GameObject notificationTab;
+    public GameObject searchFriendTab;
+    public GameObject friendRequestsTab;
 
     List<string> friendRequestsList;
 
@@ -52,9 +53,10 @@ public class ChatList : MonoBehaviour
         AppManager.Instance.LoadScene("6-ChatFrontEnd");
     }
 
-    public void GetUsernameByEmail()
+    public void SearchUserByEmail()
     {
-        UserBackendManager.Instance.GetUsernameByEmail(emailSearchBar.text);
+        ToggleSearchFriendTab();
+        UserBackendManager.Instance.SearchUserByEmail(emailSearchBar.text);
 
     }
 
@@ -80,7 +82,11 @@ public class ChatList : MonoBehaviour
         friendRequestsList = userData.friendRequests;
     }
 
-    public void ToggleUI() {
-        UIManager.Instance.ToggleNotificationTab(notificationTab);
+    public void ToggleFriendRequestsTab() {
+        UIManager.Instance.ToggleGeneralTab(friendRequestsTab);
+    }
+
+    public void ToggleSearchFriendTab() {
+        UIManager.Instance.ToggleGeneralTab(searchFriendTab);
     }
 }
