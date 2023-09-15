@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChatList : MonoBehaviour
 {
@@ -13,8 +14,10 @@ public class ChatList : MonoBehaviour
     public TMP_Text SearchEmailDisplay;
     public TMP_Text SearchStatusDisplay;
     public GameObject searchFriendTab;
+    public GameObject searchFriendInfoTab;
     public GameObject friendRequestsTab;
     public GameObject friendRequestBoxPrefab;
+    public Button SendFriendRequestBtn;
 
     List<string> friendRequestsList;
     List<string> friendsList;
@@ -64,25 +67,30 @@ public class ChatList : MonoBehaviour
 
     public void SearchUserByEmail()
     {
-        ClearDisplay();
+        EnableSearchFriendInfoTab();
         UserBackendManager.Instance.SearchUserByEmail(emailSearchBar.text);
-
+        SendFriendRequestBtn.interactable = true;
     }
 
     public void SendFriendRequest()
     {
-        //UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, RegisterAndLogin.emailData);
-
         //hardcoded test
-        UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, "bbbb@gmail.com");
+        //UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, "bbbb@gmail.com");
+        
+        UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, RegisterAndLogin.emailData);
+
+        SendFriendRequestBtn.interactable = false;
     }
 
     public void DisplayFriendRequests()
     {
         ToggleFriendRequestsTab();
         Debug.Log(RegisterAndLogin.emailData);
-        UserBackendManager.Instance.SearchFriendRequests("bbbb@gmail.com");
-        //UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);  
+
+        //hardcoded test
+        //UserBackendManager.Instance.SearchFriendRequests("bbbb@gmail.com");
+
+        UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);  
     }
 
     public void DisplaySearchUserData(UserData userData)
@@ -153,6 +161,19 @@ public class ChatList : MonoBehaviour
     public void ToggleSearchFriendTab()
     {
         UIManager.Instance.ToggleGeneralTab(searchFriendTab);
+        ClearDisplay();
+        DisableSearchFriendInfoTab();
+    }
+
+    public void EnableSearchFriendInfoTab()
+    {
+        UIManager.Instance.EnableGeneralTab(searchFriendInfoTab);
+        ClearDisplay();
+    }
+
+    public void DisableSearchFriendInfoTab()
+    {
+        UIManager.Instance.DisableGeneralTab(searchFriendInfoTab);
         ClearDisplay();
     }
 

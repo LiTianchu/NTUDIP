@@ -18,6 +18,16 @@ public class UIManager : Singleton<UIManager>
         tabUI.SetActive(!tabUI.activeSelf);
     }
 
+    public void EnableGeneralTab(GameObject tabUI)
+    {
+        tabUI.SetActive(true);
+    }
+
+    public void DisableGeneralTab(GameObject tabUI)
+    {
+        tabUI.SetActive(false);
+    }
+
     //public void RegisterScreen(GameObject loginUI, GameObject registerUI) // Regester button
     //{
     //    loginUI.SetActive(false);
