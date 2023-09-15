@@ -98,18 +98,20 @@ public class ChatList : MonoBehaviour
         Debug.Log("User Data Retrieved");
 
         friendRequestsList = userData.friendRequests;
+        int i = 0;
+
         foreach (string friendRequests in friendRequestsList)
         {
             if (friendRequests != null && friendRequests != "")
             {
                 Debug.Log("Display friend: " + friendRequests);
 
-                for (int i = 1; i < friendRequestsList.Count; i++)
-                {
-                    GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0,-150 - i*80, 0), Quaternion.identity) as GameObject;
-                    box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
-                }
+                GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, -150 - (i - 1) * 80, 0), Quaternion.identity) as GameObject;
+                box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
+
+                Debug.Log("Instantiated Friend Request: " + i);
             }
+            i++;
         }
     }
 
@@ -134,6 +136,15 @@ public class ChatList : MonoBehaviour
         if (friendRequestsList != null)
         {
             friendRequestsList.Clear();
+        }
+
+        GameObject[] tempPrefabs;
+
+        tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
+
+        foreach (GameObject tempPrefab in tempPrefabs)
+        {
+            Destroy(tempPrefab);
         }
     }
 }
