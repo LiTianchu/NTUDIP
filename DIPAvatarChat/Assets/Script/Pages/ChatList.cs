@@ -32,16 +32,16 @@ public class ChatList : MonoBehaviour
     private void OnEnable()
     {
         //attach event listeners on enable
-        UserBackendManager.Instance.UserDataReceived += DisplayUserData;
-        UserBackendManager.Instance.UserDataReceived += DisplayFriendRequestsData;
+        UserBackendManager.Instance.SearchUserDataReceived += DisplaySearchUserData;
+        UserBackendManager.Instance.SearchUserFriendRequestsReceived += DisplayFriendRequestsData;
     }
 
     private void OnDisable()
     {
         //attach event listeners on disable
         if (!this.gameObject.scene.isLoaded) return;
-        UserBackendManager.Instance.UserDataReceived -= DisplayUserData;
-        UserBackendManager.Instance.UserDataReceived -= DisplayFriendRequestsData;
+        UserBackendManager.Instance.SearchUserDataReceived -= DisplaySearchUserData;
+        UserBackendManager.Instance.SearchUserFriendRequestsReceived -= DisplayFriendRequestsData;
     }
 
     public void NewChat()
@@ -74,10 +74,10 @@ public class ChatList : MonoBehaviour
     public void DisplayFriendRequests()
     {
         ToggleFriendRequestsTab();
-        UserBackendManager.Instance.DisplayFriendRequests("bbbb@gmail.com");
+        UserBackendManager.Instance.SearchFriendRequests("bbbb@gmail.com");
     }
 
-    public void DisplayUserData(UserData userData)
+    public void DisplaySearchUserData(UserData userData)
     {
         Debug.Log("User Data Retrieved");
 

@@ -17,7 +17,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
 {
     FirebaseFirestore db;
 
-    public event Action<UserData> UserDataReceived;
+    public event Action<UserData> SearchUserDataReceived;
+    public event Action<UserData> SearchUserFriendRequestsReceived;
 
     // Start is called before the first frame update
     void Start()
@@ -109,7 +110,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
                 userData = DictionaryToUserData(temp, friendRequestsList, friendsList);
 
-                UserDataReceived?.Invoke(userData);
+                SearchUserDataReceived?.Invoke(userData);
 
                 // Newline to separate entries
                 Debug.Log("");
@@ -181,11 +182,36 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
-    public bool DisplayFriendRequests(string myEmail)
+    public void SearchFriendRequests(string myEmail)
     {
-        SearchUserByEmail(myEmail);
-        
-        return true;
+        UserData userData;
+        Query usernameQuery = db.Collection("user").WhereEqualTo("email", myEmail);
+
+        //this function is Async, so the return value does not work here.
+        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
+        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot snapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
+            {
+                Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
+
+                var friendRequestsList = new List<string>();
+                var friendsList = new List<string>();
+
+                friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
+                friendsList = documentSnapShot.GetValue<List<string>>("friends");
+
+                Dictionary<string, object> temp = documentSnapShot.ToDictionary();
+
+                userData = DictionaryToUserData(temp, friendRequestsList, friendsList);
+
+                SearchUserFriendRequestsReceived?.Invoke(userData);
+
+                // Newline to separate entries
+                Debug.Log("");
+            }
+        });
     }
 
     public bool AcceptFriendRequest()
