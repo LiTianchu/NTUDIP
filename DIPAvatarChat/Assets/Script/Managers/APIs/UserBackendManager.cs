@@ -181,6 +181,21 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
+    public bool DisplayFriendRequests()
+    {
+        return true;
+    }
+
+    public bool AcceptFriendRequest()
+    {
+        return true;
+    }
+
+    public bool RejectFriendRequest()
+    {
+        return true;
+    }
+
     public UserData DictionaryToUserData(Dictionary<string, object> firestorData, List<string> friendRequests, List<string> friends)
     {
         UserData userData = new UserData();
