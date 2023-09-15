@@ -1887,7 +1887,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2005925659}
         m_TargetAssemblyTypeName: ChatList, Assembly-CSharp
-        m_MethodName: ToggleFriendRequestsTab
+        m_MethodName: DisplayFriendRequests
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

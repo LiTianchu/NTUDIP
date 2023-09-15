@@ -17,7 +17,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
 {
     FirebaseFirestore db;
 
-    public event Action<UserData> UserDataReceived;
+    public event Action<UserData> SearchUserDataReceived;
+    public event Action<UserData> SearchUserFriendRequestsReceived;
 
     // Start is called before the first frame update
     void Start()
@@ -100,22 +101,19 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
 
                 var friendRequestsList = new List<string>();
+                var friendsList = new List<string>();
 
                 friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
-                foreach (string friendRequest in friendRequestsList)
-                {
-                    Debug.Log("Friend Request: " + friendRequest);
-                }
+                friendsList = documentSnapShot.GetValue<List<string>>("friends");
 
                 Dictionary<string, object> temp = documentSnapShot.ToDictionary();
 
-                userData = DictionaryToUserData(temp, friendRequestsList);
+                userData = DictionaryToUserData(temp, friendRequestsList, friendsList);
 
-                UserDataReceived?.Invoke(userData);
+                SearchUserDataReceived?.Invoke(userData);
 
                 // Newline to separate entries
                 Debug.Log("");
-
             }
         });
     }
@@ -184,7 +182,49 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
-    public UserData DictionaryToUserData(Dictionary<string, object> firestorData, List<string> friendRequests)
+    public void SearchFriendRequests(string myEmail)
+    {
+        UserData userData;
+        Query usernameQuery = db.Collection("user").WhereEqualTo("email", myEmail);
+
+        //this function is Async, so the return value does not work here.
+        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
+        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot snapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
+            {
+                Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
+
+                var friendRequestsList = new List<string>();
+                var friendsList = new List<string>();
+
+                friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
+                friendsList = documentSnapShot.GetValue<List<string>>("friends");
+
+                Dictionary<string, object> temp = documentSnapShot.ToDictionary();
+
+                userData = DictionaryToUserData(temp, friendRequestsList, friendsList);
+
+                SearchUserFriendRequestsReceived?.Invoke(userData);
+
+                // Newline to separate entries
+                Debug.Log("");
+            }
+        });
+    }
+
+    public bool AcceptFriendRequest()
+    {
+        return true;
+    }
+
+    public bool RejectFriendRequest()
+    {
+        return true;
+    }
+
+    public UserData DictionaryToUserData(Dictionary<string, object> firestorData, List<string> friendRequests, List<string> friends)
     {
         UserData userData = new UserData();
 
@@ -200,15 +240,15 @@ public class UserBackendManager : Singleton<UserBackendManager>
         //firestorData.TryGetValue("friendRequests", out object friendRequests);
         userData.friendRequests = (List<string>)friendRequests;
 
-        /*firestorData.TryGetValue("friends", out object friends);
-        userData.friends = (List<string>)friends.ToList();*/
+        //firestorData.TryGetValue("friends", out object friends);
+        userData.friends = (List<string>)friends;
 
         return userData;
 
     }
 
     //Random ID generator
-    public static string GenerateRandomID(int length)
+    /*public static string GenerateRandomID(int length)
     {
         Random random = new Random();
 
@@ -222,6 +262,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
         var finalString = new String(stringChars);
 
         return finalString;
-    }
+    }*/
 
 }
