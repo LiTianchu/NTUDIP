@@ -17,6 +17,7 @@ public class ChatList : MonoBehaviour
     public GameObject friendRequestBoxPrefab;
 
     List<string> friendRequestsList;
+    List<string> friendsList;
 
     // Start is called before the first frame update
     void Start()
@@ -106,13 +107,27 @@ public class ChatList : MonoBehaviour
             {
                 Debug.Log("Display friend: " + friendRequests);
 
+                //Clone prefab for displaying friend request
                 GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, -150 - (i - 1) * 80, 0), Quaternion.identity) as GameObject;
                 box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
 
                 Debug.Log("Instantiated Friend Request: " + i);
+
+                //Show the email of the friend request sender
+                box.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = friendRequests;
             }
             i++;
         }
+    }
+
+    public void AcceptFriendRequest()
+    {
+
+    }
+
+    public void RejectFriendRequest()
+    {
+
     }
 
     public void ToggleFriendRequestsTab()
