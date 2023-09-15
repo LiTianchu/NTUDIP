@@ -181,8 +181,10 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
-    public bool DisplayFriendRequests()
+    public bool DisplayFriendRequests(string myEmail)
     {
+        SearchUserByEmail(myEmail);
+        
         return true;
     }
 

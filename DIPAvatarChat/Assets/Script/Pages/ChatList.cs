@@ -20,26 +20,28 @@ public class ChatList : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnEnable()
     {
         //attach event listeners on enable
         UserBackendManager.Instance.UserDataReceived += DisplayUserData;
+        UserBackendManager.Instance.UserDataReceived += DisplayFriendRequestsData;
     }
 
     private void OnDisable()
     {
         //attach event listeners on disable
-        if(!this.gameObject.scene.isLoaded) return;
+        if (!this.gameObject.scene.isLoaded) return;
         UserBackendManager.Instance.UserDataReceived -= DisplayUserData;
+        UserBackendManager.Instance.UserDataReceived -= DisplayFriendRequestsData;
     }
 
     public void NewChat()
@@ -47,7 +49,8 @@ public class ChatList : MonoBehaviour
         AppManager.Instance.LoadScene("5-NewChat");
     }
 
-    public void EnterChat(string chatID) {
+    public void EnterChat(string chatID)
+    {
         //set as temp data storage to pass to next scene
         PlayerPrefs.SetString("chatID", chatID);
         AppManager.Instance.LoadScene("6-ChatFrontEnd");
@@ -60,11 +63,18 @@ public class ChatList : MonoBehaviour
 
     }
 
-    public void SendFriendRequest() {
+    public void SendFriendRequest()
+    {
         //UserBackendManager.Instance.SendFriendRequest(emailSearchBar.text, AuthManager.Instance.emailData);
-        
+
         //hardcoded test
         UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, "bbbb@gmail.com");
+    }
+
+    public void DisplayFriendRequests()
+    {
+        ToggleFriendRequestsTab();
+        UserBackendManager.Instance.DisplayFriendRequests("bbbb@gmail.com");
     }
 
     public void DisplayUserData(UserData userData)
@@ -82,11 +92,27 @@ public class ChatList : MonoBehaviour
         friendRequestsList = userData.friendRequests;
     }
 
-    public void ToggleFriendRequestsTab() {
+    public void DisplayFriendRequestsData(UserData userData)
+    {
+        Debug.Log("User Data Retrieved");
+
+        friendRequestsList = userData.friendRequests;
+        foreach (string friendRequests in friendRequestsList)
+        {
+            if (friendRequests != null && friendRequests != "")
+            {
+                Debug.Log("Display friend: " + friendRequests);
+            }
+        }
+    }
+
+    public void ToggleFriendRequestsTab()
+    {
         UIManager.Instance.ToggleGeneralTab(friendRequestsTab);
     }
 
-    public void ToggleSearchFriendTab() {
+    public void ToggleSearchFriendTab()
+    {
         UIManager.Instance.ToggleGeneralTab(searchFriendTab);
     }
 }
