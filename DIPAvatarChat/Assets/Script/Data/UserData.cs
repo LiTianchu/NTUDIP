@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 [FirestoreData]
 
-public struct UserData
+public class UserData
 {
-    [FirestoreProperty]
-    public string avatars { get; set; }
+    //[FirestoreProperty]
+    //public string avatars { get; set; }
 
     //[FirestoreProperty]
     //public List<string> blacklist { get; set; }
 
     [FirestoreProperty]
-    public string conversations { get; set; }
+    public List<string> conversations { get; set; }
 
     [FirestoreProperty]
     public Timestamp createdAt { get; set; }

@@ -123,11 +123,18 @@ public class AuthManager : Singleton<AuthManager>
 
                 user = LoginTask.Result.User;
                 Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.Email);
+                
                 //raise event
                 LoginConfirm?.Invoke("Logged In");
-
-                AppManager.Instance.LoadScene("3-EditProfile");
-
+                emailData = _email;
+                UserBackendManager.Instance.CurrentUserRetrieved += LoadEditProfile;
+                void LoadEditProfile(UserData user)
+                {
+                    AppManager.Instance.LoadScene("3-EditProfile");
+                    UserBackendManager.Instance.CurrentUserRetrieved -= LoadEditProfile;
+                }
+                UserBackendManager.Instance.GetCurrentUser();
+                
 
             }
             else
@@ -138,6 +145,9 @@ public class AuthManager : Singleton<AuthManager>
 
         }
     }
+
+  
+
     //Register Function
     private IEnumerator Register(string _email, string _password)
     {

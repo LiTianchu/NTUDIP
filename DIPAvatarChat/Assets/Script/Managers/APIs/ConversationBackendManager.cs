@@ -1,14 +1,11 @@
+using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-//This class contains API for Create/Update/Delete/Read(CRUD) database data
-//This class should be called from other classes(page scripts) to perform CRUD operations
-//Do not call this class directly from UI elements
-public class ConversationBackendManager : Singleton<UserBackendManager>
+public class ConversationBackendManager : Singleton<ConversationBackendManager>
 {
     FirebaseFirestore db;
     private string _userPath;
@@ -20,13 +17,27 @@ public class ConversationBackendManager : Singleton<UserBackendManager>
 
     }
 
-    public bool GetAllConversations()
-    {
-        //TODO:Implement GET all conversations from database
-        return true;
+    //register event for conversation data retrieved
+    public event Action<ConversationData> ConversationDataRetrieved;
+
+    public void GetConversationByID(string conversationID) {
+        db = FirebaseFirestore.DefaultInstance;
+        DocumentReference conversationDoc = db.Collection("conversation").Document(conversationID);
+        conversationDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            ConversationData conversationData = ProcessConversationDocument(task.Result);
+            ConversationDataRetrieved?.Invoke(conversationData);
+        });
     }
 
-    public bool AddConversation(List<String> members,string description)
+    private ConversationData ProcessConversationDocument(DocumentSnapshot documentSnapShot) {
+        
+        Dictionary<string, object> temp = documentSnapShot.ToDictionary();
+        return DictionaryToConversationData(temp,documentSnapShot.GetValue<List<string>>("members"), documentSnapShot.GetValue<List<string>>("messages"));
+    }
+
+    //Other backend APIs to be filled in by Backend people
+    public bool AddConversation(List<String> members, string description)
     {
         //TODO:Implement ADD a conversation to database containing a description and initial members
         return true;
@@ -50,10 +61,21 @@ public class ConversationBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
-    public bool DeleteConversation(string conversationID) { 
+    public bool DeleteConversation(string conversationID)
+    {
         //TODO :Implement DELETE a conversation from database
         return true;
     }
+    public ConversationData DictionaryToConversationData(Dictionary<string, object> firestoreData, List<string> members, List<string> messages)
+    {
+        ConversationData conversationData = new ConversationData();
+        firestoreData.TryGetValue("conversationID", out object conversationID);
+        firestoreData.TryGetValue("description", out object description);
+        conversationData.conversationID = (string)conversationID;
+        conversationData.description = (string)description;
+        conversationData.members = members;
+        conversationData.messages = messages;
+        return conversationData;
 
-
+    }
 }
