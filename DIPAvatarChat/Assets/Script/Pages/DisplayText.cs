@@ -71,6 +71,7 @@ public class DisplayText : MonoBehaviour
         // Check if the input is not empty
         if (!string.IsNullOrWhiteSpace(text))
         {
+            
             // Create a new chat message GameObject
             GameObject chatMessage = Instantiate(chatMessagePrefab, chatPanel);
 
