@@ -30,6 +30,20 @@ public class ChatList : MonoBehaviour
     void Start()
     {
 
+        //retrieve conversation list to populate chat list
+        List<string> conversations = UserBackendManager.Instance.currentUser.conversations;
+        foreach (string conversationID in conversations)
+        {
+            ConversationBackendManager.Instance.GetConversationByID(conversationID);
+        }
+
+        //attach event listeners for user data
+        UserBackendManager.Instance.SearchUserDataReceived += DisplaySearchUserData;
+        UserBackendManager.Instance.SearchUserFriendRequestsReceived += DisplayFriendRequestsData;
+
+        //attach event listeners for conversation data
+        ConversationBackendManager.Instance.ConversationDataRetrieved += GenerateChat;
+
     }
 
     // Update is called once per frame
@@ -41,8 +55,10 @@ public class ChatList : MonoBehaviour
     private void OnEnable()
     {
         //attach event listeners on enable
-        UserBackendManager.Instance.SearchUserDataReceived += DisplaySearchUserData;
-        UserBackendManager.Instance.SearchUserFriendRequestsReceived += DisplayFriendRequestsData;
+        //Idk why this function is called twice when only one script is enabled in the scene
+        //After looking at forum it seems like a stupid Unity bug
+        //So I moved the event listener assignment to Start() instead - Tianchu
+        
     }
 
     private void OnDisable()
@@ -51,6 +67,24 @@ public class ChatList : MonoBehaviour
         if (!this.gameObject.scene.isLoaded) return;
         UserBackendManager.Instance.SearchUserDataReceived -= DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived -= DisplayFriendRequestsData;
+        ConversationBackendManager.Instance.ConversationDataRetrieved -= GenerateChat;
+    }
+
+    public void GenerateChat(ConversationData conversation)
+    {
+        string chatOpponent = "";
+        foreach (string member in conversation.members) {
+            if (!member.Equals(UserBackendManager.Instance.currentUser.email)) {
+                chatOpponent = member;
+                break;
+            }
+        }
+
+        string chatDesc = conversation.description;
+        Debug.Log(chatOpponent);
+        Debug.Log(conversation.description);
+        //TODO: Generate chat UI, use the data to spawn the chat thumbnail
+
     }
 
     public void NewChat()
@@ -139,6 +173,7 @@ public class ChatList : MonoBehaviour
             i++;
         }
     }
+
 
     public void AcceptFriendRequest()
     {

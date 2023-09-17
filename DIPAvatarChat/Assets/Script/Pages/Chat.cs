@@ -10,7 +10,7 @@ public class Chat : MonoBehaviour
     {
         //hard coded id, need to replace with a dynamic id
         MessageBackendManager.Instance.GetAllMessages("q12HSJSAG712HAHS1223swSD");
-
+        MessageBackendManager.Instance.MessageListRetrieved += PopulateMessage;
     }
 
     // Update is called once per frame
@@ -19,15 +19,9 @@ public class Chat : MonoBehaviour
         
     }
 
-    private void OnEnable()
-    {
-        //add event listener
-        MessageBackendManager.Instance.MessageRetrieved += PopulateMessage;
-    }
-
     private void OnDisable()
     {
-        MessageBackendManager.Instance.MessageRetrieved -= PopulateMessage;
+        MessageBackendManager.Instance.MessageListRetrieved -= PopulateMessage;
     }
 
     private void PopulateMessage(List<MessageData> messages) {

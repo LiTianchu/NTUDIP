@@ -17,11 +17,11 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
     private string _userPath;
 
     //declare the event
-    public event Action<List<MessageData>> MessageRetrieved;
+    public event Action<List<MessageData>> MessageListRetrieved;
+    public event Action<MessageData> MessageRetrieved;
 
     void Start()
     {
-        Debug.Log(2);
         db = FirebaseFirestore.DefaultInstance;
         _userPath = AuthManager.Instance.userPathData;
 
@@ -47,12 +47,24 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
                 messages.Add(messageData);
 
                 //invoke the event
-                MessageRetrieved?.Invoke(messages);
+                MessageListRetrieved?.Invoke(messages);
             }
             
         });
        
         
+    }
+
+    public void GetMessageByID(string messageID) { 
+        DocumentReference messageDoc = db.Collection("message").Document(messageID);
+        messageDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            DocumentSnapshot messageSnapshot = task.Result;
+            Dictionary<string, object> temp = messageSnapshot.ToDictionary();
+            MessageData messageData = DictionaryToMessageData(temp);
+            MessageRetrieved?.Invoke(messageData);
+        });
+    
     }
 
     public bool AddMessage(string message, string conversationID, string receiverEmail, string senderEmail)

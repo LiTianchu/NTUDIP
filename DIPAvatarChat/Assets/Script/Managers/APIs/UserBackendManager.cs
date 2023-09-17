@@ -17,8 +17,13 @@ public class UserBackendManager : Singleton<UserBackendManager>
 {
     FirebaseFirestore db;
 
+    //cache
+    public UserData currentUser { get; set;}
+
+    //events
     public event Action<UserData> SearchUserDataReceived;
     public event Action<UserData> SearchUserFriendRequestsReceived;
+    public event Action<UserData> CurrentUserRetrieved;
 
     // Start is called before the first frame update
     void Start()
@@ -86,6 +91,23 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     }
 
+    public void GetCurrentUser()
+    {
+        UserData userData;
+        DocumentReference userDoc = db.Collection("user").Document(AuthManager.Instance.emailData);
+
+        //this function is Async, so the return value does not work here.
+        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
+        userDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            userData = ProcessUserDocument(task.Result);
+            this.currentUser = userData;
+            CurrentUserRetrieved?.Invoke(userData);
+
+        });
+
+    }
+
     public void SearchUserByEmail(string email)
     {
         UserData userData;
@@ -98,22 +120,9 @@ public class UserBackendManager : Singleton<UserBackendManager>
             QuerySnapshot snapshot = task.Result;
             foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
             {
-                Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
-
-                var friendRequestsList = new List<string>();
-                var friendsList = new List<string>();
-
-                friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
-                friendsList = documentSnapShot.GetValue<List<string>>("friends");
-
-                Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-
-                userData = DictionaryToUserData(temp, friendRequestsList, friendsList);
-
+                
+                userData = ProcessUserDocument(documentSnapShot);
                 SearchUserDataReceived?.Invoke(userData);
-
-                // Newline to separate entries
-                Debug.Log("");
             }
         });
     }
@@ -188,17 +197,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
             QuerySnapshot snapshot = task.Result;
             foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
             {
-                Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
-
-                var friendRequestsList = new List<string>();
-                var friendsList = new List<string>();
-
-                friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
-                friendsList = documentSnapShot.GetValue<List<string>>("friends");
-
-                Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-
-                userData = DictionaryToUserData(temp, friendRequestsList, friendsList);
+                userData = ProcessUserDocument(documentSnapShot);
 
                 SearchUserFriendRequestsReceived?.Invoke(userData);
 
@@ -206,6 +205,23 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 Debug.Log("");
             }
         });
+    }
+
+    private UserData ProcessUserDocument(DocumentSnapshot documentSnapShot) {
+        Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
+
+        var friendRequestsList = new List<string>();
+        var friendsList = new List<string>();
+        var conversationList = new List<string>();
+
+        friendRequestsList = documentSnapShot.GetValue<List<string>>("friendRequests");
+        friendsList = documentSnapShot.GetValue<List<string>>("friends");
+        conversationList = documentSnapShot.GetValue<List<string>>("conversations");
+
+        Dictionary<string, object> temp = documentSnapShot.ToDictionary();
+
+        return DictionaryToUserData(temp, friendRequestsList, friendsList, conversationList);
+
     }
 
     public bool AcceptFriendRequest(string myEmail, string friendRequestEmail, List<string> friends, List<string> friendRequests)
@@ -242,17 +258,17 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
-    public UserData DictionaryToUserData(Dictionary<string, object> firestorData, List<string> friendRequests, List<string> friends)
+    public UserData DictionaryToUserData(Dictionary<string, object> firestoreData, List<string> friendRequests, List<string> friends, List<string> conversations)
     {
         UserData userData = new UserData();
-
-        firestorData.TryGetValue("username", out object username);
+        
+        firestoreData.TryGetValue("username", out object username);
         userData.username = (string)username;
 
-        firestorData.TryGetValue("email", out object email);
+        firestoreData.TryGetValue("email", out object email);
         userData.email = (string)email;
 
-        firestorData.TryGetValue("status", out object status);
+        firestoreData.TryGetValue("status", out object status);
         userData.status = (string)status;
 
         //firestorData.TryGetValue("friendRequests", out object friendRequests);
@@ -261,6 +277,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
         //firestorData.TryGetValue("friends", out object friends);
         userData.friends = (List<string>)friends;
 
+        userData.conversations = (List<string>)conversations;
+        
         return userData;
 
     }
