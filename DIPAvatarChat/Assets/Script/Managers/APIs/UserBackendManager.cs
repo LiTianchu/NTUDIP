@@ -94,6 +94,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     public void GetCurrentUser()
     {
+        db = FirebaseFirestore.DefaultInstance;
+        
         UserData userData;
         DocumentReference userDoc = db.Collection("user").Document(AuthManager.Instance.emailData);
 

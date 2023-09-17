@@ -34,7 +34,10 @@ public class ChatList : MonoBehaviour
         List<string> conversations = UserBackendManager.Instance.currentUser.conversations;
         foreach (string conversationID in conversations)
         {
-            ConversationBackendManager.Instance.GetConversationByID(conversationID);
+            if (conversationID != null && conversationID != "")
+            {
+                ConversationBackendManager.Instance.GetConversationByID(conversationID);
+            }
         }
 
         //attach event listeners for user data
@@ -58,7 +61,7 @@ public class ChatList : MonoBehaviour
         //Idk why this function is called twice when only one script is enabled in the scene
         //After looking at forum it seems like a stupid Unity bug
         //So I moved the event listener assignment to Start() instead - Tianchu
-        
+
     }
 
     private void OnDisable()
@@ -73,8 +76,10 @@ public class ChatList : MonoBehaviour
     public void GenerateChat(ConversationData conversation)
     {
         string chatOpponent = "";
-        foreach (string member in conversation.members) {
-            if (!member.Equals(UserBackendManager.Instance.currentUser.email)) {
+        foreach (string member in conversation.members)
+        {
+            if (!member.Equals(UserBackendManager.Instance.currentUser.email))
+            {
                 chatOpponent = member;
                 break;
             }
@@ -110,7 +115,7 @@ public class ChatList : MonoBehaviour
     {
         //hardcoded test
         //UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, "bbbb@gmail.com");
-        
+
         UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, RegisterAndLogin.emailData);
 
         SendFriendRequestBtn.interactable = false;
@@ -124,7 +129,7 @@ public class ChatList : MonoBehaviour
         //hardcoded test
         //UserBackendManager.Instance.SearchFriendRequests("bbbb@gmail.com");
 
-        UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);  
+        UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);
     }
 
     public void DisplaySearchUserData(UserData userData)
