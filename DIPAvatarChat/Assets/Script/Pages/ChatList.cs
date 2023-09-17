@@ -179,7 +179,7 @@ public class ChatList : MonoBehaviour
     {
         UserBackendManager.Instance.AcceptFriendRequest(emailData, FriendRequestBox.id, friendsList, friendRequestsList);
         ClearDisplay();
-        UserBackendManager.Instance.SearchFriendRequests("bbbb@gmail.com");
+        UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);
     }
 
     public void RejectFriendRequest()
