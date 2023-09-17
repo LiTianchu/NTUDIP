@@ -21,6 +21,7 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
     void Start()
     {
+        Debug.Log(2);
         db = FirebaseFirestore.DefaultInstance;
         _userPath = AuthManager.Instance.userPathData;
 
