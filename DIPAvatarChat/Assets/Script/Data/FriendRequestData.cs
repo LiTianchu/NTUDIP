@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 [FirestoreData]
 
-public struct FriendRequestData {
+public class FriendRequestData {
 
     [FirestoreProperty]
     public Timestamp createdAt { get; set; }

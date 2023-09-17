@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct ConversationData
+public class ConversationData
 {
     [FirestoreProperty]
     public string conversationID { get; set; }
