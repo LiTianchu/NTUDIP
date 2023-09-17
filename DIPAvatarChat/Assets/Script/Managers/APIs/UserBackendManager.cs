@@ -48,6 +48,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
             email = email,
             friendRequests = nullList,
             friends = nullList,
+            conversations = nullList,
         };
 
         try
