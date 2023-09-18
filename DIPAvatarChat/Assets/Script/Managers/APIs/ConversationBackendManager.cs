@@ -81,21 +81,141 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
 
     public bool UpdateConversationDesc(string conversationID, string description)
     {
-        //TODO:Implement UPDATE a conversation description in database
-        return true;
+        db = FirebaseFirestore.DefaultInstance;
+        _userPath = AuthManager.Instance.userPathData;
+
+        if (db == null)
+        {
+            Debug.LogError("Firebase Firestore is not initialized. Make sure it's properly configured.");
+            return false;
+        }
+
+        try
+        {
+            // Get a reference to the conversation document using the provided conversation ID
+            DocumentReference conversationRef = db.Collection("conversation").Document(conversationID);
+
+            // Define the data to update (only the description field in this case)
+            Dictionary<string, object> updateData = new Dictionary<string, object>
+        {
+            { "description", description }
+        };
+
+            // Update the conversation document with the new description
+            conversationRef.UpdateAsync(updateData)
+                .ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted)
+                    {
+                        Debug.Log("Conversation description updated successfully.");
+                    }
+                    else if (task.IsFaulted)
+                    {
+                        Debug.LogError("Error updating conversation description: " + task.Exception);
+                    }
+                });
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error updating conversation description: " + e.Message);
+            return false;
+        }
     }
 
     public bool AddConversationMember(string conversationID, string memberEmail)
     {
-        //TODO:Implement ADD a conversation member to database
-        return true;
-    }
+        
+            db = FirebaseFirestore.DefaultInstance;
+            _userPath = AuthManager.Instance.userPathData;
+
+            if (db == null)
+            {
+                Debug.LogError("Firebase Firestore is not initialized. Make sure it's properly configured.");
+                return false;
+            }
+
+            try
+            {
+                // Get a reference to the conversation document using the provided conversation ID
+                DocumentReference conversationRef = db.Collection("conversation").Document(conversationID);
+
+                // Use FieldValue.ArrayUnion to add a member to the "members" array field
+                Dictionary<string, object> updateData = new Dictionary<string, object>
+        {
+            { "members", FieldValue.ArrayUnion(memberEmail) }
+        };
+
+                // Update the conversation document to add the member
+                conversationRef.UpdateAsync(updateData)
+                    .ContinueWithOnMainThread(task =>
+                    {
+                        if (task.IsCompleted)
+                        {
+                            Debug.Log("Member added to the conversation successfully.");
+                        }
+                        else if (task.IsFaulted)
+                        {
+                            Debug.LogError("Error adding member to the conversation: " + task.Exception);
+                        }
+                    });
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error adding member to the conversation: " + e.Message);
+                return false;
+            }
+     }
+    
 
     public bool DeleteConversationMember(string conversationID, string memberEmail)
     {
-        //TODO:Implement DELETE a conversation member from database
-        return true;
+        db = FirebaseFirestore.DefaultInstance;
+        _userPath = AuthManager.Instance.userPathData;
+
+        if (db == null)
+        {
+            Debug.LogError("Firebase Firestore is not initialized. Make sure it's properly configured.");
+            return false;
+        }
+
+        try
+        {
+            // Get a reference to the conversation document using the provided conversation ID
+            DocumentReference conversationRef = db.Collection("conversation").Document(conversationID);
+
+            // Use FieldValue.ArrayRemove to remove the member from the "members" array field
+            Dictionary<string, object> updateData = new Dictionary<string, object>
+        {
+            { "members", FieldValue.ArrayRemove(memberEmail) }
+        };
+
+            // Update the conversation document to remove the member
+            conversationRef.UpdateAsync(updateData)
+                .ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted)
+                    {
+                        Debug.Log("Member removed from the conversation successfully.");
+                    }
+                    else if (task.IsFaulted)
+                    {
+                        Debug.LogError("Error removing member from the conversation: " + task.Exception);
+                    }
+                });
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error removing member from the conversation: " + e.Message);
+            return false;
+        }
     }
+
 
     public bool DeleteConversation(string conversationID)
     {
