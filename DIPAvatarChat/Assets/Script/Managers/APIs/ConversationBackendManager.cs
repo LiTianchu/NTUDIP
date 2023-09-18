@@ -20,9 +20,10 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
     //register event for conversation data retrieved
     public event Action<ConversationData> ConversationDataRetrieved;
 
-    public void GetConversationByID(string conversationID) {
+    public void GetConversationByID(string conversationID)
+    {
         db = FirebaseFirestore.DefaultInstance;
-        
+
         DocumentReference conversationDoc = db.Collection("conversation").Document(conversationID);
         conversationDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
@@ -31,10 +32,11 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         });
     }
 
-    private ConversationData ProcessConversationDocument(DocumentSnapshot documentSnapShot) {
-        
+    private ConversationData ProcessConversationDocument(DocumentSnapshot documentSnapShot)
+    {
+
         Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-        return DictionaryToConversationData(temp,documentSnapShot.GetValue<List<string>>("members"), documentSnapShot.GetValue<List<string>>("messages"));
+        return DictionaryToConversationData(temp, documentSnapShot.GetValue<List<string>>("members"), documentSnapShot.GetValue<List<string>>("messages"));
     }
 
     //Other backend APIs to be filled in by Backend people
@@ -97,9 +99,36 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
 
     public bool DeleteConversation(string conversationID)
     {
-        //TODO :Implement DELETE a conversation from database
-        return true;
+        try
+        {
+            db = FirebaseFirestore.DefaultInstance;
+            _userPath = AuthManager.Instance.userPathData;
+            // Get a reference to the conversation document using the provided conversation ID
+            DocumentReference conversationRef = db.Collection("conversation").Document(conversationID);
+
+            // Delete the conversation document
+            conversationRef.DeleteAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    Debug.Log("Conversation deleted successfully.");
+                }
+                else if (task.IsFaulted)
+                {
+                    Debug.LogError("Error deleting conversation: " + task.Exception.ToString());
+                }
+            });
+
+            return true; // Return true to indicate that the deletion process has started.
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error deleting conversation: " + e.Message);
+            return false; // Return false to indicate that an error occurred during deletion.
+        }
     }
+
+
     public ConversationData DictionaryToConversationData(Dictionary<string, object> firestoreData, List<string> members, List<string> messages)
     {
         ConversationData conversationData = new ConversationData();
@@ -112,4 +141,46 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         return conversationData;
 
     }
+
+    //For future use, to get the conversation ID based on description for the purpose of easy deletion of the conversation
+    /*public void GetConversationIDByDescription(string description)
+    {
+        db = FirebaseFirestore.DefaultInstance;
+
+        if (db == null)
+        {
+            Debug.LogError("Firebase Firestore is not initialized. Make sure it's properly configured.");
+            return;
+        }
+
+        // Query the "conversation" collection to find the document with a specific description
+        db.Collection("conversation")
+            .WhereEqualTo("description", description)
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    QuerySnapshot snapshot = task.Result;
+                    if (snapshot.Documents.Count > 0)
+                    {
+                    // If there are matching documents, you can access their IDs
+                    foreach (DocumentSnapshot documentSnapshot in snapshot.Documents)
+                        {
+                            string conversationID = documentSnapshot.Id;
+                            Debug.Log("Conversation ID: " + conversationID);
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No matching conversation found.");
+                    }
+                }
+                else if (task.IsFaulted)
+                {
+                    Debug.LogError("Error querying conversation: " + task.Exception);
+                }
+            });
+    }*/
 }
+
