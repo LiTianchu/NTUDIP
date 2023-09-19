@@ -1019,7 +1019,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 692963940}
         m_TargetAssemblyTypeName: ChatList, Assembly-CSharp
-        m_MethodName: SearchUserByEmail
+        m_MethodName: SearchUserByEmailAsync
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

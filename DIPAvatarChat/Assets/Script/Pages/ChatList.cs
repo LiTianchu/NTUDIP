@@ -43,7 +43,6 @@ public class ChatList : MonoBehaviour
         //}
         PopulateChatList();
         //attach event listeners for user data
-        UserBackendManager.Instance.SearchUserDataReceived += DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived += DisplayFriendRequestsData;
         UserBackendManager.Instance.OtherUserDataReceived += FriendRequestsData;
 
@@ -71,7 +70,6 @@ public class ChatList : MonoBehaviour
     {
         //attach event listeners on disable
         if (!this.gameObject.scene.isLoaded) return;
-        UserBackendManager.Instance.SearchUserDataReceived -= DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived -= DisplayFriendRequestsData;
         //ConversationBackendManager.Instance.ConversationDataRetrieved -= GenerateChat;
         UserBackendManager.Instance.OtherUserDataReceived -= FriendRequestsData;
@@ -174,16 +172,17 @@ public class ChatList : MonoBehaviour
         AppManager.Instance.LoadScene("6-ChatUI");
     }
 
-    public void SearchUserByEmail()
-    {
-        EnableSearchFriendInfoTab();
-        UserBackendManager.Instance.SearchUserByEmail(emailSearchBar.text);
-        SendFriendRequestBtn.interactable = true;
-    }
-
     async public void SearchUserByEmailAsync()
     {
+        EnableSearchFriendInfoTab();
         
+        UserData userData = null;
+
+        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
+        userData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+        DisplaySearchUserData(userData);
+
+        SendFriendRequestBtn.interactable = true;
     }
 
     public void SendFriendRequest()
@@ -210,6 +209,11 @@ public class ChatList : MonoBehaviour
     public void DisplaySearchUserData(UserData userData)
     {
         Debug.Log("User Data Retrieved");
+        Debug.Log(userData.username);
+        Debug.Log(userData.email);
+        Debug.Log(userData.status);
+        Debug.Log(userData.friendRequests);
+        Debug.Log(userData.friends);
 
         usernameData = userData.username;
         emailData = userData.email;
