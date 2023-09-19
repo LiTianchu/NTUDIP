@@ -24,6 +24,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     public event Action<UserData> SearchUserDataReceived;
     public event Action<UserData> SearchUserFriendRequestsReceived;
     public event Action<UserData> CurrentUserRetrieved;
+    public event Action<UserData> SearchUserContactsReceived;
 
     // Start is called before the first frame update
     void Start()
@@ -203,6 +204,28 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 userData = ProcessUserDocument(documentSnapShot);
 
                 SearchUserFriendRequestsReceived?.Invoke(userData);
+
+                // Newline to separate entries
+                Debug.Log("");
+            }
+        });
+    }
+
+    public void SearchFriendRequests(string myEmail)
+    {
+        UserData userData;
+        Query usernameQuery = db.Collection("user").WhereEqualTo("email", myEmail);
+
+        //this function is Async, so the return value does not work here.
+        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
+        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot snapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
+            {
+                userData = ProcessUserDocument(documentSnapShot);
+
+                SearchUserContactsReceived?.Invoke(userData);
 
                 // Newline to separate entries
                 Debug.Log("");
