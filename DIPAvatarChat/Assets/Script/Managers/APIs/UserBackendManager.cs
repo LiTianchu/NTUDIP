@@ -18,12 +18,13 @@ public class UserBackendManager : Singleton<UserBackendManager>
     FirebaseFirestore db;
 
     //cache
-    public UserData currentUser { get; set;}
+    public UserData currentUser { get; set; }
 
     //events
     public event Action<UserData> SearchUserDataReceived;
     public event Action<UserData> SearchUserFriendRequestsReceived;
     public event Action<UserData> CurrentUserRetrieved;
+    public event Action<UserData> SearchUserContactsReceived;
 
     // Start is called before the first frame update
     void Start()
@@ -95,7 +96,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     public void GetCurrentUser()
     {
         db = FirebaseFirestore.DefaultInstance;
-        
+
         UserData userData;
         DocumentReference userDoc = db.Collection("user").Document(AuthManager.Instance.emailData);
 
@@ -123,7 +124,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
             QuerySnapshot snapshot = task.Result;
             foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
             {
-                
+
                 userData = ProcessUserDocument(documentSnapShot);
                 SearchUserDataReceived?.Invoke(userData);
             }
@@ -210,7 +211,30 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    private UserData ProcessUserDocument(DocumentSnapshot documentSnapShot) {
+    public void SearchContacts(string myEmail)
+    {
+        UserData userData;
+        Query usernameQuery = db.Collection("user").WhereEqualTo("email", myEmail);
+
+        //this function is Async, so the return value does not work here.
+        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
+        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot snapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
+            {
+                userData = ProcessUserDocument(documentSnapShot);
+
+                SearchUserContactsReceived?.Invoke(userData);
+
+                // Newline to separate entries
+                Debug.Log("");
+            }
+        });
+    }
+
+    private UserData ProcessUserDocument(DocumentSnapshot documentSnapShot)
+    {
         Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
 
         var friendRequestsList = new List<string>();
@@ -243,7 +267,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 { "friendRequests", friendRequestsList }
             };
 
-            Debug.Log("Friend Request from " + friendRequestEmail + " accepted!");
+            Debug.Log("Friend Request from " + friendRequestEmail + " accepted! :)");
 
             db.Document("user/" + myEmail).UpdateAsync(userData);
 
@@ -256,15 +280,36 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return true;
     }
 
-    public bool RejectFriendRequest(List<string> friends, string friendRequestEmail)
+    public bool RejectFriendRequest(string myEmail, string friendRequestEmail, List<string> friendRequests)
     {
+        List<string> friendRequestsList = new List<string>(friendRequests);
+
+        try
+        {
+            friendRequestsList.Remove(friendRequestEmail);
+
+            Dictionary<string, object> userData = new Dictionary<string, object>
+            {
+                { "friendRequests", friendRequestsList }
+            };
+
+            Debug.Log("Friend Request from " + friendRequestEmail + " rejected... :(");
+
+            db.Document("user/" + myEmail).UpdateAsync(userData);
+
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Firestore Error: " + ex.Message);
+            return false;
+        }
         return true;
     }
 
     public UserData DictionaryToUserData(Dictionary<string, object> firestoreData, List<string> friendRequests, List<string> friends, List<string> conversations)
     {
         UserData userData = new UserData();
-        
+
         firestoreData.TryGetValue("username", out object username);
         userData.username = (string)username;
 
@@ -281,7 +326,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         userData.friends = (List<string>)friends;
 
         userData.conversations = (List<string>)conversations;
-        
+
         return userData;
 
     }
