@@ -65,10 +65,6 @@ public class NewChat : MonoBehaviour
 
         Debug.Log("Display friend: " + i);
 
-        Debug.Log(box.transform.GetChild(0));
-        Debug.Log(box.transform.GetChild(0).GetChild(1));
-        Debug.Log(box.transform.GetChild(0).GetChild(1).GetChild(0));
-
         //Show the email of the friend request sender
         box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = friend;
 
