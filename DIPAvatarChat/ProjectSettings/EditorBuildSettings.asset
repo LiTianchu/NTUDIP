@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AppSkeleton/3-EditProfile.unity
     guid: b1ab3b34cb5c56c4a8c3048423118e8e
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/AppSkeleton/AvatarCustomisation.unity
     guid: bab177eef2a79b549a5fbb65c2d9069a
   - enabled: 1
@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AppSkeleton/5-NewChat.unity
     guid: aceb62f418e484d438ee12b554126f22
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/AppSkeleton/6-ChatFrontEnd.unity
     guid: 68faefca9bf3e9043bd5f8c7effc86c0
   - enabled: 1
