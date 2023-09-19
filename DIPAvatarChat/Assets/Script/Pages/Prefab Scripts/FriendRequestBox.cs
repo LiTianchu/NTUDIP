@@ -20,13 +20,13 @@ public class FriendRequestBox : MonoBehaviour
 
     public void AcceptFriendRequest()
     {
-        id = Box.transform.Find("AcceptFriendReqBtn").parent.name;
+        id = Box.name;
         GameObject.Find("Canvas").GetComponent<ChatList>().AcceptFriendRequest();
     }
 
     public void RejectFriendRequest()
     {
-        id = Box.transform.Find("RejectFriendReqBtn").parent.name;
+        id = Box.name;
         GameObject.Find("Canvas").GetComponent<ChatList>().RejectFriendRequest();
     }
 }

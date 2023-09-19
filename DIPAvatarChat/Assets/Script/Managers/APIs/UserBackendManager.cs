@@ -25,6 +25,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     public event Action<UserData> SearchUserFriendRequestsReceived;
     public event Action<UserData> CurrentUserRetrieved;
     public event Action<UserData> SearchUserContactsReceived;
+    public event Action<UserData> OtherUserDataReceived;
 
     // Start is called before the first frame update
     void Start()
@@ -117,6 +118,25 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return await usernameQuery.GetSnapshotAsync();
     }
 
+
+    public void GetOtherUser(string email)
+    {
+        UserData userData;
+        Query usernameQuery = db.Collection("user").WhereEqualTo("email", email);
+
+        //this function is Async, so the return value does not work here.
+        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
+        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot snapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
+            {
+
+                userData = ProcessUserDocument(documentSnapShot);
+                OtherUserDataReceived?.Invoke(userData);
+            }
+        });
+    }
 
     public void SearchUserByEmail(string email)
     {

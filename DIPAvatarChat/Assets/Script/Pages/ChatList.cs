@@ -45,6 +45,7 @@ public class ChatList : MonoBehaviour
         //attach event listeners for user data
         UserBackendManager.Instance.SearchUserDataReceived += DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived += DisplayFriendRequestsData;
+        UserBackendManager.Instance.OtherUserDataReceived += FriendRequestsData;
 
         //attach event listeners for conversation data
         //ConversationBackendManager.Instance.ConversationDataRetrieved += GenerateChat;
@@ -73,6 +74,7 @@ public class ChatList : MonoBehaviour
         UserBackendManager.Instance.SearchUserDataReceived -= DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived -= DisplayFriendRequestsData;
         //ConversationBackendManager.Instance.ConversationDataRetrieved -= GenerateChat;
+        UserBackendManager.Instance.OtherUserDataReceived -= FriendRequestsData;
     }
 
     async public void PopulateChatList()
@@ -169,7 +171,7 @@ public class ChatList : MonoBehaviour
     {
         //set as temp data storage to pass to next scene
         PlayerPrefs.SetString("chatID", chatID);
-        AppManager.Instance.LoadScene("6-ChatFrontEnd");
+        AppManager.Instance.LoadScene("6-ChatUI");
     }
 
     public void SearchUserByEmail()
@@ -231,20 +233,23 @@ public class ChatList : MonoBehaviour
             {
                 Debug.Log("Display friend: " + friendRequest);
 
-                //Clone prefab for displaying friend request
-                GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, -150 - (i - 1) * 80, 0), Quaternion.identity) as GameObject;
-                box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
-                box.name = friendRequest;
-
-                Debug.Log("Instantiated Friend Request: " + i);
-
-                //Show the email of the friend request sender
-                box.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = friendRequest;
-
+                UserBackendManager.Instance.GetOtherUser(friendRequest);
                 friendRequestData = friendRequest;
             }
             i++;
         }
+    }
+
+    public void FriendRequestsData(UserData userData)
+    {
+        //Clone prefab for displaying friend request
+        GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        box.transform.SetParent(GameObject.Find("FriendRequestContent").transform, false);
+        box.name = userData.email;
+
+        //Show the email of the friend request sender
+        box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = userData.username;
+        box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = userData.status;
     }
 
 
