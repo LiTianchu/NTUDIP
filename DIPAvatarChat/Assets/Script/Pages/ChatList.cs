@@ -101,7 +101,7 @@ public class ChatList : MonoBehaviour
     {
         //set as temp data storage to pass to next scene
         PlayerPrefs.SetString("chatID", chatID);
-        AppManager.Instance.LoadScene("6-ChatFrontEnd");
+        AppManager.Instance.LoadScene("6-ChatUI");
     }
 
     public void SearchUserByEmail()
