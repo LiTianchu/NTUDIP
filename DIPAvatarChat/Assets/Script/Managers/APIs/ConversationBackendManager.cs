@@ -3,6 +3,7 @@ using Firebase.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class ConversationBackendManager : Singleton<ConversationBackendManager>
@@ -20,6 +21,15 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
     //register event for conversation data retrieved
     public event Action<ConversationData> ConversationDataRetrieved;
 
+    public async Task<DocumentSnapshot> GetConversationByIDTask(string conversationID)
+    {
+        db = FirebaseFirestore.DefaultInstance;
+
+        DocumentReference conversationDoc = db.Collection("conversation").Document(conversationID);
+        DocumentSnapshot doc = await conversationDoc.GetSnapshotAsync();
+        return doc;
+    }
+
     public void GetConversationByID(string conversationID)
     {
         db = FirebaseFirestore.DefaultInstance;
@@ -32,7 +42,7 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         });
     }
 
-    private ConversationData ProcessConversationDocument(DocumentSnapshot documentSnapShot)
+    public ConversationData ProcessConversationDocument(DocumentSnapshot documentSnapShot)
     {
 
         Dictionary<string, object> temp = documentSnapShot.ToDictionary();

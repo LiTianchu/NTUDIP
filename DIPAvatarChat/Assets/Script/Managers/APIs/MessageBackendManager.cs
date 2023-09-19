@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 
 //This class contains API for Create/Update/Delete/Read(CRUD) database data
@@ -67,6 +68,11 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
     
     }
 
+    public async Task<DocumentSnapshot> GetMessageByIDTask(string messageID) {
+        DocumentReference messageDoc = db.Collection("message").Document(messageID);
+        return await messageDoc.GetSnapshotAsync();
+    }
+
     public bool AddMessage(string message, string conversationID, string receiverEmail, string senderEmail)
     {
         //TODO:Implement ADD a message record to database
@@ -107,6 +113,13 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
             Debug.LogError("Error adding message: " + e.Message);
             return false; // Return false to indicate that an error occurred while adding the message.
         }
+    }
+
+    public MessageData ProcessMessageDocument(DocumentSnapshot documentSnapShot)
+    {
+
+        Dictionary<string, object> temp = documentSnapShot.ToDictionary();
+        return DictionaryToMessageData(temp);
     }
 
     public MessageData DictionaryToMessageData(Dictionary<string, object> firestorData) {
