@@ -114,13 +114,11 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     public async Task<DocumentSnapshot> GetCurrentUserTask()
     {
-        db = FirebaseFirestore.DefaultInstance;
-
-        DocumentReference conversationDoc = db.Collection("user").Document(AuthManager.Instance.emailData);
-        return await conversationDoc.GetSnapshotAsync();
+        DocumentReference usernameQuery = db.Collection("user").Document(AuthManager.Instance.emailData);
+        return await usernameQuery.GetSnapshotAsync();
     }
 
-    public async Task<DocumentSnapshot> GetUserByEmailTask(string email)
+    public async Task<DocumentSnapshot> GetOtherUserTask(string email)
     {
         DocumentReference usernameQuery = db.Collection("user").Document(email);
         return await usernameQuery.GetSnapshotAsync();
@@ -144,6 +142,15 @@ public class UserBackendManager : Singleton<UserBackendManager>
                 OtherUserDataReceived?.Invoke(userData);
             }
         });
+    }
+
+    public bool SendFriendRequest_v2(UserData myUserData, UserData theirUserData)
+    {
+        List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
+        List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
+
+        List<string> myFriendsList = new List<string>(myUserData.friends);
+        List<string> theirFriendsList = new List<string>(theirUserData.friends);
     }
 
     public bool SendFriendRequest(List<string> friends, List<string> friendRequests, string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!")

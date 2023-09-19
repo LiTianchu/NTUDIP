@@ -86,7 +86,7 @@ public class ChatList : MonoBehaviour
 
         foreach (string conversationID in conversations)
         {
-            
+
             if (conversationID != null && conversationID != "")
             {
                 //get conversation document
@@ -94,25 +94,27 @@ public class ChatList : MonoBehaviour
                 conversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
 
                 //get message document and retrieve the message details and the user
-                if (conversation.messages!=null && conversation.messages.Count > 0)
+                if (conversation.messages != null && conversation.messages.Count > 0)
                 {
                     DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
                     latestMessage = MessageBackendManager.Instance.ProcessMessageDocument(messageDoc);
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(latestMessage.sender);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(latestMessage.sender);
                     sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
-                    if (sender == null) {
+                    if (sender == null)
+                    {
                         Debug.Log(latestMessage.sender + " has no corresponding document");
                     }
                 }
-                else {
+                else
+                {
                     //handle empty conversation
                     latestMessage = new MessageData();
                     latestMessage.message = "No messages yet";
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(conversation.members[0]);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(conversation.members[0]);
                     sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                 }
 
-                
+
             }
         }
 
@@ -175,12 +177,9 @@ public class ChatList : MonoBehaviour
     async public void SearchUserByEmailAsync()
     {
         EnableSearchFriendInfoTab();
-        
-        UserData userData = null;
 
-        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
-        userData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
-        DisplaySearchUserData(userData);
+        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(emailSearchBar.text);
+        DisplaySearchUserData(UserBackendManager.Instance.ProcessUserDocument(userDoc));
 
         SendFriendRequestBtn.interactable = true;
     }
@@ -195,15 +194,13 @@ public class ChatList : MonoBehaviour
         SendFriendRequestBtn.interactable = false;
     }
 
-    public void DisplayFriendRequests()
+    async public void DisplayFriendRequests()
     {
         ToggleFriendRequestsTab();
         Debug.Log(RegisterAndLogin.emailData);
 
-        //hardcoded test
-        //UserBackendManager.Instance.SearchFriendRequests("bbbb@gmail.com");
-
-        UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetCurrentUserTask();
+        DisplayFriendRequestsData(UserBackendManager.Instance.ProcessUserDocument(myUserDoc));
     }
 
     public void DisplaySearchUserData(UserData userData)
@@ -226,7 +223,7 @@ public class ChatList : MonoBehaviour
         SearchStatusDisplay.text = statusData;
     }
 
-    public void DisplayFriendRequestsData(UserData userData)
+    async public void DisplayFriendRequestsData(UserData userData)
     {
         Debug.Log("User Data Retrieved");
 
@@ -243,7 +240,8 @@ public class ChatList : MonoBehaviour
             {
                 Debug.Log("Display friend: " + friendRequest);
 
-                UserBackendManager.Instance.GetOtherUser(friendRequest);
+                DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(friendRequest);
+                FriendRequestsData(UserBackendManager.Instance.ProcessUserDocument(userDoc));
                 friendRequestData = friendRequest;
             }
             i++;
