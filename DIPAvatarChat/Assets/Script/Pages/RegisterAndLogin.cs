@@ -63,7 +63,7 @@ public class RegisterAndLogin : MonoBehaviour
 
     public void LoginButton()
     {
-        AuthManager.Instance.StartLogin(emailLoginField.text, passwordLoginField.text);
+        AuthManager.Instance.StartLogin(emailLoginField.text, passwordLoginField.text, "3-EditProfile");
         emailData = emailLoginField.text;
     }
 
