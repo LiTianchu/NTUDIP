@@ -61,10 +61,10 @@ public class AuthManager : Singleton<AuthManager>
     }
 
     //Function for the login button
-    public void StartLogin(string email, string password)
+    public void StartLogin(string email, string password, string landingScene)
     {
         //Call the login coroutine passing the email and password
-        StartCoroutine(Login(email, password));
+        StartCoroutine(Login(email, password, landingScene));
     }
     //Function for the register button
     public void StartRegistration(string email, string password)
@@ -75,7 +75,7 @@ public class AuthManager : Singleton<AuthManager>
 
 
     //Login Function
-    private IEnumerator Login(string _email, string _password)
+    private IEnumerator Login(string _email, string _password, string landingScene)
     {
         //Call the Firebase auth signin function passing the email and password
         Task<AuthResult> LoginTask = auth.SignInWithEmailAndPasswordAsync(_email, _password);
@@ -130,7 +130,7 @@ public class AuthManager : Singleton<AuthManager>
                 UserBackendManager.Instance.CurrentUserRetrieved += LoadEditProfile;
                 void LoadEditProfile(UserData user)
                 {
-                    AppManager.Instance.LoadScene("3-EditProfile");
+                    AppManager.Instance.LoadScene(landingScene);
                     UserBackendManager.Instance.CurrentUserRetrieved -= LoadEditProfile;
                 }
                 UserBackendManager.Instance.GetCurrentUser();
