@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 515766810404330661}
   - component: {fileID: 4933265427191779843}
   m_Layer: 5
-  m_Name: AvatarImage
+  m_Name: Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 8066566377900749896}
   - component: {fileID: 3536357338627852993}
   m_Layer: 5
-  m_Name: ClickToChatBtn
+  m_Name: ChatDisplayBoxBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -524,7 +524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7334971994685402621}
   m_Layer: 5
-  m_Name: Text
+  m_Name: UserInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
