@@ -44,11 +44,11 @@ public class NewChat : MonoBehaviour
     friendsList = userData.friends;
     int i = 0;
 
-    foreach (string friendRequest in friendRequestsList)
+    foreach (string friend in friendsList)
     {
-      if (friendRequest != null && friendRequest != "")
+      if (friend != null && friend != "")
       {
-        Debug.Log("Display friend: " + friendRequest);
+        Debug.Log("Display friend: " + friend);
 
         //Clone prefab for displaying friend request
         /*GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, -150 - (i - 1) * 80, 0), Quaternion.identity) as GameObject;
