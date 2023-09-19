@@ -189,7 +189,9 @@ public class ChatList : MonoBehaviour
 
     public void RejectFriendRequest()
     {
-
+        UserBackendManager.Instance.RejectFriendRequest(emailData, FriendRequestBox.id, friendRequestsList);
+        ClearDisplay();
+        UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);
     }
 
     public void ToggleFriendRequestsTab()
