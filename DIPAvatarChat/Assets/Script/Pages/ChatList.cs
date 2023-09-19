@@ -179,6 +179,10 @@ public class ChatList : MonoBehaviour
         }
     }
 
+    public void FriendRequestsData(UserData userData) {
+
+    }
+
 
     public void AcceptFriendRequest()
     {

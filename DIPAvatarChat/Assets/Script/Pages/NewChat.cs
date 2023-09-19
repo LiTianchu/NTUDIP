@@ -8,19 +8,24 @@ using UnityEngine.UI;
 
 public class NewChat : MonoBehaviour
 {
+  public GameObject ContactsBoxPrefab;
 
-  List<string> friendRequestsList;
   List<string> friendsList;
   string usernameData;
   string emailData;
   string statusData;
-  string friendRequestData;
+  string friendData;
+  string friendUsernameData;
+  string friendEmailData;
+  string friendStatusData;
+
 
   // Start is called before the first frame update
   void Start()
   {
     //attach event listeners for user data
     UserBackendManager.Instance.SearchUserContactsReceived += DisplayAllContactsData;
+    UserBackendManager.Instance.SearchUserDataReceived += ContactsData;
   }
 
   // Update is called once per frame
@@ -31,7 +36,16 @@ public class NewChat : MonoBehaviour
 
   private void OnDisable()
   {
+    if (!this.gameObject.scene.isLoaded) return;
     UserBackendManager.Instance.SearchUserContactsReceived -= DisplayAllContactsData;
+    UserBackendManager.Instance.SearchUserDataReceived -= ContactsData;
+  }
+
+  public void DisplayAllContacts()
+  {
+    ClearDisplay();
+    //hardcoded test
+    UserBackendManager.Instance.SearchContacts("dipgrp6@gmail.com");
   }
 
   public void DisplayAllContactsData(UserData userData)
@@ -48,21 +62,47 @@ public class NewChat : MonoBehaviour
     {
       if (friend != null && friend != "")
       {
-        Debug.Log("Display friend: " + friend);
+        Debug.Log("friend id: " + friend);
 
-        //Clone prefab for displaying friend request
-        /*GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, -150 - (i - 1) * 80, 0), Quaternion.identity) as GameObject;
-        box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
-        box.name = friendRequest;
+        UserBackendManager.Instance.SearchUserByEmail(friend);
 
-        Debug.Log("Instantiated Friend Request: " + i);
-
-        //Show the email of the friend request sender
-        box.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = friendRequest;
-
-        friendRequestData = friendRequest;*/
       }
       i++;
+    }
+  }
+
+  public void ContactsData(UserData userData)
+  {
+    //friendUsernameData = userData.username;
+    //friendEmailData = userData.email;
+    //friendStatusData = userData.status;
+
+    //Clone prefab for displaying friend request
+    GameObject box = Instantiate(ContactsBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+    box.transform.SetParent(GameObject.Find("ContactsContent").transform, false);
+    box.name = userData.username;
+
+    //Debug.Log("Display friend: " + i);
+
+    //Show the email of the friend request sender
+    box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = userData.username;
+    box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = userData.status;
+  }
+
+  public void ClearDisplay()
+  {
+    if (friendsList != null)
+    {
+      friendsList.Clear();
+    }
+
+    GameObject[] tempPrefabs;
+
+    tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
+
+    foreach (GameObject tempPrefab in tempPrefabs)
+    {
+      Destroy(tempPrefab);
     }
   }
 }
