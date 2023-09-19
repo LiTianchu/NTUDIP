@@ -8,13 +8,13 @@ using UnityEngine.UI;
 
 public class NewChat : MonoBehaviour
 {
+  public GameObject ContactsBoxPrefab;
 
-  List<string> friendRequestsList;
   List<string> friendsList;
   string usernameData;
   string emailData;
   string statusData;
-  string friendRequestData;
+  string friendData;
 
   // Start is called before the first frame update
   void Start()
@@ -31,7 +31,15 @@ public class NewChat : MonoBehaviour
 
   private void OnDisable()
   {
+    if (!this.gameObject.scene.isLoaded) return;
     UserBackendManager.Instance.SearchUserContactsReceived -= DisplayAllContactsData;
+  }
+
+  public void DisplayAllContacts()
+  {
+    ClearDisplay();
+    //hardcoded test
+    UserBackendManager.Instance.SearchContacts("dipgrp6@gmail.com");
   }
 
   public void DisplayAllContactsData(UserData userData)
@@ -48,21 +56,42 @@ public class NewChat : MonoBehaviour
     {
       if (friend != null && friend != "")
       {
-        Debug.Log("Display friend: " + friend);
+        Debug.Log("friend id: " + friend);
 
         //Clone prefab for displaying friend request
-        /*GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, -150 - (i - 1) * 80, 0), Quaternion.identity) as GameObject;
-        box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
-        box.name = friendRequest;
+        GameObject box = Instantiate(ContactsBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        box.transform.SetParent(GameObject.Find("ContactsContent").transform, false);
+        box.name = friend;
 
-        Debug.Log("Instantiated Friend Request: " + i);
+        Debug.Log("Display friend: " + i);
+
+        Debug.Log(box.transform.GetChild(0));
+        Debug.Log(box.transform.GetChild(0).GetChild(1));
+        Debug.Log(box.transform.GetChild(0).GetChild(1).GetChild(0));
 
         //Show the email of the friend request sender
-        box.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = friendRequest;
+        box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = friend;
 
-        friendRequestData = friendRequest;*/
+        friendData = friend;
       }
       i++;
+    }
+  }
+
+  public void ClearDisplay()
+  {
+    if (friendsList != null)
+    {
+      friendsList.Clear();
+    }
+
+    GameObject[] tempPrefabs;
+
+    tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
+
+    foreach (GameObject tempPrefab in tempPrefabs)
+    {
+      Destroy(tempPrefab);
     }
   }
 }
