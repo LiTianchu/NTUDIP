@@ -43,7 +43,6 @@ public class ChatList : MonoBehaviour
         //}
         PopulateChatList();
         //attach event listeners for user data
-        UserBackendManager.Instance.SearchUserDataReceived += DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived += DisplayFriendRequestsData;
         UserBackendManager.Instance.OtherUserDataReceived += FriendRequestsData;
 
@@ -71,7 +70,6 @@ public class ChatList : MonoBehaviour
     {
         //attach event listeners on disable
         if (!this.gameObject.scene.isLoaded) return;
-        UserBackendManager.Instance.SearchUserDataReceived -= DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived -= DisplayFriendRequestsData;
         //ConversationBackendManager.Instance.ConversationDataRetrieved -= GenerateChat;
         UserBackendManager.Instance.OtherUserDataReceived -= FriendRequestsData;
@@ -174,10 +172,16 @@ public class ChatList : MonoBehaviour
         AppManager.Instance.LoadScene("6-ChatUI");
     }
 
-    public void SearchUserByEmail()
+    async public void SearchUserByEmailAsync()
     {
         EnableSearchFriendInfoTab();
-        UserBackendManager.Instance.SearchUserByEmail(emailSearchBar.text);
+        
+        UserData userData = null;
+
+        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
+        userData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+        DisplaySearchUserData(userData);
+
         SendFriendRequestBtn.interactable = true;
     }
 
@@ -186,7 +190,7 @@ public class ChatList : MonoBehaviour
         //hardcoded test
         //UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, "bbbb@gmail.com");
 
-        UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, RegisterAndLogin.emailData);
+        UserBackendManager.Instance.SendFriendRequest(friendsList, friendRequestsList, emailSearchBar.text, RegisterAndLogin.emailData);
 
         SendFriendRequestBtn.interactable = false;
     }
@@ -205,11 +209,17 @@ public class ChatList : MonoBehaviour
     public void DisplaySearchUserData(UserData userData)
     {
         Debug.Log("User Data Retrieved");
+        Debug.Log(userData.username);
+        Debug.Log(userData.email);
+        Debug.Log(userData.status);
+        Debug.Log(userData.friendRequests);
+        Debug.Log(userData.friends);
 
         usernameData = userData.username;
         emailData = userData.email;
         statusData = userData.status;
         friendRequestsList = userData.friendRequests;
+        friendsList = userData.friends;
 
         SearchNameDisplay.text = usernameData;
         SearchEmailDisplay.text = emailData;
