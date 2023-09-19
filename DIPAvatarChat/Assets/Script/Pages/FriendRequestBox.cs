@@ -26,6 +26,7 @@ public class FriendRequestBox : MonoBehaviour
 
     public void RejectFriendRequest()
     {
+        id = Box.transform.Find("RejectFriendReqBtn").parent.name;
         GameObject.Find("Canvas").GetComponent<ChatList>().RejectFriendRequest();
     }
 }
