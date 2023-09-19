@@ -181,12 +181,17 @@ public class ChatList : MonoBehaviour
         SendFriendRequestBtn.interactable = true;
     }
 
+    async public void SearchUserByEmailAsync()
+    {
+        
+    }
+
     public void SendFriendRequest()
     {
         //hardcoded test
         //UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, "bbbb@gmail.com");
 
-        UserBackendManager.Instance.SendFriendRequest(friendRequestsList, emailSearchBar.text, RegisterAndLogin.emailData);
+        UserBackendManager.Instance.SendFriendRequest(friendsList, friendRequestsList, emailSearchBar.text, RegisterAndLogin.emailData);
 
         SendFriendRequestBtn.interactable = false;
     }
@@ -210,6 +215,7 @@ public class ChatList : MonoBehaviour
         emailData = userData.email;
         statusData = userData.status;
         friendRequestsList = userData.friendRequests;
+        friendsList = userData.friends;
 
         SearchNameDisplay.text = usernameData;
         SearchEmailDisplay.text = emailData;

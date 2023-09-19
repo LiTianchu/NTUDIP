@@ -112,6 +112,15 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
 
     }
+
+    public async Task<DocumentSnapshot> GetCurrentUserTask()
+    {
+        db = FirebaseFirestore.DefaultInstance;
+
+        DocumentReference conversationDoc = db.Collection("user").Document(AuthManager.Instance.emailData);
+        return await conversationDoc.GetSnapshotAsync();
+    }
+
     public async Task<DocumentSnapshot> GetUserByEmailTask(string email)
     {
         DocumentReference usernameQuery = db.Collection("user").Document(email);
@@ -157,7 +166,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    public bool SendFriendRequest(List<string> friendRequests, string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!")
+    public bool SendFriendRequest(List<string> friends, List<string> friendRequests, string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!")
     {
         string UniqueID = "friendRequest/" + senderEmail + "->" + receiverEmail;
 
@@ -183,11 +192,26 @@ public class UserBackendManager : Singleton<UserBackendManager>
             }
         }
 
-        Debug.Log(duplicateFriendRequestCheck);
+        Debug.Log("duplicateFriendRequestCheck: " + duplicateFriendRequestCheck);
+
+        //checks if user is already a friend
+        bool alreadyFriendCheck = false;
+
+        foreach (string friend in friends)
+        {
+            Debug.Log(friend);
+            if (receiverEmail == friend)
+            {
+                alreadyFriendCheck = true;
+                Debug.Log("This user is already your friend! :P");
+            }
+        }
+
+        Debug.Log("alreadyFriendCheck: " + alreadyFriendCheck);
 
         try
         {
-            if (receiverEmail != senderEmail && receiverEmail != null && !duplicateFriendRequestCheck)
+            if (receiverEmail != senderEmail && receiverEmail != null && !duplicateFriendRequestCheck && !alreadyFriendCheck)
             {
                 friendRequestsList.Add(senderEmail);
 
@@ -322,12 +346,13 @@ public class UserBackendManager : Singleton<UserBackendManager>
         List<string> friendsList = new List<string>();
         List<string> conversationList = new List<string>();
 
-        documentSnapShot.TryGetValue("friendRequests",out friendRequestsList);
+        documentSnapShot.TryGetValue("friendRequests", out friendRequestsList);
         documentSnapShot.TryGetValue("friends", out friendsList);
         documentSnapShot.TryGetValue("conversations", out conversationList);
 
         Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-        if (temp == null) {
+        if (temp == null)
+        {
             return null;
         }
         return DictionaryToUserData(temp, friendRequestsList, friendsList, conversationList);
