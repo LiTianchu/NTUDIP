@@ -25,7 +25,7 @@ public class NewChat : MonoBehaviour
   {
     //attach event listeners for user data
     UserBackendManager.Instance.SearchUserContactsReceived += DisplayAllContactsData;
-    UserBackendManager.Instance.SearchUserDataReceived += ContactsData;
+    UserBackendManager.Instance.OtherUserDataReceived += ContactsData;
   }
 
   // Update is called once per frame
@@ -38,7 +38,7 @@ public class NewChat : MonoBehaviour
   {
     if (!this.gameObject.scene.isLoaded) return;
     UserBackendManager.Instance.SearchUserContactsReceived -= DisplayAllContactsData;
-    UserBackendManager.Instance.SearchUserDataReceived -= ContactsData;
+    UserBackendManager.Instance.OtherUserDataReceived -= ContactsData;
   }
 
   public void DisplayAllContacts()
@@ -64,7 +64,7 @@ public class NewChat : MonoBehaviour
       {
         Debug.Log("friend id: " + friend);
 
-        UserBackendManager.Instance.SearchUserByEmail(friend);
+        UserBackendManager.Instance.GetOtherUser(friend);
 
       }
       i++;
@@ -77,14 +77,12 @@ public class NewChat : MonoBehaviour
     //friendEmailData = userData.email;
     //friendStatusData = userData.status;
 
-    //Clone prefab for displaying friend request
+    //Clone prefab for displaying contacts
     GameObject box = Instantiate(ContactsBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
     box.transform.SetParent(GameObject.Find("ContactsContent").transform, false);
     box.name = userData.username;
 
-    //Debug.Log("Display friend: " + i);
-
-    //Show the email of the friend request sender
+    //Show the name and status
     box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = userData.username;
     box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = userData.status;
   }
