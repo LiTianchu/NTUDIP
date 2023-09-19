@@ -176,11 +176,12 @@ public class ChatList : MonoBehaviour
     {
         //Clone prefab for displaying friend request
         GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        box.transform.SetParent(GameObject.Find("FriendRequestsTab").transform, false);
-        box.name = userData.username;
+        box.transform.SetParent(GameObject.Find("FriendRequestContent").transform, false);
+        box.name = userData.email;
 
         //Show the email of the friend request sender
-        box.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = userData.username;
+        box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = userData.username;
+        box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = userData.status;
     }
 
 
