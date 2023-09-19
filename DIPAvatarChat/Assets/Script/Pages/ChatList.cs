@@ -1,3 +1,5 @@
+using Firebase.Extensions;
+using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -31,21 +33,21 @@ public class ChatList : MonoBehaviour
     {
 
         //retrieve conversation list to populate chat list
-        List<string> conversations = UserBackendManager.Instance.currentUser.conversations;
-        foreach (string conversationID in conversations)
-        {
-            if (conversationID != null && conversationID != "")
-            {
-                ConversationBackendManager.Instance.GetConversationByID(conversationID);
-            }
-        }
-
+        //List<string> conversations = UserBackendManager.Instance.currentUser.conversations;
+        //foreach (string conversationID in conversations)
+        //{
+        //    if (conversationID != null && conversationID != "")
+        //    {
+        //        ConversationBackendManager.Instance.GetConversationByID(conversationID);
+        //    }
+        //}
+        PopulateChatList();
         //attach event listeners for user data
         UserBackendManager.Instance.SearchUserDataReceived += DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived += DisplayFriendRequestsData;
 
         //attach event listeners for conversation data
-        ConversationBackendManager.Instance.ConversationDataRetrieved += GenerateChat;
+        //ConversationBackendManager.Instance.ConversationDataRetrieved += GenerateChat;
 
     }
 
@@ -70,27 +72,93 @@ public class ChatList : MonoBehaviour
         if (!this.gameObject.scene.isLoaded) return;
         UserBackendManager.Instance.SearchUserDataReceived -= DisplaySearchUserData;
         UserBackendManager.Instance.SearchUserFriendRequestsReceived -= DisplayFriendRequestsData;
-        ConversationBackendManager.Instance.ConversationDataRetrieved -= GenerateChat;
+        //ConversationBackendManager.Instance.ConversationDataRetrieved -= GenerateChat;
     }
 
-    public void GenerateChat(ConversationData conversation)
+    async public void PopulateChatList()
     {
-        string chatOpponent = "";
-        foreach (string member in conversation.members)
+        //Getting the data by task
+        ConversationData conversation = null;
+        MessageData latestMessage = null;
+        UserData sender = null;
+
+        List<string> conversations = UserBackendManager.Instance.currentUser.conversations;
+
+        foreach (string conversationID in conversations)
         {
-            if (!member.Equals(UserBackendManager.Instance.currentUser.email))
+            
+            if (conversationID != null && conversationID != "")
             {
-                chatOpponent = member;
-                break;
+                //get conversation document
+                DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversationID);
+                conversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
+
+                //get message document and retrieve the message details and the user
+                if (conversation.messages!=null && conversation.messages.Count > 0)
+                {
+                    DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
+                    latestMessage = MessageBackendManager.Instance.ProcessMessageDocument(messageDoc);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(latestMessage.sender);
+                    sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+                    if (sender == null) {
+                        Debug.Log(latestMessage.sender + " has no corresponding document");
+                    }
+                }
+                else {
+                    //handle empty conversation
+                    latestMessage = new MessageData();
+                    latestMessage.message = "No messages yet";
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(conversation.members[0]);
+                    sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+                }
+
+                
             }
         }
 
-        string chatDesc = conversation.description;
-        Debug.Log(chatOpponent);
-        Debug.Log(conversation.description);
-        //TODO: Generate chat UI, use the data to spawn the chat thumbnail
+        Debug.Log("Latest Message: " + latestMessage?.message);
+        Debug.Log("Latest Sender: " + sender?.username);
+
+        Debug.Log("Latest Message Timestamp: " + latestMessage?.createdAt);
+
+
+
+        //string chatOpponentEmail = "";
+        //foreach (string member in conversation.members)
+        //{
+        //    if (!member.Equals(UserBackendManager.Instance.currentUser.email))
+        //    {
+        //        chatOpponentEmail = member;
+        //        break;
+        //    }
+        //}
+
+        ////string chatDesc = conversation.description;
+        //string latestMessageID = conversation.messages[conversation.messages.Count - 1];
+
+        //FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+
+        //db.Collection("message").Document(latestMessageID).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        //{
+        //    DocumentSnapshot messageSnapshot = task.Result;
+        //    Dictionary<string, object> temp = messageSnapshot.ToDictionary();
+        //    MessageData messageData = MessageBackendManager.Instance.DictionaryToMessageData(temp);
+
+        //});
+        //db.Collection("user").Document(chatOpponentEmail).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        //{
+        //    DocumentSnapshot userSnapshot = task.Result;
+        //    Dictionary<string, object> temp = userSnapshot.ToDictionary();
+        //    string opponentAvatar = temp["currentAvatar"].ToString();
+        //});
+        ////Instantiate chat thumbnail
+        //Debug.Log(chatOpponentEmail);
+        //Debug.Log(conversation.description);
+        ////TODO: Generate chat UI, use the data to spawn the chat thumbnail
 
     }
+
+
 
     public void NewChat()
     {
