@@ -144,13 +144,66 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    public bool SendFriendRequest_v2(UserData myUserData, UserData theirUserData)
+    async public void SendFriendRequestAsync(string myEmail, string theirEmail)
     {
-        List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
-        List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
+        DocumentSnapshot myUserDoc = await GetOtherUserTask(myEmail);
+        UserData myUserData = ProcessUserDocument(myUserDoc);
 
+        DocumentSnapshot theirUserDoc = await GetOtherUserTask(theirEmail);
+        UserData theirUserData = ProcessUserDocument(theirUserDoc);
+
+        List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
         List<string> myFriendsList = new List<string>(myUserData.friends);
+
+        List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
         List<string> theirFriendsList = new List<string>(theirUserData.friends);
+
+        bool isDuplicateFriendRequest = false;
+
+        //checks if friend request already sent by the user
+        foreach (string friendRequest in theirUserData.friendRequests)
+        {
+            Debug.Log(friendRequest);
+            if (myEmail == friendRequest)
+            {
+                isDuplicateFriendRequest = true;
+                Debug.Log("You already sent this user a friend request...");
+            }
+        }
+
+        Debug.Log("isDuplicateFriendRequest: " + isDuplicateFriendRequest);
+
+        //checks if user is already a friend
+        bool isAlreadyMyFriend = false;
+
+        foreach (string friend in myUserData.friends)
+        {
+            Debug.Log(friend);
+            if (theirEmail == friend)
+            {
+                isAlreadyMyFriend = true;
+                Debug.Log("This user is already your friend! :P");
+            }
+        }
+
+        Debug.Log("isAlreadyMyFriend: " + isAlreadyMyFriend);
+
+        if (theirEmail != myEmail && theirEmail != null && !isDuplicateFriendRequest && !isAlreadyMyFriend)
+        {
+            theirFriendRequestsList.Add(myEmail);
+
+            Dictionary<string, object> theirFriendRequestsDict = new Dictionary<string, object>
+            {
+                { "friendRequests", theirFriendRequestsList }
+            };
+            db.Document("user/" + theirEmail).UpdateAsync(theirFriendRequestsDict);
+
+            Debug.Log("Friend Request Sent to " + theirEmail + "!");    
+        }
+        else
+        {
+            Debug.Log("Friend Request cannot be sent...");
+        }
     }
 
     public bool SendFriendRequest(List<string> friends, List<string> friendRequests, string receiverEmail, string senderEmail, string description = "Hi, I would like to be your friend!")
