@@ -211,7 +211,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    public void SearchFriendRequests(string myEmail)
+    public void SearchContacts(string myEmail)
     {
         UserData userData;
         Query usernameQuery = db.Collection("user").WhereEqualTo("email", myEmail);
