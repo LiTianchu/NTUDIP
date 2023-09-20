@@ -134,14 +134,9 @@ public class AuthManager : Singleton<AuthManager>
                 //raise event
                 LoginConfirm?.Invoke("Logged In");
                 emailData = _email;
-                UserBackendManager.Instance.CurrentUserRetrieved += LoadEditProfile;
-                void LoadEditProfile(UserData user)
-                {
-                    AppManager.Instance.LoadScene(landingScene);
-                    UserBackendManager.Instance.CurrentUserRetrieved -= LoadEditProfile;
-                }
-                UserBackendManager.Instance.GetCurrentUser();
-                
+
+                UserBackendManager.Instance.GetUserByEmailTask(emailData);
+                AppManager.Instance.LoadScene(landingScene);              
 
             }
             else
