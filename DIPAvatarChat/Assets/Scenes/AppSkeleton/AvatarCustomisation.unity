@@ -3496,7 +3496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45882353, g: 0.4627451, b: 0.77254903, a: 1}
+  m_Color: {r: 0.6509804, g: 0.54509807, b: 0.85882354, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3990,7 +3990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 79fbc64194a37a44f816acc0b80b2313, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.56431276
+      value: 3.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 79fbc64194a37a44f816acc0b80b2313, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9765,8 +9765,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Customisation
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6d8f9e94a2cea9542bb3861f54b8492d, type: 2}
+  m_sharedMaterial: {fileID: 7706850775573256292, guid: 6d8f9e94a2cea9542bb3861f54b8492d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11250,7 +11250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2bce30f555f46ae4a90ee7a2a78d41e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.2493
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2bce30f555f46ae4a90ee7a2a78d41e7, type: 3}
       propertyPath: m_LocalPosition.y
