@@ -195,7 +195,45 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    public bool AcceptFriendRequest(string myEmail, string friendRequestEmail, List<string> friends, List<string> friendRequests)
+    public void AcceptFriendRequest(string myEmail, string theirEmail, List<string> myFriendRequestsList, List<string> theirFriendRequestsList, List<string> myFriendsList, List<string> theirFriendsList)
+    {
+        myFriendsList.Add(theirEmail);
+        myFriendRequestsList.Remove(theirEmail);
+
+        Dictionary<string, object> myUserData = new Dictionary<string, object>
+        {
+            { "friends", myFriendsList },
+            { "friendRequests", myFriendRequestsList }
+        };
+
+        theirFriendsList.Add(myEmail);
+
+        Dictionary<string, object> theirUserData = new Dictionary<string, object>
+        {
+            { "friends", theirFriendsList }
+        };
+
+        Debug.Log("Friend Request from " + theirEmail + " accepted! :)");
+
+        db.Document("user/" + myEmail).UpdateAsync(myUserData);
+        db.Document("user/" + theirEmail).UpdateAsync(theirUserData);
+    }
+
+    public void RejectFriendRequest(string myEmail, string theirEmail, List<string> myFriendRequestsList)
+    {
+        myFriendRequestsList.Remove(theirEmail);
+
+        Dictionary<string, object> myUserData = new Dictionary<string, object>
+        {
+            { "friendRequests", myFriendRequestsList }
+        };
+
+        Debug.Log("Friend Request from " + theirEmail + " rejected! :<");
+
+        db.Document("user/" + myEmail).UpdateAsync(myUserData);
+    }
+
+    /*public bool AcceptFriendRequest(string myEmail, string friendRequestEmail, List<string> friends, List<string> friendRequests)
     {
         List<string> friendsList = new List<string>(friends);
         List<string> friendRequestsList = new List<string>(friendRequests);
@@ -222,9 +260,9 @@ public class UserBackendManager : Singleton<UserBackendManager>
             return false;
         }
         return true;
-    }
+    }*/
 
-    public bool RejectFriendRequest(string myEmail, string friendRequestEmail, List<string> friendRequests)
+    public bool RejectFriendRequest2(string myEmail, string friendRequestEmail, List<string> friendRequests)
     {
         List<string> friendRequestsList = new List<string>(friendRequests);
 
