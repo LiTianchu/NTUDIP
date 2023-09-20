@@ -73,12 +73,12 @@ public class AuthManager : Singleton<AuthManager>
         StartCoroutine(Register(email, password));
     }
 
-    /*//Function for the Reseet Password Function
+    //Function for the Reseet Password Function
     public void StartPasswordReset(string email)
     {
         // Call the password reset coroutine passing the email
         StartCoroutine(ResetPassword(email));
-    }*/
+    }
 
 
     //Login Function
@@ -287,7 +287,7 @@ public class AuthManager : Singleton<AuthManager>
         }
     }
     // Reset Password Function
-    /*private IEnumerator ResetPassword(string _email)
+    private IEnumerator ResetPassword(string _email)
     {
         // Input validation (you can customize this as needed)
         if (string.IsNullOrEmpty(_email) || !IsValidEmail(_email))
@@ -314,5 +314,5 @@ public class AuthManager : Singleton<AuthManager>
             // Display a confirmation message to the user
             LoginWarning?.Invoke("Password reset email sent. Check your inbox.");
         }
-    }*/
+    }
 }
