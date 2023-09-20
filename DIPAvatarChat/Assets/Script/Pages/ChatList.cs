@@ -2,6 +2,8 @@ using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -183,26 +185,15 @@ public class ChatList : MonoBehaviour
 
     async public void SendFriendRequest()
     {
-        //UserBackendManager.Instance.SendFriendRequestAsync(AuthManager.Instance.emailData, emailSearchBar.text);
         string myEmail = AuthManager.Instance.emailData;
         string theirEmail = emailSearchBar.text;
 
-        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(myEmail);
-        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
-
-        DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(theirEmail);
-        UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
-
-        List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
-        List<string> myFriendsList = new List<string>(myUserData.friends);
-
-        List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
-        List<string> theirFriendsList = new List<string>(theirUserData.friends);
+        List<string>[] friendAndFriendRequestLists = await GetFriendAndFriendRequestListsTask(myEmail, theirEmail);
 
         bool isDuplicateFriendRequest = false;
 
         //checks if friend request already sent by the user
-        foreach (string friendRequest in theirUserData.friendRequests)
+        foreach (string friendRequest in friendAndFriendRequestLists[1])
         {
             Debug.Log(friendRequest);
             if (myEmail == friendRequest)
@@ -217,7 +208,7 @@ public class ChatList : MonoBehaviour
         //checks if user is already a friend
         bool isAlreadyMyFriend = false;
 
-        foreach (string friend in myUserData.friends)
+        foreach (string friend in friendAndFriendRequestLists[2])
         {
             Debug.Log(friend);
             if (theirEmail == friend)
@@ -231,7 +222,7 @@ public class ChatList : MonoBehaviour
 
         if (theirEmail != myEmail && theirEmail != null && !isDuplicateFriendRequest && !isAlreadyMyFriend)
         {
-            UserBackendManager.Instance.SendFriendRequestToThem(myEmail, theirEmail, theirFriendRequestsList);
+            UserBackendManager.Instance.SendFriendRequestToThem(myEmail, theirEmail, friendAndFriendRequestLists[1]);
         }
         else
         {
@@ -297,6 +288,25 @@ public class ChatList : MonoBehaviour
         string myEmail = AuthManager.Instance.emailData;
         string theirEmail = FriendRequestBox.id;
 
+        List<string>[] friendAndFriendRequestLists = await GetFriendAndFriendRequestListsTask(myEmail, theirEmail);
+
+        UserBackendManager.Instance.AcceptFriendRequest(myEmail, theirEmail, friendAndFriendRequestLists[0], friendAndFriendRequestLists[1], friendAndFriendRequestLists[2], friendAndFriendRequestLists[3]);
+        DisplayFriendRequests();
+    }
+
+    async public void RejectFriendRequest()
+    {
+        string myEmail = AuthManager.Instance.emailData;
+        string theirEmail = FriendRequestBox.id;
+
+        List<string>[] friendAndFriendRequestLists = await GetFriendAndFriendRequestListsTask(myEmail, theirEmail);
+
+        UserBackendManager.Instance.RejectFriendRequest(myEmail, theirEmail, friendAndFriendRequestLists[0]);
+        DisplayFriendRequests();
+    }
+
+    async public Task<List<string>[]> GetFriendAndFriendRequestListsTask(string myEmail, string theirEmail)
+    {
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(myEmail);
         UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
 
@@ -304,22 +314,15 @@ public class ChatList : MonoBehaviour
         UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
 
         List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
-        List<string> myFriendsList = new List<string>(myUserData.friends);
-
         List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
+
+        List<string> myFriendsList = new List<string>(myUserData.friends);
         List<string> theirFriendsList = new List<string>(theirUserData.friends);
 
-        UserBackendManager.Instance.AcceptFriendRequestFromThem(myEmail, theirEmail, myFriendRequestsList, theirFriendRequestsList, myFriendsList, theirFriendsList);
-        DisplayFriendRequests();
-    }
+        //List<string>[] friendAndFriendRequestLists = new List<string>[4];
+        List<string>[] friendAndFriendRequestLists = { myFriendRequestsList, theirFriendRequestsList, myFriendsList, theirFriendsList };
 
-    async public void RejectFriendRequest()
-    {
-        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
-        UserData userData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
-
-        UserBackendManager.Instance.RejectFriendRequest(userData.email, FriendRequestBox.id, userData.friendRequests);
-        DisplayFriendRequests();
+        return friendAndFriendRequestLists;
     }
 
     public void ToggleTab(GameObject Tab)
