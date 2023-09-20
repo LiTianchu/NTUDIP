@@ -233,61 +233,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
         db.Document("user/" + myEmail).UpdateAsync(myUserData);
     }
 
-    /*public bool AcceptFriendRequest(string myEmail, string friendRequestEmail, List<string> friends, List<string> friendRequests)
-    {
-        List<string> friendsList = new List<string>(friends);
-        List<string> friendRequestsList = new List<string>(friendRequests);
-
-        try
-        {
-            friendsList.Add(friendRequestEmail);
-            friendRequestsList.Remove(friendRequestEmail);
-
-            Dictionary<string, object> userData = new Dictionary<string, object>
-            {
-                { "friends", friendsList },
-                { "friendRequests", friendRequestsList }
-            };
-
-            Debug.Log("Friend Request from " + friendRequestEmail + " accepted! :)");
-
-            db.Document("user/" + myEmail).UpdateAsync(userData);
-
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Firestore Error: " + ex.Message);
-            return false;
-        }
-        return true;
-    }*/
-
-    public bool RejectFriendRequest2(string myEmail, string friendRequestEmail, List<string> friendRequests)
-    {
-        List<string> friendRequestsList = new List<string>(friendRequests);
-
-        try
-        {
-            friendRequestsList.Remove(friendRequestEmail);
-
-            Dictionary<string, object> userData = new Dictionary<string, object>
-            {
-                { "friendRequests", friendRequestsList }
-            };
-
-            Debug.Log("Friend Request from " + friendRequestEmail + " rejected... :(");
-
-            db.Document("user/" + myEmail).UpdateAsync(userData);
-
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Firestore Error: " + ex.Message);
-            return false;
-        }
-        return true;
-    }
-
     public UserData ProcessUserDocument(DocumentSnapshot documentSnapShot)
     {
         Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));

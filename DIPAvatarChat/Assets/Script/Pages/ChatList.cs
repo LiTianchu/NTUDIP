@@ -27,10 +27,6 @@ public class ChatList : MonoBehaviour
 
     List<string> friendRequestsList;
     List<string> friendsList;
-    string usernameData;
-    string emailData;
-    string statusData;
-    string friendRequestData;
 
     // Start is called before the first frame update
     void Start()
@@ -193,8 +189,6 @@ public class ChatList : MonoBehaviour
                 //Show the email of the friend request sender
                 box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = theirUserData.username;
                 box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = theirUserData.status;
-
-                friendRequestData = friendRequest;
             }
         }
     }
@@ -208,15 +202,9 @@ public class ChatList : MonoBehaviour
         Debug.Log(userData.friendRequests);
         Debug.Log(userData.friends);
 
-        usernameData = userData.username;
-        emailData = userData.email;
-        statusData = userData.status;
-        friendRequestsList = userData.friendRequests;
-        friendsList = userData.friends;
-
-        SearchNameDisplay.text = usernameData;
-        SearchEmailDisplay.text = emailData;
-        SearchStatusDisplay.text = statusData;
+        SearchNameDisplay.text = userData.username;
+        SearchEmailDisplay.text = userData.email;
+        SearchStatusDisplay.text = userData.status;
     }
 
     async public void AcceptFriendRequest()
@@ -255,7 +243,10 @@ public class ChatList : MonoBehaviour
         List<string> myFriendsList = new List<string>(myUserData.friends);
         List<string> theirFriendsList = new List<string>(theirUserData.friends);
 
-        //List<string>[] friendAndFriendRequestLists = new List<string>[4];
+        // friendAndFriendRequestLists[0] -> myFriendRequestsList
+        // friendAndFriendRequestLists[1] -> theirFriendRequestsList
+        // friendAndFriendRequestLists[2] -> myFriendsList
+        // friendAndFriendRequestLists[3] -> theirFriendsList
         List<string>[] friendAndFriendRequestLists = { myFriendRequestsList, theirFriendRequestsList, myFriendsList, theirFriendsList };
 
         return friendAndFriendRequestLists;

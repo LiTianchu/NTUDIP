@@ -1,5 +1,9 @@
+using Firebase.Extensions;
+using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -19,13 +23,15 @@ public class NewChat : MonoBehaviour
   string friendEmailData;
   string friendStatusData;
 
+  string testEmail = "dipgrp6@gmail.com";
+
 
   // Start is called before the first frame update
   void Start()
   {
     //attach event listeners for user data
-    UserBackendManager.Instance.SearchUserContactsReceived += DisplayAllContactsData;
-    UserBackendManager.Instance.OtherUserDataReceived += ContactsData;
+    //UserBackendManager.Instance.SearchUserContactsReceived += DisplayAllContactsData;
+    //UserBackendManager.Instance.OtherUserDataReceived += ContactsData;
   }
 
   // Update is called once per frame
@@ -37,15 +43,37 @@ public class NewChat : MonoBehaviour
   private void OnDisable()
   {
     if (!this.gameObject.scene.isLoaded) return;
-    UserBackendManager.Instance.SearchUserContactsReceived -= DisplayAllContactsData;
-    UserBackendManager.Instance.OtherUserDataReceived -= ContactsData;
+    //UserBackendManager.Instance.SearchUserContactsReceived -= DisplayAllContactsData;
+    //UserBackendManager.Instance.OtherUserDataReceived -= ContactsData;
   }
 
-  public void DisplayAllContacts()
+  async public void DisplayAllContacts()
   {
     ClearDisplay();
-    //hardcoded test
-    UserBackendManager.Instance.SearchContacts("dipgrp6@gmail.com");
+    Debug.Log(testEmail); // AUthManager.Instance.emailData;
+
+    DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(testEmail);
+    UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+
+    foreach (string friend in myUserData.friends)
+    {
+      if (friend != null && friend != "")
+      {
+        Debug.Log("Display friend: " + friend);
+
+        DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(friend);
+        UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+
+        //Clone prefab for displaying friend request
+        GameObject box = Instantiate(ContactsBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        box.transform.SetParent(GameObject.Find("ContactsContent").transform, false);
+        box.name = theirUserData.email;
+
+        //Show the email of the friend request sender
+        box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = theirUserData.username;
+        box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = theirUserData.status;
+      }
+    }
   }
 
   public void DisplayAllContactsData(UserData userData)

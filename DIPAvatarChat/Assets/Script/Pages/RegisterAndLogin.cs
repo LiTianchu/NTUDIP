@@ -20,9 +20,13 @@ public class RegisterAndLogin : MonoBehaviour
     public TMP_InputField passwordRegisterField;
     public TMP_Text warningRegisterText;
 
+    [Header("Reset Password")]
+    public TMP_InputField emailForPasswordResetField;
+
     [Header("Form")]
     public GameObject loginForm;
     public GameObject registerForm;
+    public GameObject resetPasswordForm;
 
     public static string emailData { get; set; }
 
@@ -72,6 +76,11 @@ public class RegisterAndLogin : MonoBehaviour
         AuthManager.Instance.StartRegistration(emailRegisterField.text, passwordRegisterField.text);
     }
 
+    public void PasswordResetButton()
+    {
+        AuthManager.Instance.StartPasswordReset(emailForPasswordResetField.text);
+    }
+
     private void SetLoginWarning(string warning)
     {
         ClearText();
@@ -96,7 +105,12 @@ public class RegisterAndLogin : MonoBehaviour
     }
     public void ToggleUI()
     {
-        UIManager.Instance.ToggleLoginResgister(loginForm, registerForm);
+        UIManager.Instance.ToggleLoginRegister(loginForm, registerForm);
+    }
+
+    public void ToggleResetPasswordForm()
+    {
+        UIManager.Instance.ToggleGeneralTab(resetPasswordForm);
     }
 
     private void ClearText()
