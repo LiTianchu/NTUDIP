@@ -15,10 +15,10 @@ public class ChatList : MonoBehaviour
     public TMP_Text SearchNameDisplay;
     public TMP_Text SearchEmailDisplay;
     public TMP_Text SearchStatusDisplay;
-    public GameObject searchFriendTab;
-    public GameObject searchFriendInfoTab;
-    public GameObject friendRequestsTab;
-    public GameObject friendRequestBoxPrefab;
+    public GameObject SearchFriendTab;
+    public GameObject SearchFriendInfoTab;
+    public GameObject FriendRequestsTab;
+    public GameObject FriendRequestBoxPrefab;
     public Button SendFriendRequestBtn;
 
     List<string> friendRequestsList;
@@ -173,7 +173,7 @@ public class ChatList : MonoBehaviour
 
     async public void SearchUserByEmailAsync()
     {
-        EnableSearchFriendInfoTab();
+        EnableTab(SearchFriendInfoTab);
 
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
         DisplaySearchUserData(UserBackendManager.Instance.ProcessUserDocument(userDoc));
@@ -243,7 +243,7 @@ public class ChatList : MonoBehaviour
 
     async public void DisplayFriendRequests()
     {
-        EnableFriendRequestsTab();
+        EnableTab(FriendRequestsTab);
         Debug.Log(AuthManager.Instance.emailData);
 
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
@@ -259,7 +259,7 @@ public class ChatList : MonoBehaviour
                 UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
 
                 //Clone prefab for displaying friend request
-                GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                GameObject box = Instantiate(FriendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
                 box.transform.SetParent(GameObject.Find("FriendRequestContent").transform, false);
                 box.name = theirUserData.email;
 
@@ -298,7 +298,6 @@ public class ChatList : MonoBehaviour
         UserData userData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
 
         UserBackendManager.Instance.AcceptFriendRequest(userData.email, FriendRequestBox.id, userData.friends, userData.friendRequests);
-        //ClearDisplay();
         DisplayFriendRequests();
     }
 
@@ -308,38 +307,24 @@ public class ChatList : MonoBehaviour
         UserData userData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
 
         UserBackendManager.Instance.RejectFriendRequest(userData.email, FriendRequestBox.id, userData.friendRequests);
-        //ClearDisplay();
         DisplayFriendRequests();
     }
 
-    public void ToggleFriendRequestsTab()
+    public void ToggleTab(GameObject Tab)
     {
-        UIManager.Instance.ToggleGeneralTab(friendRequestsTab);
+        UIManager.Instance.ToggleGeneralTab(Tab);
         ClearDisplay();
     }
 
-    public void EnableFriendRequestsTab()
+    public void EnableTab(GameObject Tab)
     {
-        UIManager.Instance.EnableGeneralTab(friendRequestsTab);
+        UIManager.Instance.EnableGeneralTab(Tab);
         ClearDisplay();
     }
 
-    public void ToggleSearchFriendTab()
+    public void DisableTab(GameObject Tab)
     {
-        UIManager.Instance.ToggleGeneralTab(searchFriendTab);
-        ClearDisplay();
-        DisableSearchFriendInfoTab();
-    }
-
-    public void EnableSearchFriendInfoTab()
-    {
-        UIManager.Instance.EnableGeneralTab(searchFriendInfoTab);
-        ClearDisplay();
-    }
-
-    public void DisableSearchFriendInfoTab()
-    {
-        UIManager.Instance.DisableGeneralTab(searchFriendInfoTab);
+        UIManager.Instance.DisableGeneralTab(Tab);
         ClearDisplay();
     }
 
