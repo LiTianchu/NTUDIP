@@ -36,5 +36,16 @@ public class EditProfile : MonoBehaviour
         
     }
 
+    public void LoadAvatarCustomization(){
+
+        AppManager.Instance.LoadScene("AvatarCustomisation");
+    }
+
+    public void LoadEditProfile(){
+
+        AppManager.Instance.LoadScene("3-EditProfile");
+    }
+
+
    
 }

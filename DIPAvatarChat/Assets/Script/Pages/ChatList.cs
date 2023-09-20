@@ -22,6 +22,8 @@ public class ChatList : MonoBehaviour
     public GameObject FriendRequestsTab;
     public GameObject FriendRequestBoxPrefab;
     public Button SendFriendRequestBtn;
+    public GameObject ChatListParent;
+    public GameObject ChatListObject;
 
     List<string> friendRequestsList;
     List<string> friendsList;
@@ -33,45 +35,7 @@ public class ChatList : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        //retrieve conversation list to populate chat list
-        //List<string> conversations = UserBackendManager.Instance.currentUser.conversations;
-        //foreach (string conversationID in conversations)
-        //{
-        //    if (conversationID != null && conversationID != "")
-        //    {
-        //        ConversationBackendManager.Instance.GetConversationByID(conversationID);
-        //    }
-        //}
         PopulateChatList();
-        //attach event listeners for user data
-
-
-        //attach event listeners for conversation data
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void OnEnable()
-    {
-        //attach event listeners on enable
-        //Idk why this function is called twice when only one script is enabled in the scene
-        //After looking at forum it seems like a stupid Unity bug
-        //So I moved the event listener assignment to Start() instead - Tianchu
-
-    }
-
-    private void OnDisable()
-    {
-        //attach event listeners on disable
-        if (!this.gameObject.scene.isLoaded) return;
-
     }
 
     async public void PopulateChatList()
@@ -122,41 +86,13 @@ public class ChatList : MonoBehaviour
 
         Debug.Log("Latest Message Timestamp: " + latestMessage?.createdAt);
 
+        string displayMessage = latestMessage.message;
+        string displaySenderUsername = sender.username;
+        Timestamp displayTime = latestMessage.createdAt;
 
+        //TODO: Fill in the data for ChatListObject
 
-        //string chatOpponentEmail = "";
-        //foreach (string member in conversation.members)
-        //{
-        //    if (!member.Equals(UserBackendManager.Instance.currentUser.email))
-        //    {
-        //        chatOpponentEmail = member;
-        //        break;
-        //    }
-        //}
-
-        ////string chatDesc = conversation.description;
-        //string latestMessageID = conversation.messages[conversation.messages.Count - 1];
-
-        //FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
-
-        //db.Collection("message").Document(latestMessageID).GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        //{
-        //    DocumentSnapshot messageSnapshot = task.Result;
-        //    Dictionary<string, object> temp = messageSnapshot.ToDictionary();
-        //    MessageData messageData = MessageBackendManager.Instance.DictionaryToMessageData(temp);
-
-        //});
-        //db.Collection("user").Document(chatOpponentEmail).GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        //{
-        //    DocumentSnapshot userSnapshot = task.Result;
-        //    Dictionary<string, object> temp = userSnapshot.ToDictionary();
-        //    string opponentAvatar = temp["currentAvatar"].ToString();
-        //});
-        ////Instantiate chat thumbnail
-        //Debug.Log(chatOpponentEmail);
-        //Debug.Log(conversation.description);
-        ////TODO: Generate chat UI, use the data to spawn the chat thumbnail
-
+        Instantiate(ChatListObject, ChatListParent.transform);
     }
 
 
