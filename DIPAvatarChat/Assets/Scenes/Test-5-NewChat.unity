@@ -1168,7 +1168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa794948bfa4024448fe0f33f8bd096c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ContactsBoxPrefab: {fileID: 6115623594409533233, guid: 9041023fa152ed246950344667a53b88, type: 3}
+  ContactsBoxPrefab: {fileID: 7726203703301093251, guid: 08c33a382588a674191b08ec08c83133, type: 3}
 --- !u!1 &1851960028
 GameObject:
   m_ObjectHideFlags: 0
