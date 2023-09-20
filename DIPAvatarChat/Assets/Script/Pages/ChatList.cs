@@ -98,7 +98,7 @@ public class ChatList : MonoBehaviour
                 {
                     DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
                     latestMessage = MessageBackendManager.Instance.ProcessMessageDocument(messageDoc);
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(latestMessage.sender);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(latestMessage.sender);
                     sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                     if (sender == null)
                     {
@@ -110,7 +110,7 @@ public class ChatList : MonoBehaviour
                     //handle empty conversation
                     latestMessage = new MessageData();
                     latestMessage.message = "No messages yet";
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(conversation.members[0]);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(conversation.members[0]);
                     sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                 }
 
@@ -178,15 +178,68 @@ public class ChatList : MonoBehaviour
     {
         EnableSearchFriendInfoTab();
 
-        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(emailSearchBar.text);
+        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
         DisplaySearchUserData(UserBackendManager.Instance.ProcessUserDocument(userDoc));
 
         SendFriendRequestBtn.interactable = true;
     }
 
-    public void SendFriendRequest()
+    async public void SendFriendRequest()
     {
-        UserBackendManager.Instance.SendFriendRequestAsync(AuthManager.Instance.emailData, emailSearchBar.text);
+        //UserBackendManager.Instance.SendFriendRequestAsync(AuthManager.Instance.emailData, emailSearchBar.text);
+        string myEmail = AuthManager.Instance.emailData;
+        string theirEmail = emailSearchBar.text;
+
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(myEmail);
+        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+
+        DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(theirEmail);
+        UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+
+        List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
+        List<string> myFriendsList = new List<string>(myUserData.friends);
+
+        List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
+        List<string> theirFriendsList = new List<string>(theirUserData.friends);
+
+        bool isDuplicateFriendRequest = false;
+
+        //checks if friend request already sent by the user
+        foreach (string friendRequest in theirUserData.friendRequests)
+        {
+            Debug.Log(friendRequest);
+            if (myEmail == friendRequest)
+            {
+                isDuplicateFriendRequest = true;
+                Debug.Log("You already sent this user a friend request...");
+            }
+        }
+
+        Debug.Log("isDuplicateFriendRequest: " + isDuplicateFriendRequest);
+
+        //checks if user is already a friend
+        bool isAlreadyMyFriend = false;
+
+        foreach (string friend in myUserData.friends)
+        {
+            Debug.Log(friend);
+            if (theirEmail == friend)
+            {
+                isAlreadyMyFriend = true;
+                Debug.Log("This user is already your friend! :P");
+            }
+        }
+
+        Debug.Log("isAlreadyMyFriend: " + isAlreadyMyFriend);
+
+        if (theirEmail != myEmail && theirEmail != null && !isDuplicateFriendRequest && !isAlreadyMyFriend)
+        {
+            UserBackendManager.Instance.SendFriendRequestToThem(myEmail, theirEmail, theirFriendRequestsList);
+        }
+        else
+        {
+            Debug.Log("Friend Request cannot be sent...");
+        }
 
         SendFriendRequestBtn.interactable = false;
     }
@@ -237,7 +290,7 @@ public class ChatList : MonoBehaviour
             {
                 Debug.Log("Display friend: " + friendRequest);
 
-                DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(friendRequest);
+                DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendRequest);
                 FriendRequestsData(UserBackendManager.Instance.ProcessUserDocument(userDoc));
                 friendRequestData = friendRequest;
             }

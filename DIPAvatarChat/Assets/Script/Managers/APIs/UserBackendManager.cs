@@ -118,7 +118,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return await usernameQuery.GetSnapshotAsync();
     }
 
-    public async Task<DocumentSnapshot> GetOtherUserTask(string email)
+    public async Task<DocumentSnapshot> GetUserByEmailTask(string email)
     {
         DocumentReference usernameQuery = db.Collection("user").Document(email);
         return await usernameQuery.GetSnapshotAsync();
@@ -144,12 +144,25 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
-    async public void SendFriendRequestAsync(string myEmail, string theirEmail)
+    public void SendFriendRequestToThem(string myEmail, string theirEmail, List<string> theirFriendRequestsList)
     {
-        DocumentSnapshot myUserDoc = await GetOtherUserTask(myEmail);
+        theirFriendRequestsList.Add(myEmail);
+
+        Dictionary<string, object> theirFriendRequestsDict = new Dictionary<string, object>
+        {
+            { "friendRequests", theirFriendRequestsList }
+        };
+        db.Document("user/" + theirEmail).UpdateAsync(theirFriendRequestsDict);
+
+        Debug.Log("Friend Request Sent to " + theirEmail + "!");
+    }
+
+    /*async public void SendFriendRequestAsync(string myEmail, string theirEmail)
+    {
+        DocumentSnapshot myUserDoc = await GetUserByEmailTask(myEmail);
         UserData myUserData = ProcessUserDocument(myUserDoc);
 
-        DocumentSnapshot theirUserDoc = await GetOtherUserTask(theirEmail);
+        DocumentSnapshot theirUserDoc = await GetUserByEmailTask(theirEmail);
         UserData theirUserData = ProcessUserDocument(theirUserDoc);
 
         List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
@@ -277,7 +290,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
             return false;
         }
         return true;
-    }
+    }*/
 
     public void SearchFriendRequests(string myEmail)
     {
