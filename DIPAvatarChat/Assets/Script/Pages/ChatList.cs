@@ -243,7 +243,7 @@ public class ChatList : MonoBehaviour
 
     async public void DisplayFriendRequests()
     {
-        ToggleFriendRequestsTab();
+        EnableFriendRequestsTab();
         Debug.Log(AuthManager.Instance.emailData);
 
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
@@ -292,23 +292,35 @@ public class ChatList : MonoBehaviour
         SearchStatusDisplay.text = statusData;
     }
 
-    public void AcceptFriendRequest()
+    async public void AcceptFriendRequest()
     {
-        UserBackendManager.Instance.AcceptFriendRequest(emailData, FriendRequestBox.id, friendsList, friendRequestsList);
-        ClearDisplay();
-        UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
+        UserData userData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+
+        UserBackendManager.Instance.AcceptFriendRequest(userData.email, FriendRequestBox.id, userData.friends, userData.friendRequests);
+        //ClearDisplay();
+        DisplayFriendRequests();
     }
 
-    public void RejectFriendRequest()
+    async public void RejectFriendRequest()
     {
-        UserBackendManager.Instance.RejectFriendRequest(emailData, FriendRequestBox.id, friendRequestsList);
-        ClearDisplay();
-        UserBackendManager.Instance.SearchFriendRequests(RegisterAndLogin.emailData);
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
+        UserData userData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+
+        UserBackendManager.Instance.RejectFriendRequest(userData.email, FriendRequestBox.id, userData.friendRequests);
+        //ClearDisplay();
+        DisplayFriendRequests();
     }
 
     public void ToggleFriendRequestsTab()
     {
         UIManager.Instance.ToggleGeneralTab(friendRequestsTab);
+        ClearDisplay();
+    }
+
+    public void EnableFriendRequestsTab()
+    {
+        UIManager.Instance.EnableGeneralTab(friendRequestsTab);
         ClearDisplay();
     }
 
@@ -329,6 +341,12 @@ public class ChatList : MonoBehaviour
     {
         UIManager.Instance.DisableGeneralTab(searchFriendInfoTab);
         ClearDisplay();
+    }
+
+    async public void GetCurrentUserData()
+    {
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
+        UserData userData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
     }
 
     public void ClearDisplay()
