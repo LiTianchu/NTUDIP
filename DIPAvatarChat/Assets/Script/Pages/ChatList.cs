@@ -43,11 +43,10 @@ public class ChatList : MonoBehaviour
         //}
         PopulateChatList();
         //attach event listeners for user data
-        UserBackendManager.Instance.SearchUserFriendRequestsReceived += DisplayFriendRequestsData;
-        UserBackendManager.Instance.OtherUserDataReceived += FriendRequestsData;
+
 
         //attach event listeners for conversation data
-        //ConversationBackendManager.Instance.ConversationDataRetrieved += GenerateChat;
+
 
     }
 
@@ -70,9 +69,7 @@ public class ChatList : MonoBehaviour
     {
         //attach event listeners on disable
         if (!this.gameObject.scene.isLoaded) return;
-        UserBackendManager.Instance.SearchUserFriendRequestsReceived -= DisplayFriendRequestsData;
-        //ConversationBackendManager.Instance.ConversationDataRetrieved -= GenerateChat;
-        UserBackendManager.Instance.OtherUserDataReceived -= FriendRequestsData;
+
     }
 
     async public void PopulateChatList()
@@ -98,7 +95,7 @@ public class ChatList : MonoBehaviour
                 {
                     DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
                     latestMessage = MessageBackendManager.Instance.ProcessMessageDocument(messageDoc);
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(latestMessage.sender);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(latestMessage.sender);
                     sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                     if (sender == null)
                     {
@@ -110,7 +107,7 @@ public class ChatList : MonoBehaviour
                     //handle empty conversation
                     latestMessage = new MessageData();
                     latestMessage.message = "No messages yet";
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(conversation.members[0]);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(conversation.members[0]);
                     sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                 }
 
@@ -178,15 +175,68 @@ public class ChatList : MonoBehaviour
     {
         EnableSearchFriendInfoTab();
 
-        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(emailSearchBar.text);
+        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
         DisplaySearchUserData(UserBackendManager.Instance.ProcessUserDocument(userDoc));
 
         SendFriendRequestBtn.interactable = true;
     }
 
-    public void SendFriendRequest()
+    async public void SendFriendRequest()
     {
-        UserBackendManager.Instance.SendFriendRequestAsync(AuthManager.Instance.emailData, emailSearchBar.text);
+        //UserBackendManager.Instance.SendFriendRequestAsync(AuthManager.Instance.emailData, emailSearchBar.text);
+        string myEmail = AuthManager.Instance.emailData;
+        string theirEmail = emailSearchBar.text;
+
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(myEmail);
+        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+
+        DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(theirEmail);
+        UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+
+        List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
+        List<string> myFriendsList = new List<string>(myUserData.friends);
+
+        List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
+        List<string> theirFriendsList = new List<string>(theirUserData.friends);
+
+        bool isDuplicateFriendRequest = false;
+
+        //checks if friend request already sent by the user
+        foreach (string friendRequest in theirUserData.friendRequests)
+        {
+            Debug.Log(friendRequest);
+            if (myEmail == friendRequest)
+            {
+                isDuplicateFriendRequest = true;
+                Debug.Log("You already sent this user a friend request...");
+            }
+        }
+
+        Debug.Log("isDuplicateFriendRequest: " + isDuplicateFriendRequest);
+
+        //checks if user is already a friend
+        bool isAlreadyMyFriend = false;
+
+        foreach (string friend in myUserData.friends)
+        {
+            Debug.Log(friend);
+            if (theirEmail == friend)
+            {
+                isAlreadyMyFriend = true;
+                Debug.Log("This user is already your friend! :P");
+            }
+        }
+
+        Debug.Log("isAlreadyMyFriend: " + isAlreadyMyFriend);
+
+        if (theirEmail != myEmail && theirEmail != null && !isDuplicateFriendRequest && !isAlreadyMyFriend)
+        {
+            UserBackendManager.Instance.SendFriendRequestToThem(myEmail, theirEmail, theirFriendRequestsList);
+        }
+        else
+        {
+            Debug.Log("Friend Request cannot be sent...");
+        }
 
         SendFriendRequestBtn.interactable = false;
     }
@@ -194,10 +244,32 @@ public class ChatList : MonoBehaviour
     async public void DisplayFriendRequests()
     {
         ToggleFriendRequestsTab();
-        Debug.Log(RegisterAndLogin.emailData);
+        Debug.Log(AuthManager.Instance.emailData);
 
-        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetCurrentUserTask();
-        DisplayFriendRequestsData(UserBackendManager.Instance.ProcessUserDocument(myUserDoc));
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
+        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+
+        foreach (string friendRequest in myUserData.friendRequests)
+        {
+            if (friendRequest != null && friendRequest != "")
+            {
+                Debug.Log("Display friend request: " + friendRequest);
+
+                DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendRequest);
+                UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+
+                //Clone prefab for displaying friend request
+                GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                box.transform.SetParent(GameObject.Find("FriendRequestContent").transform, false);
+                box.name = theirUserData.email;
+
+                //Show the email of the friend request sender
+                box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = theirUserData.username;
+                box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = theirUserData.status;
+
+                friendRequestData = friendRequest;
+            }
+        }
     }
 
     public void DisplaySearchUserData(UserData userData)
@@ -219,44 +291,6 @@ public class ChatList : MonoBehaviour
         SearchEmailDisplay.text = emailData;
         SearchStatusDisplay.text = statusData;
     }
-
-    async public void DisplayFriendRequestsData(UserData userData)
-    {
-        Debug.Log("User Data Retrieved");
-
-        usernameData = userData.username;
-        emailData = userData.email;
-        statusData = userData.status;
-        friendsList = userData.friends;
-        friendRequestsList = userData.friendRequests;
-        int i = 0;
-
-        foreach (string friendRequest in friendRequestsList)
-        {
-            if (friendRequest != null && friendRequest != "")
-            {
-                Debug.Log("Display friend: " + friendRequest);
-
-                DocumentSnapshot userDoc = await UserBackendManager.Instance.GetOtherUserTask(friendRequest);
-                FriendRequestsData(UserBackendManager.Instance.ProcessUserDocument(userDoc));
-                friendRequestData = friendRequest;
-            }
-            i++;
-        }
-    }
-
-    public void FriendRequestsData(UserData userData)
-    {
-        //Clone prefab for displaying friend request
-        GameObject box = Instantiate(friendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        box.transform.SetParent(GameObject.Find("FriendRequestContent").transform, false);
-        box.name = userData.email;
-
-        //Show the email of the friend request sender
-        box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = userData.username;
-        box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = userData.status;
-    }
-
 
     public void AcceptFriendRequest()
     {
