@@ -73,6 +73,13 @@ public class AuthManager : Singleton<AuthManager>
         StartCoroutine(Register(email, password));
     }
 
+    /*//Function for the Reseet Password Function
+    public void StartPasswordReset(string email)
+    {
+        // Call the password reset coroutine passing the email
+        StartCoroutine(ResetPassword(email));
+    }*/
+
 
     //Login Function
     private IEnumerator Login(string _email, string _password, string landingScene)
@@ -284,24 +291,33 @@ public class AuthManager : Singleton<AuthManager>
             return false;
         }
     }
-    /*Reset Password Function
-     private IEnumerator ResetPassword(string _email)
-     {
-         Task resetTask = auth.SendPasswordResetEmailAsync(_email);
-         yield return new WaitUntil(() => resetTask.IsCompleted);
+    // Reset Password Function
+    /*private IEnumerator ResetPassword(string _email)
+    {
+        // Input validation (you can customize this as needed)
+        if (string.IsNullOrEmpty(_email) || !IsValidEmail(_email))
+        {
+            LoginWarning?.Invoke("Invalid email format.");
+            yield break; // Exit the method if the email format is invalid
+        }
 
-         if (resetTask.Exception != null)
-         {
-             // Handle password reset errors
-             Debug.LogWarning($"Failed to reset password with error: {resetTask.Exception.Message}");
-             // Display an error message to the user
-             warningLoginText.text = "Password reset failed. Check your email address.";
-         }
-         else
-         {
-             // Password reset email sent successfully
-             // Display a confirmation message to the user
-             warningLoginText.text = "Password reset email sent. Check your inbox.";
-         }
-     }*/
+        // Call the Firebase auth password reset function passing the email
+        Task resetTask = auth.SendPasswordResetEmailAsync(_email);
+
+        // Wait until the task completes
+        yield return new WaitUntil(() => resetTask.IsCompleted);
+
+        if (resetTask.Exception != null)
+        {
+            // Handle password reset errors
+            Debug.LogWarning($"Failed to reset password with error: {resetTask.Exception.Message}");
+            LoginWarning?.Invoke("Password reset failed. Check your email address.");
+        }
+        else
+        {
+            // Password reset email sent successfully
+            // Display a confirmation message to the user
+            LoginWarning?.Invoke("Password reset email sent. Check your inbox.");
+        }
+    }*/
 }
