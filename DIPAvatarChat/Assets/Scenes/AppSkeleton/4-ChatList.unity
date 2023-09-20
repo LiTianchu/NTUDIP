@@ -2887,11 +2887,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 692963940}
         m_TargetAssemblyTypeName: ChatList, Assembly-CSharp
-        m_MethodName: ToggleFriendRequestsTab
-        m_Mode: 1
+        m_MethodName: ToggleTab
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 2039998217}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3903,10 +3903,10 @@ MonoBehaviour:
   SearchNameDisplay: {fileID: 397981290}
   SearchEmailDisplay: {fileID: 1527988024}
   SearchStatusDisplay: {fileID: 909343368}
-  searchFriendTab: {fileID: 20452129}
-  searchFriendInfoTab: {fileID: 1072965225}
-  friendRequestsTab: {fileID: 2039998217}
-  friendRequestBoxPrefab: {fileID: 6115623594409533233, guid: 76722a8517004ec41a3c720dc818d777, type: 3}
+  SearchFriendTab: {fileID: 20452129}
+  SearchFriendInfoTab: {fileID: 1072965225}
+  FriendRequestsTab: {fileID: 2039998217}
+  FriendRequestBoxPrefab: {fileID: 6115623594409533233, guid: 76722a8517004ec41a3c720dc818d777, type: 3}
   SendFriendRequestBtn: {fileID: 966141239}
 --- !u!1 &719591561
 GameObject:
@@ -5362,11 +5362,23 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 692963940}
         m_TargetAssemblyTypeName: ChatList, Assembly-CSharp
-        m_MethodName: ToggleSearchFriendTab
-        m_Mode: 1
+        m_MethodName: ToggleTab
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 20452129}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 692963940}
+        m_TargetAssemblyTypeName: ChatList, Assembly-CSharp
+        m_MethodName: DisableTab
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1072965225}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6892,11 +6904,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 692963940}
         m_TargetAssemblyTypeName: ChatList, Assembly-CSharp
-        m_MethodName: ToggleSearchFriendTab
-        m_Mode: 1
+        m_MethodName: ToggleTab
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 20452129}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
