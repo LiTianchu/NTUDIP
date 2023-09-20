@@ -6,10 +6,17 @@ public class UIManager : Singleton<UIManager>
 {
 
     //Functions to change the login screen UI
-    public void ToggleLoginResgister(GameObject loginUI,GameObject registerUI) //Back button
+    public void ToggleLoginRegister(GameObject loginUI, GameObject registerUI) //Back button
     {
         loginUI.SetActive(!loginUI.activeSelf);
         registerUI.SetActive(!registerUI.activeSelf);
+    }
+
+    public void ToggleThreeTabs(GameObject DisplayTab, GameObject HideTab1, GameObject HideTab2)
+    {
+        DisplayTab.SetActive(true);
+        HideTab1.SetActive(false);
+        HideTab2.SetActive(false);
     }
 
     //General Function to open another UI in the same scene

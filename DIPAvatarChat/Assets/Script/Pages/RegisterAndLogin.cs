@@ -96,7 +96,12 @@ public class RegisterAndLogin : MonoBehaviour
     }
     public void ToggleUI()
     {
-        UIManager.Instance.ToggleLoginResgister(loginForm, registerForm);
+        UIManager.Instance.ToggleLoginRegister(loginForm, registerForm);
+    }
+
+    public void ToggleThreeTabs(GameObject DisplayTab, GameObject HideTab1, GameObject HideTab2)
+    {
+        UIManager.Instance.ToggleThreeTabs(DisplayTab, HideTab1, HideTab2);
     }
 
     private void ClearText()
