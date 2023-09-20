@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1960,6 +1960,7 @@ MonoBehaviour:
   emailRegisterField: {fileID: 607102125}
   passwordRegisterField: {fileID: 1520488315}
   warningRegisterText: {fileID: 2089962745}
+  emailForPasswordResetField: {fileID: 1289384291}
   loginForm: {fileID: 507274727}
   registerForm: {fileID: 1745583581}
   resetPasswordForm: {fileID: 1129731397}
@@ -4139,7 +4140,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 510042581}
         m_TargetAssemblyTypeName: RegisterAndLogin, Assembly-CSharp
-        m_MethodName: RegisterButton
+        m_MethodName: PasswordResetButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4774,7 +4775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1146954246
