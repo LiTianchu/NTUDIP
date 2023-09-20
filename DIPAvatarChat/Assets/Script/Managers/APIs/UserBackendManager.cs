@@ -195,6 +195,30 @@ public class UserBackendManager : Singleton<UserBackendManager>
         });
     }
 
+    public void AcceptFriendRequestFromThem(string myEmail, string theirEmail, List<string> myFriendRequestsList, List<string> theirFriendRequestsList, List<string> myFriendsList, List<string> theirFriendsList)
+    {
+        myFriendsList.Add(theirEmail);
+        myFriendRequestsList.Remove(theirEmail);
+
+        Dictionary<string, object> myUserData = new Dictionary<string, object>
+        {
+            { "friends", myFriendsList },
+            { "friendRequests", myFriendRequestsList }
+        };
+
+        theirFriendsList.Add(myEmail);
+
+        Dictionary<string, object> theirUserData = new Dictionary<string, object>
+        {
+            { "friends", theirFriendsList }
+        };
+
+        Debug.Log("Friend Request from " + theirEmail + " accepted! :)");
+
+        db.Document("user/" + myEmail).UpdateAsync(myUserData);
+        db.Document("user/" + theirEmail).UpdateAsync(theirUserData);
+    }
+
     public bool AcceptFriendRequest(string myEmail, string friendRequestEmail, List<string> friends, List<string> friendRequests)
     {
         List<string> friendsList = new List<string>(friends);

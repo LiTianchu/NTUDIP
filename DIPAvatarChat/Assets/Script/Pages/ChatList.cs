@@ -294,10 +294,22 @@ public class ChatList : MonoBehaviour
 
     async public void AcceptFriendRequest()
     {
-        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
-        UserData userData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+        string myEmail = AuthManager.Instance.emailData;
+        string theirEmail = FriendRequestBox.id;
 
-        UserBackendManager.Instance.AcceptFriendRequest(userData.email, FriendRequestBox.id, userData.friends, userData.friendRequests);
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(myEmail);
+        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+
+        DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(theirEmail);
+        UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+
+        List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
+        List<string> myFriendsList = new List<string>(myUserData.friends);
+
+        List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
+        List<string> theirFriendsList = new List<string>(theirUserData.friends);
+
+        UserBackendManager.Instance.AcceptFriendRequestFromThem(myEmail, theirEmail, myFriendRequestsList, theirFriendRequestsList, myFriendsList, theirFriendsList);
         DisplayFriendRequests();
     }
 
