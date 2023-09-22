@@ -3,7 +3,17 @@ guid: 6e14339b57d85854fb666f6d99c79f81
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyeBakedMat
+    second: {fileID: 2100000, guid: 244f94f4c92ff6146a84be375aef4a49, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: e308b2f564c70ac4a82ec987416f85e8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
