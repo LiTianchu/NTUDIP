@@ -336,6 +336,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22932795}
   m_CullTransparentMesh: 1
+--- !u!1 &45423073 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3015680293471118793, guid: cfbc62d7e9ef99d4a9acbf84bfc61b5e, type: 3}
+  m_PrefabInstance: {fileID: 4035237730113832044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &58328282
 GameObject:
   m_ObjectHideFlags: 0
@@ -2638,6 +2643,11 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &514560638 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4019391331894883505, guid: cfbc62d7e9ef99d4a9acbf84bfc61b5e, type: 3}
+  m_PrefabInstance: {fileID: 4035237730113832044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3908,8 +3918,8 @@ MonoBehaviour:
   FriendRequestsTab: {fileID: 2039998217}
   FriendRequestBoxPrefab: {fileID: 7726203703301093251, guid: 89315bbbee64282408dae687884e0f93, type: 3}
   SendFriendRequestBtn: {fileID: 966141239}
-  ChatListParent: {fileID: 0}
-  ChatListObject: {fileID: 0}
+  ChatListParent: {fileID: 514560638}
+  ChatListObject: {fileID: 45423073}
 --- !u!1 &719591561
 GameObject:
   m_ObjectHideFlags: 0

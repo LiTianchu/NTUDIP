@@ -87,8 +87,26 @@ public class ChatList : MonoBehaviour
         Timestamp displayTime = latestMessage.createdAt;
 
         //TODO: Fill in the data for ChatListObject
+        // Instantiate the ChatListObject (ChatDisplayBox) prefab
+GameObject chatListItem = Instantiate(ChatListObject, ChatListParent.transform);
 
-        Instantiate(ChatListObject, ChatListParent.transform);
+// Access the Text components within the prefab
+TMP_Text timeText = chatListItem.transform.Find("Time").GetComponent<TMP_Text>();
+TMP_Text usernameText = chatListItem.transform.Find("UserInfo/Username").GetComponent<TMP_Text>();
+TMP_Text messageText = chatListItem.transform.Find("UserInfo/LatestMessage").GetComponent<TMP_Text>();
+
+
+
+// Set the text values based on your latestMessage and sender data
+messageText.text = latestMessage?.message;
+usernameText.text = sender?.username;
+timeText.text = latestMessage?.createdAt.ToString(); // You may need to format the timestamp as per your requirements
+
+
+
+
+
+        //Instantiate(ChatListObject, ChatListParent.transform);
     }
 
 
