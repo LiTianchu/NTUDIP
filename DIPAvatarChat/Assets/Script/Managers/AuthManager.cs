@@ -1,5 +1,6 @@
 using Firebase;
 using Firebase.Auth;
+using Firebase.Extensions;
 using Firebase.Firestore;
 using Palmmedia.ReportGenerator.Core.Logging;
 using System;
@@ -135,8 +136,10 @@ public class AuthManager : Singleton<AuthManager>
                 LoginConfirm?.Invoke("Logged In");
                 emailData = _email;
 
-                UserBackendManager.Instance.GetUserByEmailTask(emailData);
-                AppManager.Instance.LoadScene(landingScene);              
+                UserBackendManager.Instance.GetUserByEmailTask(emailData).ContinueWithOnMainThread(task => {
+                    AppManager.Instance.LoadScene(landingScene);
+                });
+                        
 
             }
             else

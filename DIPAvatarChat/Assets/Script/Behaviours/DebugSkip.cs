@@ -19,10 +19,10 @@ public class DebugSkip : MonoBehaviour
     public void Skip(string landingScene)
     {
         AuthManager.Instance.StartLogin("dipgrp6@gmail.com", "Dip12345_", landingScene);
-        RegisterAndLogin.emailData = "dipgrp6@gmail.com";
-        if (UserBackendManager.Instance.UpdateUsernameAndStatus("DIP Tester", "Hi, I'm a tester!"))
-        {
-            AppManager.Instance.LoadScene("4-ChatList");
-        }
+        //RegisterAndLogin.emailData = "dipgrp6@gmail.com";
+        //if (UserBackendManager.Instance.UpdateUsernameAndStatus("DIP Tester", "Hi, I'm a tester!"))
+        //{
+        //    AppManager.Instance.LoadScene("4-ChatList");
+        //}
     }
 }
