@@ -10,6 +10,8 @@ public class EditProfile : MonoBehaviour
     public TMP_InputField usernameField;
     public TMP_InputField statusField;
     public Button submitButton;
+    public TMP_Text errorMessage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,9 +24,12 @@ public class EditProfile : MonoBehaviour
         
     }
 
+
     public void SaveProfile() {
         string username = usernameField.text;
         string status = statusField.text;
+
+
         if (!string.IsNullOrEmpty(username))
         {
             if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status))
@@ -32,7 +37,12 @@ public class EditProfile : MonoBehaviour
 
                 AppManager.Instance.LoadScene("4-ChatList");
             }
+            
         }
+        else
+        {
+            errorMessage.text = "Field cannot be empty";
+        }      
         
     }
 
