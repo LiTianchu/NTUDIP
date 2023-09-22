@@ -114,8 +114,17 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     public async Task<DocumentSnapshot> GetUserByEmailTask(string email)
     {
-        DocumentReference usernameQuery = db.Collection("user").Document(email);
-        return await usernameQuery.GetSnapshotAsync();
+        DocumentSnapshot doc = null;
+        try
+        {
+            DocumentReference usernameDoc = db.Collection("user").Document(email);
+            doc = await usernameDoc.GetSnapshotAsync();
+            currentUser = ProcessUserDocument(doc);
+        }catch(Exception ex) {             
+            Debug.LogError("Firestore Error: " + ex.Message);
+               
+        }
+        return doc;
     }
 
 
