@@ -29,30 +29,22 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
     }
 
     
-    public void GetAllMessages(string conversationID)
+    public async Task<QuerySnapshot> GetAllMessagesTask(string conversationID)
     {
-        List<MessageData> messages = new List<MessageData>();
-        Query messageQuery = db.Collection("message").WhereEqualTo("conversationID", conversationID);
-
-        //this function is Async, so the return value does not work here.
-        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
-        messageQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        db = FirebaseFirestore.DefaultInstance;
+        QuerySnapshot messagesDoc = null;
+        try
         {
-            QuerySnapshot snapshot = task.Result;
-            foreach(DocumentSnapshot documentSnapShot in snapshot.Documents)
-            {
-                Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
-                Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-               
-                MessageData messageData = DictionaryToMessageData(temp);
-                messages.Add(messageData);
-
-                //invoke the event
-                MessageListRetrieved?.Invoke(messages);
-            }
-            
-        });
-       
+            Query messageQuery = db.Collection("message").WhereEqualTo("conversationID", conversationID);
+            messagesDoc = await messageQuery.GetSnapshotAsync();
+        }catch (Exception e)
+        {
+            Debug.LogError("Error getting messages: " + e.Message);
+        }
+        if (messagesDoc == null) { 
+            Debug.LogError("Error getting messages: messagesDoc is null");  
+        }
+        return messagesDoc;
         
     }
 
