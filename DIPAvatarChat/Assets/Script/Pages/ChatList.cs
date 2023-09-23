@@ -23,7 +23,6 @@ public class ChatList : MonoBehaviour
     public GameObject FriendRequestBoxPrefab;
     public Button SendFriendRequestBtn;
     public GameObject ChatListParent;
-    public GameObject ChatListObject;
 
     List<string> friendRequestsList;
     List<string> friendsList;
@@ -260,10 +259,12 @@ public class ChatList : MonoBehaviour
         return friendAndFriendRequestLists;
     }
 
-    public void ToggleTab(GameObject Tab)
-    {
-        UIManager.Instance.ToggleGeneralTab(Tab);
+    public void CloseSearchFriendTab()
+    {   
+        UIManager.Instance.DisableGeneralTab(SearchFriendTab);
+        UIManager.Instance.DisableGeneralTab(SearchFriendInfoTab);
         ClearDisplay();
+        PopulateChatList();
     }
 
     public void EnableTab(GameObject Tab)
@@ -276,6 +277,7 @@ public class ChatList : MonoBehaviour
     {
         UIManager.Instance.DisableGeneralTab(Tab);
         ClearDisplay();
+        PopulateChatList();
     }
 
     async public void GetCurrentUserData()
