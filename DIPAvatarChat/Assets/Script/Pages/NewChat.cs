@@ -48,6 +48,11 @@ public class NewChat : MonoBehaviour
     //UserBackendManager.Instance.OtherUserDataReceived -= ContactsData;
   }
 
+  public void ChatList()
+  {
+    AppManager.Instance.LoadScene("4-ChatList");
+  }
+
   async public void DisplayAllContacts()
   {
     ClearDisplay();

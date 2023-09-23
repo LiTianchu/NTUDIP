@@ -73,43 +73,33 @@ public class ChatList : MonoBehaviour
                     sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                 }
 
+                Debug.Log("Latest Message: " + latestMessage?.message);
+                Debug.Log("Latest Sender: " + sender?.username);
 
+                Debug.Log("Latest Message Timestamp: " + latestMessage?.createdAt);
+
+                string displayMessage = latestMessage.message;
+                string displaySenderUsername = sender.username;
+                Timestamp displayTime = latestMessage.createdAt;
+
+                //TODO: Fill in the data for ChatListObject
+                // Instantiate the ChatListObject (ChatDisplayBox) prefab
+                GameObject chatListItem = Instantiate(ChatListParent, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                chatListItem.transform.SetParent(GameObject.Find("ChatListContent").transform, false);
+                chatListItem.name = sender.email;
+
+                // Access the Text components within the prefab
+                TMP_Text timeText = chatListItem.transform.Find("ChatDisplayBoxBtn/Time").GetComponent<TMP_Text>();
+                TMP_Text usernameText = chatListItem.transform.Find("ChatDisplayBoxBtn/UserInfo/Username").GetComponent<TMP_Text>();
+                TMP_Text messageText = chatListItem.transform.Find("ChatDisplayBoxBtn/UserInfo/LatestMessage").GetComponent<TMP_Text>();
+
+                // Set the text values based on your latestMessage and sender data
+                messageText.text = latestMessage?.message;
+                usernameText.text = sender?.username;
+                timeText.text = latestMessage?.createdAt.ToString(); // You may need to format the timestamp as per your requirements
             }
         }
-
-        Debug.Log("Latest Message: " + latestMessage?.message);
-        Debug.Log("Latest Sender: " + sender?.username);
-
-        Debug.Log("Latest Message Timestamp: " + latestMessage?.createdAt);
-
-        string displayMessage = latestMessage.message;
-        string displaySenderUsername = sender.username;
-        Timestamp displayTime = latestMessage.createdAt;
-
-        //TODO: Fill in the data for ChatListObject
-        // Instantiate the ChatListObject (ChatDisplayBox) prefab
-        GameObject chatListItem = Instantiate(ChatListObject, ChatListParent.transform);
-
-        // Access the Text components within the prefab
-        TMP_Text timeText = chatListItem.transform.Find("Time").GetComponent<TMP_Text>();
-        TMP_Text usernameText = chatListItem.transform.Find("UserInfo/Username").GetComponent<TMP_Text>();
-        TMP_Text messageText = chatListItem.transform.Find("UserInfo/LatestMessage").GetComponent<TMP_Text>();
-
-
-
-        // Set the text values based on your latestMessage and sender data
-        messageText.text = latestMessage?.message;
-        usernameText.text = sender?.username;
-        timeText.text = latestMessage?.createdAt.ToString(); // You may need to format the timestamp as per your requirements
-
-
-
-
-
-        //Instantiate(ChatListObject, ChatListParent.transform);
     }
-
-
 
     public void NewChat()
     {
