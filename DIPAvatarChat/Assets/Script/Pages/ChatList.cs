@@ -41,14 +41,15 @@ public class ChatList : MonoBehaviour
         UserData sender = null;
 
         List<string> conversations = AuthManager.Instance.currUser.conversations;
-
-        foreach (string conversationID in conversations)
+        
+        //foreach (string conversationID in conversations)
+        for (int i = conversations.Count - 1; i >= 0; i--)
         {
 
-            if (conversationID != null && conversationID != "")
+            if (conversations[i] != null && conversations[i] != "")
             {
                 //get conversation document
-                DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversationID);
+                DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversations[i]);
                 conversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
 
                 //get message document and retrieve the message details and the user
@@ -95,9 +96,36 @@ public class ChatList : MonoBehaviour
                 // Set the text values based on your latestMessage and sender data
                 messageText.text = latestMessage?.message;
                 usernameText.text = sender?.username;
-                timeText.text = latestMessage?.createdAt.ToString().Substring(22, 5); // You may need to format the timestamp as per your requirements
+                timeText.text = ChatTimestamp(latestMessage.createdAt);
+                //timeText.text = latestMessage?.createdAt.ToString().Substring(22, 5); 
+                // Timestamp class Format -> Timestamp: 1970-01-01T00:00:00Z
             }
         }
+    }
+    public string ChatTimestamp(Timestamp timestamp)
+    {
+        DateTime chatTime = timestamp.ToDateTime();
+        DateTime currentTime = DateTime.Now;
+
+        Debug.Log(currentTime.ToString());
+        Debug.Log(chatTime.ToString());
+
+        if (chatTime.Day == currentTime.Day)
+        {
+            return (chatTime.Hour + ":" + chatTime.Day);
+        }
+
+        if (chatTime.Month == currentTime.Month && chatTime.Day + 7 > currentTime.Day)
+        {
+            return (chatTime.ToString("ddd"));
+        }
+
+        if (chatTime.Year == currentTime.Year)
+        {
+            return (chatTime.ToString("MMM dd"));
+        }
+
+        return chatTime.ToString("d");
     }
 
     public void NewChat()
