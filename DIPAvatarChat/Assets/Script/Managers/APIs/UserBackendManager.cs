@@ -18,7 +18,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     FirebaseFirestore db;
 
     //cache
-    public UserData currentUser { get; set; }
+    //public UserData currentUser { get; set; }
 
     //events
     public event Action<UserData> SearchUserFriendRequestsReceived;
@@ -121,7 +121,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
         {
             DocumentReference usernameDoc = db.Collection("user").Document(email);
             doc = await usernameDoc.GetSnapshotAsync();
-            currentUser = ProcessUserDocument(doc);
+            //currentUser = ProcessUserDocument(doc);
+
         }catch(Exception ex) {             
             Debug.LogError("Firestore Error: " + ex.Message);
                
