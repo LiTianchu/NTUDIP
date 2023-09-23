@@ -23,7 +23,7 @@ public class ChatList : MonoBehaviour
     public GameObject FriendRequestBoxPrefab;
     public Button SendFriendRequestBtn;
     public GameObject ChatListParent;
-
+    public GameObject ChatListObject;
     List<string> friendRequestsList;
     List<string> friendsList;
 
@@ -73,19 +73,21 @@ public class ChatList : MonoBehaviour
                     sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                 }
 
-                Debug.Log("Latest Message: " + latestMessage?.message);
-                Debug.Log("Latest Sender: " + sender?.username);
+                //Debug.Log("Latest Message: " + latestMessage?.message);
+                //Debug.Log("Latest Sender: " + sender?.username);
 
-                Debug.Log("Latest Message Timestamp: " + latestMessage?.createdAt);
+                //Debug.Log("Latest Message Timestamp: " + latestMessage?.createdAt);
 
+                string convId = conversation.conversationID;
                 string displayMessage = latestMessage.message;
                 string displaySenderUsername = sender.username;
                 Timestamp displayTime = latestMessage.createdAt;
+                
 
-                //TODO: Fill in the data for ChatListObject
+
                 // Instantiate the ChatListObject (ChatDisplayBox) prefab
-                GameObject chatListItem = Instantiate(ChatListParent, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-                chatListItem.transform.SetParent(GameObject.Find("ChatListContent").transform, false);
+                GameObject chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                chatListItem.transform.SetParent(ChatListParent.transform, false);
                 chatListItem.name = sender.email;
 
                 // Access the Text components within the prefab
