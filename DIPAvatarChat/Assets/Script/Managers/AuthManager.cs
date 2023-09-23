@@ -22,6 +22,7 @@ public class AuthManager : Singleton<AuthManager>
     //public string passwordData { get; set; }
     public string userPathData { get; set; }
     public string friendRequestPathData { get; set; }
+    public UserData currUser { get; set;}
 
     //Login events
     //Events are used to notify pages that login is successful or failed
@@ -137,6 +138,8 @@ public class AuthManager : Singleton<AuthManager>
                 emailData = _email;
 
                 UserBackendManager.Instance.GetUserByEmailTask(emailData).ContinueWithOnMainThread(task => {
+                    DocumentSnapshot currUserDoc = task.Result;
+                    this.currUser = UserBackendManager.Instance.ProcessUserDocument(currUserDoc);
                     AppManager.Instance.LoadScene(landingScene);
                 });
                         

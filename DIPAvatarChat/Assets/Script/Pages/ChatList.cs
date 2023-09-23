@@ -40,7 +40,7 @@ public class ChatList : MonoBehaviour
         MessageData latestMessage = null;
         UserData sender = null;
 
-        List<string> conversations = UserBackendManager.Instance.currentUser.conversations;
+        List<string> conversations = AuthManager.Instance.currUser.conversations;
 
         foreach (string conversationID in conversations)
         {
