@@ -95,7 +95,7 @@ public class ChatList : MonoBehaviour
                 // Set the text values based on your latestMessage and sender data
                 messageText.text = latestMessage?.message;
                 usernameText.text = sender?.username;
-                timeText.text = latestMessage?.createdAt.ToString(); // You may need to format the timestamp as per your requirements
+                timeText.text = latestMessage?.createdAt.ToString().Substring(22, 5); // You may need to format the timestamp as per your requirements
             }
         }
     }
