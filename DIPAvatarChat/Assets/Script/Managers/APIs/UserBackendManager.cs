@@ -114,6 +114,8 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     public async Task<DocumentSnapshot> GetUserByEmailTask(string email)
     {
+        db = FirebaseFirestore.DefaultInstance;
+        
         DocumentSnapshot doc = null;
         try
         {

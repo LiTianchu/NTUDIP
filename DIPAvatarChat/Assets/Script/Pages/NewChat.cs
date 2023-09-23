@@ -32,6 +32,7 @@ public class NewChat : MonoBehaviour
     //attach event listeners for user data
     //UserBackendManager.Instance.SearchUserContactsReceived += DisplayAllContactsData;
     //UserBackendManager.Instance.OtherUserDataReceived += ContactsData;
+    DisplayAllContacts();
   }
 
   // Update is called once per frame
