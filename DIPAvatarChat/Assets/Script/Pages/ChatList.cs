@@ -23,7 +23,7 @@ public class ChatList : MonoBehaviour
     public GameObject FriendRequestBoxPrefab;
     public Button SendFriendRequestBtn;
     public GameObject ChatListParent;
-
+    public GameObject ChatListObject;
     List<string> friendRequestsList;
     List<string> friendsList;
 
