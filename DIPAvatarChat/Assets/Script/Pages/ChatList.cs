@@ -38,10 +38,11 @@ public class ChatList : MonoBehaviour
         //Getting the data by task
         ConversationData conversation = null;
         MessageData latestMessage = null;
-        UserData sender = null;
+        UserData friendData = null;
+        string friendEmail = null;
 
         List<string> conversations = AuthManager.Instance.currUser.conversations;
-        
+
         //foreach (string conversationID in conversations)
         for (int i = conversations.Count - 1; i >= 0; i--)
         {
@@ -51,15 +52,24 @@ public class ChatList : MonoBehaviour
                 //get conversation document
                 DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversations[i]);
                 conversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
+                
+                foreach (string member in conversation.members)
+                {
+                    if (member != AuthManager.Instance.currUser.email)
+                    {
+                        friendEmail = member;
+                    }
+                }
 
                 //get message document and retrieve the message details and the user
                 if (conversation.messages != null && conversation.messages.Count > 0)
                 {
                     DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
                     latestMessage = MessageBackendManager.Instance.ProcessMessageDocument(messageDoc);
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(latestMessage.sender);
-                    sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
-                    if (sender == null)
+
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
+                    friendData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+                    if (friendData == null)
                     {
                         Debug.Log(latestMessage.sender + " has no corresponding document");
                     }
@@ -69,8 +79,8 @@ public class ChatList : MonoBehaviour
                     //handle empty conversation
                     latestMessage = new MessageData();
                     latestMessage.message = "No messages yet";
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(conversation.members[0]);
-                    sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
+                    friendData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                 }
 
                 //Debug.Log("Latest Message: " + latestMessage?.message);
@@ -80,15 +90,15 @@ public class ChatList : MonoBehaviour
 
                 string convId = conversation.conversationID;
                 string displayMessage = latestMessage.message;
-                string displaySenderUsername = sender.username;
+                string displaySenderUsername = friendData.username;
                 Timestamp displayTime = latestMessage.createdAt;
-                
+
 
 
                 // Instantiate the ChatListObject (ChatDisplayBox) prefab
                 GameObject chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
                 chatListItem.transform.SetParent(ChatListParent.transform, false);
-                chatListItem.name = sender.email;
+                chatListItem.name = friendData.email;
 
                 // Access the Text components within the prefab
                 TMP_Text timeText = chatListItem.transform.Find("ChatDisplayBoxBtn/Time").GetComponent<TMP_Text>();
@@ -97,7 +107,7 @@ public class ChatList : MonoBehaviour
 
                 // Set the text values based on your latestMessage and sender data
                 messageText.text = latestMessage?.message;
-                usernameText.text = sender?.username;
+                usernameText.text = friendData?.username;
                 timeText.text = ChatTimestamp(latestMessage.createdAt);
                 //timeText.text = latestMessage?.createdAt.ToString().Substring(22, 5); 
                 // Timestamp class Format -> Timestamp: 1970-01-01T00:00:00Z
@@ -125,6 +135,11 @@ public class ChatList : MonoBehaviour
         if (chatTime.Year == currentTime.Year)
         {
             return (chatTime.ToString("MMM dd"));
+        }
+
+        if (chatTime.Year <= 1970)
+        {
+            return "";
         }
 
         return chatTime.ToString("d");
@@ -290,7 +305,7 @@ public class ChatList : MonoBehaviour
     }
 
     public void CloseSearchFriendTab()
-    {   
+    {
         UIManager.Instance.DisableGeneralTab(SearchFriendTab);
         UIManager.Instance.DisableGeneralTab(SearchFriendInfoTab);
         ClearDisplay();
