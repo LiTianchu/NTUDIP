@@ -3903,7 +3903,8 @@ MonoBehaviour:
   FriendRequestsTab: {fileID: 2039998217}
   FriendRequestBoxPrefab: {fileID: 7726203703301093251, guid: 89315bbbee64282408dae687884e0f93, type: 3}
   SendFriendRequestBtn: {fileID: 966141239}
-  ChatListParent: {fileID: 5551016608129215562, guid: 786ebba9cc4153043924d313b23536ae, type: 3}
+  ChatListParent: {fileID: 1877808460}
+  ChatListObject: {fileID: 5551016608129215562, guid: 786ebba9cc4153043924d313b23536ae, type: 3}
 --- !u!1 &719591561
 GameObject:
   m_ObjectHideFlags: 0

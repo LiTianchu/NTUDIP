@@ -1,3 +1,4 @@
+using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,7 @@ public class Chat : MonoBehaviour
     void Start()
     {
         //hard coded id, need to replace with a dynamic id
-        MessageBackendManager.Instance.GetAllMessages("q12HSJSAG712HAHS1223swSD");
-        MessageBackendManager.Instance.MessageListRetrieved += PopulateMessage;
+        PopulateMessage("7SNpvqQwHcr6TWOn4n34");
     }
 
     // Update is called once per frame
@@ -21,15 +21,19 @@ public class Chat : MonoBehaviour
 
     private void OnDisable()
     {
-        MessageBackendManager.Instance.MessageListRetrieved -= PopulateMessage;
+  
     }
 
-    private void PopulateMessage(List<MessageData> messages) {
+    private async void PopulateMessage(string conversationID) {
         //TODO: Populate the data onto the UI
-        Debug.Log("Messages retrieved");
-        foreach (MessageData item in messages)
+        QuerySnapshot messages = await MessageBackendManager.Instance.GetAllMessagesTask(conversationID);
+        foreach(DocumentSnapshot message in messages.Documents)
         {
-            Debug.Log(item.message);
+            MessageData msg = message.ConvertTo<MessageData>();
+            Debug.Log(message.Id);
+            Debug.Log(msg.message);
         }
+
+        
     }
 }

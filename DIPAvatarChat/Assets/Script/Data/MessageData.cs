@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[FirestoreData]
 public class MessageData
 {
-    [FirestoreProperty]
     public string messageID { get; set; }
 
     //message content
