@@ -93,8 +93,6 @@ public class ChatList : MonoBehaviour
                 string displaySenderUsername = friendData.username;
                 Timestamp displayTime = latestMessage.createdAt;
 
-
-
                 // Instantiate the ChatListObject (ChatDisplayBox) prefab
                 GameObject chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
                 chatListItem.transform.SetParent(ChatListParent.transform, false);
