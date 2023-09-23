@@ -32,8 +32,8 @@ public class UserData
     [FirestoreProperty]
     public string name { get; set; }
 
-   // [FirestoreProperty]
-   // public string password { get; set; }
+    // [FirestoreProperty]
+    // public string password { get; set; }
 
     [FirestoreProperty]
     public string phone { get; set; }
