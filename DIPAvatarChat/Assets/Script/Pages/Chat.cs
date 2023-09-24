@@ -6,6 +6,9 @@ using UnityEngine;
 public class Chat : MonoBehaviour
 {
 
+    public GameObject MyChatBubblePrefab;
+    public GameObject TheirChatBubblePrefab;
+    
     // Start is called before the first frame update
     void Start()
     {
