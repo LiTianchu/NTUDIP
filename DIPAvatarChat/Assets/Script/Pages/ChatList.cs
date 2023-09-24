@@ -83,12 +83,7 @@ public class ChatList : MonoBehaviour
                     friendData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                 }
 
-                //Debug.Log("Latest Message: " + latestMessage?.message);
-                //Debug.Log("Latest Sender: " + sender?.username);
-
-                //Debug.Log("Latest Message Timestamp: " + latestMessage?.createdAt);
-
-                string convId = conversation.conversationID;
+                string convId = conversationDoc.Id;
                 string displayMessage = latestMessage.message;
                 string displaySenderUsername = friendData.username;
                 Timestamp displayTime = latestMessage.createdAt;
@@ -96,7 +91,7 @@ public class ChatList : MonoBehaviour
                 // Instantiate the ChatListObject (ChatDisplayBox) prefab
                 GameObject chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
                 chatListItem.transform.SetParent(ChatListParent.transform, false);
-                chatListItem.name = friendData.email;
+                chatListItem.name = convId;
 
                 // Access the Text components within the prefab
                 TMP_Text timeText = chatListItem.transform.Find("ChatDisplayBoxBtn/Time").GetComponent<TMP_Text>();
@@ -107,8 +102,6 @@ public class ChatList : MonoBehaviour
                 messageText.text = latestMessage?.message;
                 usernameText.text = friendData?.username;
                 timeText.text = ChatTimestamp(latestMessage.createdAt);
-                //timeText.text = latestMessage?.createdAt.ToString().Substring(22, 5); 
-                // Timestamp class Format -> Timestamp: 1970-01-01T00:00:00Z
             }
         }
     }

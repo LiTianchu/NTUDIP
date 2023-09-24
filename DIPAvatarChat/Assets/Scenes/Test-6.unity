@@ -1443,8 +1443,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b0e71463c5904aabae69398759374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReceiverName: {fileID: 1672023114}
   MyChatBubblePrefab: {fileID: 2280183411122101959, guid: b4cbfa439d6fccf41b5f97d3724f3aa5, type: 3}
   TheirChatBubblePrefab: {fileID: 3315573967529623260, guid: 909287860da660a4eac09c478558558a, type: 3}
+  ChatBubbleParent: {fileID: 1677432436}
 --- !u!1 &666848421
 GameObject:
   m_ObjectHideFlags: 0
