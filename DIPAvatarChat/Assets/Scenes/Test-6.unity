@@ -1443,7 +1443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b0e71463c5904aabae69398759374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReceiverName: {fileID: 1672023114}
+  RecipientName: {fileID: 1672023114}
   MyChatBubblePrefab: {fileID: 2280183411122101959, guid: b4cbfa439d6fccf41b5f97d3724f3aa5, type: 3}
   TheirChatBubblePrefab: {fileID: 3315573967529623260, guid: 909287860da660a4eac09c478558558a, type: 3}
   ChatBubbleParent: {fileID: 1677432436}
@@ -3187,7 +3187,7 @@ GameObject:
   - component: {fileID: 1672023115}
   - component: {fileID: 1672023114}
   m_Layer: 5
-  m_Name: Name
+  m_Name: RecipientName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3232,7 +3232,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Janice
+  m_text: Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

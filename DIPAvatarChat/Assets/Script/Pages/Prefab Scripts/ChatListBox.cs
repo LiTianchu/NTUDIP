@@ -22,7 +22,7 @@ public class ChatListBox : MonoBehaviour
     {
         Chat.currConvId = Box.name;
         
-        //AppManager.Instance.LoadScene("6-ChatFrontEnd");
-        AppManager.Instance.LoadScene("Test-6");
+        AppManager.Instance.LoadScene("6-ChatFrontEnd");
+        //AppManager.Instance.LoadScene("Test-6");
     }
 }

@@ -13,18 +13,22 @@ using UnityEngine.UI;
 public class Chat : MonoBehaviour
 {
 
-    public TMP_Text ReceiverName;
+    public TMP_Text RecipientName;
     public GameObject MyChatBubblePrefab;
     public GameObject TheirChatBubblePrefab;
     public GameObject ChatBubbleParent;
 
-    public static string currConvId { get; set;}
+    public static string currConvId { get; set; }
+    ConversationData currConvData;
+
+    UserData recipientUserData;
 
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
         //TODO: hard coded id, need to replace with a dynamic id
-        PopulateMessage(currConvId); // "7SNpvqQwHcr6TWOn4n34"
+        PopulateMessage(currConvId);
+        SetRecipientName();
     }
 
     // Update is called once per frame
@@ -75,5 +79,31 @@ public class Chat : MonoBehaviour
         box.transform.SetParent(ChatBubbleParent.transform, false);
 
         box.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = msgText;
+    }
+
+    public async void SetRecipientName() {
+        recipientUserData = await GetRecipientData();
+        RecipientName.text = recipientUserData.username;
+    }
+
+    public async Task<UserData> GetRecipientData()
+    {
+        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(currConvId);
+        currConvData = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
+        
+        string recipientEmail = null;
+
+        foreach (string member in currConvData.members)
+        {
+            if (member != AuthManager.Instance.currUser.email)
+            {
+                recipientEmail = member;
+            }
+        }
+
+        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);
+        UserData userData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+
+        return userData;
     }
 }
