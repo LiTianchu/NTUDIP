@@ -23,7 +23,7 @@ public class NewChat : MonoBehaviour
   string friendEmailData;
   string friendStatusData;
 
-  string testEmail = "dipgrp6@gmail.com";
+  //string testEmail = "dipgrp6@gmail.com";
 
 
   // Start is called before the first frame update
@@ -56,9 +56,9 @@ public class NewChat : MonoBehaviour
   async public void DisplayAllContacts()
   {
     ClearDisplay();
-    Debug.Log(testEmail); // AUthManager.Instance.emailData;
+    Debug.Log(AuthManager.Instance.emailData); // AuthManager.Instance.emailData;
 
-    DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(testEmail);
+    DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
     UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
 
     foreach (string friend in myUserData.friends)
