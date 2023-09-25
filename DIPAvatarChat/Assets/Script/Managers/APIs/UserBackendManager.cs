@@ -115,7 +115,7 @@ public class UserBackendManager : Singleton<UserBackendManager>
     public async Task<DocumentSnapshot> GetUserByEmailTask(string email)
     {
         db = FirebaseFirestore.DefaultInstance;
-        
+
         DocumentSnapshot doc = null;
         try
         {
@@ -123,9 +123,11 @@ public class UserBackendManager : Singleton<UserBackendManager>
             doc = await usernameDoc.GetSnapshotAsync();
             //currentUser = ProcessUserDocument(doc);
 
-        }catch(Exception ex) {             
+        }
+        catch (Exception ex)
+        {
             Debug.LogError("Firestore Error: " + ex.Message);
-               
+
         }
         return doc;
     }
@@ -243,6 +245,37 @@ public class UserBackendManager : Singleton<UserBackendManager>
         Debug.Log("Friend Request from " + theirEmail + " rejected! :<");
 
         db.Document("user/" + myEmail).UpdateAsync(myUserData);
+    }
+
+    public async Task<string> StartNewConversation(UserData currUserData, UserData theirUserData, List<string> currUserConversationsList, List<string> theirUserConversationsList)
+    {
+        Dictionary<string, object> convData = new Dictionary<string, object>
+        {
+            { "description", "This is a chat with " + theirUserData.username },
+            { "members", new List<string>() { currUserData.email, theirUserData.email } },
+            { "messages", new List<string>() { null } }
+        };
+
+        DocumentReference convDataRef = await db.Collection("conversation").AddAsync(convData);
+        string currConvId = convDataRef.Id;
+
+        currUserConversationsList.Add(currConvId);
+        theirUserConversationsList.Add(currConvId);
+
+        Dictionary<string, object> currUserConversationsDict = new Dictionary<string, object>
+        {
+            { "conversations", currUserConversationsList },
+        };
+
+        Dictionary<string, object> theirUserConversationsDict = new Dictionary<string, object>
+        {
+            { "conversations", theirUserConversationsList },
+        };
+
+        db.Document("user/" + currUserData.email).UpdateAsync(currUserConversationsDict);
+        db.Document("user/" + theirUserData.email).UpdateAsync(theirUserConversationsDict);
+
+        return currConvId;
     }
 
     public UserData ProcessUserDocument(DocumentSnapshot documentSnapShot)
