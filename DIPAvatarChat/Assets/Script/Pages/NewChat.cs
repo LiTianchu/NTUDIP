@@ -106,7 +106,7 @@ public class NewChat : MonoBehaviour
     if (currConvId == null)
     {
       Debug.Log("Start new conversation");
-      currConvId = await UserBackendManager.Instance.StartNewConversation(currUserData, theirUserData, currUserConversationsList, theirUserConversationsList);
+      currConvId = await ConversationBackendManager.Instance.StartNewConversation(currUserData, theirUserData, currUserConversationsList, theirUserConversationsList);
     }
 
     return currConvId;
