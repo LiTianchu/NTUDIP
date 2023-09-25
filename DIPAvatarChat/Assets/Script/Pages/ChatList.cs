@@ -101,13 +101,13 @@ public class ChatList : MonoBehaviour
                 // Set the text values based on your latestMessage and sender data
                 messageText.text = latestMessage?.message;
                 usernameText.text = friendData?.username;
-                timeText.text = ChatTimestamp(latestMessage.createdAt);
+                timeText.text = ChatTimestamp(displayTime);
             }
         }
     }
     public string ChatTimestamp(Timestamp timestamp)
     {
-        DateTime chatTime = timestamp.ToDateTime();
+        DateTime chatTime = timestamp.ToDateTime().AddHours(8); // Convert to Singapore Timezone
         DateTime currentTime = DateTime.Now;
 
         Debug.Log(currentTime.ToString());
@@ -115,7 +115,7 @@ public class ChatList : MonoBehaviour
 
         if (chatTime.Day == currentTime.Day)
         {
-            return (chatTime.Hour + ":" + chatTime.Day);
+            return (chatTime.Hour + ":" + chatTime.Minute);
         }
 
         if (chatTime.Month == currentTime.Month && chatTime.Day + 7 > currentTime.Day)
