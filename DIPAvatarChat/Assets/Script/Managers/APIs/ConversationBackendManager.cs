@@ -34,13 +34,23 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
     {
         Dictionary<string, object> convData = new Dictionary<string, object>
         {
-            { "description", "This is a chat with " + theirUserData.username },
-            { "members", new List<string>() { currUserData.email, theirUserData.email } },
+            { "description", null },
+            { "members", new List<string>() { null } },
             { "messages", new List<string>() { null } }
         };
 
         DocumentReference convDataRef = await db.Collection("conversation").AddAsync(convData);
         string currConvId = convDataRef.Id;
+
+        convData = new Dictionary<string, object>
+        {
+            { "conversationID", currConvId },
+            { "description", "This is a chat with " + theirUserData.username },
+            { "members", new List<string>() { currUserData.email, theirUserData.email } },
+            { "messages", new List<string>() { null } }
+        };
+
+        db.Document("conversation/" + currConvId).SetAsync(convData);
 
         currUserConversationsList.Add(currConvId);
         theirUserConversationsList.Add(currConvId);
