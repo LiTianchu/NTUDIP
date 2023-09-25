@@ -24,7 +24,7 @@ public class Chat : MonoBehaviour
     UserData recipientUserData;
 
     // Start is called before the first frame update
-    async void Start()
+    void Start()
     {
         PopulateMessage(AuthManager.Instance.currConvId);
         SetRecipientName();
@@ -55,6 +55,7 @@ public class Chat : MonoBehaviour
             if (IsMessageSent)
             {
                 PopulateMessage(AuthManager.Instance.currConvId);
+                MessageInputField.text = "";
             }
         }
     }
@@ -131,6 +132,11 @@ public class Chat : MonoBehaviour
         UserData userData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
 
         return userData;
+    }
+
+    public void ReturnToChatList()
+    {
+        AppManager.Instance.LoadScene("4-ChatList");
     }
 
     public void ClearDisplay()

@@ -18,7 +18,6 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
     private string _userPath;
 
     //declare the event
-    public event Action<List<MessageData>> MessageListRetrieved;
     public event Action<MessageData> MessageRetrieved;
 
     void Start()
@@ -93,7 +92,8 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
             Dictionary<string, object> conversationDict = new Dictionary<string, object>
             {
-                { "messages", messagesList }
+                { "messages", messagesList },
+                { "latestMessageCreatedAt", FieldValue.ServerTimestamp }
             };
 
             db.Collection("conversation").Document(currConvData.conversationID).UpdateAsync(conversationDict);

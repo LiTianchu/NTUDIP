@@ -22,7 +22,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     //events
     public event Action<UserData> SearchUserFriendRequestsReceived;
-    public event Action<UserData> CurrentUserRetrieved;
     public event Action<UserData> SearchUserContactsReceived;
     public event Action<UserData> OtherUserDataReceived;
 
