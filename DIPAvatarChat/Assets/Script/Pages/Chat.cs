@@ -20,7 +20,6 @@ public class Chat : MonoBehaviour
 
     public static string currConvId { get; set; }
     ConversationData currConvData;
-
     UserData recipientUserData;
 
     // Start is called before the first frame update
@@ -56,7 +55,7 @@ public class Chat : MonoBehaviour
                 Debug.Log(username + ": " + msgText + "   " + msgTime.ToString());
 
                 //TODO: spawn text bubble at right side of the chat
-                InstantiateChatBubble(MyChatBubblePrefab, msgText);
+                InstantiateChatBubble(MyChatBubblePrefab, msgText, message.Id);
 
             }
             else
@@ -68,15 +67,16 @@ public class Chat : MonoBehaviour
                 Debug.Log(otherUserName + ": " + msgText + "   " + msgTime.ToString());
 
                 //TODO: spawn text bubble at left side of the chat
-                InstantiateChatBubble(TheirChatBubblePrefab, msgText);
+                InstantiateChatBubble(TheirChatBubblePrefab, msgText, message.Id);
             }
         }
     }
 
-    public void InstantiateChatBubble(GameObject ChatBubblePrefab, string msgText)
+    public void InstantiateChatBubble(GameObject ChatBubblePrefab, string msgText, string messageId)
     {
         GameObject box = Instantiate(ChatBubblePrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         box.transform.SetParent(ChatBubbleParent.transform, false);
+        box.name = messageId;
 
         box.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = msgText;
     }
