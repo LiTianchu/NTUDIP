@@ -18,15 +18,14 @@ public class Chat : MonoBehaviour
     public GameObject TheirChatBubblePrefab;
     public GameObject ChatBubbleParent;
 
-    public static string currConvId { get; set; }
+    //public static string currConvId { get; set; }
     ConversationData currConvData;
     UserData recipientUserData;
 
     // Start is called before the first frame update
     async void Start()
     {
-        //TODO: hard coded id, need to replace with a dynamic id
-        PopulateMessage(currConvId);
+        PopulateMessage(AuthManager.Instance.currConvId);
         SetRecipientName();
     }
 
@@ -38,7 +37,7 @@ public class Chat : MonoBehaviour
 
     private async void PopulateMessage(string conversationID)
     {
-        //TODO: Populate the data onto the UI
+        //Populate the data onto the UI
         QuerySnapshot messages = await MessageBackendManager.Instance.GetAllMessagesTask(conversationID);
         foreach (DocumentSnapshot message in messages.Documents)
         {
@@ -54,7 +53,7 @@ public class Chat : MonoBehaviour
                 string avatar = AuthManager.Instance.currUser.currentAvatar;
                 Debug.Log(username + ": " + msgText + "   " + msgTime.ToString());
 
-                //TODO: spawn text bubble at right side of the chat
+                //Spawn text bubble at right side of the chat
                 InstantiateChatBubble(MyChatBubblePrefab, msgText, message.Id);
 
             }
@@ -66,7 +65,7 @@ public class Chat : MonoBehaviour
                 string otherUserAvatar = otherUser.currentAvatar;
                 Debug.Log(otherUserName + ": " + msgText + "   " + msgTime.ToString());
 
-                //TODO: spawn text bubble at left side of the chat
+                //Spawn text bubble at left side of the chat
                 InstantiateChatBubble(TheirChatBubblePrefab, msgText, message.Id);
             }
         }
@@ -88,7 +87,7 @@ public class Chat : MonoBehaviour
 
     public async Task<UserData> GetRecipientData()
     {
-        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(currConvId);
+        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
         currConvData = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
         
         string recipientEmail = null;

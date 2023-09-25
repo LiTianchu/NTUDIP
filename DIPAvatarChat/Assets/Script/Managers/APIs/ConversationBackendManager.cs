@@ -30,18 +30,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         return doc;
     }
 
-    public void GetConversationByID(string conversationID)
-    {
-        db = FirebaseFirestore.DefaultInstance;
-
-        DocumentReference conversationDoc = db.Collection("conversation").Document(conversationID);
-        conversationDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            ConversationData conversationData = ProcessConversationDocument(task.Result);
-            ConversationDataRetrieved?.Invoke(conversationData);
-        });
-    }
-
     public ConversationData ProcessConversationDocument(DocumentSnapshot documentSnapShot)
     {
 
