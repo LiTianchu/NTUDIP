@@ -70,6 +70,48 @@ public class NewChat : MonoBehaviour
     }
   }
 
+  public async Task<string> GetCurrConvId(UserData currUserData, string recipientEmail)
+  {
+    //db = FirebaseFirestore.DefaultInstance;
+    string currConvId = null;
+
+    DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);
+    UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+    Debug.Log("Current user email: " + currUserData.email);
+
+    List<string> currUserConversationsList = new List<string>(currUserData.conversations);
+    List<string> theirUserConversationsList = new List<string>(theirUserData.conversations);
+
+    foreach (string conversation in currUserData.conversations)
+    {
+      if (conversation != null && conversation != "")
+      {
+        Debug.Log("conversation: " + conversation);
+        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversation);
+        ConversationData currConversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
+
+        foreach (string member in currConversation.members)
+        {
+          if (recipientEmail == member)
+          {
+            // If conversation already exists
+            currConvId = conversationDoc.Id;
+            Debug.Log(currConvId);
+          }
+        }
+      }
+    }
+
+    // if conversation does not exist, start new conversation
+    if (currConvId == null)
+    {
+      Debug.Log("Start new conversation");
+      currConvId = await UserBackendManager.Instance.StartNewConversation(currUserData, theirUserData, currUserConversationsList, theirUserConversationsList);
+    }
+
+    return currConvId;
+  }
+
   public void ClearDisplay()
   {
     if (friendsList != null)
