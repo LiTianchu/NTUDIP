@@ -18,16 +18,14 @@ public class Chat : MonoBehaviour
     public GameObject TheirChatBubblePrefab;
     public GameObject ChatBubbleParent;
 
-    public static string currConvId { get; set; }
+    //public static string currConvId { get; set; }
     ConversationData currConvData;
-
     UserData recipientUserData;
 
     // Start is called before the first frame update
     async void Start()
     {
-        //TODO: hard coded id, need to replace with a dynamic id
-        PopulateMessage(currConvId);
+        PopulateMessage(AuthManager.Instance.currConvId);
         SetRecipientName();
     }
 
@@ -39,7 +37,7 @@ public class Chat : MonoBehaviour
 
     private async void PopulateMessage(string conversationID)
     {
-        //TODO: Populate the data onto the UI
+        //Populate the data onto the UI
         QuerySnapshot messages = await MessageBackendManager.Instance.GetAllMessagesTask(conversationID);
         foreach (DocumentSnapshot message in messages.Documents)
         {
@@ -55,8 +53,8 @@ public class Chat : MonoBehaviour
                 string avatar = AuthManager.Instance.currUser.currentAvatar;
                 Debug.Log(username + ": " + msgText + "   " + msgTime.ToString());
 
-                //TODO: spawn text bubble at right side of the chat
-                InstantiateChatBubble(MyChatBubblePrefab, msgText);
+                //Spawn text bubble at right side of the chat
+                InstantiateChatBubble(MyChatBubblePrefab, msgText, message.Id);
 
             }
             else
@@ -67,16 +65,17 @@ public class Chat : MonoBehaviour
                 string otherUserAvatar = otherUser.currentAvatar;
                 Debug.Log(otherUserName + ": " + msgText + "   " + msgTime.ToString());
 
-                //TODO: spawn text bubble at left side of the chat
-                InstantiateChatBubble(TheirChatBubblePrefab, msgText);
+                //Spawn text bubble at left side of the chat
+                InstantiateChatBubble(TheirChatBubblePrefab, msgText, message.Id);
             }
         }
     }
 
-    public void InstantiateChatBubble(GameObject ChatBubblePrefab, string msgText)
+    public void InstantiateChatBubble(GameObject ChatBubblePrefab, string msgText, string messageId)
     {
         GameObject box = Instantiate(ChatBubblePrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         box.transform.SetParent(ChatBubbleParent.transform, false);
+        box.name = messageId;
 
         box.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = msgText;
     }
@@ -88,7 +87,7 @@ public class Chat : MonoBehaviour
 
     public async Task<UserData> GetRecipientData()
     {
-        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(currConvId);
+        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
         currConvData = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
         
         string recipientEmail = null;

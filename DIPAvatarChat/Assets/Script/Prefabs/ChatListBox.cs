@@ -18,11 +18,9 @@ public class ChatListBox : MonoBehaviour
         
     }
 
-    public void OpenChatFrontEnd()
+    public void EnterChat()
     {
-        Chat.currConvId = Box.name;
-        
+        AuthManager.Instance.currConvId = Box.name;  
         AppManager.Instance.LoadScene("6-ChatFrontEnd");
-        //AppManager.Instance.LoadScene("Test-6");
     }
 }

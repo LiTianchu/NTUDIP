@@ -62,7 +62,7 @@ public class ChatList : MonoBehaviour
                 }
 
                 //get message document and retrieve the message details and the user
-                if (conversation.messages != null && conversation.messages.Count > 0)
+                if (conversation.messages != null && conversation.messages.Count > 1) // messages[0] is null when instantiated, start count from 1
                 {
                     DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
                     latestMessage = MessageBackendManager.Instance.ProcessMessageDocument(messageDoc);
@@ -141,12 +141,12 @@ public class ChatList : MonoBehaviour
         AppManager.Instance.LoadScene("5-NewChat");
     }
 
-    public void EnterChat(string chatID)
+    /*public void EnterChat(string chatID)
     {
         //set as temp data storage to pass to next scene
         PlayerPrefs.SetString("chatID", chatID);
         AppManager.Instance.LoadScene("6-ChatUI");
-    }
+    }*/
 
     async public void SearchUserByEmailAsync()
     {
