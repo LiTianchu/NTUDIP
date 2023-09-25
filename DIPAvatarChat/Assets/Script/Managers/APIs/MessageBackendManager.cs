@@ -35,7 +35,7 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
         QuerySnapshot messagesDoc = null;
         try
         {
-            Query messageQuery = db.Collection("message").WhereEqualTo("conversationID", conversationID);
+            Query messageQuery = db.Collection("message").WhereEqualTo("conversationID", conversationID).OrderBy("createdAt");
             messagesDoc = await messageQuery.GetSnapshotAsync();
         }
         catch (Exception e)
@@ -69,7 +69,7 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
         return await messageDoc.GetSnapshotAsync();
     }
 
-    public async Task<bool> SendMessage(ConversationData currConvData, string message, string myEmail, string theirEmail)
+    public async Task<bool> SendMessageTask(ConversationData currConvData, string message, string myEmail, string theirEmail)
     {
         try
         {
