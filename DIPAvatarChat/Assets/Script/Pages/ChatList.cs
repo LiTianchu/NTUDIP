@@ -118,7 +118,7 @@ public class ChatList : MonoBehaviour
 
         if (chatTime.Day == currentTime.Day)
         {
-            return (chatTime.Hour + ":" + chatTime.Minute);
+            return (chatTime.ToString("h:mm tt"));
         }
 
         if (chatTime.Month == currentTime.Month && chatTime.Day + 7 > currentTime.Day)
