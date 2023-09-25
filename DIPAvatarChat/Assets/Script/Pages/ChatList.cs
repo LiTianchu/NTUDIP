@@ -3,6 +3,7 @@ using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
@@ -41,7 +42,9 @@ public class ChatList : MonoBehaviour
         UserData friendData = null;
         string friendEmail = null;
 
-        List<string> conversations = AuthManager.Instance.currUser.conversations;
+        QuerySnapshot convDocQuery = await ConversationBackendManager.Instance.GetAllConversationsTask(AuthManager.Instance.currUser.email);
+
+        List<string> conversations = FilterConversationList(convDocQuery);
 
         //foreach (string conversationID in conversations)
         for (int i = conversations.Count - 1; i >= 0; i--)
@@ -52,7 +55,7 @@ public class ChatList : MonoBehaviour
                 //get conversation document
                 DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversations[i]);
                 conversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
-                
+
                 foreach (string member in conversation.members)
                 {
                     if (member != AuthManager.Instance.currUser.email)
@@ -101,13 +104,13 @@ public class ChatList : MonoBehaviour
                 // Set the text values based on your latestMessage and sender data
                 messageText.text = latestMessage?.message;
                 usernameText.text = friendData?.username;
-                timeText.text = ChatTimestamp(latestMessage.createdAt);
+                timeText.text = ChatTimestamp(displayTime);
             }
         }
     }
-    public string ChatTimestamp(Timestamp timestamp)
+    private string ChatTimestamp(Timestamp timestamp)
     {
-        DateTime chatTime = timestamp.ToDateTime();
+        DateTime chatTime = timestamp.ToDateTime().AddHours(8); // Convert to Singapore Timezone
         DateTime currentTime = DateTime.Now;
 
         Debug.Log(currentTime.ToString());
@@ -115,7 +118,7 @@ public class ChatList : MonoBehaviour
 
         if (chatTime.Day == currentTime.Day)
         {
-            return (chatTime.Hour + ":" + chatTime.Day);
+            return (chatTime.Hour + ":" + chatTime.Minute);
         }
 
         if (chatTime.Month == currentTime.Month && chatTime.Day + 7 > currentTime.Day)
@@ -134,6 +137,31 @@ public class ChatList : MonoBehaviour
         }
 
         return chatTime.ToString("d");
+    }
+
+    private List<string> FilterConversationList(QuerySnapshot convDocQuery)
+    {
+        List<string> conv = new List<string>();
+        foreach (DocumentSnapshot convDoc in convDocQuery)
+        {
+            ConversationData convDocData = convDoc.ConvertTo<ConversationData>();
+
+            bool IsInsideConversation = false;
+            foreach (string member in convDocData.members)
+            {
+                if (member == AuthManager.Instance.currUser.email)
+                {
+                    IsInsideConversation = true;
+                }
+            }
+
+            if (IsInsideConversation)
+            {
+                conv.Add(convDocData.conversationID);
+            }
+        }
+
+        return conv;
     }
 
     public void NewChat()

@@ -18,9 +18,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
 
     }
 
-    //register event for conversation data retrieved
-    public event Action<ConversationData> ConversationDataRetrieved;
-
     public async Task<DocumentSnapshot> GetConversationByIDTask(string conversationID)
     {
         db = FirebaseFirestore.DefaultInstance;
@@ -30,11 +27,31 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         return doc;
     }
 
+    public async Task<QuerySnapshot> GetAllConversationsTask(string email)
+    {
+        db = FirebaseFirestore.DefaultInstance;
+        QuerySnapshot convDoc = null;
+        try
+        {
+            Query convQuery = db.Collection("conversation").OrderBy("latestMessageCreatedAt");
+            convDoc = await convQuery.GetSnapshotAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error getting conversations: " + e.Message);
+        }
+        if (convDoc == null)
+        {
+            Debug.LogError("Error getting conversations: convDoc is null");
+        }
+        return convDoc;
+
+    }
+
     public async Task<string> StartNewConversation(UserData currUserData, UserData theirUserData, List<string> currUserConversationsList, List<string> theirUserConversationsList)
     {
         Dictionary<string, object> convData = new Dictionary<string, object>
         {
-            { "description", null },
             { "members", new List<string>() { null } },
             { "messages", new List<string>() { null } }
         };
@@ -47,7 +64,8 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
             { "conversationID", currConvId },
             { "description", "This is a chat with " + theirUserData.username },
             { "members", new List<string>() { currUserData.email, theirUserData.email } },
-            { "messages", new List<string>() { null } }
+            { "messages", new List<string>() { null } },
+            { "latestMessageCreatedAt", FieldValue.ServerTimestamp }
         };
 
         db.Document("conversation/" + currConvId).SetAsync(convData);

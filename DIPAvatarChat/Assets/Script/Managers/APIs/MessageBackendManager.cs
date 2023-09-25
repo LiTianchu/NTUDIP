@@ -18,7 +18,6 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
     private string _userPath;
 
     //declare the event
-    public event Action<List<MessageData>> MessageListRetrieved;
     public event Action<MessageData> MessageRetrieved;
 
     void Start()
@@ -93,54 +92,13 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
             Dictionary<string, object> conversationDict = new Dictionary<string, object>
             {
-                { "messages", messagesList }
+                { "messages", messagesList },
+                { "latestMessageCreatedAt", FieldValue.ServerTimestamp }
             };
 
             db.Collection("conversation").Document(currConvData.conversationID).UpdateAsync(conversationDict);
 
             return true;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Error adding message: " + e.Message);
-            return false; // Return false to indicate that an error occurred while adding the message.
-        }
-    }
-
-    public bool AddMessage(string message, string conversationID, string receiverEmail, string senderEmail)
-    {
-        //TODO:Implement ADD a message record to database
-        try
-        {
-            // Create a new message document in the "message" collection
-            db = FirebaseFirestore.DefaultInstance;
-            _userPath = AuthManager.Instance.userPathData;
-
-            if (db == null)
-            {
-                Debug.LogError("Firestore instance (db) is null");
-            }
-            DocumentReference newMessageRef = db.Collection("message").Document();
-
-            // Create a data object with the message details
-            Dictionary<string, object> messageData = new Dictionary<string, object>
-        {
-            { "message", message },
-            { "createdAt", FieldValue.ServerTimestamp },
-            { "conversationID", conversationID },
-            { "receiver", receiverEmail },
-            { "sender", senderEmail }
-        };
-
-            // Set the data for the new message document
-            newMessageRef.SetAsync(messageData);
-
-            // The ID of the newly created message document
-            string newMessageID = newMessageRef.Id;
-
-            // You can perform additional actions here if needed, such as updating other parts of your app's data.
-
-            return true; // Return true to indicate that the message was successfully added.
         }
         catch (Exception e)
         {
