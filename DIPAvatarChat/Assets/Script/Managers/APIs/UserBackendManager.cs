@@ -247,37 +247,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
         db.Document("user/" + myEmail).UpdateAsync(myUserData);
     }
 
-    public async Task<string> StartNewConversation(UserData currUserData, UserData theirUserData, List<string> currUserConversationsList, List<string> theirUserConversationsList)
-    {
-        Dictionary<string, object> convData = new Dictionary<string, object>
-        {
-            { "description", "This is a chat with " + theirUserData.username },
-            { "members", new List<string>() { currUserData.email, theirUserData.email } },
-            { "messages", new List<string>() { null } }
-        };
-
-        DocumentReference convDataRef = await db.Collection("conversation").AddAsync(convData);
-        string currConvId = convDataRef.Id;
-
-        currUserConversationsList.Add(currConvId);
-        theirUserConversationsList.Add(currConvId);
-
-        Dictionary<string, object> currUserConversationsDict = new Dictionary<string, object>
-        {
-            { "conversations", currUserConversationsList },
-        };
-
-        Dictionary<string, object> theirUserConversationsDict = new Dictionary<string, object>
-        {
-            { "conversations", theirUserConversationsList },
-        };
-
-        db.Document("user/" + currUserData.email).UpdateAsync(currUserConversationsDict);
-        db.Document("user/" + theirUserData.email).UpdateAsync(theirUserConversationsDict);
-
-        return currConvId;
-    }
-
     public UserData ProcessUserDocument(DocumentSnapshot documentSnapShot)
     {
         Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class Chat : MonoBehaviour
 {
-
+    public TMP_InputField MessageInputField;
     public TMP_Text RecipientName;
     public GameObject MyChatBubblePrefab;
     public GameObject TheirChatBubblePrefab;
@@ -35,8 +35,33 @@ public class Chat : MonoBehaviour
 
     }
 
+    public async void SendMessage()
+    {
+        string myEmail = AuthManager.Instance.currUser.email;
+        string theirEmail = null;
+
+        foreach (string member in currConvData.members)
+        {
+            if (member != myEmail)
+            {
+                theirEmail = member;
+            }
+        }
+
+        if (MessageInputField.text != null && MessageInputField.text != "")
+        {
+            bool IsMessageSent = await MessageBackendManager.Instance.SendMessage(currConvData, MessageInputField.text, myEmail, theirEmail);
+            if (IsMessageSent)
+            {
+                PopulateMessage(AuthManager.Instance.currConvId);
+            }
+        }
+    }
+
     private async void PopulateMessage(string conversationID)
     {
+        ClearDisplay();
+
         //Populate the data onto the UI
         QuerySnapshot messages = await MessageBackendManager.Instance.GetAllMessagesTask(conversationID);
         foreach (DocumentSnapshot message in messages.Documents)
@@ -71,6 +96,10 @@ public class Chat : MonoBehaviour
         }
     }
 
+    public void SortChatBubble() {
+        
+    }
+
     public void InstantiateChatBubble(GameObject ChatBubblePrefab, string msgText, string messageId)
     {
         GameObject box = Instantiate(ChatBubblePrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
@@ -80,7 +109,8 @@ public class Chat : MonoBehaviour
         box.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = msgText;
     }
 
-    public async void SetRecipientName() {
+    public async void SetRecipientName()
+    {
         recipientUserData = await GetRecipientData();
         RecipientName.text = recipientUserData.username;
     }
@@ -89,7 +119,7 @@ public class Chat : MonoBehaviour
     {
         DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
         currConvData = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
-        
+
         string recipientEmail = null;
 
         foreach (string member in currConvData.members)
@@ -104,5 +134,17 @@ public class Chat : MonoBehaviour
         UserData userData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
 
         return userData;
+    }
+
+    public void ClearDisplay()
+    {
+        GameObject[] tempPrefabs;
+
+        tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
+
+        foreach (GameObject tempPrefab in tempPrefabs)
+        {
+            Destroy(tempPrefab);
+        }
     }
 }
