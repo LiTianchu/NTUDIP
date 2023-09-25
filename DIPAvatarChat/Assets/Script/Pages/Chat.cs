@@ -3,6 +3,7 @@ using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
@@ -50,7 +51,7 @@ public class Chat : MonoBehaviour
 
         if (MessageInputField.text != null && MessageInputField.text != "")
         {
-            bool IsMessageSent = await MessageBackendManager.Instance.SendMessage(currConvData, MessageInputField.text, myEmail, theirEmail);
+            bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, MessageInputField.text, myEmail, theirEmail);
             if (IsMessageSent)
             {
                 PopulateMessage(AuthManager.Instance.currConvId);
@@ -94,10 +95,6 @@ public class Chat : MonoBehaviour
                 InstantiateChatBubble(TheirChatBubblePrefab, msgText, message.Id);
             }
         }
-    }
-
-    public void SortChatBubble() {
-        
     }
 
     public void InstantiateChatBubble(GameObject ChatBubblePrefab, string msgText, string messageId)
