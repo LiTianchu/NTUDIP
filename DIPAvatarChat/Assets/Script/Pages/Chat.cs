@@ -33,7 +33,11 @@ public class Chat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        {
+            Debug.Log("Pressed enter key!");
+            SendMessage();
+        }
     }
 
     public async void SendMessage()
