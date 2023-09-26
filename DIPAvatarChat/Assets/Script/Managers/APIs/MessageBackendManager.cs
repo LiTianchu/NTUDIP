@@ -18,7 +18,6 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
     private string _userPath;
 
     //declare the event
-    public event Action<List<MessageData>> MessageListRetrieved;
     public event Action<MessageData> MessageRetrieved;
 
     void Start()
@@ -28,35 +27,30 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
     }
 
-    
-    public void GetAllMessages(string conversationID)
+
+    public async Task<QuerySnapshot> GetAllMessagesTask(string conversationID)
     {
-        List<MessageData> messages = new List<MessageData>();
-        Query messageQuery = db.Collection("message").WhereEqualTo("conversationID", conversationID);
-
-        //this function is Async, so the return value does not work here.
-        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
-        messageQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        db = FirebaseFirestore.DefaultInstance;
+        QuerySnapshot messagesDoc = null;
+        try
         {
-            QuerySnapshot snapshot = task.Result;
-            foreach(DocumentSnapshot documentSnapShot in snapshot.Documents)
-            {
-                Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
-                Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-               
-                MessageData messageData = DictionaryToMessageData(temp);
-                messages.Add(messageData);
+            Query messageQuery = db.Collection("message").WhereEqualTo("conversationID", conversationID).OrderBy("createdAt");
+            messagesDoc = await messageQuery.GetSnapshotAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error getting messages: " + e.Message);
+        }
+        if (messagesDoc == null)
+        {
+            Debug.LogError("Error getting messages: messagesDoc is null");
+        }
+        return messagesDoc;
 
-                //invoke the event
-                MessageListRetrieved?.Invoke(messages);
-            }
-            
-        });
-       
-        
     }
 
-    public void GetMessageByID(string messageID) { 
+    public void GetMessageByID(string messageID)
+    {
         DocumentReference messageDoc = db.Collection("message").Document(messageID);
         messageDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
@@ -65,48 +59,46 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
             MessageData messageData = DictionaryToMessageData(temp);
             MessageRetrieved?.Invoke(messageData);
         });
-    
+
     }
 
-    public async Task<DocumentSnapshot> GetMessageByIDTask(string messageID) {
+    public async Task<DocumentSnapshot> GetMessageByIDTask(string messageID)
+    {
         DocumentReference messageDoc = db.Collection("message").Document(messageID);
         return await messageDoc.GetSnapshotAsync();
     }
 
-    public bool AddMessage(string message, string conversationID, string receiverEmail, string senderEmail)
+    public async Task<bool> SendMessageTask(ConversationData currConvData, string message, string myEmail, string theirEmail)
     {
-        //TODO:Implement ADD a message record to database
         try
         {
-            // Create a new message document in the "message" collection
             db = FirebaseFirestore.DefaultInstance;
-            _userPath = AuthManager.Instance.userPathData;
 
-            if (db == null)
-            {
-                Debug.LogError("Firestore instance (db) is null");
-            }
-            DocumentReference newMessageRef = db.Collection("message").Document();
+            List<string> messagesList = new List<string>(currConvData.messages);
 
             // Create a data object with the message details
-            Dictionary<string, object> messageData = new Dictionary<string, object>
-        {
-            { "message", message },
-            { "createdAt", FieldValue.ServerTimestamp }, 
-            { "conversationID", conversationID },
-            { "receiver", receiverEmail },
-            { "sender", senderEmail }
-        };
+            Dictionary<string, object> messageDict = new Dictionary<string, object>
+            {
+                { "message", message },
+                { "createdAt", FieldValue.ServerTimestamp },
+                { "conversationID", currConvData.conversationID },
+                { "receiver", theirEmail },
+                { "sender", myEmail }
+            };
 
-            // Set the data for the new message document
-            newMessageRef.SetAsync(messageData);
+            DocumentReference messageDataRef = await db.Collection("message").AddAsync(messageDict);
+            string currMessageId = messageDataRef.Id;
+            messagesList.Add(currMessageId);
 
-            // The ID of the newly created message document
-            string newMessageID = newMessageRef.Id;
+            Dictionary<string, object> conversationDict = new Dictionary<string, object>
+            {
+                { "messages", messagesList },
+                { "latestMessageCreatedAt", FieldValue.ServerTimestamp }
+            };
 
-            // You can perform additional actions here if needed, such as updating other parts of your app's data.
+            db.Collection("conversation").Document(currConvData.conversationID).UpdateAsync(conversationDict);
 
-            return true; // Return true to indicate that the message was successfully added.
+            return true;
         }
         catch (Exception e)
         {
@@ -122,7 +114,8 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
         return DictionaryToMessageData(temp);
     }
 
-    public MessageData DictionaryToMessageData(Dictionary<string, object> firestorData) {
+    public MessageData DictionaryToMessageData(Dictionary<string, object> firestorData)
+    {
         MessageData messageData = new MessageData();
 
         firestorData.TryGetValue("message", out object message);
@@ -142,7 +135,7 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
 
         return messageData;
-    
+
     }
 
 }

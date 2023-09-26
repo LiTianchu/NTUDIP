@@ -18,11 +18,10 @@ public class UserBackendManager : Singleton<UserBackendManager>
     FirebaseFirestore db;
 
     //cache
-    public UserData currentUser { get; set; }
+    //public UserData currentUser { get; set; }
 
     //events
     public event Action<UserData> SearchUserFriendRequestsReceived;
-    public event Action<UserData> CurrentUserRetrieved;
     public event Action<UserData> SearchUserContactsReceived;
     public event Action<UserData> OtherUserDataReceived;
 
@@ -114,15 +113,20 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     public async Task<DocumentSnapshot> GetUserByEmailTask(string email)
     {
+        db = FirebaseFirestore.DefaultInstance;
+
         DocumentSnapshot doc = null;
         try
         {
             DocumentReference usernameDoc = db.Collection("user").Document(email);
             doc = await usernameDoc.GetSnapshotAsync();
-            currentUser = ProcessUserDocument(doc);
-        }catch(Exception ex) {             
+            //currentUser = ProcessUserDocument(doc);
+
+        }
+        catch (Exception ex)
+        {
             Debug.LogError("Firestore Error: " + ex.Message);
-               
+
         }
         return doc;
     }

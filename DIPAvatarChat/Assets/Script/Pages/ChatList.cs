@@ -3,6 +3,7 @@ using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
@@ -24,7 +25,6 @@ public class ChatList : MonoBehaviour
     public Button SendFriendRequestBtn;
     public GameObject ChatListParent;
     public GameObject ChatListObject;
-
     List<string> friendRequestsList;
     List<string> friendsList;
 
@@ -39,27 +39,40 @@ public class ChatList : MonoBehaviour
         //Getting the data by task
         ConversationData conversation = null;
         MessageData latestMessage = null;
-        UserData sender = null;
+        UserData friendData = null;
+        string friendEmail = null;
 
-        List<string> conversations = UserBackendManager.Instance.currentUser.conversations;
+        QuerySnapshot convDocQuery = await ConversationBackendManager.Instance.GetAllConversationsTask(AuthManager.Instance.currUser.email);
 
-        foreach (string conversationID in conversations)
+        List<string> conversations = FilterConversationList(convDocQuery);
+
+        //foreach (string conversationID in conversations)
+        for (int i = conversations.Count - 1; i >= 0; i--)
         {
 
-            if (conversationID != null && conversationID != "")
+            if (conversations[i] != null && conversations[i] != "")
             {
                 //get conversation document
-                DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversationID);
+                DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversations[i]);
                 conversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
 
+                foreach (string member in conversation.members)
+                {
+                    if (member != AuthManager.Instance.currUser.email)
+                    {
+                        friendEmail = member;
+                    }
+                }
+
                 //get message document and retrieve the message details and the user
-                if (conversation.messages != null && conversation.messages.Count > 0)
+                if (conversation.messages != null && conversation.messages.Count > 1) // messages[0] is null when instantiated, start count from 1
                 {
                     DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
                     latestMessage = MessageBackendManager.Instance.ProcessMessageDocument(messageDoc);
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(latestMessage.sender);
-                    sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
-                    if (sender == null)
+
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
+                    friendData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+                    if (friendData == null)
                     {
                         Debug.Log(latestMessage.sender + " has no corresponding document");
                     }
@@ -69,41 +82,99 @@ public class ChatList : MonoBehaviour
                     //handle empty conversation
                     latestMessage = new MessageData();
                     latestMessage.message = "No messages yet";
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(conversation.members[0]);
-                    sender = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
+                    friendData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
                 }
 
+                string convId = conversationDoc.Id;
+                string displayMessage = latestMessage.message;
+                string displaySenderUsername = friendData.username;
+                Timestamp displayTime = latestMessage.createdAt;
 
+                // Instantiate the ChatListObject (ChatDisplayBox) prefab
+                GameObject chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                chatListItem.transform.SetParent(ChatListParent.transform, false);
+                chatListItem.name = convId;
+
+                // Access the Text components within the prefab
+                TMP_Text timeText = chatListItem.transform.Find("ChatDisplayBoxBtn/Time").GetComponent<TMP_Text>();
+                TMP_Text usernameText = chatListItem.transform.Find("ChatDisplayBoxBtn/UserInfo/Username").GetComponent<TMP_Text>();
+                TMP_Text messageText = chatListItem.transform.Find("ChatDisplayBoxBtn/UserInfo/LatestMessage").GetComponent<TMP_Text>();
+
+                // Set the text values based on your latestMessage and sender data
+                messageText.text = latestMessage?.message;
+                usernameText.text = friendData?.username;
+                timeText.text = ChatTimestamp(displayTime);
+            }
+        }
+    }
+    private string ChatTimestamp(Timestamp timestamp)
+    {
+        DateTime chatTime = timestamp.ToDateTime().AddHours(8); // Convert to Singapore Timezone
+        DateTime currentTime = DateTime.Now;
+
+        Debug.Log(currentTime.ToString());
+        Debug.Log(chatTime.ToString());
+
+        if (chatTime.Day == currentTime.Day)
+        {
+            return (chatTime.ToString("h:mm tt"));
+        }
+
+        if (chatTime.Month == currentTime.Month && chatTime.Day + 7 > currentTime.Day)
+        {
+            return (chatTime.ToString("ddd"));
+        }
+
+        if (chatTime.Year == currentTime.Year)
+        {
+            return (chatTime.ToString("MMM dd"));
+        }
+
+        if (chatTime.Year <= 1970)
+        {
+            return "";
+        }
+
+        return chatTime.ToString("d");
+    }
+
+    private List<string> FilterConversationList(QuerySnapshot convDocQuery)
+    {
+        List<string> conv = new List<string>();
+        foreach (DocumentSnapshot convDoc in convDocQuery)
+        {
+            ConversationData convDocData = convDoc.ConvertTo<ConversationData>();
+
+            bool IsInsideConversation = false;
+            foreach (string member in convDocData.members)
+            {
+                if (member == AuthManager.Instance.currUser.email)
+                {
+                    IsInsideConversation = true;
+                }
+            }
+
+            if (IsInsideConversation)
+            {
+                conv.Add(convDocData.conversationID);
             }
         }
 
-        Debug.Log("Latest Message: " + latestMessage?.message);
-        Debug.Log("Latest Sender: " + sender?.username);
-
-        Debug.Log("Latest Message Timestamp: " + latestMessage?.createdAt);
-
-        string displayMessage = latestMessage.message;
-        string displaySenderUsername = sender.username;
-        Timestamp displayTime = latestMessage.createdAt;
-
-        //TODO: Fill in the data for ChatListObject
-
-        Instantiate(ChatListObject, ChatListParent.transform);
+        return conv;
     }
-
-
 
     public void NewChat()
     {
         AppManager.Instance.LoadScene("5-NewChat");
     }
 
-    public void EnterChat(string chatID)
+    /*public void EnterChat(string chatID)
     {
         //set as temp data storage to pass to next scene
         PlayerPrefs.SetString("chatID", chatID);
         AppManager.Instance.LoadScene("6-ChatUI");
-    }
+    }*/
 
     async public void SearchUserByEmailAsync()
     {
@@ -252,10 +323,12 @@ public class ChatList : MonoBehaviour
         return friendAndFriendRequestLists;
     }
 
-    public void ToggleTab(GameObject Tab)
+    public void CloseSearchFriendTab()
     {
-        UIManager.Instance.ToggleGeneralTab(Tab);
+        UIManager.Instance.DisableGeneralTab(SearchFriendTab);
+        UIManager.Instance.DisableGeneralTab(SearchFriendInfoTab);
         ClearDisplay();
+        PopulateChatList();
     }
 
     public void EnableTab(GameObject Tab)
@@ -268,6 +341,7 @@ public class ChatList : MonoBehaviour
     {
         UIManager.Instance.DisableGeneralTab(Tab);
         ClearDisplay();
+        PopulateChatList();
     }
 
     async public void GetCurrentUserData()

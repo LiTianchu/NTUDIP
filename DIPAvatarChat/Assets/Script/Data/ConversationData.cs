@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[FirestoreData]
 public class ConversationData
 {
     [FirestoreProperty]
@@ -18,4 +19,7 @@ public class ConversationData
     //list of message record IDs
     [FirestoreProperty]
     public List<string> messages { get; set; }
+
+    [FirestoreProperty]
+    public Timestamp latestMessageCreatedAt { get; set; }
 }

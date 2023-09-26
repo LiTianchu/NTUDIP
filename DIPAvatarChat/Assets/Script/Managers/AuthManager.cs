@@ -22,6 +22,8 @@ public class AuthManager : Singleton<AuthManager>
     //public string passwordData { get; set; }
     public string userPathData { get; set; }
     public string friendRequestPathData { get; set; }
+    public UserData currUser { get; set; }
+    public string currConvId { get; set; }
 
     //Login events
     //Events are used to notify pages that login is successful or failed
@@ -131,15 +133,18 @@ public class AuthManager : Singleton<AuthManager>
 
                 user = LoginTask.Result.User;
                 Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.Email);
-                
+
                 //raise event
                 LoginConfirm?.Invoke("Logged In");
                 emailData = _email;
 
-                UserBackendManager.Instance.GetUserByEmailTask(emailData).ContinueWithOnMainThread(task => {
+                UserBackendManager.Instance.GetUserByEmailTask(emailData).ContinueWithOnMainThread(task =>
+                {
+                    DocumentSnapshot currUserDoc = task.Result;
+                    this.currUser = UserBackendManager.Instance.ProcessUserDocument(currUserDoc);
                     AppManager.Instance.LoadScene(landingScene);
                 });
-                        
+
 
             }
             else
@@ -151,7 +156,7 @@ public class AuthManager : Singleton<AuthManager>
         }
     }
 
-  
+
 
     //Register Function
     private IEnumerator Register(string _email, string _password)
@@ -237,42 +242,11 @@ public class AuthManager : Singleton<AuthManager>
                 {
                     // Email verification sent successfully
                     // You can provide a message to the user here or prompt them to check their email.
-                    
+
                     EmailVerificationSent?.Invoke();
                     ClearWarning?.Invoke();
 
                 }
-
-
-                /*//Create a user profile and set the username
-                              UserProfile profile = new UserProfile { DisplayName = _username };
-
-                              //Call the Firebase auth update user profile function passing the profile with the username
-                              Task ProfileTask = User.UpdateUserProfileAsync(profile);
-                              //Wait until the task completes
-                              yield return new WaitUntil(predicate: () => ProfileTask.IsCompleted);
-
-                              if (ProfileTask.Exception != null)
-                              {
-                                  //If there are errors handle them
-                                  Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
-                                  FirebaseException firebaseEx = ProfileTask.Exception.GetBaseException() as FirebaseException;
-                                  AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                                  warningRegisterText.text = "Username Set Failed!";
-                              }
-                              else
-                              {
-                                  //Username is now set
-                                  //Now return to login screen
-                                  UIManager.instance.LoginScreen();
-                                  warningRegisterText.text = "";
-                              }*/
-                // UIManager.Instance.LoginScreen();
-
-                // RegisterConfirm?.Invoke("");
-
-                // warningRegisterText.text = "";
-
             }
         }
     }

@@ -15,23 +15,14 @@ public class NewChat : MonoBehaviour
   public GameObject ContactsBoxPrefab;
 
   List<string> friendsList;
-  string usernameData;
-  string emailData;
-  string statusData;
-  string friendData;
-  string friendUsernameData;
-  string friendEmailData;
-  string friendStatusData;
 
-  string testEmail = "dipgrp6@gmail.com";
+  //string testEmail = "dipgrp6@gmail.com";
 
 
   // Start is called before the first frame update
   void Start()
   {
-    //attach event listeners for user data
-    //UserBackendManager.Instance.SearchUserContactsReceived += DisplayAllContactsData;
-    //UserBackendManager.Instance.OtherUserDataReceived += ContactsData;
+    DisplayAllContacts();
   }
 
   // Update is called once per frame
@@ -43,16 +34,19 @@ public class NewChat : MonoBehaviour
   private void OnDisable()
   {
     if (!this.gameObject.scene.isLoaded) return;
-    //UserBackendManager.Instance.SearchUserContactsReceived -= DisplayAllContactsData;
-    //UserBackendManager.Instance.OtherUserDataReceived -= ContactsData;
+  }
+
+  public void ChatList()
+  {
+    AppManager.Instance.LoadScene("4-ChatList");
   }
 
   async public void DisplayAllContacts()
   {
     ClearDisplay();
-    Debug.Log(testEmail); // AUthManager.Instance.emailData;
+    Debug.Log(AuthManager.Instance.emailData); // AuthManager.Instance.emailData;
 
-    DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(testEmail);
+    DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
     UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
 
     foreach (string friend in myUserData.friends)
@@ -76,43 +70,46 @@ public class NewChat : MonoBehaviour
     }
   }
 
-  public void DisplayAllContactsData(UserData userData)
+  public async Task<string> GetCurrConvId(UserData currUserData, string recipientEmail)
   {
-    Debug.Log("User Data Retrieved");
+    //db = FirebaseFirestore.DefaultInstance;
+    string currConvId = null;
 
-    usernameData = userData.username;
-    emailData = userData.email;
-    statusData = userData.status;
-    friendsList = userData.friends;
-    int i = 0;
+    DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);
+    UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+    Debug.Log("Current user email: " + currUserData.email);
 
-    foreach (string friend in friendsList)
+    List<string> currUserConversationsList = new List<string>(currUserData.conversations);
+    List<string> theirUserConversationsList = new List<string>(theirUserData.conversations);
+
+    foreach (string conversation in currUserData.conversations)
     {
-      if (friend != null && friend != "")
+      if (conversation != null && conversation != "")
       {
-        Debug.Log("friend id: " + friend);
+        Debug.Log("conversation: " + conversation);
+        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversation);
+        ConversationData currConversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
 
-        UserBackendManager.Instance.GetOtherUser(friend);
-
+        foreach (string member in currConversation.members)
+        {
+          if (recipientEmail == member)
+          {
+            // If conversation already exists
+            currConvId = conversationDoc.Id;
+            Debug.Log(currConvId);
+          }
+        }
       }
-      i++;
     }
-  }
 
-  public void ContactsData(UserData userData)
-  {
-    //friendUsernameData = userData.username;
-    //friendEmailData = userData.email;
-    //friendStatusData = userData.status;
+    // if conversation does not exist, start new conversation
+    if (currConvId == null)
+    {
+      Debug.Log("Start new conversation");
+      currConvId = await ConversationBackendManager.Instance.StartNewConversation(currUserData, theirUserData, currUserConversationsList, theirUserConversationsList);
+    }
 
-    //Clone prefab for displaying contacts
-    GameObject box = Instantiate(ContactsBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-    box.transform.SetParent(GameObject.Find("ContactsContent").transform, false);
-    box.name = userData.username;
-
-    //Show the name and status
-    box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = userData.username;
-    box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = userData.status;
+    return currConvId;
   }
 
   public void ClearDisplay()

@@ -18,9 +18,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
 
     }
 
-    //register event for conversation data retrieved
-    public event Action<ConversationData> ConversationDataRetrieved;
-
     public async Task<DocumentSnapshot> GetConversationByIDTask(string conversationID)
     {
         db = FirebaseFirestore.DefaultInstance;
@@ -30,16 +27,66 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         return doc;
     }
 
-    public void GetConversationByID(string conversationID)
+    public async Task<QuerySnapshot> GetAllConversationsTask(string email)
     {
         db = FirebaseFirestore.DefaultInstance;
-
-        DocumentReference conversationDoc = db.Collection("conversation").Document(conversationID);
-        conversationDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        QuerySnapshot convDoc = null;
+        try
         {
-            ConversationData conversationData = ProcessConversationDocument(task.Result);
-            ConversationDataRetrieved?.Invoke(conversationData);
-        });
+            Query convQuery = db.Collection("conversation").OrderBy("latestMessageCreatedAt");
+            convDoc = await convQuery.GetSnapshotAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error getting conversations: " + e.Message);
+        }
+        if (convDoc == null)
+        {
+            Debug.LogError("Error getting conversations: convDoc is null");
+        }
+        return convDoc;
+
+    }
+
+    public async Task<string> StartNewConversation(UserData currUserData, UserData theirUserData, List<string> currUserConversationsList, List<string> theirUserConversationsList)
+    {
+        Dictionary<string, object> convData = new Dictionary<string, object>
+        {
+            { "members", new List<string>() { null } },
+            { "messages", new List<string>() { null } }
+        };
+
+        DocumentReference convDataRef = await db.Collection("conversation").AddAsync(convData);
+        string currConvId = convDataRef.Id;
+
+        convData = new Dictionary<string, object>
+        {
+            { "conversationID", currConvId },
+            { "description", "This is a chat with " + theirUserData.username },
+            { "members", new List<string>() { currUserData.email, theirUserData.email } },
+            { "messages", new List<string>() { null } },
+            { "latestMessageCreatedAt", FieldValue.ServerTimestamp }
+        };
+
+        db.Document("conversation/" + currConvId).SetAsync(convData);
+
+        currUserConversationsList.Add(currConvId);
+        theirUserConversationsList.Add(currConvId);
+
+        Dictionary<string, object> currUserConversationsDict = new Dictionary<string, object>
+        {
+            { "conversations", currUserConversationsList },
+        };
+
+        Dictionary<string, object> theirUserConversationsDict = new Dictionary<string, object>
+        {
+            { "conversations", theirUserConversationsList },
+        };
+
+        db.Document("user/" + currUserData.email).UpdateAsync(currUserConversationsDict);
+        db.Document("user/" + theirUserData.email).UpdateAsync(theirUserConversationsDict);
+
+        return currConvId;
     }
 
     public ConversationData ProcessConversationDocument(DocumentSnapshot documentSnapShot)
@@ -136,50 +183,50 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
 
     public bool AddConversationMember(string conversationID, string memberEmail)
     {
-        
-            db = FirebaseFirestore.DefaultInstance;
-            _userPath = AuthManager.Instance.userPathData;
 
-            if (db == null)
-            {
-                Debug.LogError("Firebase Firestore is not initialized. Make sure it's properly configured.");
-                return false;
-            }
+        db = FirebaseFirestore.DefaultInstance;
+        _userPath = AuthManager.Instance.userPathData;
 
-            try
-            {
-                // Get a reference to the conversation document using the provided conversation ID
-                DocumentReference conversationRef = db.Collection("conversation").Document(conversationID);
+        if (db == null)
+        {
+            Debug.LogError("Firebase Firestore is not initialized. Make sure it's properly configured.");
+            return false;
+        }
 
-                // Use FieldValue.ArrayUnion to add a member to the "members" array field
-                Dictionary<string, object> updateData = new Dictionary<string, object>
+        try
+        {
+            // Get a reference to the conversation document using the provided conversation ID
+            DocumentReference conversationRef = db.Collection("conversation").Document(conversationID);
+
+            // Use FieldValue.ArrayUnion to add a member to the "members" array field
+            Dictionary<string, object> updateData = new Dictionary<string, object>
         {
             { "members", FieldValue.ArrayUnion(memberEmail) }
         };
 
-                // Update the conversation document to add the member
-                conversationRef.UpdateAsync(updateData)
-                    .ContinueWithOnMainThread(task =>
+            // Update the conversation document to add the member
+            conversationRef.UpdateAsync(updateData)
+                .ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted)
                     {
-                        if (task.IsCompleted)
-                        {
-                            Debug.Log("Member added to the conversation successfully.");
-                        }
-                        else if (task.IsFaulted)
-                        {
-                            Debug.LogError("Error adding member to the conversation: " + task.Exception);
-                        }
-                    });
+                        Debug.Log("Member added to the conversation successfully.");
+                    }
+                    else if (task.IsFaulted)
+                    {
+                        Debug.LogError("Error adding member to the conversation: " + task.Exception);
+                    }
+                });
 
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Error adding member to the conversation: " + e.Message);
-                return false;
-            }
-     }
-    
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error adding member to the conversation: " + e.Message);
+            return false;
+        }
+    }
+
 
     public bool DeleteConversationMember(string conversationID, string memberEmail)
     {
