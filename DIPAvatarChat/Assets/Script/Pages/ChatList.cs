@@ -25,6 +25,7 @@ public class ChatList : MonoBehaviour
     public Button SendFriendRequestBtn;
     public GameObject ChatListParent;
     public GameObject ChatListObject;
+    public GameObject LoadingUI;
     List<string> friendRequestsList;
     List<string> friendsList;
 
@@ -36,6 +37,12 @@ public class ChatList : MonoBehaviour
 
     async public void PopulateChatList()
     {
+        if (LoadingUI != null)
+        {
+            LoadingUI.SetActive(true);
+        }
+        ChatListParent.SetActive(false);
+        
         //Getting the data by task
         ConversationData conversation = null;
         MessageData latestMessage = null;
@@ -107,6 +114,12 @@ public class ChatList : MonoBehaviour
                 timeText.text = ChatTimestamp(displayTime);
             }
         }
+
+        if (LoadingUI!=null)
+        {
+            LoadingUI.SetActive(false);
+        }
+        ChatListParent.SetActive(true);
     }
     private string ChatTimestamp(Timestamp timestamp)
     {
