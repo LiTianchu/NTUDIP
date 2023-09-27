@@ -18,6 +18,12 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
 
     }
 
+    public async Task<DocumentReference> GetConversationReferenceTask(string conversationID)
+    {
+        DocumentReference docRef = db.Collection("conversation").Document(conversationID);
+        return docRef;
+    }
+
     public async Task<DocumentSnapshot> GetConversationByIDTask(string conversationID)
     {
         db = FirebaseFirestore.DefaultInstance;
@@ -94,46 +100,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
 
         Dictionary<string, object> temp = documentSnapShot.ToDictionary();
         return DictionaryToConversationData(temp, documentSnapShot.GetValue<List<string>>("members"), documentSnapShot.GetValue<List<string>>("messages"));
-    }
-
-    //Other backend APIs to be filled in by Backend people
-    public bool AddConversation(List<String> members, string description)
-    {
-        db = FirebaseFirestore.DefaultInstance;
-        _userPath = AuthManager.Instance.userPathData;
-        if (db == null)
-        {
-            Debug.LogError("Firebase Firestore is not initialized. Make sure it's properly configured.");
-            return false;
-        }
-
-        // Generate a new conversation document with an auto-generated ID
-        DocumentReference conversationDoc = db.Collection("conversation").Document();
-        object serverTimestamp = FieldValue.ServerTimestamp;
-        // Define the data to be added to the document
-        Dictionary<string, object> conversationData = new Dictionary<string, object>
-    {
-        { "description", description },
-        { "members", members },
-        { "timestamp", serverTimestamp } 
-        // You can add more fields here if needed
-    };
-
-        // Set the data in the Firestore document
-        conversationDoc.SetAsync(conversationData)
-            .ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCompleted)
-                {
-                    Debug.Log("Conversation added successfully.");
-                }
-                else if (task.IsFaulted)
-                {
-                    Debug.LogError("Error adding conversation: " + task.Exception);
-                }
-            });
-
-        return true;
     }
 
     public bool UpdateConversationDesc(string conversationID, string description)

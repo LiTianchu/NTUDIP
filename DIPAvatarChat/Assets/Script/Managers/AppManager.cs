@@ -5,17 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class AppManager : Singleton<AppManager>
 {
-
-    public void LoadScene(string sceneName) {
-        SceneManager.LoadScene(sceneName,LoadSceneMode.Single);
-        Debug.Log("Loaded Scene " + sceneName);
+    public void LoadScene(string sceneName)
+    {
+        if (!SceneManager.GetSceneByName("YourSceneName").isLoaded)
+        {
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            Debug.Log("Loaded Scene " + sceneName);
+        }
     }
 
     public Scene GetCurrentScene()
     {
         return SceneManager.GetActiveScene();
     }
-
-    
-
 }
