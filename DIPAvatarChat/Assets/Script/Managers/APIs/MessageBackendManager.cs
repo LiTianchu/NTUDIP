@@ -74,6 +74,7 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
             db = FirebaseFirestore.DefaultInstance;
 
             List<string> messagesList = new List<string>(currConvData.messages);
+            Debug.Log(messagesList.Count + " in SendMessageTask.");
 
             // Create a data object with the message details
             Dictionary<string, object> messageDict = new Dictionary<string, object>
@@ -88,6 +89,7 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
             DocumentReference messageDataRef = await db.Collection("message").AddAsync(messageDict);
             string currMessageId = messageDataRef.Id;
             messagesList.Add(currMessageId);
+            Debug.Log(messagesList.Count + " in SendMessageTask After.");
 
             Dictionary<string, object> conversationDict = new Dictionary<string, object>
             {
@@ -167,5 +169,4 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
             //return false; // Return false to indicate that an error occurred during deletion.
         }
     }
-
 }

@@ -42,7 +42,7 @@ public class ChatList : MonoBehaviour
             LoadingUI.SetActive(true);
         }
         ChatListParent.SetActive(false);
-        
+
         //Getting the data by task
         ConversationData conversation = null;
         MessageData latestMessage = null;
@@ -118,14 +118,14 @@ public class ChatList : MonoBehaviour
                 int maxLength = 20; // Set the maximum length you want for the message
                 if (!string.IsNullOrEmpty(latestMessageText) && latestMessageText.Length > maxLength)
                 {
-                // If the message exceeds the maximum length, truncate it and add "..."
-                latestMessageText = latestMessageText.Substring(0, maxLength) + "...";
+                    // If the message exceeds the maximum length, truncate it and add "..."
+                    latestMessageText = latestMessageText.Substring(0, maxLength) + "...";
                 }
                 messageText.text = latestMessageText;
             }
         }
 
-        if (LoadingUI!=null)
+        if (LoadingUI != null)
         {
             LoadingUI.SetActive(false);
         }
@@ -186,6 +186,21 @@ public class ChatList : MonoBehaviour
 
         return conv;
     }
+
+    public async void RefreshConversation()
+    {
+        ClearDisplay();
+        await Task.Delay(1000);
+        PopulateChatList();
+    }
+
+    /*public async void DeleteEverythingDebug()
+    {
+        MessageBackendManager.Instance.DeleteEverythingDebug();
+        ClearDisplay();
+        await Task.Delay(1000);
+        PopulateChatList();
+    }*/
 
     public void NewChat()
     {

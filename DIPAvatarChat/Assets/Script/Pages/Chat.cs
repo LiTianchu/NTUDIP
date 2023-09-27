@@ -22,7 +22,7 @@ public class Chat : MonoBehaviour
     public GameObject ChatBubbleParent;
 
     //public static string currConvId { get; set; }
-    ConversationData currConvData;
+    //ConversationData currConvData;
     UserData recipientUserData;
     private List<string> displayedMessageIds = new List<string>();
 
@@ -68,18 +68,16 @@ public class Chat : MonoBehaviour
                 ConversationData conversation = snapshot.ConvertTo<ConversationData>();
 
                 DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
-                MessageData msg= messageDoc.ConvertTo<MessageData>();
+                MessageData msg = messageDoc.ConvertTo<MessageData>();
 
                 string msgSender = msg.sender;
                 string msgText = msg.message;
                 string messageId = messageDoc.Id;
 
-
-
                 // Check if the message has not been displayed already
-                if (!displayedMessageIds.Contains(messageId))
+                if (GameObject.Find(messageId) == null) // !displayedMessageIds.Contains(messageId)
                 {
-                    Debug.Log(AuthManager.Instance.currUser.email);
+                    Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
                     if (msgSender == AuthManager.Instance.currUser.email)
                     {
                         // Message is sent by the current user, spawn text bubble at right side
@@ -94,7 +92,7 @@ public class Chat : MonoBehaviour
                     }
 
                     // Add the message ID to the list of displayed messages
-                    displayedMessageIds.Add(messageId);
+                    //displayedMessageIds.Add(messageId);
                 }
             }
             else
@@ -110,6 +108,11 @@ public class Chat : MonoBehaviour
         string myEmail = AuthManager.Instance.currUser.email;
         string theirEmail = null;
 
+        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
+        ConversationData currConvData = conversationDoc.ConvertTo<ConversationData>();
+
+        Debug.Log(currConvData.messages.Count + " in SendMessage.");
+
         foreach (string member in currConvData.members)
         {
             if (member != myEmail)
@@ -117,21 +120,13 @@ public class Chat : MonoBehaviour
                 theirEmail = member;
             }
         }
+
+        Task.Delay(200);
         if (MessageInputField.text != null && MessageInputField.text != "")
         {
             bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, MessageInputField.text, myEmail, theirEmail);
             if (IsMessageSent)
             {
-                // Generate a timestamp-based message ID
-                //string messageId = DateTime.Now.ToString("yyyyMMddHHmmssffff"); // Format: YYYYMMDDHHmmssffff
-
-                // Display the sent message on the right side (sender's side)
-                //InstantiateChatBubble(MyChatBubblePrefab, MessageInputField.text, messageId);
-
-                // Add the new message ID to the list
-                //displayedMessageIds.Add(messageId);
-
-                // Clear the input field
                 MessageInputField.text = "";
             }
         }
@@ -141,6 +136,7 @@ public class Chat : MonoBehaviour
     {
         ClearDisplay();
         // Populate the data onto the UI
+        Debug.Log("Message Populated!");
         QuerySnapshot messages = await MessageBackendManager.Instance.GetAllMessagesTask(conversationID);
         foreach (DocumentSnapshot message in messages.Documents)
         {
@@ -152,7 +148,7 @@ public class Chat : MonoBehaviour
             string messageId = message.Id;
 
             // Check if the message has not been displayed already
-            if (!displayedMessageIds.Contains(messageId))
+            if (true) // !displayedMessageIds.Contains(messageId)
             {
                 if (msgSender.Equals(AuthManager.Instance.emailData))
                 { // Message is sent by me
@@ -165,40 +161,11 @@ public class Chat : MonoBehaviour
                     InstantiateChatBubble(TheirChatBubblePrefab, msgText, messageId);
 
                     // Add the message ID to the list of displayed messages
-                    displayedMessageIds.Add(messageId);
+                    //displayedMessageIds.Add(messageId);
                 }
             }
         }
     }
-
-    /*private void UpdateChatWithNewMessage(DocumentSnapshot snapshot)
-    {
-        // Extract the new message data
-        MessageData msg = snapshot.ConvertTo<MessageData>();
-        string msgText = msg.message;
-        string msgSender = msg.sender;
-        string messageId = snapshot.Id;
-
-        // Check if the message has not been displayed already
-        if (!displayedMessageIds.Contains(messageId))
-        {
-            /*if (msgSender.Equals(AuthManager.Instance.emailData))
-            { // Message is sent by me
-                // Spawn text bubble at right side of the chat
-                InstantiateChatBubble(MyChatBubblePrefab, msgText, messageId);
-            }
-            else
-            // Message is sent by other user
-                // Spawn text bubble at left side of the chat
-                InstantiateChatBubble(TheirChatBubblePrefab, msgText, messageId);
-            
-    
-            // Add the message ID to the list of displayed messages
-            displayedMessageIds.Add(messageId);
-        }
-    }*/
-
-
 
     public void InstantiateChatBubble(GameObject ChatBubblePrefab, string msgText, string messageId)
     {
@@ -217,7 +184,7 @@ public class Chat : MonoBehaviour
     public async Task<UserData> GetRecipientData()
     {
         DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
-        currConvData = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
+        ConversationData currConvData = conversationDoc.ConvertTo<ConversationData>();
 
         string recipientEmail = null;
 
