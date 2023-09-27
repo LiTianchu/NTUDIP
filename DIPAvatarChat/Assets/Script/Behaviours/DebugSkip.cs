@@ -25,4 +25,9 @@ public class DebugSkip : MonoBehaviour
         //    AppManager.Instance.LoadScene("4-ChatList");
         //}
     }
+
+    public void Skip2(string landingScene)
+    {
+        AuthManager.Instance.StartLogin("aloysiusgohkw@gmail.com", "aaaaaa", landingScene);
+    }
 }
