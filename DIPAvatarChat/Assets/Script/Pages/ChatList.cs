@@ -112,6 +112,16 @@ public class ChatList : MonoBehaviour
                 messageText.text = latestMessage?.message;
                 usernameText.text = friendData?.username;
                 timeText.text = ChatTimestamp(displayTime);
+
+                // Set the text values based on your latestMessage and sender data
+                string latestMessageText = latestMessage?.message;
+                int maxLength = 20; // Set the maximum length you want for the message
+                if (!string.IsNullOrEmpty(latestMessageText) && latestMessageText.Length > maxLength)
+                {
+                // If the message exceeds the maximum length, truncate it and add "..."
+                latestMessageText = latestMessageText.Substring(0, maxLength) + "...";
+                }
+                messageText.text = latestMessageText;
             }
         }
 
