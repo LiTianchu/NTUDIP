@@ -1,9 +1,15 @@
+using Firebase.Extensions;
+using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RegisterAndLogin : MonoBehaviour
 {
@@ -65,8 +71,17 @@ public class RegisterAndLogin : MonoBehaviour
         AuthManager.Instance.EmailVerificationSent += ToggleUI;
     }
 
-    public void LoginButton()
+    public async void LoginButton()
     {
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailLoginField.text);
+        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+
+        if (myUserData.username != null && myUserData.status != null)
+        {
+            AuthManager.Instance.StartLogin(emailLoginField.text, passwordLoginField.text, "4-ChatList");
+            return;
+        }
+
         AuthManager.Instance.StartLogin(emailLoginField.text, passwordLoginField.text, "3-EditProfile");
         emailData = emailLoginField.text;
     }
