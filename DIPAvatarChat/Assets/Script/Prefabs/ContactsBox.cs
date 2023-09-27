@@ -30,6 +30,6 @@ public class ContactsBox : MonoBehaviour
     public async void EnterChat()
     {
         AuthManager.Instance.currConvId = await GameObject.Find("Canvas").GetComponent<NewChat>().GetCurrConvId(AuthManager.Instance.currUser, Box.name);
-        AppManager.Instance.LoadScene("6-ChatFrontEnd");
+        AppManager.Instance.LoadScene("6-ChatUI");
     }
 }

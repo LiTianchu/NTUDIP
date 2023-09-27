@@ -3980,7 +3980,6 @@ MonoBehaviour:
   SendFriendRequestBtn: {fileID: 966141239}
   ChatListParent: {fileID: 1877808460}
   ChatListObject: {fileID: 5551016608129215562, guid: 786ebba9cc4153043924d313b23536ae, type: 3}
-  LoadingUI: {fileID: 0}
 --- !u!1 &719591561
 GameObject:
   m_ObjectHideFlags: 0

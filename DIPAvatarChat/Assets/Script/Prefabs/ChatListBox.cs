@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChatListBox : MonoBehaviour
 {
     public GameObject Box;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,12 +15,20 @@ public class ChatListBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void EnterChat()
     {
-        AuthManager.Instance.currConvId = Box.name;  
-        AppManager.Instance.LoadScene("6-ChatFrontEnd");
+        AuthManager.Instance.currConvId = Box.name;
+        AppManager.Instance.LoadScene("6-ChatUI");
+    }
+
+    public async void DeleteChat()
+    {
+        if (await ConversationBackendManager.Instance.DeleteConversationTask(Box.name))
+        {
+            GameObject.Find("Canvas").GetComponent<ChatList>().RefreshConversation();
+        }
     }
 }
