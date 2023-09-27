@@ -194,25 +194,10 @@ public class ChatList : MonoBehaviour
         PopulateChatList();
     }
 
-    /*public async void DeleteEverythingDebug()
-    {
-        MessageBackendManager.Instance.DeleteEverythingDebug();
-        ClearDisplay();
-        await Task.Delay(1000);
-        PopulateChatList();
-    }*/
-
     public void NewChat()
     {
         AppManager.Instance.LoadScene("5-NewChat");
     }
-
-    /*public void EnterChat(string chatID)
-    {
-        //set as temp data storage to pass to next scene
-        PlayerPrefs.SetString("chatID", chatID);
-        AppManager.Instance.LoadScene("6-ChatUI");
-    }*/
 
     async public void SearchUserByEmailAsync()
     {
