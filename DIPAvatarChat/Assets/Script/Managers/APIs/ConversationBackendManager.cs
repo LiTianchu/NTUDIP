@@ -273,8 +273,7 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         }
     }
 
-
-    public bool DeleteConversation(string conversationID)
+    public async Task<bool> DeleteConversation(string conversationID)
     {
         try
         {
@@ -283,25 +282,47 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
             // Get a reference to the conversation document using the provided conversation ID
             DocumentReference conversationRef = db.Collection("conversation").Document(conversationID);
 
-            // Delete the conversation document
-            conversationRef.DeleteAsync().ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCompleted)
-                {
-                    Debug.Log("Conversation deleted successfully.");
-                }
-                else if (task.IsFaulted)
-                {
-                    Debug.LogError("Error deleting conversation: " + task.Exception.ToString());
-                }
-            });
+            DocumentSnapshot convSnapshot = await GetConversationByIDTask(conversationID);
+            ConversationData convData = ProcessConversationDocument(convSnapshot);
 
+            if (await DeleteAllMessages(convData.messages))
+            {
+                // Delete the conversation document
+                conversationRef.DeleteAsync().ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted)
+                    {
+                        Debug.Log("Conversation deleted successfully.");
+                    }
+                    else if (task.IsFaulted)
+                    {
+                        Debug.LogError("Error deleting conversation: " + task.Exception.ToString());
+                    }
+                });
+            }
             return true; // Return true to indicate that the deletion process has started.
         }
         catch (Exception e)
         {
             Debug.LogError("Error deleting conversation: " + e.Message);
             return false; // Return false to indicate that an error occurred during deletion.
+        }
+    }
+
+    public async Task<bool> DeleteAllMessages(List<string> msgList)
+    {
+        try
+        {
+            foreach (string message in msgList)
+            {
+                MessageBackendManager.Instance.DeleteMessage(message);
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error deleting conversation: " + e.Message);
+            return false;
         }
     }
 

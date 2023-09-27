@@ -137,4 +137,35 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
     }
 
+    public void DeleteMessage(string msgID)
+    {
+        try
+        {
+            db = FirebaseFirestore.DefaultInstance;
+            _userPath = AuthManager.Instance.userPathData;
+            // Get a reference to the conversation document using the provided conversation ID
+            DocumentReference msgRef = db.Collection("message").Document(msgID);
+
+            // Delete the conversation document
+            msgRef.DeleteAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    Debug.Log("Message " + msgID + " deleted successfully.");
+                }
+                else if (task.IsFaulted)
+                {
+                    Debug.LogError("Error deleting msg: " + task.Exception.ToString());
+                }
+            });
+
+            //return true; // Return true to indicate that the deletion process has started.
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error deleting msg: " + e.Message);
+            //return false; // Return false to indicate that an error occurred during deletion.
+        }
+    }
+
 }
