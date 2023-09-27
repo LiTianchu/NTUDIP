@@ -27,7 +27,6 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
     }
 
-
     public async Task<QuerySnapshot> GetAllMessagesTask(string conversationID)
     {
         db = FirebaseFirestore.DefaultInstance;
@@ -92,8 +91,8 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
             Dictionary<string, object> conversationDict = new Dictionary<string, object>
             {
-                { "messages", messagesList },
-                { "latestMessageCreatedAt", FieldValue.ServerTimestamp }
+                { "messages", messagesList }
+                //{ "latestMessageCreatedAt", FieldValue.ServerTimestamp }
             };
 
             db.Collection("conversation").Document(currConvData.conversationID).UpdateAsync(conversationDict);

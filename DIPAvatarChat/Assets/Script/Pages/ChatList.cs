@@ -395,7 +395,10 @@ public class ChatList : MonoBehaviour
 
         foreach (GameObject tempPrefab in tempPrefabs)
         {
-            Destroy(tempPrefab);
+            if (tempPrefab != null)
+            {
+                Destroy(tempPrefab);
+            }
         }
     }
 }
