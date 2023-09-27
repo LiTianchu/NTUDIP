@@ -2318,8 +2318,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd32d93144c685940b34ce50e65571a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emailLoginField: {fileID: 1035664315}
-  passwordLoginField: {fileID: 1523840032}
+  emailLoginField: {fileID: 1864317758}
+  passwordLoginField: {fileID: 1829982471}
   warningLoginText: {fileID: 139170502}
   confirmLoginText: {fileID: 741184183}
   emailRegisterField: {fileID: 607102125}
