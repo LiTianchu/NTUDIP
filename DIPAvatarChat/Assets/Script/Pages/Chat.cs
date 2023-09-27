@@ -25,14 +25,12 @@ public class Chat : MonoBehaviour
     //ConversationData currConvData;
     UserData recipientUserData;
     private List<string> displayedMessageIds = new List<string>();
+    bool isPopulated = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        // Initialize displayedMessageIds
-        PopulateMessage(AuthManager.Instance.currConvId);
-        SetRecipientName();
         ListenForNewMessages(); // Start listening for new messages
     }
 
@@ -43,6 +41,11 @@ public class Chat : MonoBehaviour
         {
             Debug.Log("Pressed enter key!");
             SendMessage();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Pressed spacebar key!");
         }
 
     }
@@ -74,25 +77,32 @@ public class Chat : MonoBehaviour
                 string msgText = msg.message;
                 string messageId = messageDoc.Id;
 
-                // Check if the message has not been displayed already
-                if (GameObject.Find(messageId) == null) // !displayedMessageIds.Contains(messageId)
+                if (!isPopulated)
                 {
-                    Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
-                    if (msgSender == AuthManager.Instance.currUser.email)
+                    PopulateMessage(AuthManager.Instance.currConvId);
+                }
+                else
+                {
+                    // Check if the message has not been displayed already
+                    if (GameObject.Find(messageId) == null)
                     {
-                        // Message is sent by the current user, spawn text bubble at right side
-                        Debug.Log("Received message from current user");
-                        InstantiateChatBubble(MyChatBubblePrefab, msgText, messageId);
-                    }
-                    else
-                    {
-                        // Message is sent by another user, spawn text bubble at left side
-                        Debug.Log("Received message from another user");
-                        InstantiateChatBubble(TheirChatBubblePrefab, msgText, messageId);
-                    }
+                        Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
+                        if (msgSender == AuthManager.Instance.currUser.email)
+                        {
+                            // Message is sent by the current user, spawn text bubble at right side
+                            Debug.Log("Received message from current user");
+                            InstantiateChatBubble(MyChatBubblePrefab, msgText, messageId);
+                        }
+                        else
+                        {
+                            // Message is sent by another user, spawn text bubble at left side
+                            Debug.Log("Received message from another user");
+                            InstantiateChatBubble(TheirChatBubblePrefab, msgText, messageId);
+                        }
 
-                    // Add the message ID to the list of displayed messages
-                    //displayedMessageIds.Add(messageId);
+                        // Add the message ID to the list of displayed messages
+                        //displayedMessageIds.Add(messageId);
+                    }
                 }
             }
             else
@@ -130,13 +140,16 @@ public class Chat : MonoBehaviour
                 MessageInputField.text = "";
             }
         }
+        else
+        {
+            Debug.Log("message is null...");
+        }
     }
 
     private async void PopulateMessage(string conversationID)
     {
         ClearDisplay();
         // Populate the data onto the UI
-        Debug.Log("Message Populated!");
         QuerySnapshot messages = await MessageBackendManager.Instance.GetAllMessagesTask(conversationID);
         foreach (DocumentSnapshot message in messages.Documents)
         {
@@ -148,22 +161,30 @@ public class Chat : MonoBehaviour
             string messageId = message.Id;
 
             // Check if the message has not been displayed already
-            if (true) // !displayedMessageIds.Contains(messageId)
-            {
-                if (msgSender.Equals(AuthManager.Instance.emailData))
-                { // Message is sent by me
-                  // Spawn text bubble at right side of the chat
-                    InstantiateChatBubble(MyChatBubblePrefab, msgText, messageId);
-                }
-                else
-                { // Message is sent by other user
-                  // Spawn text bubble at left side of the chat
-                    InstantiateChatBubble(TheirChatBubblePrefab, msgText, messageId);
+            // !displayedMessageIds.Contains(messageId)
 
-                    // Add the message ID to the list of displayed messages
-                    //displayedMessageIds.Add(messageId);
-                }
+            if (msgSender.Equals(AuthManager.Instance.emailData))
+            {
+                // Message is sent by me
+                // Spawn text bubble at right side of the chat
+                InstantiateChatBubble(MyChatBubblePrefab, msgText, messageId);
             }
+            else
+            {
+                // Message is sent by other user
+                // Spawn text bubble at left side of the chat
+                InstantiateChatBubble(TheirChatBubblePrefab, msgText, messageId);
+
+                // Add the message ID to the list of displayed messages
+                //displayedMessageIds.Add(messageId);
+            }
+        }
+
+        SetRecipientName(); 
+        isPopulated = true;
+        if (isPopulated)
+        {
+            Debug.Log("Message Populated!");
         }
     }
 

@@ -21,7 +21,7 @@ public class ChatListBox : MonoBehaviour
     public void EnterChat()
     {
         AuthManager.Instance.currConvId = Box.name;
-        AppManager.Instance.LoadScene("6-ChatUI");
+        AppManager.Instance.LoadScene("6-ChatUI"); // 6-ChatUI | 6-ChatFrontEnd
     }
 
     public async void DeleteChat()
