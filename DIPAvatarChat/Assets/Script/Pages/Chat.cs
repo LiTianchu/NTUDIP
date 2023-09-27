@@ -32,7 +32,7 @@ public class Chat : MonoBehaviour
         SetRecipientName();
 
         // listener for changes 
-        db = FirebaseFirestore.DefaultInstance;
+        /*db = FirebaseFirestore.DefaultInstance;
         DocumentReference docRef = db.Collection("conversation").Document(AuthManager.Instance.currConvId);
         docRef.Listen(snapshot =>
         {
@@ -45,7 +45,7 @@ public class Chat : MonoBehaviour
             }
 
             PopulateMessage(AuthManager.Instance.currConvId);
-        });
+        });*/
     }
 
     // Update is called once per frame
@@ -76,7 +76,7 @@ public class Chat : MonoBehaviour
             bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, MessageInputField.text, myEmail, theirEmail);
             if (IsMessageSent)
             {
-                //PopulateMessage(AuthManager.Instance.currConvId);
+                PopulateMessage(AuthManager.Instance.currConvId);
                 MessageInputField.text = "";
             }
         }
