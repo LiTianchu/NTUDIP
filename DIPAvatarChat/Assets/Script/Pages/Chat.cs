@@ -13,8 +13,6 @@ using UnityEngine.UI;
 
 public class Chat : MonoBehaviour
 {
-    FirebaseFirestore db;
-
     public TMP_InputField MessageInputField;
     public TMP_Text RecipientName;
     public GameObject MyChatBubblePrefab;
@@ -31,6 +29,7 @@ public class Chat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Scene 6 Loaded...");
         ListenForNewMessages(); // Start listening for new messages
     }
 
@@ -51,8 +50,7 @@ public class Chat : MonoBehaviour
     }
     private async void ListenForNewMessages()
     {
-        db = FirebaseFirestore.DefaultInstance;
-        DocumentReference docRef = db.Collection("conversation").Document(AuthManager.Instance.currConvId);
+        DocumentReference docRef = await ConversationBackendManager.Instance.GetConversationReferenceTask(AuthManager.Instance.currConvId);
         docRef.Listen(async snapshot =>
         {
             Debug.Log("New message document received!");
@@ -91,17 +89,14 @@ public class Chat : MonoBehaviour
                         {
                             // Message is sent by the current user, spawn text bubble at right side
                             Debug.Log("Received message from current user");
-                            InstantiateChatBubble(MyChatBubblePrefab, msgText, messageId);
+                            InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
                         }
                         else
                         {
                             // Message is sent by another user, spawn text bubble at left side
                             Debug.Log("Received message from another user");
-                            InstantiateChatBubble(TheirChatBubblePrefab, msgText, messageId);
+                            InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
                         }
-
-                        // Add the message ID to the list of displayed messages
-                        //displayedMessageIds.Add(messageId);
                     }
                 }
             }
@@ -131,7 +126,6 @@ public class Chat : MonoBehaviour
             }
         }
 
-        Task.Delay(200);
         if (MessageInputField.text != null && MessageInputField.text != "")
         {
             bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, MessageInputField.text, myEmail, theirEmail);
@@ -167,16 +161,12 @@ public class Chat : MonoBehaviour
             {
                 // Message is sent by me
                 // Spawn text bubble at right side of the chat
-                InstantiateChatBubble(MyChatBubblePrefab, msgText, messageId);
+                InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
             }
             else
             {
-                // Message is sent by other user
-                // Spawn text bubble at left side of the chat
-                InstantiateChatBubble(TheirChatBubblePrefab, msgText, messageId);
-
-                // Add the message ID to the list of displayed messages
-                //displayedMessageIds.Add(messageId);
+                // Message is sent by the other party
+                InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
             }
         }
 
@@ -188,10 +178,10 @@ public class Chat : MonoBehaviour
         }
     }
 
-    public void InstantiateChatBubble(GameObject ChatBubblePrefab, string msgText, string messageId)
+    public void InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
     {
-        GameObject box = Instantiate(ChatBubblePrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        box.transform.SetParent(ChatBubbleParent.transform, false);
+        GameObject box = Instantiate(_ChatBubblePrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        box.transform.SetParent(_ChatBubbleParent.transform, false);
         box.name = messageId;
 
         box.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = msgText;
