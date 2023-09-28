@@ -798,8 +798,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 572962006}
-  - component: {fileID: 572962005}
   - component: {fileID: 572962004}
+  - component: {fileID: 572962007}
   m_Layer: 5
   m_Name: ChatBubbleParent
   m_TagString: Untagged
@@ -821,7 +821,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &572962005
+--- !u!224 &572962006
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572962003}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1514743594}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 152, y: -451.32953}
+  m_SizeDelta: {x: 304, y: 0}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &572962007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -842,30 +861,11 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!224 &572962006
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572962003}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1514743594}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 152, y: -451.32953}
-  m_SizeDelta: {x: 304, y: 0}
-  m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &646041281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,8 +1201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MessageInputField: {fileID: 1339026541}
   RecipientName: {fileID: 1175973059}
-  MyChatBubblePrefab: {fileID: 2280183411122101959, guid: b4cbfa439d6fccf41b5f97d3724f3aa5, type: 3}
-  TheirChatBubblePrefab: {fileID: 3315573967529623260, guid: 909287860da660a4eac09c478558558a, type: 3}
+  MyChatBubblePrefab: {fileID: 6655866526961314476, guid: 9680a7e02d61fc041a44b2011b08bc20, type: 3}
+  TheirChatBubblePrefab: {fileID: 6655866526961314476, guid: 8fdadd0911ebe3b4384c6223a85eb3fd, type: 3}
   ChatBubbleParent: {fileID: 572962003}
 --- !u!1 &1146121655
 GameObject:
@@ -1915,7 +1915,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 60
+  m_CharacterLimit: 500
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
