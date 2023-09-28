@@ -1,6 +1,10 @@
 using Firebase.Firestore;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [FirestoreData]
@@ -21,5 +25,5 @@ public class ConversationData
     public List<string> messages { get; set; }
 
     [FirestoreProperty]
-    public Timestamp latestMessageCreatedAt { get; set; }
+    public DateTime latestMessageCreatedAt { get; set; }
 }

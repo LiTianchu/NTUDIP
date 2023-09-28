@@ -73,37 +73,44 @@ public class Chat : MonoBehaviour
                 // Extract the new message data
                 ConversationData conversation = snapshot.ConvertTo<ConversationData>();
 
-                DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
-                MessageData msg = messageDoc.ConvertTo<MessageData>();
-
-                string msgSender = msg.sender;
-                string msgText = msg.message;
-                string messageId = messageDoc.Id;
-
-                // if messages are not loaded in yet
-                if (!isPopulated)
+                if (conversation.messages.Last() != null)
                 {
-                    PopulateMessage(AuthManager.Instance.currConvId);
+                    DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages.Last());
+                    MessageData msg = messageDoc.ConvertTo<MessageData>();
+
+                    string msgSender = msg.sender;
+                    string msgText = msg.message;
+                    string messageId = messageDoc.Id;
+
+                    // if messages are not loaded in yet
+                    if (!isPopulated)
+                    {
+                        PopulateMessage(AuthManager.Instance.currConvId);
+                    }
+                    else
+                    {
+                        // Check if the message has not been displayed already
+                        if (GameObject.Find(messageId) == null)
+                        {
+                            Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
+                            if (msgSender == AuthManager.Instance.currUser.email)
+                            {
+                                // Message is sent by the current user, spawn text bubble at right side
+                                Debug.Log("Received message from current user");
+                                InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                            }
+                            else
+                            {
+                                // Message is sent by another user, spawn text bubble at left side
+                                Debug.Log("Received message from another user");
+                                InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    // Check if the message has not been displayed already
-                    if (GameObject.Find(messageId) == null)
-                    {
-                        Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
-                        if (msgSender == AuthManager.Instance.currUser.email)
-                        {
-                            // Message is sent by the current user, spawn text bubble at right side
-                            Debug.Log("Received message from current user");
-                            InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
-                        }
-                        else
-                        {
-                            // Message is sent by another user, spawn text bubble at left side
-                            Debug.Log("Received message from another user");
-                            InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
-                        }
-                    }
+                    SetRecipientName();
                 }
             }
             else
@@ -176,7 +183,7 @@ public class Chat : MonoBehaviour
             }
         }
 
-        SetRecipientName(); 
+        SetRecipientName();
         isPopulated = true;
         if (isPopulated)
         {
@@ -214,7 +221,7 @@ public class Chat : MonoBehaviour
         }
 
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);
-        UserData userData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+        UserData userData = userDoc.ConvertTo<UserData>();
 
         return userData;
     }

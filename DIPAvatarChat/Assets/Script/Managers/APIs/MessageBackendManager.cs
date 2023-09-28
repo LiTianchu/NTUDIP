@@ -17,9 +17,6 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
     FirebaseFirestore db;
     private string _userPath;
 
-    //declare the event
-    public event Action<MessageData> MessageRetrieved;
-
     void Start()
     {
         db = FirebaseFirestore.DefaultInstance;
@@ -45,19 +42,6 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
             Debug.LogError("Error getting messages: messagesDoc is null");
         }
         return messagesDoc;
-
-    }
-
-    public void GetMessageByID(string messageID)
-    {
-        DocumentReference messageDoc = db.Collection("message").Document(messageID);
-        messageDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            DocumentSnapshot messageSnapshot = task.Result;
-            Dictionary<string, object> temp = messageSnapshot.ToDictionary();
-            MessageData messageData = DictionaryToMessageData(temp);
-            MessageRetrieved?.Invoke(messageData);
-        });
 
     }
 
@@ -93,8 +77,8 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 
             Dictionary<string, object> conversationDict = new Dictionary<string, object>
             {
-                { "messages", messagesList }
-                //{ "latestMessageCreatedAt", FieldValue.ServerTimestamp }
+                { "messages", messagesList },
+                { "latestMessageCreatedAt", DateTime.Now }
             };
 
             db.Collection("conversation").Document(currConvData.conversationID).UpdateAsync(conversationDict);
@@ -106,37 +90,6 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
             Debug.LogError("Error adding message: " + e.Message);
             return false; // Return false to indicate that an error occurred while adding the message.
         }
-    }
-
-    public MessageData ProcessMessageDocument(DocumentSnapshot documentSnapShot)
-    {
-
-        Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-        return DictionaryToMessageData(temp);
-    }
-
-    public MessageData DictionaryToMessageData(Dictionary<string, object> firestorData)
-    {
-        MessageData messageData = new MessageData();
-
-        firestorData.TryGetValue("message", out object message);
-        messageData.message = (string)message;
-
-        firestorData.TryGetValue("createdAt", out object createdAt);
-        messageData.createdAt = (Timestamp)createdAt;
-
-        firestorData.TryGetValue("conversationID", out object conversationID);
-        messageData.conversationID = (string)conversationID;
-
-        firestorData.TryGetValue("receiver", out object receiver);
-        messageData.receiver = (string)receiver;
-
-        firestorData.TryGetValue("sender", out object sender);
-        messageData.sender = (string)sender;
-
-
-        return messageData;
-
     }
 
     public void DeleteMessage(string msgID)

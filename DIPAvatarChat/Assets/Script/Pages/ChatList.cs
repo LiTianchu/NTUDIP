@@ -61,7 +61,7 @@ public class ChatList : MonoBehaviour
             {
                 //get conversation document
                 DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversations[i]);
-                conversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
+                conversation = conversationDoc.ConvertTo<ConversationData>();
 
                 foreach (string member in conversation.members)
                 {
@@ -75,10 +75,10 @@ public class ChatList : MonoBehaviour
                 if (conversation.messages != null && conversation.messages.Count > 1) // messages[0] is null when instantiated, start count from 1
                 {
                     DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
-                    latestMessage = MessageBackendManager.Instance.ProcessMessageDocument(messageDoc);
+                    latestMessage = messageDoc.ConvertTo<MessageData>();
 
                     DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
-                    friendData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+                    friendData = userDoc.ConvertTo<UserData>();
                     if (friendData == null)
                     {
                         Debug.Log(latestMessage.sender + " has no corresponding document");
@@ -90,7 +90,7 @@ public class ChatList : MonoBehaviour
                     latestMessage = new MessageData();
                     latestMessage.message = "No messages yet";
                     DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
-                    friendData = UserBackendManager.Instance.ProcessUserDocument(userDoc);
+                    friendData = userDoc.ConvertTo<UserData>();
                 }
 
                 string convId = conversationDoc.Id;
@@ -204,7 +204,7 @@ public class ChatList : MonoBehaviour
         EnableTab(SearchFriendInfoTab);
 
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
-        DisplaySearchUserData(UserBackendManager.Instance.ProcessUserDocument(userDoc));
+        DisplaySearchUserData(userDoc.ConvertTo<UserData>());
 
         SendFriendRequestBtn.interactable = true;
     }
@@ -264,7 +264,7 @@ public class ChatList : MonoBehaviour
         Debug.Log(AuthManager.Instance.emailData);
 
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
-        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+        UserData myUserData = myUserDoc.ConvertTo<UserData>();
 
         foreach (string friendRequest in myUserData.friendRequests)
         {
@@ -273,7 +273,7 @@ public class ChatList : MonoBehaviour
                 Debug.Log("Display friend request: " + friendRequest);
 
                 DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendRequest);
-                UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+                UserData theirUserData = theirUserDoc.ConvertTo<UserData>();
 
                 //Clone prefab for displaying friend request
                 GameObject box = Instantiate(FriendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
@@ -326,10 +326,10 @@ public class ChatList : MonoBehaviour
     async public Task<List<string>[]> GetFriendAndFriendRequestListsTask(string myEmail, string theirEmail)
     {
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(myEmail);
-        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+        UserData myUserData = myUserDoc.ConvertTo<UserData>();
 
         DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(theirEmail);
-        UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+        UserData theirUserData = theirUserDoc.ConvertTo<UserData>();
 
         List<string> myFriendRequestsList = new List<string>(myUserData.friendRequests);
         List<string> theirFriendRequestsList = new List<string>(theirUserData.friendRequests);
@@ -370,7 +370,7 @@ public class ChatList : MonoBehaviour
     async public void GetCurrentUserData()
     {
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
-        UserData userData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+        UserData userData = myUserDoc.ConvertTo<UserData>();
     }
 
     public void ClearDisplay()

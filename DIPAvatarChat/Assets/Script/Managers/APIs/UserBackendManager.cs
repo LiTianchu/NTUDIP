@@ -20,11 +20,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
     //cache
     //public UserData currentUser { get; set; }
 
-    //events
-    public event Action<UserData> SearchUserFriendRequestsReceived;
-    public event Action<UserData> SearchUserContactsReceived;
-    public event Action<UserData> OtherUserDataReceived;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -92,25 +87,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
     }
 
-    /*public void GetCurrentUser()
-    {
-        db = FirebaseFirestore.DefaultInstance;
-
-        UserData userData;
-        DocumentReference userDoc = db.Collection("user").Document(AuthManager.Instance.emailData);
-
-        //this function is Async, so the return value does not work here.
-        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
-        userDoc.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            userData = ProcessUserDocument(task.Result);
-            this.currentUser = userData;
-            CurrentUserRetrieved?.Invoke(userData);
-
-        });
-
-    }*/
-
     public async Task<DocumentSnapshot> GetUserByEmailTask(string email)
     {
         db = FirebaseFirestore.DefaultInstance;
@@ -131,26 +107,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
         return doc;
     }
 
-
-    public void GetOtherUser(string email)
-    {
-        UserData userData;
-        Query usernameQuery = db.Collection("user").WhereEqualTo("email", email);
-
-        //this function is Async, so the return value does not work here.
-        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
-        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            QuerySnapshot snapshot = task.Result;
-            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
-            {
-
-                userData = ProcessUserDocument(documentSnapShot);
-                OtherUserDataReceived?.Invoke(userData);
-            }
-        });
-    }
-
     public void SendFriendRequestToThem(string myEmail, string theirEmail, List<string> theirFriendRequestsList)
     {
         theirFriendRequestsList.Add(myEmail);
@@ -162,50 +118,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
         db.Document("user/" + theirEmail).UpdateAsync(theirFriendRequestsDict);
 
         Debug.Log("Friend Request Sent to " + theirEmail + "!");
-    }
-
-    public void SearchFriendRequests(string myEmail)
-    {
-        UserData userData;
-        Query usernameQuery = db.Collection("user").WhereEqualTo("email", myEmail);
-
-        //this function is Async, so the return value does not work here.
-        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
-        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            QuerySnapshot snapshot = task.Result;
-            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
-            {
-                userData = ProcessUserDocument(documentSnapShot);
-
-                SearchUserFriendRequestsReceived?.Invoke(userData);
-
-                // Newline to separate entries
-                Debug.Log("");
-            }
-        });
-    }
-
-    public void SearchContacts(string myEmail)
-    {
-        UserData userData;
-        Query usernameQuery = db.Collection("user").WhereEqualTo("email", myEmail);
-
-        //this function is Async, so the return value does not work here.
-        //one way is to use the C# event system to add a event listener that will be called once the message getting operation finished
-        usernameQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            QuerySnapshot snapshot = task.Result;
-            foreach (DocumentSnapshot documentSnapShot in snapshot.Documents)
-            {
-                userData = ProcessUserDocument(documentSnapShot);
-
-                SearchUserContactsReceived?.Invoke(userData);
-
-                // Newline to separate entries
-                Debug.Log("");
-            }
-        });
     }
 
     public void AcceptFriendRequest(string myEmail, string theirEmail, List<string> myFriendRequestsList, List<string> theirFriendRequestsList, List<string> myFriendsList, List<string> theirFriendsList)
@@ -244,52 +156,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
         Debug.Log("Friend Request from " + theirEmail + " rejected! :<");
 
         db.Document("user/" + myEmail).UpdateAsync(myUserData);
-    }
-
-    public UserData ProcessUserDocument(DocumentSnapshot documentSnapShot)
-    {
-        Debug.Log(String.Format("Document data for {0} document:", documentSnapShot.Id));
-
-        List<string> friendRequestsList = new List<string>();
-        List<string> friendsList = new List<string>();
-        List<string> conversationList = new List<string>();
-
-        documentSnapShot.TryGetValue("friendRequests", out friendRequestsList);
-        documentSnapShot.TryGetValue("friends", out friendsList);
-        documentSnapShot.TryGetValue("conversations", out conversationList);
-
-        Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-        if (temp == null)
-        {
-            return null;
-        }
-        return DictionaryToUserData(temp, friendRequestsList, friendsList, conversationList);
-
-    }
-
-    public UserData DictionaryToUserData(Dictionary<string, object> firestoreData, List<string> friendRequests, List<string> friends, List<string> conversations)
-    {
-        UserData userData = new UserData();
-
-        firestoreData.TryGetValue("username", out object username);
-        userData.username = (string)username;
-
-        firestoreData.TryGetValue("email", out object email);
-        userData.email = (string)email;
-
-        firestoreData.TryGetValue("status", out object status);
-        userData.status = (string)status;
-
-        //firestorData.TryGetValue("friendRequests", out object friendRequests);
-        userData.friendRequests = (List<string>)friendRequests;
-
-        //firestorData.TryGetValue("friends", out object friends);
-        userData.friends = (List<string>)friends;
-
-        userData.conversations = (List<string>)conversations;
-
-        return userData;
-
     }
 
     //Random ID generator

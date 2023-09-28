@@ -47,7 +47,7 @@ public class NewChat : MonoBehaviour
     Debug.Log(AuthManager.Instance.emailData); // AuthManager.Instance.emailData;
 
     DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
-    UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+    UserData myUserData = myUserDoc.ConvertTo<UserData>();
 
     foreach (string friend in myUserData.friends)
     {
@@ -56,7 +56,7 @@ public class NewChat : MonoBehaviour
         Debug.Log("Display friend: " + friend);
 
         DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(friend);
-        UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+        UserData theirUserData = theirUserDoc.ConvertTo<UserData>();
 
         //Clone prefab for displaying friend request
         GameObject box = Instantiate(ContactsBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
@@ -76,7 +76,7 @@ public class NewChat : MonoBehaviour
     string currConvId = null;
 
     DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);
-    UserData theirUserData = UserBackendManager.Instance.ProcessUserDocument(theirUserDoc);
+    UserData theirUserData = theirUserDoc.ConvertTo<UserData>();
     Debug.Log("Current user email: " + currUserData.email);
 
     List<string> currUserConversationsList = new List<string>(currUserData.conversations);
@@ -88,7 +88,7 @@ public class NewChat : MonoBehaviour
       {
         Debug.Log("conversation: " + conversation);
         DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversation);
-        ConversationData currConversation = ConversationBackendManager.Instance.ProcessConversationDocument(conversationDoc);
+        ConversationData currConversation = conversationDoc.ConvertTo<ConversationData>();
 
         foreach (string member in currConversation.members)
         {
