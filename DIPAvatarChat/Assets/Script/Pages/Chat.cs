@@ -186,11 +186,11 @@ public class Chat : MonoBehaviour
 
     public void InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
     {
-        GameObject box = Instantiate(_ChatBubblePrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        box.transform.SetParent(_ChatBubbleParent.transform, false);
+        GameObject box = Instantiate(_ChatBubblePrefab, _ChatBubbleParent.transform) as GameObject;
         box.name = messageId;
 
         box.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = msgText;
+        //box.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = msgText;
     }
 
     public async void SetRecipientName()
