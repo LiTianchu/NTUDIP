@@ -15,7 +15,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
     {
         db = FirebaseFirestore.DefaultInstance;
         _userPath = AuthManager.Instance.userPathData;
-
     }
 
     public async Task<DocumentReference> GetConversationReferenceTask(string conversationID)
