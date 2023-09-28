@@ -74,7 +74,7 @@ public class RegisterAndLogin : MonoBehaviour
     public async void LoginButton()
     {
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailLoginField.text);
-        UserData myUserData = UserBackendManager.Instance.ProcessUserDocument(myUserDoc);
+        UserData myUserData = myUserDoc.ConvertTo<UserData>();
 
         if (myUserData.username != null && myUserData.status != null)
         {

@@ -3,6 +3,8 @@ using Firebase.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -70,7 +72,7 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
             { "description", "This is a chat with " + theirUserData.username },
             { "members", new List<string>() { currUserData.email, theirUserData.email } },
             { "messages", new List<string>() { null } },
-            { "latestMessageCreatedAt", FieldValue.ServerTimestamp }
+            { "latestMessageCreatedAt", DateTime.Now }
         };
 
         db.Document("conversation/" + currConvId).SetAsync(convData);
@@ -92,13 +94,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         db.Document("user/" + theirUserData.email).UpdateAsync(theirUserConversationsDict);
 
         return currConvId;
-    }
-
-    public ConversationData ProcessConversationDocument(DocumentSnapshot documentSnapShot)
-    {
-
-        Dictionary<string, object> temp = documentSnapShot.ToDictionary();
-        return DictionaryToConversationData(temp, documentSnapShot.GetValue<List<string>>("members"), documentSnapShot.GetValue<List<string>>("messages"));
     }
 
     public bool UpdateConversationDesc(string conversationID, string description)
@@ -257,19 +252,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
 
         db.Document("user/" + myEmail).UpdateAsync(myUserDict);
         db.Document("user/" + theirEmail).UpdateAsync(theirUserDict);
-    }
-
-    public ConversationData DictionaryToConversationData(Dictionary<string, object> firestoreData, List<string> members, List<string> messages)
-    {
-        ConversationData conversationData = new ConversationData();
-        firestoreData.TryGetValue("conversationID", out object conversationID);
-        firestoreData.TryGetValue("description", out object description);
-        conversationData.conversationID = (string)conversationID;
-        conversationData.description = (string)description;
-        conversationData.members = members;
-        conversationData.messages = messages;
-        return conversationData;
-
     }
 
     //For future use, to get the conversation ID based on description for the purpose of easy deletion of the conversation

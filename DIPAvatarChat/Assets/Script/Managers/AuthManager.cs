@@ -141,7 +141,7 @@ public class AuthManager : Singleton<AuthManager>
                 UserBackendManager.Instance.GetUserByEmailTask(emailData).ContinueWithOnMainThread(task =>
                 {
                     DocumentSnapshot currUserDoc = task.Result;
-                    this.currUser = UserBackendManager.Instance.ProcessUserDocument(currUserDoc);
+                    this.currUser = currUserDoc.ConvertTo<UserData>();
                     AppManager.Instance.LoadScene(landingScene);
                 });
 
