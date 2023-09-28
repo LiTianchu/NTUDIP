@@ -22,8 +22,8 @@ public class Chat : MonoBehaviour
     //public static string currConvId { get; set; }
     //ConversationData currConvData;
     UserData recipientUserData;
-    private List<string> displayedMessageIds = new List<string>();
     bool isPopulated = false;
+    ListenerRegistration listener;
 
 
     // Start is called before the first frame update
@@ -46,12 +46,17 @@ public class Chat : MonoBehaviour
         {
             Debug.Log("Pressed spacebar key!");
         }
+    }
 
+    void OnDestroy()
+    {
+        // Destroy the listener when the scene is changed
+        listener.Stop();
     }
     private async void ListenForNewMessages()
     {
         DocumentReference docRef = await ConversationBackendManager.Instance.GetConversationReferenceTask(AuthManager.Instance.currConvId);
-        docRef.Listen(async snapshot =>
+        listener = docRef.Listen(async snapshot =>
         {
             Debug.Log("New message document received!");
             Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
@@ -75,6 +80,7 @@ public class Chat : MonoBehaviour
                 string msgText = msg.message;
                 string messageId = messageDoc.Id;
 
+                // if messages are not loaded in yet
                 if (!isPopulated)
                 {
                     PopulateMessage(AuthManager.Instance.currConvId);
