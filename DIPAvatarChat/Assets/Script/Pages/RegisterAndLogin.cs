@@ -76,7 +76,7 @@ public class RegisterAndLogin : MonoBehaviour
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailLoginField.text);
         UserData myUserData = myUserDoc.ConvertTo<UserData>();
 
-        if (myUserData.username != null && myUserData.status != null)
+        if (myUserData.username != null && myUserData.status != null && myUserData.currentAvatar != null)
         {
             AuthManager.Instance.StartLogin(emailLoginField.text, passwordLoginField.text, "4-ChatList");
             return;
