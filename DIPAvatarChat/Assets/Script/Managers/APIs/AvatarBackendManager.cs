@@ -41,7 +41,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 watch = avatarData.watch,
                 wings = avatarData.wings,
                 tail = avatarData.tail,
-                userId = userData.email
+                userEmail = userData.email
             };
 
             // Upload the avatar data to Firestore
@@ -132,7 +132,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         try
         {
-            Query avatarQuery = db.Collection("avatar").WhereEqualTo("userId", email);
+            Query avatarQuery = db.Collection("avatar").WhereEqualTo("userEmail", email);
             QuerySnapshot querySnapshot = await avatarQuery.GetSnapshotAsync();
 
             List<string> avatars = new List<string>();

@@ -32,5 +32,5 @@ public class AvatarData
     public string tail { get; set; }
 
     [FirestoreProperty]
-    public string userId { get; set; }
+    public string userEmail { get; set; }
 }
