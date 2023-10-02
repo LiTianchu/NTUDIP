@@ -14,25 +14,22 @@ public class AvatarData
     public DateTime createdAt { get; set; }
 
     [FirestoreProperty]
-    public string ears { get; set; }
-
-    [FirestoreProperty]
-    public string eyes { get; set; }
+    public string backgroundColor { get; set; }
 
     [FirestoreProperty]
     public string face { get; set; }
 
     [FirestoreProperty]
-    public string hair { get; set; }
+    public string hat { get; set; }
 
     [FirestoreProperty]
-    public string head { get; set; }
+    public string watch { get; set; }
 
     [FirestoreProperty]
-    public string mouth { get; set; }
+    public string wings { get; set; }
 
     [FirestoreProperty]
-    public string nose { get; set; }
+    public string tail { get; set; }
 
     [FirestoreProperty]
     public string userId { get; set; }

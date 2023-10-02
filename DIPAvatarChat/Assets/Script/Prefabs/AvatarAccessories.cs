@@ -9,6 +9,7 @@ public class AvatarAccessories : MonoBehaviour
     public GameObject AccessoryPrefab;
     public Transform AccessoryPanel;
     public Button selectAccessoryButton;
+    public string accessoryType;
 
     private GameObject previousClone;
     private int cloneCount = 0;
