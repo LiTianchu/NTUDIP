@@ -66,24 +66,6 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-    public async Task<DocumentSnapshot> GetAvatarByAvatarIDTask(string avatarId)
-    {
-        db = FirebaseFirestore.DefaultInstance;
-
-        DocumentSnapshot doc = null;
-        try
-        {
-            DocumentReference avatarDoc = db.Collection("avatar").Document(avatarId);
-            doc = await avatarDoc.GetSnapshotAsync();
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Firestore Error: " + ex.Message);
-
-        }
-        return doc;
-    }
-
     //updating avatardata
     public async Task<bool> UpdateAvatarData(string avatarID, AvatarData updatedAvatarData)
     {
