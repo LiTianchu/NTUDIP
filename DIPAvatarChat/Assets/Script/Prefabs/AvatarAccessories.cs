@@ -19,7 +19,12 @@ public class AvatarAccessories : MonoBehaviour
 
     void Start()
     {
-        //selectAccessoryButton.onClick.AddListener(InstantiateAccessory);
+
+    }
+
+    void Update()
+    {
+        // You can add any update logic here if needed
     }
 
     public void InstantiateAccessory()
@@ -27,7 +32,7 @@ public class AvatarAccessories : MonoBehaviour
         Debug.Log("InstantiateAccessory called");
 
         // Stop any ongoing instantiation coroutine
-        if (instantiationCoroutine != null)
+        /*if (instantiationCoroutine != null)
         {
             StopCoroutine(instantiationCoroutine);
         }
@@ -37,47 +42,95 @@ public class AvatarAccessories : MonoBehaviour
         {
             Debug.Log("Destroying previousClone");
             Destroy(previousClone);
-        }
+        }*/
 
         // Start a new instantiation coroutine
-        instantiationCoroutine = StartCoroutine(InstantiateAccessoryCoroutine());
-    }
+        //instantiationCoroutine = StartCoroutine(InstantiateAccessoryCoroutine());
+        //UpdateAvatarData();
 
-    public void UpdateAvatarData()
-    {
-        Debug.Log("Accessory Type: " + accessoryType + ", Accessory Name: " + AccessoryPrefab.name);
-        switch (accessoryType)
+        foreach (Transform child in AccessoryPanel.transform)
         {
-            case "colour":
-                AvatarBackendManager.Instance.currAvatarData.colour = accessoryPath + AccessoryPrefab.name;
-                break;
-            case "texture":
-                AvatarBackendManager.Instance.currAvatarData.texture = accessoryPath + AccessoryPrefab.name;
-                break;
-            case "expression":
-                AvatarBackendManager.Instance.currAvatarData.expression = accessoryPath + AccessoryPrefab.name;
-                break;
-            case "hat":
-                AvatarBackendManager.Instance.currAvatarData.hat = accessoryPath + AccessoryPrefab.name;
-                break;
-            case "arm":
-                AvatarBackendManager.Instance.currAvatarData.arm = accessoryPath + AccessoryPrefab.name;
-                break;
-            case "wings":
-                AvatarBackendManager.Instance.currAvatarData.wings = accessoryPath + AccessoryPrefab.name;
-                break;
-            case "tail":
-                AvatarBackendManager.Instance.currAvatarData.tail = accessoryPath + AccessoryPrefab.name;
-                break;
+            Debug.Log("Child GameObject: " + child.gameObject.name);
+            if (child.gameObject == AccessoryPrefab)
+            {
+                child.gameObject.SetActive(!child.gameObject.activeSelf);
+
+                UpdateAvatarData(child.gameObject.activeSelf);
+            }
+            else
+            {
+                child.gameObject.SetActive(false);
+            }
         }
     }
 
-    private IEnumerator InstantiateAccessoryCoroutine()
+    public void UpdateAvatarData(bool isActive)
+    {
+        Debug.Log("Accessory Type: " + accessoryType + ", Accessory Name: " + AccessoryPrefab.name);
+        Debug.Log("IsActive: " + isActive);
+
+        if (isActive)
+        {
+            switch (accessoryType)
+            {
+                case "colour":
+                    AvatarBackendManager.Instance.currAvatarData.colour = accessoryPath + AccessoryPrefab.name;
+                    break;
+                case "texture":
+                    AvatarBackendManager.Instance.currAvatarData.texture = accessoryPath + AccessoryPrefab.name;
+                    break;
+                case "expression":
+                    AvatarBackendManager.Instance.currAvatarData.expression = accessoryPath + AccessoryPrefab.name;
+                    break;
+                case "hat":
+                    AvatarBackendManager.Instance.currAvatarData.hat = accessoryPath + AccessoryPrefab.name;
+                    break;
+                case "arm":
+                    AvatarBackendManager.Instance.currAvatarData.arm = accessoryPath + AccessoryPrefab.name;
+                    break;
+                case "wings":
+                    AvatarBackendManager.Instance.currAvatarData.wings = accessoryPath + AccessoryPrefab.name;
+                    break;
+                case "tail":
+                    AvatarBackendManager.Instance.currAvatarData.tail = accessoryPath + AccessoryPrefab.name;
+                    break;
+            }
+        }
+        else
+        {
+            switch (accessoryType)
+            {
+                case "colour":
+                    AvatarBackendManager.Instance.currAvatarData.colour = null;
+                    break;
+                case "texture":
+                    AvatarBackendManager.Instance.currAvatarData.texture = null;
+                    break;
+                case "expression":
+                    AvatarBackendManager.Instance.currAvatarData.expression = null;
+                    break;
+                case "hat":
+                    AvatarBackendManager.Instance.currAvatarData.hat = null;
+                    break;
+                case "arm":
+                    AvatarBackendManager.Instance.currAvatarData.arm = null;
+                    break;
+                case "wings":
+                    AvatarBackendManager.Instance.currAvatarData.wings = null;
+                    break;
+                case "tail":
+                    AvatarBackendManager.Instance.currAvatarData.tail = null;
+                    break;
+            }
+        }
+    }
+
+    /*private IEnumerator InstantiateAccessoryCoroutine()
     {
         // Yield one frame to ensure that the destruction has occurred
         yield return null;
 
-        UpdateAvatarData();
+        //UpdateAvatarData();
 
         // Calculate the position for the new accessory clone based on the clone count
         Vector3 clonePosition = new Vector3(0, -cloneCount * 100f, 0); // Adjust the Y position as needed
@@ -95,8 +148,19 @@ public class AvatarAccessories : MonoBehaviour
         instantiationCoroutine = null;
     }
 
-    void Update()
+    private void DisplayAccessory()
     {
-        // You can add any update logic here if needed
-    }
+        foreach (Transform child in AccessoryPanel.transform)
+        {
+            Debug.Log("Child GameObject: " + child.gameObject.name);
+            if (child.gameObject == AccessoryPrefab)
+            {
+                child.gameObject.SetActive(!child.gameObject.activeSelf);
+            }
+            else
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+    }*/
 }
