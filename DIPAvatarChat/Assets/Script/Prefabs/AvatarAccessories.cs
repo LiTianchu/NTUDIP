@@ -30,24 +30,7 @@ public class AvatarAccessories : MonoBehaviour
     public void InstantiateAccessory()
     {
         Debug.Log("InstantiateAccessory called");
-
-        // Stop any ongoing instantiation coroutine
-        /*if (instantiationCoroutine != null)
-        {
-            StopCoroutine(instantiationCoroutine);
-        }
-
-        // Destroy the previous clone if it exists
-        if (previousClone != null)
-        {
-            Debug.Log("Destroying previousClone");
-            Destroy(previousClone);
-        }*/
-
-        // Start a new instantiation coroutine
-        //instantiationCoroutine = StartCoroutine(InstantiateAccessoryCoroutine());
-        //UpdateAvatarData();
-
+        
         foreach (Transform child in AccessoryPanel.transform)
         {
             Debug.Log("Child GameObject: " + child.gameObject.name);

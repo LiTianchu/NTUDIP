@@ -27,43 +27,35 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         return doc;
     }
 
-    public async Task<string> UploadAvatar(AvatarData avatarData)
+    public async Task<bool> UploadAvatar()
     {
         try
         {
-            // Create an instance of the AvatarData class with the provided data
-            /*var avatar = new AvatarData
-            {
-                createdAt = DateTime.Now,
-                backgroundColor = avatarData.colour,
-                backgroundColor = avatarData.texture,
-                face = avatarData.expression,
-                hat = avatarData.hat,
-                watch = avatarData.arm,
-                wings = avatarData.wings,
-                tail = avatarData.tail,
-                userEmail = avatarData.userEmail,
-            };*/
-
             // Upload the avatar data to Firestore
-            DocumentReference avatarRef = await db.Collection("avatar").AddAsync(avatarData);
+            DocumentReference avatarRef = await db.Collection("avatar").AddAsync(currAvatarData);
             string avatarID = avatarRef.Id;
 
             // Update the user's avatar ID in their profile
             Dictionary<string, object> userUpdate = new Dictionary<string, object>
             {
+                { "currentAvatar", avatarID }
+            };
+
+            Dictionary<string, object> avatarUpdate = new Dictionary<string, object>
+            {
                 { "avatarId", avatarID }
             };
 
-            await db.Collection("user").Document(avatarData.userEmail).UpdateAsync(userUpdate);
-            await db.Collection("avatar").Document(avatarID).UpdateAsync(userUpdate);
+            await db.Collection("user").Document(currAvatarData.userEmail).UpdateAsync(userUpdate);
+            await db.Collection("avatar").Document(avatarID).UpdateAsync(avatarUpdate);
 
-            return avatarID;
+            Debug.Log("Success uploading avatar data: " + avatarID);
+            return true;
         }
         catch (Exception e)
         {
             Debug.LogError("Error uploading avatar data: " + e.Message);
-            return null;
+            return false;
         }
     }
 
@@ -74,7 +66,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         {
             DocumentReference avatarRef = db.Collection("avatar").Document(avatarID);
 
-        Dictionary<string, object> updatedData = new Dictionary<string, object>
+            Dictionary<string, object> updatedData = new Dictionary<string, object>
         {
             { "colour", updatedAvatarData.colour },
             { "texture", updatedAvatarData.texture },

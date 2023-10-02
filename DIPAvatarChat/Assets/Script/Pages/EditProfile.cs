@@ -32,15 +32,14 @@ public class EditProfile : MonoBehaviour
     }
 
 
-    public void SaveProfile()
+    public async void SaveProfile()
     {
         string username = usernameField.text;
         string status = statusField.text;
-        AvatarData avatarData = AvatarBackendManager.Instance.currAvatarData;
 
-        if (!string.IsNullOrEmpty(username) && avatarData != null)
+        if (!string.IsNullOrEmpty(username) && AvatarBackendManager.Instance.currAvatarData != null)
         {
-            if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status) && AvatarBackendManager.Instance.UploadAvatar(avatarData) != null)
+            if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status) && await AvatarBackendManager.Instance.UploadAvatar())
             {
                 AppManager.Instance.LoadScene("4-ChatList");
             }
@@ -55,33 +54,18 @@ public class EditProfile : MonoBehaviour
 
     public void LoadAvatarCustomization()
     {
-        if (AvatarBackendManager.Instance.currAvatarData == null)
+        AvatarData avatarData = new AvatarData
         {
-            AvatarData avatarData = new AvatarData
-            {
-                createdAt = DateTime.Now,
-                colour = null,
-                texture = null,
-                expression = null,
-                hat = null,
-                arm = null,
-                wings = null,
-                tail = null,
-                userEmail = AuthManager.Instance.currUser.email,
-            };
+            createdAt = DateTime.Now,
+            userEmail = AuthManager.Instance.currUser.email,
+        };
 
-            AvatarBackendManager.Instance.currAvatarData = avatarData;
-        }
-
+        AvatarBackendManager.Instance.currAvatarData = avatarData;
         AppManager.Instance.LoadScene("AvatarCustomisation");
     }
 
     public void LoadEditProfile()
     {
-
         AppManager.Instance.LoadScene("3-EditProfile");
     }
-
-
-
 }
