@@ -1,4 +1,4 @@
-/* using Firebase.Extensions;
+using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
             // Create an instance of the AvatarData class with the provided data
             var avatar = new AvatarData
             {
-                createdAt = FieldValue.ServerTimestamp,
+                createdAt = DateTime.Now,
                 ears = avatarData.ears,
                 eyes = avatarData.eyes,
                 face = avatarData.face,
@@ -40,7 +40,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 head = avatarData.head,
                 mouth = avatarData.mouth,
                 nose = avatarData.nose,
-                userId = userData.userId
+                userId = userData.email
             };
 
             // Upload the avatar data to Firestore
@@ -53,7 +53,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 { "avatarId", avatarID }
             };
 
-            await db.Collection("users").Document(userData.userId).UpdateAsync(userUpdate);
+            await db.Collection("users").Document(userData.email).UpdateAsync(userUpdate);
 
             return avatarID;
         }
@@ -163,6 +163,5 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     }
 
 }
-*/ 
 
 
