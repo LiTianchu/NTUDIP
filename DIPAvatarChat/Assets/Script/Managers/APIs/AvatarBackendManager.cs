@@ -10,6 +10,8 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     FirebaseFirestore db;
     private string _userPath;
 
+    public AvatarData myAvatarData;
+
     void Start()
     {
         db = FirebaseFirestore.DefaultInstance;
@@ -20,7 +22,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         db = FirebaseFirestore.DefaultInstance;
 
-        DocumentReference avatarDoc = db.Collection("avatars").Document(avatarID);
+        DocumentReference avatarDoc = db.Collection("avatar").Document(avatarID);
         DocumentSnapshot doc = await avatarDoc.GetSnapshotAsync();
         return doc;
     }
@@ -33,18 +35,17 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
             var avatar = new AvatarData
             {
                 createdAt = DateTime.Now,
-                ears = avatarData.ears,
-                eyes = avatarData.eyes,
+                backgroundColor = avatarData.backgroundColor,
                 face = avatarData.face,
-                hair = avatarData.hair,
-                head = avatarData.head,
-                mouth = avatarData.mouth,
-                nose = avatarData.nose,
-                userId = userData.email
+                hat = avatarData.hat,
+                watch = avatarData.watch,
+                wings = avatarData.wings,
+                tail = avatarData.tail,
+                userEmail = userData.email,
             };
 
             // Upload the avatar data to Firestore
-            DocumentReference avatarRef = await db.Collection("avatars").AddAsync(avatar);
+            DocumentReference avatarRef = await db.Collection("avatar").AddAsync(avatar);
             string avatarID = avatarRef.Id;
 
             // Update the user's avatar ID in their profile
@@ -53,7 +54,8 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 { "avatarId", avatarID }
             };
 
-            await db.Collection("users").Document(userData.email).UpdateAsync(userUpdate);
+            await db.Collection("user").Document(userData.email).UpdateAsync(userUpdate);
+            await db.Collection("avatar").Document(avatarID).UpdateAsync(userUpdate);
 
             return avatarID;
         }
@@ -64,32 +66,22 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-    public async Task<AvatarData> GetAvatarData(string avatarID)
+    public async Task<DocumentSnapshot> GetAvatarByAvatarIDTask(string avatarId)
     {
-        DocumentSnapshot avatarDocSnapshot = await GetAvatarByIDTask(avatarID);
-        if (avatarDocSnapshot != null && avatarDocSnapshot.Exists)
+        db = FirebaseFirestore.DefaultInstance;
+
+        DocumentSnapshot doc = null;
+        try
         {
-            Dictionary<string, object> avatarDict = avatarDocSnapshot.ToDictionary();
-            AvatarData avatarData = new AvatarData
-            {
-                // Convert the server timestamp to a DateTime
-                createdAt = ((DateTime)avatarDict["createdAt"]),
-                ears = (string)avatarDict["ears"],
-                eyes = (string)avatarDict["eyes"],
-                face = (string)avatarDict["face"],
-                hair = (string)avatarDict["hair"],
-                head = (string)avatarDict["head"],
-                mouth = (string)avatarDict["mouth"],
-                nose = (string)avatarDict["nose"],
-                userId = (string)avatarDict["userId"]
-            };
-            return avatarData;
+            DocumentReference avatarDoc = db.Collection("avatar").Document(avatarId);
+            doc = await avatarDoc.GetSnapshotAsync();
         }
-        else
+        catch (Exception ex)
         {
-            Debug.LogError("Avatar data not found for ID: " + avatarID);
-            return null;
+            Debug.LogError("Firestore Error: " + ex.Message);
+
         }
+        return doc;
     }
 
     //updating avatardata
@@ -97,17 +89,16 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         try
         {
-            DocumentReference avatarRef = db.Collection("avatars").Document(avatarID);
+            DocumentReference avatarRef = db.Collection("avatar").Document(avatarID);
 
             Dictionary<string, object> updatedData = new Dictionary<string, object>
         {
-            { "ears", updatedAvatarData.ears },
-            { "eyes", updatedAvatarData.eyes },
+            { "backgroundColor", updatedAvatarData.backgroundColor },
             { "face", updatedAvatarData.face },
-            { "hair", updatedAvatarData.hair },
-            { "head", updatedAvatarData.head },
-            { "mouth", updatedAvatarData.mouth },
-            { "nose", updatedAvatarData.nose },
+            { "hat", updatedAvatarData.hat },
+            { "watch", updatedAvatarData.watch },
+            { "wings", updatedAvatarData.wings },
+            { "tail", updatedAvatarData.tail },
         };
 
             await avatarRef.UpdateAsync(updatedData);
@@ -125,7 +116,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         try
         {
-            DocumentReference avatarRef = db.Collection("avatars").Document(avatarID);
+            DocumentReference avatarRef = db.Collection("avatar").Document(avatarID);
 
             await avatarRef.DeleteAsync();
             return true;
@@ -138,19 +129,18 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     }
 
     //querying avatar by userid for future use
-    public async Task<List<AvatarData>> QueryAvatarsByUserId(string userId)
+    public async Task<List<string>> QueryAvatarsByUserEmail(string email)
     {
         try
         {
-            Query avatarQuery = db.Collection("avatar").WhereEqualTo("userId", userId);
+            Query avatarQuery = db.Collection("avatar").WhereEqualTo("userEmail", email);
             QuerySnapshot querySnapshot = await avatarQuery.GetSnapshotAsync();
 
-            List<AvatarData> avatars = new List<AvatarData>();
+            List<string> avatars = new List<string>();
 
             foreach (DocumentSnapshot documentSnapshot in querySnapshot.Documents)
             {
-                AvatarData avatarData = await GetAvatarData(documentSnapshot.Id);
-                avatars.Add(avatarData);
+                avatars.Add(documentSnapshot.Id);
             }
 
             return avatars;
