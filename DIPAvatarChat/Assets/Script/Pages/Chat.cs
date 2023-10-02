@@ -226,6 +226,23 @@ public class Chat : MonoBehaviour
         return userData;
     }
 
+    public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ)
+    {
+        // Load the FBX asset from the Resources folder
+        GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName + ".fbx");
+
+        if (loadedFBX != null)
+        {
+            // Instantiate the loaded FBX as a GameObject in the scene
+            GameObject fbx = Instantiate(loadedFBX, transform.position, Quaternion.identity);
+            fbx.transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
+        }
+        else
+        {
+            Debug.LogError("FBX asset not found: " + fbxFileName);
+        }
+    }
+
     public void ReturnToChatList()
     {
         AppManager.Instance.LoadScene("4-ChatList");
