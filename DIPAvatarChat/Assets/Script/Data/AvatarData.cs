@@ -14,6 +14,9 @@ public class AvatarData
   public DateTime createdAt { get; set; }
 
   [FirestoreProperty]
+  public DateTime lastUpdatedAt { get; set; }
+
+  [FirestoreProperty]
   public string colour { get; set; }
 
   [FirestoreProperty]

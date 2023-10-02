@@ -194,11 +194,6 @@ public class ChatList : MonoBehaviour
         PopulateChatList();
     }
 
-    public void NewChat()
-    {
-        AppManager.Instance.LoadScene("5-NewChat");
-    }
-
     async public void SearchUserByEmailAsync()
     {
         EnableTab(SearchFriendInfoTab);
@@ -344,6 +339,16 @@ public class ChatList : MonoBehaviour
         List<string>[] friendAndFriendRequestLists = { myFriendRequestsList, theirFriendRequestsList, myFriendsList, theirFriendsList };
 
         return friendAndFriendRequestLists;
+    }
+
+    public void NewChat()
+    {
+        AppManager.Instance.LoadScene("5-NewChat");
+    }
+
+    public void EditProfile()
+    {
+        AppManager.Instance.LoadScene("3-EditProfile");
     }
 
     public void CloseSearchFriendTab()

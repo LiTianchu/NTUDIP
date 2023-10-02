@@ -18,11 +18,12 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         _userPath = AuthManager.Instance.userPathData;
     }
 
-    public async Task<DocumentSnapshot> GetAvatarByIDTask(string avatarID)
+    public async Task<DocumentSnapshot> GetAvatarByIDTask(string avatarId)
     {
+        Debug.Log("Search for avatar: " + avatarId);
         db = FirebaseFirestore.DefaultInstance;
 
-        DocumentReference avatarDoc = db.Collection("avatar").Document(avatarID);
+        DocumentReference avatarDoc = db.Collection("avatar").Document(avatarId);
         DocumentSnapshot doc = await avatarDoc.GetSnapshotAsync();
         return doc;
     }
@@ -31,25 +32,50 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         try
         {
-            // Upload the avatar data to Firestore
-            DocumentReference avatarRef = await db.Collection("avatar").AddAsync(currAvatarData);
-            string avatarID = avatarRef.Id;
-
-            // Update the user's avatar ID in their profile
-            Dictionary<string, object> userUpdate = new Dictionary<string, object>
+            if (AuthManager.Instance.currUser.currentAvatar == null)
             {
-                { "currentAvatar", avatarID }
-            };
+                // If user does not have an avatar
+                // Upload the avatar data to Firestore
+                DocumentReference avatarRef = await db.Collection("avatar").AddAsync(currAvatarData);
+                string avatarId = avatarRef.Id;
 
-            Dictionary<string, object> avatarUpdate = new Dictionary<string, object>
+                // Update the user's avatar ID in their profile
+                Dictionary<string, object> userUpdate = new Dictionary<string, object>
+                {
+                    { "currentAvatar", avatarId }
+                };
+
+                Dictionary<string, object> avatarUpdate = new Dictionary<string, object>
+                {
+                    { "avatarId", avatarId }
+                };
+
+                await db.Collection("user").Document(currAvatarData.userEmail).UpdateAsync(userUpdate);
+                await db.Collection("avatar").Document(avatarId).UpdateAsync(avatarUpdate);
+
+                Debug.Log("Success creating new avatar data: " + avatarId);
+            }
+            else
             {
-                { "avatarId", avatarID }
-            };
+                // If user already has an avatar & trying to change it
+                DocumentReference avatarRef = db.Collection("avatar").Document(AuthManager.Instance.currUser.currentAvatar);
 
-            await db.Collection("user").Document(currAvatarData.userEmail).UpdateAsync(userUpdate);
-            await db.Collection("avatar").Document(avatarID).UpdateAsync(avatarUpdate);
+                Dictionary<string, object> updatedData = new Dictionary<string, object>
+                {
+                    { "colour", currAvatarData.colour },
+                    { "texture", currAvatarData.texture },
+                    { "expression", currAvatarData.expression },
+                    { "hat", currAvatarData.hat },
+                    { "arm", currAvatarData.arm },
+                    { "wings", currAvatarData.wings },
+                    { "tail", currAvatarData.tail },
+                    { "lastUpdatedAt", DateTime.Now },
+                };
 
-            Debug.Log("Success uploading avatar data: " + avatarID);
+                avatarRef.UpdateAsync(updatedData);
+
+                Debug.Log("Success updating avatar data: " + AuthManager.Instance.currUser.currentAvatar);
+            }
             return true;
         }
         catch (Exception e)
@@ -60,7 +86,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     }
 
     //updating avatardata
-    public async Task<bool> UpdateAvatarData(string avatarID, AvatarData updatedAvatarData)
+    /*public async Task<bool> UpdateAvatarData(string avatarID, AvatarData updatedAvatarData)
     {
         try
         {
@@ -85,7 +111,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
             Debug.LogError("Error updating avatar data: " + e.Message);
             return false;
         }
-    }
+    }*/
 
     //deleting avatar
     public async Task<bool> DeleteAvatar(string avatarID)
