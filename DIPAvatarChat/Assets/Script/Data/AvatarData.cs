@@ -33,4 +33,7 @@ public class AvatarData
 
     [FirestoreProperty]
     public string userEmail { get; set; }
+
+    [FirestoreProperty]
+    public string avatarId { get; set; }
 }

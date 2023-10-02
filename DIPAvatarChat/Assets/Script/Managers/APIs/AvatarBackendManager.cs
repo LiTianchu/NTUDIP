@@ -22,7 +22,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         db = FirebaseFirestore.DefaultInstance;
 
-        DocumentReference avatarDoc = db.Collection("avatars").Document(avatarID);
+        DocumentReference avatarDoc = db.Collection("avatar").Document(avatarID);
         DocumentSnapshot doc = await avatarDoc.GetSnapshotAsync();
         return doc;
     }
@@ -41,11 +41,11 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 watch = avatarData.watch,
                 wings = avatarData.wings,
                 tail = avatarData.tail,
-                userEmail = userData.email
+                userEmail = userData.email,
             };
 
             // Upload the avatar data to Firestore
-            DocumentReference avatarRef = await db.Collection("avatars").AddAsync(avatarData);
+            DocumentReference avatarRef = await db.Collection("avatar").AddAsync(avatar);
             string avatarID = avatarRef.Id;
 
             // Update the user's avatar ID in their profile
@@ -54,7 +54,8 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 { "avatarId", avatarID }
             };
 
-            await db.Collection("users").Document(userData.email).UpdateAsync(userUpdate);
+            await db.Collection("user").Document(userData.email).UpdateAsync(userUpdate);
+            await db.Collection("avatar").Document(avatarID).UpdateAsync(userUpdate);
 
             return avatarID;
         }
@@ -88,7 +89,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         try
         {
-            DocumentReference avatarRef = db.Collection("avatars").Document(avatarID);
+            DocumentReference avatarRef = db.Collection("avatar").Document(avatarID);
 
             Dictionary<string, object> updatedData = new Dictionary<string, object>
         {
@@ -115,7 +116,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         try
         {
-            DocumentReference avatarRef = db.Collection("avatars").Document(avatarID);
+            DocumentReference avatarRef = db.Collection("avatar").Document(avatarID);
 
             await avatarRef.DeleteAsync();
             return true;
