@@ -15,10 +15,11 @@ public class AvatarAccessories : MonoBehaviour
     private int cloneCount = 0;
 
     private Coroutine instantiationCoroutine;
+    private string accessoryPath = "Blender/";
 
     void Start()
     {
-        selectAccessoryButton.onClick.AddListener(InstantiateAccessory);
+        //selectAccessoryButton.onClick.AddListener(InstantiateAccessory);
     }
 
     public void InstantiateAccessory()
@@ -42,10 +43,41 @@ public class AvatarAccessories : MonoBehaviour
         instantiationCoroutine = StartCoroutine(InstantiateAccessoryCoroutine());
     }
 
+    public void UpdateAvatarData()
+    {
+        Debug.Log("Accessory Type: " + accessoryType + ", Accessory Name: " + AccessoryPrefab.name);
+        switch (accessoryType)
+        {
+            case "colour":
+                AvatarBackendManager.Instance.currAvatarData.colour = accessoryPath + AccessoryPrefab.name;
+                break;
+            case "texture":
+                AvatarBackendManager.Instance.currAvatarData.texture = accessoryPath + AccessoryPrefab.name;
+                break;
+            case "expression":
+                AvatarBackendManager.Instance.currAvatarData.expression = accessoryPath + AccessoryPrefab.name;
+                break;
+            case "hat":
+                AvatarBackendManager.Instance.currAvatarData.hat = accessoryPath + AccessoryPrefab.name;
+                break;
+            case "arm":
+                AvatarBackendManager.Instance.currAvatarData.arm = accessoryPath + AccessoryPrefab.name;
+                break;
+            case "wings":
+                AvatarBackendManager.Instance.currAvatarData.wings = accessoryPath + AccessoryPrefab.name;
+                break;
+            case "tail":
+                AvatarBackendManager.Instance.currAvatarData.tail = accessoryPath + AccessoryPrefab.name;
+                break;
+        }
+    }
+
     private IEnumerator InstantiateAccessoryCoroutine()
     {
         // Yield one frame to ensure that the destruction has occurred
         yield return null;
+
+        UpdateAvatarData();
 
         // Calculate the position for the new accessory clone based on the clone count
         Vector3 clonePosition = new Vector3(0, -cloneCount * 100f, 0); // Adjust the Y position as needed

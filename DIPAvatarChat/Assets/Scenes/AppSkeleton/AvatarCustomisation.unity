@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1696,8 +1696,9 @@ GameObject:
   - component: {fileID: 230571347}
   - component: {fileID: 230571346}
   - component: {fileID: 230571348}
+  - component: {fileID: 230571349}
   m_Layer: 5
-  m_Name: box (1)
+  m_Name: PorkpieBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1805,22 +1806,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 698279706}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 2036873842}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 230571349}
+        m_TargetAssemblyTypeName: AvatarAccessories, Assembly-CSharp
+        m_MethodName: InstantiateAccessory
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1829,6 +1818,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &230571349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230571344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AccessoryPrefab: {fileID: 698279706}
+  AccessoryPanel: {fileID: 882474333}
+  selectAccessoryButton: {fileID: 230571348}
+  accessoryType: hat
 --- !u!1 &245352881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2427,7 +2432,7 @@ GameObject:
   - component: {fileID: 364650987}
   - component: {fileID: 364650988}
   m_Layer: 0
-  m_Name: BackgroundContainer
+  m_Name: TextureContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4173,10 +4178,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7232cd16fd4a3494dbbaf22dae0afde9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 698279707}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7232cd16fd4a3494dbbaf22dae0afde9, type: 3}
 --- !u!4 &698279705 stripped
 Transform:
@@ -4188,22 +4190,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7232cd16fd4a3494dbbaf22dae0afde9, type: 3}
   m_PrefabInstance: {fileID: 698279704}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &698279707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 698279706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AccessoryPrefab: {fileID: 698279706}
-  AccessoryPanel: {fileID: 882474333}
-  selectAccessoryButton: {fileID: 230571348}
-  accessoryType: hat
 --- !u!1 &718121646
 GameObject:
   m_ObjectHideFlags: 0
@@ -4214,7 +4200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 718121647}
   m_Layer: 0
-  m_Name: WatchContainer
+  m_Name: ArmContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7056,8 +7042,9 @@ GameObject:
   - component: {fileID: 1036902495}
   - component: {fileID: 1036902494}
   - component: {fileID: 1036902496}
+  - component: {fileID: 1036902497}
   m_Layer: 5
-  m_Name: box (2)
+  m_Name: CrownBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7165,10 +7152,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 698279706}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1036902497}
+        m_TargetAssemblyTypeName: AvatarAccessories, Assembly-CSharp
+        m_MethodName: InstantiateAccessory
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7177,18 +7164,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2036873842}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+--- !u!114 &1036902497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036902492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AccessoryPrefab: {fileID: 2036873842}
+  AccessoryPanel: {fileID: 882474333}
+  selectAccessoryButton: {fileID: 1036902496}
+  accessoryType: hat
 --- !u!1 &1037834761
 GameObject:
   m_ObjectHideFlags: 0
@@ -8171,7 +8162,7 @@ GameObject:
   - component: {fileID: 1178418249}
   - component: {fileID: 1178418248}
   m_Layer: 5
-  m_Name: featureCustomisation
+  m_Name: FeatureCustomisation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10317,8 +10308,9 @@ GameObject:
   - component: {fileID: 1515751800}
   - component: {fileID: 1515751799}
   - component: {fileID: 1515751801}
+  - component: {fileID: 1515751802}
   m_Layer: 5
-  m_Name: box (1)
+  m_Name: WatchBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10425,10 +10417,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2040435803}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1515751802}
+        m_TargetAssemblyTypeName: AvatarAccessories, Assembly-CSharp
+        m_MethodName: InstantiateAccessory
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10437,6 +10429,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &1515751802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515751797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AccessoryPrefab: {fileID: 2040435803}
+  AccessoryPanel: {fileID: 718121647}
+  selectAccessoryButton: {fileID: 1515751801}
+  accessoryType: arm
 --- !u!1 &1558258888
 GameObject:
   m_ObjectHideFlags: 0
@@ -10673,7 +10681,7 @@ GameObject:
   - component: {fileID: 1568896971}
   - component: {fileID: 1568896972}
   m_Layer: 0
-  m_Name: FaceContainer
+  m_Name: ExpressionContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14353,10 +14361,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 153a11a653fa5744ea512ab2295c3d43, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2036873843}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 153a11a653fa5744ea512ab2295c3d43, type: 3}
 --- !u!4 &2036873841 stripped
 Transform:
@@ -14368,22 +14373,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 153a11a653fa5744ea512ab2295c3d43, type: 3}
   m_PrefabInstance: {fileID: 2036873840}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2036873843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2036873842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AccessoryPrefab: {fileID: 2036873842}
-  AccessoryPanel: {fileID: 882474333}
-  selectAccessoryButton: {fileID: 1036902496}
-  accessoryType: hat
 --- !u!1 &2039859090
 GameObject:
   m_ObjectHideFlags: 0
@@ -14593,10 +14582,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0cfdb61fe2f75db44aae1c68cec4a493, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2040435804}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cfdb61fe2f75db44aae1c68cec4a493, type: 3}
 --- !u!4 &2040435802 stripped
 Transform:
@@ -14608,22 +14594,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0cfdb61fe2f75db44aae1c68cec4a493, type: 3}
   m_PrefabInstance: {fileID: 2040435801}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2040435804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2040435803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AccessoryPrefab: {fileID: 2040435803}
-  AccessoryPanel: {fileID: 718121647}
-  selectAccessoryButton: {fileID: 1515751801}
-  accessoryType: watch
 --- !u!1 &2041977072
 GameObject:
   m_ObjectHideFlags: 0

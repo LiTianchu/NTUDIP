@@ -27,25 +27,26 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         return doc;
     }
 
-    public async Task<string> UploadAvatar(UserData userData, AvatarData avatarData)
+    public async Task<string> UploadAvatar(AvatarData avatarData)
     {
         try
         {
             // Create an instance of the AvatarData class with the provided data
-            var avatar = new AvatarData
+            /*var avatar = new AvatarData
             {
                 createdAt = DateTime.Now,
-                backgroundColor = avatarData.backgroundColor,
-                face = avatarData.face,
+                backgroundColor = avatarData.colour,
+                backgroundColor = avatarData.texture,
+                face = avatarData.expression,
                 hat = avatarData.hat,
-                watch = avatarData.watch,
+                watch = avatarData.arm,
                 wings = avatarData.wings,
                 tail = avatarData.tail,
-                userEmail = userData.email,
-            };
+                userEmail = avatarData.userEmail,
+            };*/
 
             // Upload the avatar data to Firestore
-            DocumentReference avatarRef = await db.Collection("avatar").AddAsync(avatar);
+            DocumentReference avatarRef = await db.Collection("avatar").AddAsync(avatarData);
             string avatarID = avatarRef.Id;
 
             // Update the user's avatar ID in their profile
@@ -54,7 +55,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 { "avatarId", avatarID }
             };
 
-            await db.Collection("user").Document(userData.email).UpdateAsync(userUpdate);
+            await db.Collection("user").Document(avatarData.userEmail).UpdateAsync(userUpdate);
             await db.Collection("avatar").Document(avatarID).UpdateAsync(userUpdate);
 
             return avatarID;
@@ -73,12 +74,13 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         {
             DocumentReference avatarRef = db.Collection("avatar").Document(avatarID);
 
-            Dictionary<string, object> updatedData = new Dictionary<string, object>
+        Dictionary<string, object> updatedData = new Dictionary<string, object>
         {
-            { "backgroundColor", updatedAvatarData.backgroundColor },
-            { "face", updatedAvatarData.face },
+            { "colour", updatedAvatarData.colour },
+            { "texture", updatedAvatarData.texture },
+            { "expression", updatedAvatarData.expression },
             { "hat", updatedAvatarData.hat },
-            { "watch", updatedAvatarData.watch },
+            { "arm", updatedAvatarData.arm },
             { "wings", updatedAvatarData.wings },
             { "tail", updatedAvatarData.tail },
         };

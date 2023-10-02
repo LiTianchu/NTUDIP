@@ -36,13 +36,12 @@ public class EditProfile : MonoBehaviour
     {
         string username = usernameField.text;
         string status = statusField.text;
+        AvatarData avatarData = AvatarBackendManager.Instance.currAvatarData;
 
-
-        if (!string.IsNullOrEmpty(username))
+        if (!string.IsNullOrEmpty(username) && avatarData != null)
         {
-            if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status))
+            if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status) && AvatarBackendManager.Instance.UploadAvatar(avatarData) != null)
             {
-
                 AppManager.Instance.LoadScene("4-ChatList");
             }
 
@@ -61,10 +60,11 @@ public class EditProfile : MonoBehaviour
             AvatarData avatarData = new AvatarData
             {
                 createdAt = DateTime.Now,
-                backgroundColor = null,
-                face = null,
+                colour = null,
+                texture = null,
+                expression = null,
                 hat = null,
-                watch = null,
+                arm = null,
                 wings = null,
                 tail = null,
                 userEmail = AuthManager.Instance.currUser.email,
