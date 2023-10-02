@@ -28,11 +28,17 @@ public class ChatList : MonoBehaviour
     public GameObject LoadingUI;
     List<string> friendRequestsList;
     List<string> friendsList;
+    private bool needsRefresh = true; // Flag to track whether chat list needs refreshing
+                                      // Store existing chat list items by conversation ID
+    private Dictionary<string, GameObject> chatListItems = new Dictionary<string, GameObject>();
+
 
     // Start is called before the first frame update
     void Start()
     {
         PopulateChatList();
+        needsRefresh = false; // Set the flag to false after the initial refresh
+
     }
 
     async public void PopulateChatList()
@@ -42,6 +48,9 @@ public class ChatList : MonoBehaviour
             LoadingUI.SetActive(true);
         }
         ChatListParent.SetActive(false);
+
+        // Clear existing chat list items
+        ClearChatList();
 
         //Getting the data by task
         ConversationData conversation = null;
@@ -98,10 +107,15 @@ public class ChatList : MonoBehaviour
                 string displaySenderUsername = friendData.username;
                 Timestamp displayTime = latestMessage.createdAt;
 
-                // Instantiate the ChatListObject (ChatDisplayBox) prefab
-                GameObject chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-                chatListItem.transform.SetParent(ChatListParent.transform, false);
-                chatListItem.name = convId;
+                // Instantiate the ChatListObject (ChatDisplayBox) prefab if it doesn't exist
+                GameObject chatListItem;
+                if (!chatListItems.TryGetValue(convId, out chatListItem))
+                {
+                    chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                    chatListItem.transform.SetParent(ChatListParent.transform, false);
+                    chatListItem.name = convId;
+                    chatListItems.Add(convId, chatListItem);
+                }
 
                 // Access the Text components within the prefab
                 TMP_Text timeText = chatListItem.transform.Find("ChatDisplayBoxBtn/Time").GetComponent<TMP_Text>();
@@ -130,7 +144,24 @@ public class ChatList : MonoBehaviour
             LoadingUI.SetActive(false);
         }
         ChatListParent.SetActive(true);
+        // After populating the chat list, set needsRefresh to false
+        needsRefresh = false;
     }
+
+    void ClearChatList()
+    {
+        // Destroy chat list items that are not in the dictionary
+        foreach (var chatListItem in chatListItems.Values)
+        {
+            if (chatListItem != null)
+            {
+                Destroy(chatListItem);
+            }
+        }
+        // Clear the dictionary
+        chatListItems.Clear();
+    }
+
     private string ChatTimestamp(Timestamp timestamp)
     {
         DateTime chatTime = timestamp.ToDateTime().AddHours(8); // Convert to Singapore Timezone
@@ -189,11 +220,17 @@ public class ChatList : MonoBehaviour
 
     public async void RefreshConversation()
     {
-        ClearDisplay();
-        await Task.Delay(1000);
+        if (needsRefresh)
+        {
+            ClearDisplay();
+            StartCoroutine(DelayedPopulateChatList(1f)); // Wait for 1 second before refreshing
+        }
+    }
+    private IEnumerator DelayedPopulateChatList(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         PopulateChatList();
     }
-
     async public void SearchUserByEmailAsync()
     {
         EnableTab(SearchFriendInfoTab);
@@ -368,8 +405,12 @@ public class ChatList : MonoBehaviour
     public void DisableTab(GameObject Tab)
     {
         UIManager.Instance.DisableGeneralTab(Tab);
-        ClearDisplay();
-        PopulateChatList();
+        // Only clear and refresh the chat list if needed
+        if (needsRefresh)
+        {
+            ClearDisplay();
+            StartCoroutine(DelayedPopulateChatList(1f)); // Wait for 1 second before refreshing
+        }
     }
 
     async public void GetCurrentUserData()
@@ -380,29 +421,33 @@ public class ChatList : MonoBehaviour
 
     public void ClearDisplay()
     {
-        SearchNameDisplay.text = "";
-        SearchEmailDisplay.text = "";
-        SearchStatusDisplay.text = "";
-
-        if (friendRequestsList != null)
+        // Only clear the display if a refresh is needed
+        if (needsRefresh)
         {
-            friendRequestsList.Clear();
-        }
+            SearchNameDisplay.text = "";
+            SearchEmailDisplay.text = "";
+            SearchStatusDisplay.text = "";
 
-        if (friendsList != null)
-        {
-            friendsList.Clear();
-        }
-
-        GameObject[] tempPrefabs;
-
-        tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
-
-        foreach (GameObject tempPrefab in tempPrefabs)
-        {
-            if (tempPrefab != null)
+            if (friendRequestsList != null)
             {
-                Destroy(tempPrefab);
+                friendRequestsList.Clear();
+            }
+
+            if (friendsList != null)
+            {
+                friendsList.Clear();
+            }
+
+            GameObject[] tempPrefabs;
+
+            tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
+
+            foreach (GameObject tempPrefab in tempPrefabs)
+            {
+                if (tempPrefab != null)
+                {
+                    Destroy(tempPrefab);
+                }
             }
         }
     }
