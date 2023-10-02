@@ -226,15 +226,16 @@ public class Chat : MonoBehaviour
         return userData;
     }
 
-    public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ)
+    public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ, GameObject AvatarParentBody)
     {
         // Load the FBX asset from the Resources folder
-        GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName + ".fbx");
+        GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName + ".fbx"); // Eg. Blender/porkpiehat.fbx
 
         if (loadedFBX != null)
         {
             // Instantiate the loaded FBX as a GameObject in the scene
             GameObject fbx = Instantiate(loadedFBX, transform.position, Quaternion.identity);
+            fbx.transform.SetParent(AvatarParentBody.transform, false);
             fbx.transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
         }
         else
