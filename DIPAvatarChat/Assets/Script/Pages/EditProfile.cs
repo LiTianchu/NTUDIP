@@ -16,13 +16,12 @@ public class EditProfile : MonoBehaviour
     [Header("UserInfo")]
     public TMP_InputField usernameField;
     public TMP_InputField statusField;
-    public Button submitButton;
     public TMP_Text errorMessage;
 
     // Start is called before the first frame update
     void Start()
     {
-        submitButton.onClick.AddListener(SaveProfile);
+
     }
 
     // Update is called once per frame
@@ -41,6 +40,7 @@ public class EditProfile : MonoBehaviour
         {
             if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status) && await AvatarBackendManager.Instance.UploadAvatar())
             {
+                Debug.Log("Profile saved! ^.^");
                 AppManager.Instance.LoadScene("4-ChatList");
             }
 
