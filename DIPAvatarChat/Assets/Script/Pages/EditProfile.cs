@@ -66,22 +66,11 @@ public class EditProfile : MonoBehaviour
 
     public async void LoadAvatarCustomization()
     {
-        /*if (AuthManager.Instance.currUser.currentAvatar != null)
-        {
-
-        }
-        else
-        {
-            DocumentSnapshot avatarSnapshot = await AvatarBackendManager.Instance.GetAvatarByIDTask(AuthManager.Instance.currUser.currentAvatar);
-            AvatarBackendManager.Instance.currAvatarData = avatarSnapshot.ConvertTo<AvatarData>();
-
-            Debug.Log("Current avatar ID: " + AvatarBackendManager.Instance.currAvatarData.avatarId);
-        }*/
-
         AvatarData newAvatarData = new AvatarData
         {
             createdAt = DateTime.Now,
-            userEmail = AuthManager.Instance.currUser.email,
+            lastUpdatedAt = DateTime.Now,
+            email = AuthManager.Instance.currUser.email,
         };
 
         AvatarBackendManager.Instance.currAvatarData = newAvatarData;

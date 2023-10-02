@@ -50,7 +50,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                     { "avatarId", avatarId }
                 };
 
-                await db.Collection("user").Document(currAvatarData.userEmail).UpdateAsync(userUpdate);
+                await db.Collection("user").Document(currAvatarData.email).UpdateAsync(userUpdate);
                 await db.Collection("avatar").Document(avatarId).UpdateAsync(avatarUpdate);
 
                 Debug.Log("Success creating new avatar data: " + avatarId);
@@ -135,7 +135,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         try
         {
-            Query avatarQuery = db.Collection("avatar").WhereEqualTo("userEmail", email);
+            Query avatarQuery = db.Collection("avatar").WhereEqualTo("email", email);
             QuerySnapshot querySnapshot = await avatarQuery.GetSnapshotAsync();
 
             List<string> avatars = new List<string>();
