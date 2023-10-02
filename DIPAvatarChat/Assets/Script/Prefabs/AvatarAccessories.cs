@@ -11,11 +11,9 @@ public class AvatarAccessories : MonoBehaviour
     public Button selectAccessoryButton;
     public string accessoryType;
 
-    private GameObject previousClone;
-    private int cloneCount = 0;
-
-    private Coroutine instantiationCoroutine;
-    private string accessoryPath = "Blender/";
+    //private GameObject previousClone;
+    //private int cloneCount = 0;
+    //private Coroutine instantiationCoroutine;
 
     void Start()
     {
@@ -30,7 +28,7 @@ public class AvatarAccessories : MonoBehaviour
     public void InstantiateAccessory()
     {
         Debug.Log("InstantiateAccessory called");
-        
+
         foreach (Transform child in AccessoryPanel.transform)
         {
             Debug.Log("Child GameObject: " + child.gameObject.name);
@@ -52,30 +50,32 @@ public class AvatarAccessories : MonoBehaviour
         Debug.Log("Accessory Type: " + accessoryType + ", Accessory Name: " + AccessoryPrefab.name);
         Debug.Log("IsActive: " + isActive);
 
+        string path = "Blender/" + AccessoryPrefab.name;
+
         if (isActive)
         {
             switch (accessoryType)
             {
                 case "colour":
-                    AvatarBackendManager.Instance.currAvatarData.colour = accessoryPath + AccessoryPrefab.name;
+                    AvatarBackendManager.Instance.currAvatarData.colour = path;
                     break;
                 case "texture":
-                    AvatarBackendManager.Instance.currAvatarData.texture = accessoryPath + AccessoryPrefab.name;
+                    AvatarBackendManager.Instance.currAvatarData.texture = path;
                     break;
                 case "expression":
-                    AvatarBackendManager.Instance.currAvatarData.expression = accessoryPath + AccessoryPrefab.name;
+                    AvatarBackendManager.Instance.currAvatarData.expression = path;
                     break;
                 case "hat":
-                    AvatarBackendManager.Instance.currAvatarData.hat = accessoryPath + AccessoryPrefab.name;
+                    AvatarBackendManager.Instance.currAvatarData.hat = path;
                     break;
                 case "arm":
-                    AvatarBackendManager.Instance.currAvatarData.arm = accessoryPath + AccessoryPrefab.name;
+                    AvatarBackendManager.Instance.currAvatarData.arm = path;
                     break;
                 case "wings":
-                    AvatarBackendManager.Instance.currAvatarData.wings = accessoryPath + AccessoryPrefab.name;
+                    AvatarBackendManager.Instance.currAvatarData.wings = path;
                     break;
                 case "tail":
-                    AvatarBackendManager.Instance.currAvatarData.tail = accessoryPath + AccessoryPrefab.name;
+                    AvatarBackendManager.Instance.currAvatarData.tail = path;
                     break;
             }
         }
