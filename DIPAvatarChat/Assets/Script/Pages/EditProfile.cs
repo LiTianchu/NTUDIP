@@ -1,6 +1,13 @@
+using Firebase.Extensions;
+using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,11 +28,12 @@ public class EditProfile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
-    public void SaveProfile() {
+    public void SaveProfile()
+    {
         string username = usernameField.text;
         string status = statusField.text;
 
@@ -37,25 +45,43 @@ public class EditProfile : MonoBehaviour
 
                 AppManager.Instance.LoadScene("4-ChatList");
             }
-            
+
         }
         else
         {
             errorMessage.text = "Field cannot be empty";
-        }      
-        
+        }
+
     }
 
-    public void LoadAvatarCustomization(){
+    public void LoadAvatarCustomization()
+    {
+        if (AvatarBackendManager.Instance.currAvatarData == null)
+        {
+            AvatarData avatarData = new AvatarData
+            {
+                createdAt = DateTime.Now,
+                backgroundColor = null,
+                face = null,
+                hat = null,
+                watch = null,
+                wings = null,
+                tail = null,
+                userEmail = AuthManager.Instance.currUser.email,
+            };
+
+            AvatarBackendManager.Instance.currAvatarData = avatarData;
+        }
 
         AppManager.Instance.LoadScene("AvatarCustomisation");
     }
 
-    public void LoadEditProfile(){
+    public void LoadEditProfile()
+    {
 
         AppManager.Instance.LoadScene("3-EditProfile");
     }
 
 
-   
+
 }

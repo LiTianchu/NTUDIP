@@ -10,7 +10,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     FirebaseFirestore db;
     private string _userPath;
 
-    public AvatarData myAvatarData;
+    public AvatarData currAvatarData = null;
 
     void Start()
     {
