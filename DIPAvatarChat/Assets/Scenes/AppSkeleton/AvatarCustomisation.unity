@@ -13335,13 +13335,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1893059622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35076887e750c484ca25dd773202f009, type: 3}
+  m_Script: {fileID: 11500000, guid: 6681d6ef5a4e3444183d10280f281c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usernameField: {fileID: 0}
-  statusField: {fileID: 0}
-  submitButton: {fileID: 0}
-  errorMessage: {fileID: 0}
 --- !u!1 &1897056320
 GameObject:
   m_ObjectHideFlags: 0
@@ -15025,7 +15021,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1893059627}
-        m_TargetAssemblyTypeName: EditProfile, Assembly-CSharp
+        m_TargetAssemblyTypeName: AvatarCustomisation, Assembly-CSharp
         m_MethodName: LoadEditProfile
         m_Mode: 1
         m_Arguments:
