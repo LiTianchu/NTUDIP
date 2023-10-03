@@ -12,20 +12,28 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
 
     public AvatarData currAvatarData = null;
 
-    void Start()
+    private void Start()
     {
+        // Initialize Firestore instance
         db = FirebaseFirestore.DefaultInstance;
         _userPath = AuthManager.Instance.userPathData;
     }
-
-    public async Task<DocumentSnapshot> GetAvatarByIDTask(string avatarId)
+   
+    // A private method to upload avatar data and return the document reference
+    private async Task<DocumentReference> UploadAvatarData(AvatarData avatarData)
     {
-        Debug.Log("Search for avatar: " + avatarId);
-        db = FirebaseFirestore.DefaultInstance;
-
-        DocumentReference avatarDoc = db.Collection("avatar").Document(avatarId);
-        DocumentSnapshot doc = await avatarDoc.GetSnapshotAsync();
-        return doc;
+        try
+        {
+            // Add the avatar data to the "avatar" collection in Firestore
+            DocumentReference avatarRef = await db.Collection("avatar").AddAsync(avatarData);
+            return avatarRef;
+        }
+        catch (Exception e)
+        {
+            // Handle and log any exceptions that occur during the upload
+            Debug.LogError("Error uploading avatar data: " + e.Message);
+            return null;
+        }
     }
 
     public async Task<bool> UploadAvatar()
@@ -35,25 +43,29 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
             if (AuthManager.Instance.currUser.currentAvatar == null)
             {
                 // If user does not have an avatar
-                // Upload the avatar data to Firestore
-                DocumentReference avatarRef = await db.Collection("avatar").AddAsync(currAvatarData);
-                string avatarId = avatarRef.Id;
+                DocumentReference avatarRef = await UploadAvatarData(currAvatarData);
 
-                // Update the user's avatar ID in their profile
-                Dictionary<string, object> userUpdate = new Dictionary<string, object>
+                if (avatarRef != null)
                 {
-                    { "currentAvatar", avatarId }
-                };
+                    string avatarId = avatarRef.Id;
 
-                Dictionary<string, object> avatarUpdate = new Dictionary<string, object>
-                {
-                    { "avatarId", avatarId }
-                };
+                    // Update the user's avatar ID in their profile
+                    Dictionary<string, object> userUpdate = new Dictionary<string, object>
+                    {
+                        { "currentAvatar", avatarId }
+                    };
 
-                await db.Collection("user").Document(currAvatarData.email).UpdateAsync(userUpdate);
-                await db.Collection("avatar").Document(avatarId).UpdateAsync(avatarUpdate);
+                    Dictionary<string, object> avatarUpdate = new Dictionary<string, object>
+                    {
+                        { "avatarId", avatarId }
+                    };
 
-                Debug.Log("Success creating new avatar data: " + avatarId);
+                    // Update the user's profile and the avatar document in Firestore
+                    await db.Collection("user").Document(currAvatarData.email).UpdateAsync(userUpdate);
+                    await db.Collection("avatar").Document(avatarId).UpdateAsync(avatarUpdate);
+
+                    Debug.Log("Success creating new avatar data: " + avatarId);
+                }
             }
             else
             {
@@ -72,7 +84,8 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                     { "lastUpdatedAt", DateTime.Now },
                 };
 
-                avatarRef.UpdateAsync(updatedData);
+                // Update the avatar data in Firestore
+                await avatarRef.UpdateAsync(updatedData);
 
                 Debug.Log("Success updating avatar data: " + AuthManager.Instance.currUser.currentAvatar);
             }
@@ -80,6 +93,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
         catch (Exception e)
         {
+            // Handle and log any exceptions that occur during the avatar upload/update
             Debug.LogError("Error uploading avatar data: " + e.Message);
             return false;
         }
