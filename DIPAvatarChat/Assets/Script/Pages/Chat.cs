@@ -25,6 +25,9 @@ public class Chat : MonoBehaviour
     bool isPopulated = false;
     ListenerRegistration listener;
 
+    AvatarData myAvatarData = null;
+    AvatarData theirAvatarData = null;
+
 
     // Start is called before the first frame update
     void Start()
@@ -226,9 +229,27 @@ public class Chat : MonoBehaviour
         return userData;
     }
 
-    public void GetCurrentAvatar()
+    public async void GetAvatars()
     {
-        
+        DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
+        ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
+
+        if (currConvData != null)
+        {
+            foreach (string member in currConvData.members)
+            {
+                if (member == AuthManager.Instance.currUser.email)
+                {
+                    DocumentSnapshot myAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(member);
+                    myAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
+                }
+                else
+                {
+                    DocumentSnapshot theirAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(member);
+                    theirAvatarData = theirAvatarDoc.ConvertTo<AvatarData>();
+                }
+            }
+        }
     }
 
     public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ, GameObject AvatarParentBody)

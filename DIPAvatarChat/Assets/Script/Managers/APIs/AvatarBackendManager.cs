@@ -18,9 +18,9 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         db = FirebaseFirestore.DefaultInstance;
         _userPath = AuthManager.Instance.userPathData;
     }
-   
+
     // A private method to upload avatar data and return the document reference
-    private async Task<DocumentReference> UploadAvatarData(AvatarData avatarData)
+    private async Task<DocumentReference> UploadAvatarDataTask(AvatarData avatarData)
     {
         try
         {
@@ -36,16 +36,16 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-    public async Task<bool> UploadAvatar()
+    public async Task<bool> UploadAvatarTask()
     {
         try
         {
             Debug.Log("Current Avatar: " + AuthManager.Instance.currUser.currentAvatar);
-            
+
             if (AuthManager.Instance.currUser.currentAvatar == null)
             {
                 // If user does not have an avatar
-                DocumentReference avatarRef = await UploadAvatarData(currAvatarData);
+                DocumentReference avatarRef = await UploadAvatarDataTask(currAvatarData);
 
                 if (avatarRef != null)
                 {
@@ -148,8 +148,29 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
+    public async Task<DocumentSnapshot> GetAvatarByEmailTask(string email)
+    {
+        db = FirebaseFirestore.DefaultInstance;
+
+        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(email);
+        UserData userData = userDoc.ConvertTo<UserData>();
+
+        DocumentSnapshot doc = null;
+        try
+        {
+            DocumentReference usernameDoc = db.Collection("avatar").Document(userData.currentAvatar);
+            doc = await usernameDoc.GetSnapshotAsync();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Firestore Error: " + ex.Message);
+
+        }
+        return doc;
+    }
+
     //querying avatar by userid for future use
-    public async Task<List<string>> QueryAvatarsByUserEmail(string email)
+    public async Task<List<string>> QueryAvatarsByUserEmailTask(string email)
     {
         try
         {

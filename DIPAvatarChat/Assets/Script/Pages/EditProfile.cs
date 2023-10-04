@@ -50,7 +50,7 @@ public class EditProfile : MonoBehaviour
 
         if (!string.IsNullOrEmpty(username) && AvatarBackendManager.Instance.currAvatarData != null)
         {
-            if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status) && await AvatarBackendManager.Instance.UploadAvatar())
+            if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status) && await AvatarBackendManager.Instance.UploadAvatarTask())
             {
                 Debug.Log("Profile saved! ^.^");
                 AppManager.Instance.LoadScene("4-ChatList");
