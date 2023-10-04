@@ -739,7 +739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &167295458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4425,7 +4425,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 05cb9903de9582745a224167fb8c5641, type: 3}
   - {fileID: 21300000, guid: 8bae00174c01bfb4eaac4b44390e5fc1, type: 3}
   - {fileID: 21300000, guid: c1771780a657db049a2110e7736f7cc3, type: 3}
-  frameRate: 0.1
+  frameRate: 0.05
 --- !u!1 &670005862
 GameObject:
   m_ObjectHideFlags: 0
