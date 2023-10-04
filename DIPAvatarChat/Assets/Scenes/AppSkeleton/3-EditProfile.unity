@@ -403,6 +403,7 @@ GameObject:
   - component: {fileID: 333176491}
   - component: {fileID: 333176490}
   - component: {fileID: 333176489}
+  - component: {fileID: 333176492}
   m_Layer: 5
   m_Name: doneButton
   m_TagString: Untagged
@@ -524,6 +525,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333176487}
   m_CullTransparentMesh: 1
+--- !u!114 &333176492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333176487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonToChange: {fileID: 0}
+  newColor: {r: 0.6901961, g: 0.79215693, b: 0.8196079, a: 1}
 --- !u!1 &466861997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1989,7 +2004,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usernameField: {fileID: 2049803467}
   statusField: {fileID: 1607400129}
-  submitButton: {fileID: 333176489}
   errorMessage: {fileID: 483639815}
 --- !u!1 &1604577280
 GameObject:

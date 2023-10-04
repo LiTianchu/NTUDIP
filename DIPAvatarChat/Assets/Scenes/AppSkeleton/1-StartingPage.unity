@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 578745211}
   - component: {fileID: 578745210}
   - component: {fileID: 578745209}
+  - component: {fileID: 578745212}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -390,6 +391,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578745207}
   m_CullTransparentMesh: 1
+--- !u!114 &578745212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578745207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonToChange: {fileID: 578745209}
+  newColor: {r: 0.60784316, g: 0.73333335, b: 0.9176471, a: 1}
 --- !u!1 &654249629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,6 +1035,7 @@ GameObject:
   - component: {fileID: 1705074194}
   - component: {fileID: 1705074193}
   - component: {fileID: 1705074192}
+  - component: {fileID: 1705074196}
   m_Layer: 5
   m_Name: SkipButton
   m_TagString: Untagged
@@ -1153,6 +1169,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705074190}
   m_CullTransparentMesh: 1
+--- !u!114 &1705074196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705074190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonToChange: {fileID: 1705074193}
+  newColor: {r: 0.61960787, g: 0.7294118, b: 0.909804, a: 1}
 --- !u!1 &1761719759
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,6 +1332,7 @@ GameObject:
   - component: {fileID: 1783710999}
   - component: {fileID: 1783710998}
   - component: {fileID: 1783710997}
+  - component: {fileID: 1783711001}
   m_Layer: 5
   m_Name: SkipButton (1)
   m_TagString: Untagged
@@ -1435,6 +1466,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1783710995}
   m_CullTransparentMesh: 1
+--- !u!114 &1783711001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783710995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonToChange: {fileID: 1783710998}
+  newColor: {r: 0.60784316, g: 0.7176471, b: 0.91372555, a: 1}
 --- !u!1 &1827504764
 GameObject:
   m_ObjectHideFlags: 0
