@@ -40,6 +40,8 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         try
         {
+            Debug.Log("Current Avatar: " + AuthManager.Instance.currUser.currentAvatar);
+            
             if (AuthManager.Instance.currUser.currentAvatar == null)
             {
                 // If user does not have an avatar
@@ -64,7 +66,9 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                     await db.Collection("user").Document(currAvatarData.email).UpdateAsync(userUpdate);
                     await db.Collection("avatar").Document(avatarId).UpdateAsync(avatarUpdate);
 
-                    Debug.Log("Success creating new avatar data: " + avatarId);
+                    AuthManager.Instance.currUser.currentAvatar = avatarId;
+
+                    Debug.Log("Success creating new avatar data: " + AuthManager.Instance.currUser.currentAvatar);
                 }
             }
             else
