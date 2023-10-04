@@ -33,7 +33,7 @@ public class Chat : MonoBehaviour
     void Start()
     {
         Debug.Log("Scene 6 Loaded...");
-        GetAvatars();
+        DisplayAvatars();
         ListenForNewMessages(); // Start listening for new messages
     }
 
@@ -230,6 +230,13 @@ public class Chat : MonoBehaviour
         return userData;
     }
 
+    public void DisplayAvatars()
+    {
+        GetAvatars();
+
+        //Todo: Load the avatar body, then load each accessory 1 by 1 for both members in the conversation
+    }
+
     public async void GetAvatars()
     {
         DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
@@ -256,21 +263,42 @@ public class Chat : MonoBehaviour
         Debug.Log("Their Avatar: " + theirAvatarData.avatarId);
     }
 
-    public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ, GameObject AvatarParentBody)
+    public void LoadAvatarBody(string avatarBaseFbxFileName, GameObject AvatarDisplayArea)
     {
-        // Load the FBX asset from the Resources folder
-        GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName + ".fbx"); // Eg. Blender/porkpiehat.fbx
+        if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
+        {
+            GameObject loadedFBX = Resources.Load<GameObject>(avatarBaseFbxFileName + ".fbx"); // Eg. Blender/catbasetest.fbx
 
-        if (loadedFBX != null)
-        {
-            // Instantiate the loaded FBX as a GameObject in the scene
-            GameObject fbx = Instantiate(loadedFBX, transform.position, Quaternion.identity);
-            fbx.transform.SetParent(AvatarParentBody.transform, false);
-            fbx.transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
+            if (loadedFBX != null)
+            {
+                GameObject fbx = Instantiate(loadedFBX, transform.position, Quaternion.identity);
+                fbx.transform.SetParent(AvatarDisplayArea.transform, false);
+            }
+            else
+            {
+                Debug.LogError("FBX asset not found: " + fbxFileName);
+            }
         }
-        else
+    }
+
+    public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ, GameObject AvatarBody)
+    {
+        if (fbxFileName != null && fbxFileName != "")
         {
-            Debug.LogError("FBX asset not found: " + fbxFileName);
+            // Load the FBX asset from the Resources folder
+            GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName + ".fbx"); // Eg. Blender/porkpiehat.fbx
+
+            if (loadedFBX != null)
+            {
+                // Instantiate the loaded FBX as a GameObject in the scene
+                GameObject fbx = Instantiate(loadedFBX, transform.position, Quaternion.identity);
+                fbx.transform.SetParent(AvatarBody.transform, false);
+                fbx.transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
+            }
+            else
+            {
+                Debug.LogError("FBX asset not found: " + fbxFileName);
+            }
         }
     }
 
