@@ -33,6 +33,7 @@ public class Chat : MonoBehaviour
     void Start()
     {
         Debug.Log("Scene 6 Loaded...");
+        GetAvatars();
         ListenForNewMessages(); // Start listening for new messages
     }
 
@@ -250,6 +251,9 @@ public class Chat : MonoBehaviour
                 }
             }
         }
+
+        Debug.Log("My Avatar: " + myAvatarData.avatarId);
+        Debug.Log("Their Avatar: " + theirAvatarData.avatarId);
     }
 
     public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ, GameObject AvatarParentBody)
