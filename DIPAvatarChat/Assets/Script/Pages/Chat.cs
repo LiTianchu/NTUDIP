@@ -235,14 +235,12 @@ public class Chat : MonoBehaviour
     {
         if (await GetAvatars())
         {
-            //Todo: Load the avatar body, then load each accessory 1 by 1 for both members in the conversation
-
-            Vector3 myAvatarSpawnPosition = new Vector3(40f, 10f, -30f);
-            Vector3 theirAvatarSpawnPosition = new Vector3(-30f, 10f, -30f);
+            Vector3 myAvatarSpawnPosition = new Vector3(-30f, 10f, -30f);
+            Vector3 theirAvatarSpawnPosition = new Vector3(40f, 10f, -30f);
 
             // Spawn both avatar bodies
-            LoadAvatarBody("Blender/CatBaseTest2_v0_30", AvatarDisplayArea, myAvatarSpawnPosition, Quaternion.Euler(0f, 75f, 0f), "MyAvatarBody");
-            LoadAvatarBody("Blender/CatBaseTest2_v0_30", AvatarDisplayArea, theirAvatarSpawnPosition, Quaternion.Euler(0f, -75f, 0f), "TheirAvatarBody");
+            LoadAvatarBody("Blender/CatBaseTest2_v0_30", AvatarDisplayArea, myAvatarSpawnPosition, Quaternion.Euler(0f, -75f, 0f), "MyAvatarBody");
+            LoadAvatarBody("Blender/CatBaseTest2_v0_30", AvatarDisplayArea, theirAvatarSpawnPosition, Quaternion.Euler(0f, 75f, 0f), "TheirAvatarBody");
 
             // Load hat accessory
             Vector3 hatPosition = new Vector3(0f, 3.6f, 0f);
@@ -251,6 +249,13 @@ public class Chat : MonoBehaviour
             LoadAccessory(theirAvatarData.hat, AvatarDisplayArea.transform.GetChild(1).gameObject, hatPosition, hatScale);
 
             // Load arm accessory
+            Vector3 armPosition = new Vector3(-1.087f, 1.953f, 0f);
+            Vector3 armPosition2 = new Vector3(1.087f, 1.953f, 0f);
+            Vector3 armScale = new Vector3(0.08f, 0.08f, 0.08f);
+            LoadAccessory(myAvatarData.arm, AvatarDisplayArea.transform.GetChild(0).gameObject, armPosition, armScale);
+            LoadAccessory(theirAvatarData.arm, AvatarDisplayArea.transform.GetChild(1).gameObject, armPosition2, armScale);
+
+            // Todo: Load all the other accessory
         }
     }
 
