@@ -226,6 +226,11 @@ public class Chat : MonoBehaviour
         return userData;
     }
 
+    public void GetCurrentAvatar()
+    {
+        
+    }
+
     public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ, GameObject AvatarParentBody)
     {
         // Load the FBX asset from the Resources folder
