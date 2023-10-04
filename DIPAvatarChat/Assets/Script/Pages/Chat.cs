@@ -18,6 +18,7 @@ public class Chat : MonoBehaviour
     public GameObject MyChatBubblePrefab;
     public GameObject TheirChatBubblePrefab;
     public GameObject ChatBubbleParent;
+    public GameObject AvatarDisplayArea;
 
     //public static string currConvId { get; set; }
     //ConversationData currConvData;
@@ -230,49 +231,79 @@ public class Chat : MonoBehaviour
         return userData;
     }
 
-    public void DisplayAvatars()
+    public async void DisplayAvatars()
     {
-        GetAvatars();
+        if (await GetAvatars())
+        {
+            //Todo: Load the avatar body, then load each accessory 1 by 1 for both members in the conversation
 
-        //Todo: Load the avatar body, then load each accessory 1 by 1 for both members in the conversation
+            Vector3 myAvatarSpawnPosition = new Vector3(40f, 10f, -30f);
+            Vector3 theirAvatarSpawnPosition = new Vector3(-30f, 10f, -30f);
+
+            // Spawn both avatar bodies
+            LoadAvatarBody("Blender/CatBaseTest2_v0_30", AvatarDisplayArea, myAvatarSpawnPosition, Quaternion.Euler(0f, 75f, 0f), "MyAvatarBody");
+            LoadAvatarBody("Blender/CatBaseTest2_v0_30", AvatarDisplayArea, theirAvatarSpawnPosition, Quaternion.Euler(0f, -75f, 0f), "TheirAvatarBody");
+
+            // Load hat accessory
+            Vector3 hatPosition = new Vector3(0f, 3.6f, 0f);
+            Vector3 hatScale = new Vector3(0.2f, 0.2f, 0.2f);
+            LoadAccessory(myAvatarData.hat, AvatarDisplayArea.transform.GetChild(0).gameObject, hatPosition, hatScale);
+            LoadAccessory(theirAvatarData.hat, AvatarDisplayArea.transform.GetChild(1).gameObject, hatPosition, hatScale);
+
+            // Load arm accessory
+        }
     }
 
-    public async void GetAvatars()
+    public async Task<bool> GetAvatars()
     {
-        DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
-        ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
-
-        if (currConvData != null)
+        try
         {
-            foreach (string member in currConvData.members)
+            DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
+            ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
+
+            if (currConvData != null)
             {
-                if (member == AuthManager.Instance.currUser.email)
+                foreach (string member in currConvData.members)
                 {
-                    DocumentSnapshot myAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(member);
-                    myAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
-                }
-                else
-                {
-                    DocumentSnapshot theirAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(member);
-                    theirAvatarData = theirAvatarDoc.ConvertTo<AvatarData>();
+                    if (member == AuthManager.Instance.currUser.email)
+                    {
+                        DocumentSnapshot myAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(member);
+                        myAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
+                    }
+                    else
+                    {
+                        DocumentSnapshot theirAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(member);
+                        theirAvatarData = theirAvatarDoc.ConvertTo<AvatarData>();
+                    }
                 }
             }
-        }
 
-        Debug.Log("My Avatar: " + myAvatarData.avatarId);
-        Debug.Log("Their Avatar: " + theirAvatarData.avatarId);
+            Debug.Log("My Avatar: " + myAvatarData.avatarId);
+            Debug.Log("Their Avatar: " + theirAvatarData.avatarId);
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Avatar Display Error: " + e.Message);
+            return false;
+        }
     }
 
-    public void LoadAvatarBody(string avatarBaseFbxFileName, GameObject AvatarDisplayArea)
+    public void LoadAvatarBody(string avatarBaseFbxFileName, GameObject AvatarDisplayArea, Vector3 itemPosition, Quaternion itemRotation, string avatarName)
     {
         if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
         {
-            GameObject loadedFBX = Resources.Load<GameObject>(avatarBaseFbxFileName + ".fbx"); // Eg. Blender/catbasetest.fbx
+            GameObject loadedFBX = Resources.Load<GameObject>(avatarBaseFbxFileName); // Eg. Blender/catbasetest.fbx
 
             if (loadedFBX != null)
             {
-                GameObject fbx = Instantiate(loadedFBX, transform.position, Quaternion.identity);
+                GameObject fbx = Instantiate(loadedFBX, itemPosition, itemRotation);
                 fbx.transform.SetParent(AvatarDisplayArea.transform, false);
+                fbx.name = avatarName;
+
+                float scale = 30f;
+                fbx.transform.localScale = new Vector3(scale, scale, scale);
             }
             else
             {
@@ -281,19 +312,19 @@ public class Chat : MonoBehaviour
         }
     }
 
-    public void LoadAccessory(string fbxFileName, float scaleX, float scaleY, float scaleZ, GameObject AvatarBody)
+    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale)
     {
         if (fbxFileName != null && fbxFileName != "")
         {
             // Load the FBX asset from the Resources folder
-            GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName + ".fbx"); // Eg. Blender/porkpiehat.fbx
+            GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName); // Eg. Blender/porkpiehat.fbx
 
             if (loadedFBX != null)
             {
                 // Instantiate the loaded FBX as a GameObject in the scene
-                GameObject fbx = Instantiate(loadedFBX, transform.position, Quaternion.identity);
+                GameObject fbx = Instantiate(loadedFBX, itemPosition, Quaternion.identity);
                 fbx.transform.SetParent(AvatarBody.transform, false);
-                fbx.transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
+                fbx.transform.localScale = itemScale;
             }
             else
             {
