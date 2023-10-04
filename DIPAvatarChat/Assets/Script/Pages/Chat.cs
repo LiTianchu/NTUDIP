@@ -276,7 +276,7 @@ public class Chat : MonoBehaviour
             }
             else
             {
-                Debug.LogError("FBX asset not found: " + fbxFileName);
+                Debug.LogError("FBX asset not found: " + avatarBaseFbxFileName);
             }
         }
     }
