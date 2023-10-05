@@ -79,6 +79,9 @@ public class AvatarAccessories : MonoBehaviour
                     case "tail":
                         AvatarBackendManager.Instance.currAvatarData.tail = path;
                         break;
+                    case "shoes":
+                        AvatarBackendManager.Instance.currAvatarData.shoes = path;
+                        break;
                 }
             }
             else
@@ -105,6 +108,9 @@ public class AvatarAccessories : MonoBehaviour
                         break;
                     case "tail":
                         AvatarBackendManager.Instance.currAvatarData.tail = null;
+                        break;
+                    case "shoes":
+                        AvatarBackendManager.Instance.currAvatarData.shoes = null;
                         break;
                 }
             }
