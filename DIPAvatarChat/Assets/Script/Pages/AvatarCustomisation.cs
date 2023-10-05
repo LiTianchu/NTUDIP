@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 public class AvatarCustomisation : MonoBehaviour
 {
-
+  public GameObject FeatureCustomisation;
 
   // Start is called before the first frame update
   void Start()
@@ -30,6 +30,25 @@ public class AvatarCustomisation : MonoBehaviour
   public void LoadEditProfile()
   {
     AppManager.Instance.LoadScene("3-EditProfile");
+  }
+
+  public void DisplayPanel(string chooseFeatureName)
+  {
+    foreach (Transform child in FeatureCustomisation.transform)
+    {
+      Debug.Log("Child GameObject: " + child.gameObject.name);
+      if (child.gameObject.name == chooseFeatureName)
+      {
+        child.gameObject.SetActive(true);
+      }
+      else
+      {
+        if (child.gameObject.name != "chooseFeature")
+        {
+          child.gameObject.SetActive(false);
+        }
+      }
+    }
   }
 
 }

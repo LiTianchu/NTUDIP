@@ -38,6 +38,9 @@ public class AvatarData
   public string tail { get; set; }
 
   [FirestoreProperty]
+  public string shoes { get; set; }
+
+  [FirestoreProperty]
   public string email { get; set; }
 
   [FirestoreProperty]
