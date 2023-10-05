@@ -259,7 +259,7 @@ public class Chat : MonoBehaviour
         }
     }
 
-    public async Task<bool> GetAvatars()
+    private async Task<bool> GetAvatars()
     {
         try
         {
@@ -295,7 +295,7 @@ public class Chat : MonoBehaviour
         }
     }
 
-    public void LoadAvatarBody(string avatarBaseFbxFileName, GameObject AvatarDisplayArea, Vector3 itemPosition, Quaternion itemRotation, string avatarName)
+    private void LoadAvatarBody(string avatarBaseFbxFileName, GameObject AvatarDisplayArea, Vector3 itemPosition, Quaternion itemRotation, string avatarName)
     {
         if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
         {
@@ -317,7 +317,7 @@ public class Chat : MonoBehaviour
         }
     }
 
-    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale)
+    private void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale)
     {
         if (fbxFileName != null && fbxFileName != "")
         {

@@ -41,6 +41,12 @@ public class EditProfile : MonoBehaviour
         {
             statusField.text = AuthManager.Instance.currUser.status;
         }
+
+        if (AvatarBackendManager.Instance.currAvatarData == null)
+        {
+            DocumentSnapshot myAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(AuthManager.Instance.currUser.email);
+            AvatarBackendManager.Instance.currAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
+        }
     }
 
     public async void SaveProfile()
