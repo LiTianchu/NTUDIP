@@ -48,62 +48,65 @@ public class AvatarAccessories : MonoBehaviour
     public void UpdateAvatarData(bool isActive)
     {
         Debug.Log("Accessory Type: " + accessoryType + ", Accessory Name: " + AccessoryPrefab.name);
-        Debug.Log("IsActive: " + isActive);
+        Debug.Log("Accessory is active: " + isActive);
 
         string path = "Blender/" + AccessoryPrefab.name;
 
-        if (isActive)
+        if (AvatarBackendManager.Instance.currAvatarData != null)
         {
-            switch (accessoryType)
+            if (isActive)
             {
-                case "colour":
-                    AvatarBackendManager.Instance.currAvatarData.colour = path;
-                    break;
-                case "texture":
-                    AvatarBackendManager.Instance.currAvatarData.texture = path;
-                    break;
-                case "expression":
-                    AvatarBackendManager.Instance.currAvatarData.expression = path;
-                    break;
-                case "hat":
-                    AvatarBackendManager.Instance.currAvatarData.hat = path;
-                    break;
-                case "arm":
-                    AvatarBackendManager.Instance.currAvatarData.arm = path;
-                    break;
-                case "wings":
-                    AvatarBackendManager.Instance.currAvatarData.wings = path;
-                    break;
-                case "tail":
-                    AvatarBackendManager.Instance.currAvatarData.tail = path;
-                    break;
+                switch (accessoryType)
+                {
+                    case "colour":
+                        AvatarBackendManager.Instance.currAvatarData.colour = path;
+                        break;
+                    case "texture":
+                        AvatarBackendManager.Instance.currAvatarData.texture = path;
+                        break;
+                    case "expression":
+                        AvatarBackendManager.Instance.currAvatarData.expression = path;
+                        break;
+                    case "hat":
+                        AvatarBackendManager.Instance.currAvatarData.hat = path;
+                        break;
+                    case "arm":
+                        AvatarBackendManager.Instance.currAvatarData.arm = path;
+                        break;
+                    case "wings":
+                        AvatarBackendManager.Instance.currAvatarData.wings = path;
+                        break;
+                    case "tail":
+                        AvatarBackendManager.Instance.currAvatarData.tail = path;
+                        break;
+                }
             }
-        }
-        else
-        {
-            switch (accessoryType)
+            else
             {
-                case "colour":
-                    AvatarBackendManager.Instance.currAvatarData.colour = null;
-                    break;
-                case "texture":
-                    AvatarBackendManager.Instance.currAvatarData.texture = null;
-                    break;
-                case "expression":
-                    AvatarBackendManager.Instance.currAvatarData.expression = null;
-                    break;
-                case "hat":
-                    AvatarBackendManager.Instance.currAvatarData.hat = null;
-                    break;
-                case "arm":
-                    AvatarBackendManager.Instance.currAvatarData.arm = null;
-                    break;
-                case "wings":
-                    AvatarBackendManager.Instance.currAvatarData.wings = null;
-                    break;
-                case "tail":
-                    AvatarBackendManager.Instance.currAvatarData.tail = null;
-                    break;
+                switch (accessoryType)
+                {
+                    case "colour":
+                        AvatarBackendManager.Instance.currAvatarData.colour = null;
+                        break;
+                    case "texture":
+                        AvatarBackendManager.Instance.currAvatarData.texture = null;
+                        break;
+                    case "expression":
+                        AvatarBackendManager.Instance.currAvatarData.expression = null;
+                        break;
+                    case "hat":
+                        AvatarBackendManager.Instance.currAvatarData.hat = null;
+                        break;
+                    case "arm":
+                        AvatarBackendManager.Instance.currAvatarData.arm = null;
+                        break;
+                    case "wings":
+                        AvatarBackendManager.Instance.currAvatarData.wings = null;
+                        break;
+                    case "tail":
+                        AvatarBackendManager.Instance.currAvatarData.tail = null;
+                        break;
+                }
             }
         }
     }
