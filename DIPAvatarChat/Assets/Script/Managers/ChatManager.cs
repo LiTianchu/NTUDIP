@@ -11,6 +11,18 @@ public class ChatManager : Singleton<ChatManager>
     public AvatarData MyAvatarData { get; set; }
     public AvatarData TheirAvatarData { get; set; }
 
+    //pos for avatar spawn pos
+    private readonly Vector3 MY_AVATAR_POS = new Vector3(-30f, 10f, -30f);
+    private readonly Vector3 THEIR_AVATAR_POS = new Vector3(40f, 10f, -30f);
+
+    //pos for hat accessories
+    private readonly Vector3 HAT_POS = new Vector3(0f, 3.6f, 0f);
+    private readonly Vector3 HAT_SCALE = new Vector3(0.2f, 0.2f, 0.2f);
+
+    //pos for arm accessories
+    private readonly Vector3 ARM_POS1 = new Vector3(-1.087f, 1.953f, 0f);
+    private readonly Vector3 ARM_POS2 = new Vector3(1.087f, 1.953f, 0f);
+    private readonly Vector3 ARM_SCALE = new Vector3(0.08f, 0.08f, 0.08f);
     void Start()
     {
         CurrentMessages = new List<MessageData>();
@@ -65,30 +77,53 @@ public class ChatManager : Singleton<ChatManager>
         }
     }
 
-    public void LoadAvatar(GameObject avatarContainer) {
-        Vector3 myAvatarSpawnPosition = new Vector3(-30f, 10f, -30f);
-        Vector3 theirAvatarSpawnPosition = new Vector3(40f, 10f, -30f);
+    //public void LoadAvatar(GameObject avatarContainer) {
 
+    //    // Spawn both avatar bodies
+    //    LoadAvatarBody("Blender/CatBaseTest2_v0_30", avatarContainer, myAvatarSpawnPosition, Quaternion.Euler(0f, -75f, 0f), "MyAvatarBody");
+    //    LoadAvatarBody("Blender/CatBaseTest2_v0_30", avatarContainer, theirAvatarSpawnPosition, Quaternion.Euler(0f, 75f, 0f), "TheirAvatarBody");
+
+    //    // Load hat accessory
+    //    LoadAccessory(MyAvatarData.hat, avatarContainer.transform.GetChild(0).gameObject, hatPosition, hatScale);
+    //    LoadAccessory(TheirAvatarData.hat, avatarContainer.transform.GetChild(1).gameObject, hatPosition, hatScale);
+
+    //    // Load arm accessory
+    //    LoadAccessory(MyAvatarData.arm, avatarContainer.transform.GetChild(0).gameObject, armPosition, armScale);
+    //    LoadAccessory(TheirAvatarData.arm, avatarContainer.transform.GetChild(1).gameObject, armPosition2, armScale);
+
+    //}
+    public GameObject LoadMyAvatar()
+    {
         // Spawn both avatar bodies
-        LoadAvatarBody("Blender/CatBaseTest2_v0_30", avatarContainer, myAvatarSpawnPosition, Quaternion.Euler(0f, -75f, 0f), "MyAvatarBody");
-        LoadAvatarBody("Blender/CatBaseTest2_v0_30", avatarContainer, theirAvatarSpawnPosition, Quaternion.Euler(0f, 75f, 0f), "TheirAvatarBody");
+        GameObject myAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", MY_AVATAR_POS, Quaternion.Euler(0f, -75f, 0f));
+       
 
         // Load hat accessory
-        Vector3 hatPosition = new Vector3(0f, 3.6f, 0f);
-        Vector3 hatScale = new Vector3(0.2f, 0.2f, 0.2f);
-        LoadAccessory(MyAvatarData.hat, avatarContainer.transform.GetChild(0).gameObject, hatPosition, hatScale);
-        LoadAccessory(TheirAvatarData.hat, avatarContainer.transform.GetChild(1).gameObject, hatPosition, hatScale);
+        LoadAccessory(MyAvatarData.hat, myAvatar, HAT_POS, HAT_SCALE);
+        
 
         // Load arm accessory
-        Vector3 armPosition = new Vector3(-1.087f, 1.953f, 0f);
-        Vector3 armPosition2 = new Vector3(1.087f, 1.953f, 0f);
-        Vector3 armScale = new Vector3(0.08f, 0.08f, 0.08f);
-        LoadAccessory(MyAvatarData.arm, avatarContainer.transform.GetChild(0).gameObject, armPosition, armScale);
-        LoadAccessory(TheirAvatarData.arm, avatarContainer.transform.GetChild(1).gameObject, armPosition2, armScale);
+        LoadAccessory(MyAvatarData.arm, myAvatar, ARM_POS1, ARM_SCALE);
+        return myAvatar;
 
     }
 
-    public void LoadAvatarBody(string avatarBaseFbxFileName, GameObject AvatarDisplayArea, Vector3 itemPosition, Quaternion itemRotation, string avatarName)
+    public GameObject LoadTheirAvatar()
+    {
+
+        // Spawn both avatar bodies
+        GameObject theirAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", THEIR_AVATAR_POS, Quaternion.Euler(0f, 75f, 0f));
+
+        // Load hat accessory
+        LoadAccessory(TheirAvatarData.hat, theirAvatar, HAT_POS, HAT_SCALE);
+
+        // Load arm accessory
+        LoadAccessory(TheirAvatarData.arm, theirAvatar, HAT_POS, HAT_SCALE);
+        return theirAvatar;
+
+    }
+
+    public GameObject LoadAvatarBody(string avatarBaseFbxFileName, Vector3 itemPosition, Quaternion itemRotation)
     {
         if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
         {
@@ -97,17 +132,15 @@ public class ChatManager : Singleton<ChatManager>
             if (loadedFBX != null)
             {
                 GameObject fbx = Instantiate(loadedFBX, itemPosition, itemRotation);
-                fbx.transform.SetParent(AvatarDisplayArea.transform, false);
-                fbx.name = avatarName;
-
-                float scale = 30f;
-                fbx.transform.localScale = new Vector3(scale, scale, scale);
+                return fbx;
             }
             else
             {
                 Debug.LogError("FBX asset not found: " + avatarBaseFbxFileName);
+                return null;
             }
         }
+        return null;
     }
 
     public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale)

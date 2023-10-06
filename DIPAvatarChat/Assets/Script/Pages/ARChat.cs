@@ -5,10 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
+using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class ARChat : MonoBehaviour
 {
+    [Header("UI Elements")]
     public TMP_InputField MessageInputField;
     public TMP_Text RecipientName;
     public GameObject MyChatBubblePrefab;
@@ -16,13 +21,27 @@ public class ARChat : MonoBehaviour
     public GameObject ChatBubbleParent;
     public GameObject AvatarContainer;
 
+    [Header("AR")]
+    public XROrigin xrOrigin;
+    public ARRaycastManager raycastManager;
+    public ARPlaneManager planeManager;
+
+    private List<ARRaycastHit> raycastHits = new List<ARRaycastHit>();
+
     private bool isPopulated = false;
     private ListenerRegistration listener;
-
+    private GameObject myAvatar;
+    private GameObject theirAvatar;
+    private GameObject selectedAvatar;
     // Start is called before the first frame update
     void Start()
     {
-        PlaceAvatar();
+        myAvatar = ChatManager.Instance.LoadMyAvatar();
+        theirAvatar = ChatManager.Instance.LoadTheirAvatar();
+        myAvatar.SetActive(false);
+        theirAvatar.SetActive(false);
+        selectedAvatar = myAvatar;
+
         ListenForNewMessages();
     }
     void OnDestroy()
@@ -159,10 +178,20 @@ public class ARChat : MonoBehaviour
         AppManager.Instance.LoadScene("6-ChatUI");
     }
 
-    public void PlaceAvatar() {
-        ChatManager.Instance.LoadAvatar(AvatarContainer);
+    public void PlaceAvatar(InputAction.CallbackContext context) {
+        if (context.performed) {
+            bool collision = raycastManager.Raycast(Input.mousePosition, raycastHits, TrackableType.PlaneWithinPolygon);
 
-    
+            if (collision)
+            {
+                selectedAvatar.SetActive(true);
+                selectedAvatar.transform.position = raycastHits[0].pose.position;
+                selectedAvatar.transform.rotation = raycastHits[0].pose.rotation;
+            }
+        }
+        
+
+
     }
     
 }
