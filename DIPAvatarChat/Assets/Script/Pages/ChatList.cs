@@ -62,7 +62,6 @@ public class ChatList : MonoBehaviour
 
         List<string> conversations = FilterConversationList(convDocQuery);
 
-        //foreach (string conversationID in conversations)
         for (int i = conversations.Count - 1; i >= 0; i--)
         {
 

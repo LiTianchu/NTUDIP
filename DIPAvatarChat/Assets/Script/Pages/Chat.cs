@@ -175,6 +175,9 @@ public class Chat : MonoBehaviour
             // Check if the message has not been displayed already
             // !displayedMessageIds.Contains(messageId)
 
+            //cache the msg
+            ChatManager.Instance.CurrentMessages.Add(msg);
+
             if (msgSender.Equals(AuthManager.Instance.emailData))
             {
                 // Message is sent by me
@@ -209,6 +212,9 @@ public class Chat : MonoBehaviour
     {
         recipientUserData = await GetRecipientData();
         RecipientName.text = recipientUserData.username;
+
+        ChatManager.Instance.CurrentRecipientName = recipientUserData.username;
+
     }
     public async Task<UserData> GetRecipientData()
     {
@@ -340,7 +346,13 @@ public class Chat : MonoBehaviour
 
     public void ReturnToChatList()
     {
+        ChatManager.Instance.CurrentMessages.Clear();
+        ChatManager.Instance.CurrentRecipientName = "";
         AppManager.Instance.LoadScene("4-ChatList");
+    }
+
+    public void LoadARChat() {
+        AppManager.Instance.LoadScene("7-ARChat");
     }
 
     public void ClearDisplay()
