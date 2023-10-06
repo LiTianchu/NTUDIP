@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AppSkeleton/6-ChatUI.unity
     guid: 98ea076296bb3964d8727339c38fa597
+  - enabled: 1
+    path: Assets/Scenes/AppSkeleton/7-ARChat.unity
+    guid: 2c2f5075812d32e409740ffa36ca4801
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 16427fb34d3ccb4499444babad7a2396, type: 2}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: e4c0845fd77a79747a298348cc4c5ae5, type: 2}
