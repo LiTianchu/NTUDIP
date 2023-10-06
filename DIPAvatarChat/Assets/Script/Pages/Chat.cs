@@ -201,9 +201,23 @@ public class Chat : MonoBehaviour
         if (await GetAvatars())
         {
 
-            ChatManager.Instance.LoadAvatar(AvatarDisplayArea);
+            GameObject myAvatar = ChatManager.Instance.LoadMyAvatar();
+            GameObject theirAvatar = ChatManager.Instance.LoadTheirAvatar();
+
+            //initial settings
+            SetAvatar("MyAvatarBody", myAvatar);
+            SetAvatar("TheirAvatarBody", theirAvatar);
+
         }
 
+    }
+
+    private void SetAvatar(string name, GameObject avatarObj) {
+        avatarObj.transform.SetParent(AvatarDisplayArea.transform, false);
+        avatarObj.name = name;
+
+        float scale = 30f;
+        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
 
     private async Task<bool> GetAvatars()

@@ -208,6 +208,8 @@ GameObject:
   m_Component:
   - component: {fileID: 69839726}
   - component: {fileID: 69839725}
+  - component: {fileID: 69839728}
+  - component: {fileID: 69839727}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -248,6 +250,33 @@ Transform:
   - {fileID: 1684071029}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &69839727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69839724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlanePrefab: {fileID: 7688762455329553339, guid: 477a0d1f827642243a33a60dcd42dcd2, type: 3}
+  m_DetectionMode: -1
+--- !u!114 &69839728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69839724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastPrefab: {fileID: 0}
 --- !u!1 &76545750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,7 +1702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1160785320}
   m_Layer: 0
-  m_Name: AvatarArea
+  m_Name: Avatars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1686,17 +1715,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160785319}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.2, y: 3.2, z: 3.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1989608746}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 6.6}
-  m_SizeDelta: {x: 304, y: 230}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &1280062321
 GameObject:
@@ -2445,7 +2474,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1280062322}
-  - {fileID: 1160785320}
   - {fileID: 373271925}
   - {fileID: 635718788}
   m_Father: {fileID: 0}
@@ -2530,6 +2558,7 @@ GameObject:
   - component: {fileID: 2118428255}
   - component: {fileID: 2118428254}
   - component: {fileID: 2118428257}
+  - component: {fileID: 2118428258}
   m_Layer: 0
   m_Name: AR Session
   m_TagString: Untagged
@@ -2597,6 +2626,55 @@ MonoBehaviour:
   TheirChatBubblePrefab: {fileID: 6655866526961314476, guid: 8fdadd0911ebe3b4384c6223a85eb3fd, type: 3}
   ChatBubbleParent: {fileID: 570572102}
   AvatarContainer: {fileID: 1160785319}
+  xrOrigin: {fileID: 69839725}
+  raycastManager: {fileID: 69839728}
+  planeManager: {fileID: 69839727}
+--- !u!114 &2118428258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118428253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 9c4aba341c1827549999fbda4b96d837, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2118428257}
+        m_TargetAssemblyTypeName: ARChat, Assembly-CSharp
+        m_MethodName: PlaceAvatar
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f8b7ca6f-a46b-431c-83d2-2aa1be6437ba
+    m_ActionName: Control/Tap[/Mouse/press]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Control
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2604,4 +2682,5 @@ SceneRoots:
   - {fileID: 269828011}
   - {fileID: 69839726}
   - {fileID: 2118428256}
+  - {fileID: 1160785320}
   - {fileID: 1989608746}
