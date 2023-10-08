@@ -19,6 +19,7 @@ public class Chat : MonoBehaviour
     public GameObject TheirChatBubblePrefab;
     public GameObject ChatBubbleParent;
     public GameObject AvatarDisplayArea;
+    public GameObject AvatarPopupDisplayArea;
 
     //public static string currConvId { get; set; }
     //ConversationData currConvData;
@@ -83,7 +84,7 @@ public class Chat : MonoBehaviour
                     }
                     else
                     {
-                        
+
                         // Check if the message has not been displayed already
                         if (GameObject.Find(messageId) == null)
                         {
@@ -119,7 +120,7 @@ public class Chat : MonoBehaviour
         });
     }
 
-  
+
 
     private async void PopulateMessage(string conversationID)
     {
@@ -200,20 +201,22 @@ public class Chat : MonoBehaviour
     {
         if (await GetAvatars())
         {
-
             GameObject myAvatar = ChatManager.Instance.LoadMyAvatar();
             GameObject theirAvatar = ChatManager.Instance.LoadTheirAvatar();
 
             //initial settings
-            SetAvatar("MyAvatarBody", myAvatar);
-            SetAvatar("TheirAvatarBody", theirAvatar);
+            SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea);
+            SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea);
 
+            //Display popup avatar when click on friend's avatar
+            GameObject popupAvatar = ChatManager.Instance.LoadPopupAvatar();
+            SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea);
         }
-
     }
 
-    private void SetAvatar(string name, GameObject avatarObj) {
-        avatarObj.transform.SetParent(AvatarDisplayArea.transform, false);
+    private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent)
+    {
+        avatarObj.transform.SetParent(avatarParent.transform, false);
         avatarObj.name = name;
 
         float scale = 30f;
@@ -267,7 +270,8 @@ public class Chat : MonoBehaviour
         AppManager.Instance.LoadScene("4-ChatList");
     }
 
-    public void LoadARChat() {
+    public void LoadARChat()
+    {
         //GameObject[] sceneObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
         //foreach (GameObject obj in sceneObjects)
