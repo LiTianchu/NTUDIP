@@ -23,6 +23,12 @@ public class ChatManager : Singleton<ChatManager>
     private readonly Vector3 ARM_POS1 = new Vector3(-1.087f, 1.953f, 0f);
     private readonly Vector3 ARM_POS2 = new Vector3(1.087f, 1.953f, 0f);
     private readonly Vector3 ARM_SCALE = new Vector3(0.08f, 0.08f, 0.08f);
+
+    //pos for shoes accessories
+    private readonly Vector3 SHOES_POS1 = new Vector3(0f, 0f, 0f);
+    private readonly Vector3 SHOES_POS2 = new Vector3(0f, 0f, 0f);
+    private readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
+
     void Start()
     {
         CurrentMessages = new List<MessageData>();
@@ -97,15 +103,16 @@ public class ChatManager : Singleton<ChatManager>
         // Spawn both avatar bodies
         GameObject myAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", MY_AVATAR_POS, Quaternion.Euler(0f, -75f, 0f));
        
-
         // Load hat accessory
         LoadAccessory(MyAvatarData.hat, myAvatar, HAT_POS, HAT_SCALE);
         
-
         // Load arm accessory
         LoadAccessory(MyAvatarData.arm, myAvatar, ARM_POS1, ARM_SCALE);
-        return myAvatar;
+        
+        // Load shoes accessory
+        LoadAccessory(MyAvatarData.shoes, myAvatar, SHOES_POS1, SHOES_SCALE);
 
+        return myAvatar;
     }
 
     public GameObject LoadTheirAvatar()
@@ -118,9 +125,12 @@ public class ChatManager : Singleton<ChatManager>
         LoadAccessory(TheirAvatarData.hat, theirAvatar, HAT_POS, HAT_SCALE);
 
         // Load arm accessory
-        LoadAccessory(TheirAvatarData.arm, theirAvatar, HAT_POS, HAT_SCALE);
-        return theirAvatar;
+        LoadAccessory(TheirAvatarData.arm, theirAvatar, ARM_POS2, ARM_SCALE);
 
+        // Load shoes accessory
+        LoadAccessory(TheirAvatarData.shoes, theirAvatar, SHOES_POS2, SHOES_SCALE);
+
+        return theirAvatar;
     }
 
     public GameObject LoadAvatarBody(string avatarBaseFbxFileName, Vector3 itemPosition, Quaternion itemRotation)
