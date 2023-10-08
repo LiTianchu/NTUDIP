@@ -14,6 +14,7 @@ public class ChatManager : Singleton<ChatManager>
     //pos for avatar spawn pos
     private readonly Vector3 MY_AVATAR_POS = new Vector3(-30f, 10f, -30f);
     private readonly Vector3 THEIR_AVATAR_POS = new Vector3(40f, 10f, -30f);
+    private readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
 
     //pos for hat accessories
     private readonly Vector3 HAT_POS = new Vector3(0f, 3.6f, 0f);
@@ -25,8 +26,7 @@ public class ChatManager : Singleton<ChatManager>
     private readonly Vector3 ARM_SCALE = new Vector3(0.08f, 0.08f, 0.08f);
 
     //pos for shoes accessories
-    private readonly Vector3 SHOES_POS1 = new Vector3(0f, 0f, 0f);
-    private readonly Vector3 SHOES_POS2 = new Vector3(0f, 0f, 0f);
+    private readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     private readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
 
     void Start()
@@ -38,10 +38,8 @@ public class ChatManager : Singleton<ChatManager>
     // Update is called once per frame
     void Update()
     {
-        
-    }
 
-   
+    }
 
     public void InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
     {
@@ -83,41 +81,25 @@ public class ChatManager : Singleton<ChatManager>
         }
     }
 
-    //public void LoadAvatar(GameObject avatarContainer) {
-
-    //    // Spawn both avatar bodies
-    //    LoadAvatarBody("Blender/CatBaseTest2_v0_30", avatarContainer, myAvatarSpawnPosition, Quaternion.Euler(0f, -75f, 0f), "MyAvatarBody");
-    //    LoadAvatarBody("Blender/CatBaseTest2_v0_30", avatarContainer, theirAvatarSpawnPosition, Quaternion.Euler(0f, 75f, 0f), "TheirAvatarBody");
-
-    //    // Load hat accessory
-    //    LoadAccessory(MyAvatarData.hat, avatarContainer.transform.GetChild(0).gameObject, hatPosition, hatScale);
-    //    LoadAccessory(TheirAvatarData.hat, avatarContainer.transform.GetChild(1).gameObject, hatPosition, hatScale);
-
-    //    // Load arm accessory
-    //    LoadAccessory(MyAvatarData.arm, avatarContainer.transform.GetChild(0).gameObject, armPosition, armScale);
-    //    LoadAccessory(TheirAvatarData.arm, avatarContainer.transform.GetChild(1).gameObject, armPosition2, armScale);
-
-    //}
     public GameObject LoadMyAvatar()
     {
         // Spawn both avatar bodies
         GameObject myAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", MY_AVATAR_POS, Quaternion.Euler(0f, -75f, 0f));
-       
+
         // Load hat accessory
         LoadAccessory(MyAvatarData.hat, myAvatar, HAT_POS, HAT_SCALE);
-        
+
         // Load arm accessory
         LoadAccessory(MyAvatarData.arm, myAvatar, ARM_POS1, ARM_SCALE);
-        
+
         // Load shoes accessory
-        LoadAccessory(MyAvatarData.shoes, myAvatar, SHOES_POS1, SHOES_SCALE);
+        LoadAccessory(MyAvatarData.shoes, myAvatar, SHOES_POS, SHOES_SCALE);
 
         return myAvatar;
     }
 
     public GameObject LoadTheirAvatar()
     {
-
         // Spawn both avatar bodies
         GameObject theirAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", THEIR_AVATAR_POS, Quaternion.Euler(0f, 75f, 0f));
 
@@ -128,9 +110,26 @@ public class ChatManager : Singleton<ChatManager>
         LoadAccessory(TheirAvatarData.arm, theirAvatar, ARM_POS2, ARM_SCALE);
 
         // Load shoes accessory
-        LoadAccessory(TheirAvatarData.shoes, theirAvatar, SHOES_POS2, SHOES_SCALE);
+        LoadAccessory(TheirAvatarData.shoes, theirAvatar, SHOES_POS, SHOES_SCALE);
 
         return theirAvatar;
+    }
+
+    public GameObject LoadPopupAvatar()
+    {
+        // Spawn both avatar bodies
+        GameObject popupAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", POPUP_AVATAR_POS, Quaternion.Euler(0f, 0f, 0f));
+
+        // Load hat accessory
+        LoadAccessory(TheirAvatarData.hat, popupAvatar, HAT_POS, HAT_SCALE);
+
+        // Load arm accessory
+        LoadAccessory(TheirAvatarData.arm, popupAvatar, ARM_POS1, ARM_SCALE);
+
+        // Load shoes accessory
+        LoadAccessory(TheirAvatarData.shoes, popupAvatar, SHOES_POS, SHOES_SCALE);
+
+        return popupAvatar;
     }
 
     public GameObject LoadAvatarBody(string avatarBaseFbxFileName, Vector3 itemPosition, Quaternion itemRotation)
