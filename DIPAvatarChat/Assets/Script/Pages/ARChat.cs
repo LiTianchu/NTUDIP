@@ -8,6 +8,7 @@ using TMPro;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -18,13 +19,17 @@ public class ARChat : MonoBehaviour
     public TMP_Text RecipientName;
     public GameObject MyChatBubblePrefab;
     public GameObject TheirChatBubblePrefab;
-    public GameObject ChatBubbleParent;
+    public GameObject ARChatBubbleContainer;
     public GameObject AvatarContainer;
-
+    public GameObject UsernameContainer;
+    
     [Header("AR")]
-    public XROrigin xrOrigin;
-    public ARRaycastManager raycastManager;
-    public ARPlaneManager planeManager;
+    public XROrigin XrOrigin;
+    public ARRaycastManager RaycastManager;
+    public ARPlaneManager PlaneManager;
+    public float PlacedObjectScale = 0.5f;
+    public Vector3 TextBubblePos;
+    public Vector3 NamePos;
 
     private List<ARRaycastHit> raycastHits = new List<ARRaycastHit>();
 
@@ -33,11 +38,23 @@ public class ARChat : MonoBehaviour
     private GameObject myAvatar;
     private GameObject theirAvatar;
     private GameObject selectedAvatar;
+    private GameObject myARChatBubbleContainer;
+    private GameObject theirARChatBubbleContainer;
     // Start is called before the first frame update
     void Start()
     {
         myAvatar = ChatManager.Instance.LoadMyAvatar();
         theirAvatar = ChatManager.Instance.LoadTheirAvatar();
+
+        myARChatBubbleContainer = Instantiate(ARChatBubbleContainer, myAvatar.transform) as GameObject;
+        myARChatBubbleContainer.transform.parent = myAvatar.transform;
+        myARChatBubbleContainer.transform.localPosition = TextBubblePos;
+        myARChatBubbleContainer.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+
+        theirARChatBubbleContainer = Instantiate(ARChatBubbleContainer, theirAvatar.transform) as GameObject;
+        theirARChatBubbleContainer.transform.parent = theirAvatar.transform;
+        theirARChatBubbleContainer.transform.localPosition = TextBubblePos;
+
         myAvatar.SetActive(false);
         theirAvatar.SetActive(false);
         selectedAvatar = myAvatar;
@@ -88,13 +105,15 @@ public class ARChat : MonoBehaviour
                             {
                                 // Message is sent by the current user, spawn text bubble at right side
                                 Debug.Log("Received message from current user");
-                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                                GameObject parent = myARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+                                ChatManager.Instance.InstantiateChatBubble(parent, MyChatBubblePrefab, msgText, messageId);
                             }
                             else
                             {
                                 // Message is sent by another user, spawn text bubble at left side
                                 Debug.Log("Received message from another user");
-                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
+                                GameObject parent = theirARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+                                ChatManager.Instance.InstantiateChatBubble(parent, TheirChatBubblePrefab, msgText, messageId);
                             }
                         }
                     }
@@ -133,12 +152,14 @@ public class ARChat : MonoBehaviour
             {
                 // Message is sent by me
                 // Spawn text bubble at right side of the chat
-                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                GameObject parent = myARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+                ChatManager.Instance.InstantiateChatBubble(parent, MyChatBubblePrefab, msgText, messageId);
             }
             else
             {
                 // Message is sent by the other party
-                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
+                GameObject parent = theirARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+                ChatManager.Instance.InstantiateChatBubble(parent, TheirChatBubblePrefab, msgText, messageId);
             }
         }
 
@@ -180,13 +201,14 @@ public class ARChat : MonoBehaviour
 
     public void PlaceAvatar(InputAction.CallbackContext context) {
         if (context.performed) {
-            bool collision = raycastManager.Raycast(Input.mousePosition, raycastHits, TrackableType.PlaneWithinPolygon);
+            bool collision = RaycastManager.Raycast(Input.mousePosition, raycastHits, TrackableType.PlaneWithinPolygon);
 
             if (collision)
             {
                 selectedAvatar.SetActive(true);
                 selectedAvatar.transform.position = raycastHits[0].pose.position;
                 selectedAvatar.transform.rotation = raycastHits[0].pose.rotation;
+                selectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
             }
         }
         

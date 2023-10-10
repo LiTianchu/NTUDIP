@@ -2163,12 +2163,12 @@ MonoBehaviour:
       m_Name: Position
       m_Type: 0
       m_ExpectedControlType: Vector3
-      m_Id: 
+      m_Id: 5ad2fac9-c297-4431-a204-a98bc58bf833
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings:
       - m_Name: 
-        m_Id: 
+        m_Id: 4f94f228-7f46-449c-9ae2-d022097c5d4f
         m_Path: <XRHMD>/centerEyePosition
         m_Interactions: 
         m_Processors: 
@@ -2191,12 +2191,12 @@ MonoBehaviour:
       m_Name: Rotation
       m_Type: 0
       m_ExpectedControlType: Quaternion
-      m_Id: 
+      m_Id: 5062c08d-f0ed-48e4-999d-77c8213ebc40
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings:
       - m_Name: 
-        m_Id: 
+        m_Id: b1c7ff11-3934-4200-90b8-0c822bd41eb8
         m_Path: <XRHMD>/centerEyeRotation
         m_Interactions: 
         m_Processors: 
@@ -2219,7 +2219,7 @@ MonoBehaviour:
       m_Name: Tracking State
       m_Type: 0
       m_ExpectedControlType: Integer
-      m_Id: 
+      m_Id: 8b2d00d8-bd1b-4ea7-9eb1-ec55bf1d7377
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -2622,13 +2622,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MessageInputField: {fileID: 76545752}
   RecipientName: {fileID: 1326324180}
-  MyChatBubblePrefab: {fileID: 6655866526961314476, guid: 9680a7e02d61fc041a44b2011b08bc20, type: 3}
-  TheirChatBubblePrefab: {fileID: 6655866526961314476, guid: 8fdadd0911ebe3b4384c6223a85eb3fd, type: 3}
-  ChatBubbleParent: {fileID: 570572102}
+  MyChatBubblePrefab: {fileID: 2465401093224701783, guid: f51d6e338a89e00469d3678d56c0884a, type: 3}
+  TheirChatBubblePrefab: {fileID: 2465401093224701783, guid: f51d6e338a89e00469d3678d56c0884a, type: 3}
+  ARChatBubbleContainer: {fileID: 1764247027736329797, guid: dc4650067b3c3e340af74ce35c6372de, type: 3}
   AvatarContainer: {fileID: 1160785319}
-  xrOrigin: {fileID: 69839725}
-  raycastManager: {fileID: 69839728}
-  planeManager: {fileID: 69839727}
+  UsernameContainer: {fileID: 0}
+  XrOrigin: {fileID: 69839725}
+  RaycastManager: {fileID: 69839728}
+  PlaneManager: {fileID: 69839727}
+  PlacedObjectScale: 0.5
+  TextBubblePos: {x: 0, y: 6, z: 0}
+  NamePos: {x: 0, y: 5, z: 0}
 --- !u!114 &2118428258
 MonoBehaviour:
   m_ObjectHideFlags: 0

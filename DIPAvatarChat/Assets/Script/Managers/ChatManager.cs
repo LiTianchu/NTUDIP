@@ -43,10 +43,12 @@ public class ChatManager : Singleton<ChatManager>
 
     public void InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
     {
-        GameObject box = Instantiate(_ChatBubblePrefab, _ChatBubbleParent.transform) as GameObject;
+        GameObject box = Instantiate(_ChatBubblePrefab);
+        box.transform.parent = _ChatBubbleParent.transform;
+        box.transform.localPosition = new Vector3(box.transform.localPosition.x, box.transform.localPosition.y, 0);
         box.name = messageId;
 
-        box.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = msgText;
+        box.transform.GetComponentInChildren<TMP_Text>().text = msgText;
     }
 
     public async void SendMessage(TMP_InputField messageInputField)
