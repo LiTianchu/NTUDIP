@@ -29,6 +29,16 @@ public class ChatManager : Singleton<ChatManager>
     private readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     private readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
 
+    private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
+
+    // Define a dictionary that maps emojis to their corresponding .anim files
+    private Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
+    {
+        { "😀", "laughing.anim" },
+        { "😂", "crying.anim" },
+        // Add more emoji-to-animation mappings here
+    };
+
     void Start()
     {
         CurrentMessages = new List<MessageData>();
@@ -71,6 +81,15 @@ public class ChatManager : Singleton<ChatManager>
 
         if (messageInputField.text != null && messageInputField.text != "")
         {
+            foreach(var kvp in emojiToAnimMap)
+            {
+                if (messageInputField.text.Contains(kvp.Key))
+                {
+                    Debug.Log("Emoji Animation: " + kvp.Value);
+                }
+            }
+
+            // After processing the emojis, send the message
             bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, messageInputField.text, myEmail, theirEmail);
             if (IsMessageSent)
             {
@@ -81,6 +100,30 @@ public class ChatManager : Singleton<ChatManager>
         {
             Debug.Log("message is null...");
         }
+    }
+    // Function to get the animation for a specific .anim file
+    private bool TryGetEmojiAnimation(string animFileName, out Animation animation)
+    {
+        // Check if the .anim file has already been loaded
+        if (emojiAnimations.TryGetValue(animFileName, out animation))
+        {
+            return true;
+        }
+        else
+        {
+            // Load the .anim file (replace 'AnimationPath' with the correct path)
+            Animation loadedAnimation = Resources.Load<Animation>("AnimationPath/" + animFileName);
+            if (loadedAnimation != null)
+            {
+                // Store the loaded animation for future use
+                emojiAnimations[animFileName] = loadedAnimation;
+                animation = loadedAnimation;
+                return true;
+            }
+        }
+
+        animation = null;
+        return false;
     }
 
     public GameObject LoadMyAvatar()
@@ -160,7 +203,6 @@ public class ChatManager : Singleton<ChatManager>
         {
             // Load the FBX asset from the Resources folder
             GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName); // Eg. Blender/porkpiehat.fbx
-
             if (loadedFBX != null)
             {
                 // Instantiate the loaded FBX as a GameObject in the scene
