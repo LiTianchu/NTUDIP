@@ -12,8 +12,8 @@ public class ChatManager : Singleton<ChatManager>
     public AvatarData TheirAvatarData { get; set; }
 
     //pos for avatar spawn pos
-    private readonly Vector3 MY_AVATAR_POS = new Vector3(-30f, 10f, -30f);
-    private readonly Vector3 THEIR_AVATAR_POS = new Vector3(40f, 10f, -30f);
+    private readonly Vector3 MY_AVATAR_POS = new Vector3(40f, 10f, -30f);
+    private readonly Vector3 THEIR_AVATAR_POS = new Vector3(-30f, 10f, -30f);
     private readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
 
     //pos for hat accessories
@@ -86,7 +86,7 @@ public class ChatManager : Singleton<ChatManager>
     public GameObject LoadMyAvatar()
     {
         // Spawn both avatar bodies
-        GameObject myAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", MY_AVATAR_POS, Quaternion.Euler(0f, -75f, 0f));
+        GameObject myAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", MY_AVATAR_POS, Quaternion.Euler(0f, 75f, 0f));
 
         // Load hat accessory
         LoadAccessory(MyAvatarData.hat, myAvatar, HAT_POS, HAT_SCALE);
@@ -103,7 +103,7 @@ public class ChatManager : Singleton<ChatManager>
     public GameObject LoadTheirAvatar()
     {
         // Spawn both avatar bodies
-        GameObject theirAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", THEIR_AVATAR_POS, Quaternion.Euler(0f, 75f, 0f));
+        GameObject theirAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", THEIR_AVATAR_POS, Quaternion.Euler(0f, -75f, 0f));
 
         // Load hat accessory
         LoadAccessory(TheirAvatarData.hat, theirAvatar, HAT_POS, HAT_SCALE);

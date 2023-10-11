@@ -18,7 +18,7 @@ public class AvatarCustomisation : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-
+    
   }
 
   // Update is called once per frame
@@ -51,4 +51,18 @@ public class AvatarCustomisation : MonoBehaviour
     }
   }
 
+  public async void SaveAvatarData()
+  {
+    // Call the AvatarBackendManager to update the avatar data
+    bool updated = await AvatarBackendManager.Instance.UpdateAvatarData();
+
+    if (updated)
+    {
+      Debug.Log("Avatar data updated successfully!");
+    }
+    else
+    {
+      Debug.LogError("Failed to update avatar data.");
+    }
+  }
 }

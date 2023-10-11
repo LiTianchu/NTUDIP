@@ -450,4 +450,10 @@ public class ChatList : MonoBehaviour
             }
         }
     }
+
+    public void SignOut()
+    {
+        AuthManager.Instance.SignOut();
+        AppManager.Instance.LoadScene("2-RegisterAndLogin");
+    }
 }

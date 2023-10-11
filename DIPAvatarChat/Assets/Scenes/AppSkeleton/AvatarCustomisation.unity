@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -652,8 +652,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 819}
-  m_SizeDelta: {x: 0, y: 245}
+  m_AnchoredPosition: {x: 0, y: 836}
+  m_SizeDelta: {x: 0, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &37210777
 MonoBehaviour:
@@ -1672,7 +1672,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -603}
+  m_AnchoredPosition: {x: 0, y: -602.9994}
   m_SizeDelta: {x: 0, y: 68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &164775660
@@ -1752,7 +1752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0.21176471}
-  m_EffectDistance: {x: 1, y: -3}
+  m_EffectDistance: {x: 0, y: -12}
   m_UseGraphicAlpha: 1
 --- !u!1 &169539113
 GameObject:
@@ -2279,7 +2279,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 230571348}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!1 &245352881
 GameObject:
   m_ObjectHideFlags: 0
@@ -3112,6 +3111,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351357616}
   m_CullTransparentMesh: 1
+--- !u!1 &357603647
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 357603648}
+  - component: {fileID: 357603650}
+  - component: {fileID: 357603649}
+  m_Layer: 5
+  m_Name: shoesWhite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &357603648
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357603647}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 572548560}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 338.797, y: -604.8}
+  m_SizeDelta: {x: 44.91, y: 97.8}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &357603649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357603647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: a11841aca14c18643b38bac5f9bb3def, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &357603650
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357603647}
+  m_CullTransparentMesh: 1
 --- !u!1001 &361646300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3263,7 +3334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -107, y: -55}
+  m_AnchoredPosition: {x: 76, y: -55}
   m_SizeDelta: {x: 125, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &369749957
@@ -3282,7 +3353,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 369749958}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &369749958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3436,8 +3506,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Save
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b4dbf9e2f66021f4a8565ca1b6ad5715, type: 2}
+  m_sharedMaterial: {fileID: -1910928926859737293, guid: b4dbf9e2f66021f4a8565ca1b6ad5715, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3461,8 +3531,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3548,7 +3618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 76, y: -55}
+  m_AnchoredPosition: {x: -107, y: -55}
   m_SizeDelta: {x: 125, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &387677646
@@ -3567,7 +3637,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 387677647}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &387677647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4465,6 +4534,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511005870}
   m_CullTransparentMesh: 1
+--- !u!1 &527544513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 527544514}
+  - component: {fileID: 527544516}
+  - component: {fileID: 527544515}
+  m_Layer: 5
+  m_Name: ScrollHatContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &527544514
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527544513}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 958243390}
+  - {fileID: 1566410963}
+  m_Father: {fileID: 1178418247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &527544515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527544513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &527544516
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527544513}
+  m_CullTransparentMesh: 1
 --- !u!1 &531581538
 GameObject:
   m_ObjectHideFlags: 0
@@ -4502,8 +4648,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 819}
-  m_SizeDelta: {x: 0, y: 245}
+  m_AnchoredPosition: {x: 0, y: 836}
+  m_SizeDelta: {x: 0, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &531581540
 MonoBehaviour:
@@ -4733,6 +4879,83 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541951193}
+  m_CullTransparentMesh: 1
+--- !u!1 &572548559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 572548560}
+  - component: {fileID: 572548562}
+  - component: {fileID: 572548561}
+  m_Layer: 5
+  m_Name: ScrollShoesContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &572548560
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572548559}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1143927342}
+  - {fileID: 357603648}
+  m_Father: {fileID: 1178418247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &572548561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572548559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &572548562
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572548559}
   m_CullTransparentMesh: 1
 --- !u!1 &573452515
 GameObject:
@@ -5096,7 +5319,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -107, y: -55}
+  m_AnchoredPosition: {x: 442, y: -55}
   m_SizeDelta: {x: 125, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &614769112
@@ -5115,7 +5338,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 614769113}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &614769113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5645,7 +5867,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 682347505}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &682347505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6381,7 +6602,7 @@ GameObject:
   - component: {fileID: 770014172}
   - component: {fileID: 770014171}
   m_Layer: 5
-  m_Name: tailBlack
+  m_Name: shoeBlack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6396,7 +6617,7 @@ RectTransform:
   m_GameObject: {fileID: 770014169}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5164292, y: 0.5519878, z: 1.4522536}
+  m_LocalScale: {x: 2.0992532, y: 0.4847145, z: 1.2752607}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1726039538}
@@ -6426,7 +6647,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 4a0fea06f55a54347a2cd8f19ec8d41b, type: 3}
+  m_Texture: {fileID: 2800000, guid: 6a4cc9235d1578e4288f0fc8150a5120, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -7109,6 +7330,18 @@ MonoBehaviour:
           m_StringArgument: ScrollTail
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &855793830
 GameObject:
   m_ObjectHideFlags: 0
@@ -7364,7 +7597,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 230571348}
   accessoryType: 
-  SaveButton: {fileID: 0}
 --- !u!1 &887107947
 GameObject:
   m_ObjectHideFlags: 0
@@ -7739,6 +7971,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: ScrollWings
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &923765555
 GameObject:
@@ -8127,7 +8371,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -107, y: -55}
+  m_AnchoredPosition: {x: 259, y: -55}
   m_SizeDelta: {x: 125, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &953183965
@@ -8146,7 +8390,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 953183966}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &953183966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8335,7 +8578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &958243390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8343,18 +8586,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 958243389}
-  m_LocalRotation: {x: 0, y: -0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: -4.9392567, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1739508119}
-  m_Father: {fileID: 1178418247}
+  m_Father: {fileID: 527544514}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 819}
-  m_SizeDelta: {x: 0, y: 245}
+  m_AnchoredPosition: {x: 0, y: 175.00073}
+  m_SizeDelta: {x: 700, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &958243391
 MonoBehaviour:
@@ -8893,6 +9136,18 @@ MonoBehaviour:
           m_StringArgument: ScrollArmAccessories
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1021194611
 GameObject:
   m_ObjectHideFlags: 0
@@ -9074,7 +9329,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1036902496}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!1 &1037834761
 GameObject:
   m_ObjectHideFlags: 0
@@ -9534,6 +9788,18 @@ MonoBehaviour:
           m_StringArgument: ScrollTexture
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1099410233
 GameObject:
   m_ObjectHideFlags: 0
@@ -9928,7 +10194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1143927342
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9936,18 +10202,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143927341}
-  m_LocalRotation: {x: 0, y: -0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: -4.9392567, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1186942772}
-  m_Father: {fileID: 1178418247}
+  m_Father: {fileID: 572548560}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 819}
-  m_SizeDelta: {x: 0, y: 245}
+  m_AnchoredPosition: {x: 0, y: 175.00073}
+  m_SizeDelta: {x: 700, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143927343
 MonoBehaviour:
@@ -10068,8 +10334,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 819}
-  m_SizeDelta: {x: 0, y: 245}
+  m_AnchoredPosition: {x: 0, y: 836}
+  m_SizeDelta: {x: 0, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1161076049
 MonoBehaviour:
@@ -10183,15 +10449,15 @@ RectTransform:
   m_LocalScale: {x: 1, y: -0.4096875, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 164775659}
   - {fileID: 1161076048}
   - {fileID: 1993157227}
   - {fileID: 37210776}
-  - {fileID: 958243390}
+  - {fileID: 527544514}
   - {fileID: 531581539}
   - {fileID: 1571307330}
   - {fileID: 1200858319}
-  - {fileID: 1143927342}
-  - {fileID: 164775659}
+  - {fileID: 572548560}
   m_Father: {fileID: 1893059626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -10212,7 +10478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21960784, g: 0.67058825, b: 0.45490196, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10649,8 +10915,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 819}
-  m_SizeDelta: {x: 0, y: 245}
+  m_AnchoredPosition: {x: 0, y: 836}
+  m_SizeDelta: {x: 0, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1200858320
 MonoBehaviour:
@@ -11334,7 +11600,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -107, y: -55}
+  m_AnchoredPosition: {x: -107, y: -145}
   m_SizeDelta: {x: 125, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1301589853
@@ -11353,7 +11619,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 1301589854}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &1301589854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12348,7 +12613,7 @@ GameObject:
   - component: {fileID: 1420727748}
   - component: {fileID: 1420727747}
   m_Layer: 5
-  m_Name: tailWhite
+  m_Name: shoeWhite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12363,7 +12628,7 @@ RectTransform:
   m_GameObject: {fileID: 1420727745}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5164292, y: 0.5519878, z: 1.4522536}
+  m_LocalScale: {x: 2.0992532, y: 0.4847145, z: 1.2752607}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1726039538}
@@ -12393,7 +12658,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 4b032f875721a6c4b8321c3f6740e20d, type: 3}
+  m_Texture: {fileID: 2800000, guid: a11841aca14c18643b38bac5f9bb3def, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -12709,7 +12974,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1483515207
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13285,7 +13550,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 718121647}
   selectAccessoryButton: {fileID: 1515751801}
   accessoryType: arm
-  SaveButton: {fileID: 0}
 --- !u!1 &1547352073
 GameObject:
   m_ObjectHideFlags: 0
@@ -13342,7 +13606,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1547352076}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1547352076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13511,6 +13774,78 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558258888}
+  m_CullTransparentMesh: 1
+--- !u!1 &1566410962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1566410963}
+  - component: {fileID: 1566410965}
+  - component: {fileID: 1566410964}
+  m_Layer: 5
+  m_Name: hatWhite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1566410963
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566410962}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 527544514}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.08811832}
+  m_AnchorMax: {x: 0.9023886, y: 0.5}
+  m_AnchoredPosition: {x: -67.947, y: -586}
+  m_SizeDelta: {x: 49.376, y: 179.21}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1566410964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566410962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: f8ac42cbd454f5f4cb6f6a2c3c2cc0e8, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1566410965
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566410962}
   m_CullTransparentMesh: 1
 --- !u!1 &1567151972
 GameObject:
@@ -13730,8 +14065,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 819}
-  m_SizeDelta: {x: 0, y: 245}
+  m_AnchoredPosition: {x: 0, y: 836}
+  m_SizeDelta: {x: 0, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1571307331
 MonoBehaviour:
@@ -13871,7 +14206,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1590503707}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1590503707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14247,7 +14581,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1637774991}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1637774991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14579,7 +14912,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1688818061}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1688818061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14914,8 +15246,20 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ScrollShoes
+          m_StringArgument: ScrollShoesContainer
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1726039540
 MonoBehaviour:
@@ -15992,6 +16336,18 @@ MonoBehaviour:
           m_StringArgument: ScrollColor
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1835670473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16531,7 +16887,6 @@ GameObject:
   - component: {fileID: 1893059624}
   - component: {fileID: 1893059623}
   - component: {fileID: 1893059627}
-  - component: {fileID: 1893059628}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -16648,23 +17003,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FeatureCustomisation: {fileID: 1178418246}
---- !u!114 &1893059628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893059622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AccessoryPrefab: {fileID: 0}
-  AccessoryPanel: {fileID: 0}
-  selectAccessoryButton: {fileID: 0}
-  accessoryType: 
-  SaveButton: {fileID: 0}
 --- !u!1 &1897056320
 GameObject:
   m_ObjectHideFlags: 0
@@ -17334,7 +17672,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1987491074}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1987491074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17441,7 +17778,6 @@ GameObject:
   - component: {fileID: 1989402783}
   - component: {fileID: 1989402782}
   - component: {fileID: 1989402781}
-  - component: {fileID: 1989402780}
   m_Layer: 5
   m_Name: SaveButton
   m_TagString: Untagged
@@ -17466,26 +17802,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 252.3, y: 524.6}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 254, y: 542.99994}
+  m_SizeDelta: {x: 144.7, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1989402780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989402778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AccessoryPrefab: {fileID: 0}
-  AccessoryPanel: {fileID: 0}
-  selectAccessoryButton: {fileID: 0}
-  accessoryType: 
-  SaveButton: {fileID: 1989402781}
 --- !u!114 &1989402781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17530,8 +17849,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1893059628}
-        m_TargetAssemblyTypeName: AvatarAccessories, Assembly-CSharp
+      - m_Target: {fileID: 1893059627}
+        m_TargetAssemblyTypeName: AvatarCustomisation, Assembly-CSharp
         m_MethodName: SaveAvatarData
         m_Mode: 1
         m_Arguments:
@@ -17562,7 +17881,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 5b9ffb249374b4b469cb87c3ec600421, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17617,8 +17936,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 819}
-  m_SizeDelta: {x: 0, y: 245}
+  m_AnchoredPosition: {x: 0, y: 836}
+  m_SizeDelta: {x: 0, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1993157228
 MonoBehaviour:
@@ -18453,8 +18772,20 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ScrollHat
+          m_StringArgument: ScrollHatContainer
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &2047863824
 GameObject:
@@ -19240,6 +19571,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: ScrollExpression
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &2138565375
 GameObject:

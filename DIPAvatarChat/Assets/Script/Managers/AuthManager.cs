@@ -2,7 +2,6 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
-using Palmmedia.ReportGenerator.Core.Logging;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
@@ -60,6 +59,8 @@ public class AuthManager : Singleton<AuthManager>
         Debug.Log("Setting up Firebase Auth");
         //Set the authentication instance object
         auth = FirebaseAuth.DefaultInstance;
+        //auth.StateChanged += AuthStateChanged;
+        //AuthStateChanged(this, null);
 
     }
 
@@ -291,5 +292,11 @@ public class AuthManager : Singleton<AuthManager>
             // Display a confirmation message to the user
             LoginWarning?.Invoke("Password reset email sent. Check your inbox.");
         }
+    }
+
+    public void SignOut() 
+    {
+        auth.SignOut();
+        Debug.Log("User signed out successfully");
     }
 }
