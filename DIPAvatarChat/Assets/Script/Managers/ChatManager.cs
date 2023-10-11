@@ -81,11 +81,17 @@ public class ChatManager : Singleton<ChatManager>
 
         if (messageInputField.text != null && messageInputField.text != "")
         {
-            foreach(var kvp in emojiToAnimMap)
+            foreach (var kvp in emojiToAnimMap)
             {
                 if (messageInputField.text.Contains(kvp.Key))
                 {
                     Debug.Log("Emoji Animation: " + kvp.Value);
+
+                    // Play the animation for the emoji
+                    /*if (TryGetEmojiAnimation(kvp.Value, out Animation animation))
+                    {
+                        animation.Play();
+                    }*/
                 }
             }
 
@@ -112,7 +118,7 @@ public class ChatManager : Singleton<ChatManager>
         else
         {
             // Load the .anim file (replace 'AnimationPath' with the correct path)
-            Animation loadedAnimation = Resources.Load<Animation>("AnimationPath/" + animFileName);
+            Animation loadedAnimation = Resources.Load<Animation>("Animations/" + animFileName);
             if (loadedAnimation != null)
             {
                 // Store the loaded animation for future use
