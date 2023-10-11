@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2279,7 +2279,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 230571348}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!1 &245352881
 GameObject:
   m_ObjectHideFlags: 0
@@ -3282,7 +3281,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 369749958}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &369749958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3567,7 +3565,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 387677647}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &387677647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5115,7 +5112,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 614769113}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &614769113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5645,7 +5641,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 682347505}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &682347505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7364,7 +7359,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 230571348}
   accessoryType: 
-  SaveButton: {fileID: 0}
 --- !u!1 &887107947
 GameObject:
   m_ObjectHideFlags: 0
@@ -8146,7 +8140,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 953183966}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &953183966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9074,7 +9067,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1036902496}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!1 &1037834761
 GameObject:
   m_ObjectHideFlags: 0
@@ -11353,7 +11345,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 1301589854}
   accessoryType: shoes
-  SaveButton: {fileID: 0}
 --- !u!114 &1301589854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13285,7 +13276,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 718121647}
   selectAccessoryButton: {fileID: 1515751801}
   accessoryType: arm
-  SaveButton: {fileID: 0}
 --- !u!1 &1547352073
 GameObject:
   m_ObjectHideFlags: 0
@@ -13342,7 +13332,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1547352076}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1547352076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13871,7 +13860,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1590503707}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1590503707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14247,7 +14235,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1637774991}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1637774991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14579,7 +14566,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1688818061}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1688818061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16531,7 +16517,6 @@ GameObject:
   - component: {fileID: 1893059624}
   - component: {fileID: 1893059623}
   - component: {fileID: 1893059627}
-  - component: {fileID: 1893059628}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -16648,23 +16633,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FeatureCustomisation: {fileID: 1178418246}
---- !u!114 &1893059628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893059622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AccessoryPrefab: {fileID: 0}
-  AccessoryPanel: {fileID: 0}
-  selectAccessoryButton: {fileID: 0}
-  accessoryType: 
-  SaveButton: {fileID: 0}
 --- !u!1 &1897056320
 GameObject:
   m_ObjectHideFlags: 0
@@ -17334,7 +17302,6 @@ MonoBehaviour:
   AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1987491074}
   accessoryType: hat
-  SaveButton: {fileID: 0}
 --- !u!114 &1987491074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17441,7 +17408,6 @@ GameObject:
   - component: {fileID: 1989402783}
   - component: {fileID: 1989402782}
   - component: {fileID: 1989402781}
-  - component: {fileID: 1989402780}
   m_Layer: 5
   m_Name: SaveButton
   m_TagString: Untagged
@@ -17469,23 +17435,6 @@ RectTransform:
   m_AnchoredPosition: {x: 254, y: 542.99994}
   m_SizeDelta: {x: 144.7, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1989402780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989402778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1adf5330188de4c92ad5eeab6e64e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AccessoryPrefab: {fileID: 0}
-  AccessoryPanel: {fileID: 0}
-  selectAccessoryButton: {fileID: 0}
-  accessoryType: 
-  SaveButton: {fileID: 1989402781}
 --- !u!114 &1989402781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17530,8 +17479,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1893059628}
-        m_TargetAssemblyTypeName: AvatarAccessories, Assembly-CSharp
+      - m_Target: {fileID: 1893059627}
+        m_TargetAssemblyTypeName: AvatarCustomisation, Assembly-CSharp
         m_MethodName: SaveAvatarData
         m_Mode: 1
         m_Arguments:
