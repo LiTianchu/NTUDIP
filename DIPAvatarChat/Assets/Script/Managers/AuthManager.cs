@@ -2,7 +2,6 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
-using Palmmedia.ReportGenerator.Core.Logging;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
