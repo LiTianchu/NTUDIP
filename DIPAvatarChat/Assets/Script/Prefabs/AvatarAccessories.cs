@@ -10,8 +10,6 @@ public class AvatarAccessories : MonoBehaviour
     public Transform AccessoryPanel;
     public Button selectAccessoryButton;
     public string accessoryType;
-    public Button SaveButton;
-
 
     //private GameObject previousClone;
     //private int cloneCount = 0;
@@ -116,20 +114,6 @@ public class AvatarAccessories : MonoBehaviour
                         break;
                 }
             }
-        }
-    }
-    public async void SaveAvatarData()
-    {
-        // Call the AvatarBackendManager to update the avatar data
-        bool updated = await AvatarBackendManager.Instance.UpdateAvatarData();
-
-        if (updated)
-        {
-            Debug.Log("Avatar data updated successfully!");
-        }
-        else
-        {
-            Debug.LogError("Failed to update avatar data.");
         }
     }
 
