@@ -3111,6 +3111,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351357616}
   m_CullTransparentMesh: 1
+--- !u!1 &357603647
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 357603648}
+  - component: {fileID: 357603650}
+  - component: {fileID: 357603649}
+  m_Layer: 5
+  m_Name: shoesWhite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &357603648
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357603647}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 572548560}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 338.797, y: -604.8}
+  m_SizeDelta: {x: 44.91, y: 97.8}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &357603649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357603647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: a11841aca14c18643b38bac5f9bb3def, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &357603650
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357603647}
+  m_CullTransparentMesh: 1
 --- !u!1001 &361646300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4808,6 +4880,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541951193}
   m_CullTransparentMesh: 1
+--- !u!1 &572548559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 572548560}
+  - component: {fileID: 572548562}
+  - component: {fileID: 572548561}
+  m_Layer: 5
+  m_Name: ScrollShoesContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &572548560
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572548559}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1143927342}
+  - {fileID: 357603648}
+  m_Father: {fileID: 1178418247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &572548561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572548559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &572548562
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572548559}
+  m_CullTransparentMesh: 1
 --- !u!1 &573452515
 GameObject:
   m_ObjectHideFlags: 0
@@ -6453,7 +6602,7 @@ GameObject:
   - component: {fileID: 770014172}
   - component: {fileID: 770014171}
   m_Layer: 5
-  m_Name: tailBlack
+  m_Name: shoeBlack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6468,7 +6617,7 @@ RectTransform:
   m_GameObject: {fileID: 770014169}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5164292, y: 0.5519878, z: 1.4522536}
+  m_LocalScale: {x: 2.0992532, y: 0.4847145, z: 1.2752607}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1726039538}
@@ -6498,7 +6647,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 4a0fea06f55a54347a2cd8f19ec8d41b, type: 3}
+  m_Texture: {fileID: 2800000, guid: 6a4cc9235d1578e4288f0fc8150a5120, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -7181,6 +7330,18 @@ MonoBehaviour:
           m_StringArgument: ScrollTail
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &855793830
 GameObject:
   m_ObjectHideFlags: 0
@@ -7810,6 +7971,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: ScrollWings
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &923765555
 GameObject:
@@ -8963,6 +9136,18 @@ MonoBehaviour:
           m_StringArgument: ScrollArmAccessories
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1021194611
 GameObject:
   m_ObjectHideFlags: 0
@@ -9603,6 +9788,18 @@ MonoBehaviour:
           m_StringArgument: ScrollTexture
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1099410233
 GameObject:
   m_ObjectHideFlags: 0
@@ -9997,7 +10194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1143927342
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10005,18 +10202,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143927341}
-  m_LocalRotation: {x: 0, y: -0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: -4.9392567, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1186942772}
-  m_Father: {fileID: 1178418247}
+  m_Father: {fileID: 572548560}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 836}
-  m_SizeDelta: {x: 0, y: 238}
+  m_AnchoredPosition: {x: 0, y: 175.00073}
+  m_SizeDelta: {x: 700, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143927343
 MonoBehaviour:
@@ -10260,7 +10457,7 @@ RectTransform:
   - {fileID: 531581539}
   - {fileID: 1571307330}
   - {fileID: 1200858319}
-  - {fileID: 1143927342}
+  - {fileID: 572548560}
   m_Father: {fileID: 1893059626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -12416,7 +12613,7 @@ GameObject:
   - component: {fileID: 1420727748}
   - component: {fileID: 1420727747}
   m_Layer: 5
-  m_Name: tailWhite
+  m_Name: shoeWhite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12431,7 +12628,7 @@ RectTransform:
   m_GameObject: {fileID: 1420727745}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5164292, y: 0.5519878, z: 1.4522536}
+  m_LocalScale: {x: 2.0992532, y: 0.4847145, z: 1.2752607}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1726039538}
@@ -12461,7 +12658,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 4b032f875721a6c4b8321c3f6740e20d, type: 3}
+  m_Texture: {fileID: 2800000, guid: a11841aca14c18643b38bac5f9bb3def, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -15049,8 +15246,20 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ScrollShoes
+          m_StringArgument: ScrollShoesContainer
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1726039540
 MonoBehaviour:
@@ -19362,6 +19571,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: ScrollExpression
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 930785782}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &2138565375
 GameObject:
