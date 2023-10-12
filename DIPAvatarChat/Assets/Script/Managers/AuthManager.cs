@@ -14,7 +14,7 @@ public class AuthManager : Singleton<AuthManager>
     //Firebase variables
     [Header("Firebase")]
     public DependencyStatus dependencyStatus;
-    public FirebaseAuth auth;
+    public FirebaseAuth auth = null;
     public FirebaseUser user;
 
     public string emailData { get; set; }
@@ -35,33 +35,29 @@ public class AuthManager : Singleton<AuthManager>
     public event Action EmailVerificationSent;
 
 
-    void Start()
+    async void Start()
+    {
+        InitializeFirebase();
+    }
+
+    private void InitializeFirebase()
     {
         //Check that all of the necessary dependencies for Firebase are present on the system
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(async task =>
         {
             dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
                 //If they are avalible Initialize Firebase
-                InitializeFirebase();
-
+                Debug.Log("Setting up Firebase Auth");
+                //Set the authentication instance object
+                auth = FirebaseAuth.DefaultInstance;
             }
             else
             {
                 Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
             }
         });
-    }
-
-    private void InitializeFirebase()
-    {
-        Debug.Log("Setting up Firebase Auth");
-        //Set the authentication instance object
-        auth = FirebaseAuth.DefaultInstance;
-        //auth.StateChanged += AuthStateChanged;
-        //AuthStateChanged(this, null);
-
     }
 
     //Function for the login button
@@ -139,25 +135,57 @@ public class AuthManager : Singleton<AuthManager>
                 LoginConfirm?.Invoke("Logged In");
                 emailData = _email;
 
+                SaveSession(_email, _password);
+
                 UserBackendManager.Instance.GetUserByEmailTask(emailData).ContinueWithOnMainThread(task =>
                 {
                     DocumentSnapshot currUserDoc = task.Result;
                     this.currUser = currUserDoc.ConvertTo<UserData>();
                     AppManager.Instance.LoadScene(landingScene);
                 });
-
-
             }
             else
             {
                 // Email is not verified, show a message to the user          
                 LoginWarning?.Invoke("Email is not verified. Please verify your email.");
             }
-
         }
     }
 
+    public void SaveSession(string _email, string _password)
+    {
+        PlayerPrefs.SetString("email", _email);
+        PlayerPrefs.SetString("password", _password);
 
+        // Save the data to disk
+        PlayerPrefs.Save();
+
+        Debug.Log("Session saved! Email: " + _email + ", Password: " + _password);
+    }
+
+    public IEnumerator LoadSession(float delay, GameObject LoadingUI)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        string _email = PlayerPrefs.GetString("email", null);
+        string _password = PlayerPrefs.GetString("password", null);
+
+        Debug.Log("Email: " + _email + ", Password: " + _password);
+
+        if (_email != null && _password != null && _email != "" && _password != "")
+        {
+            if (LoadingUI != null)
+            {
+                LoadingUI.SetActive(true);
+            }
+            StartLogin(_email, _password, "4-ChatList");
+            Debug.Log("Auto logging in...");
+        }
+        else
+        {
+            Debug.Log("No session found.");
+        }
+    }
 
     //Register Function
     private IEnumerator Register(string _email, string _password)
@@ -294,8 +322,11 @@ public class AuthManager : Singleton<AuthManager>
         }
     }
 
-    public void SignOut() 
+    public void SignOut()
     {
+        // Remove session
+        PlayerPrefs.DeleteAll();
+
         auth.SignOut();
         Debug.Log("User signed out successfully");
     }
