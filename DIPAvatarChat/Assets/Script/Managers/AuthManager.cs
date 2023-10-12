@@ -160,7 +160,7 @@ public class AuthManager : Singleton<AuthManager>
         // Save the data to disk
         PlayerPrefs.Save();
 
-        Debug.Log("Session saved! Email: " + _email + ", Password: " + _password);
+        Debug.Log("Session saved! Email: " + _email);
     }
 
     public IEnumerator LoadSession(float delay, GameObject LoadingUI)
@@ -170,7 +170,7 @@ public class AuthManager : Singleton<AuthManager>
         string _email = PlayerPrefs.GetString("email", null);
         string _password = PlayerPrefs.GetString("password", null);
 
-        Debug.Log("Email: " + _email + ", Password: " + _password);
+        Debug.Log("Email: " + _email);
 
         if (_email != null && _password != null && _email != "" && _password != "")
         {
@@ -178,6 +178,7 @@ public class AuthManager : Singleton<AuthManager>
             {
                 LoadingUI.SetActive(true);
             }
+            
             StartLogin(_email, _password, "4-ChatList");
             Debug.Log("Auto logging in...");
         }
