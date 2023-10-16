@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 public class AvatarCustomisation : MonoBehaviour
 {
-  public GameObject FeatureCustomisation;
+  public GameObject FeaturesBox;
 
   // Start is called before the first frame update
   void Start()
@@ -34,7 +34,7 @@ public class AvatarCustomisation : MonoBehaviour
 
   public void DisplayPanel(string chooseFeatureName)
   {
-    foreach (Transform child in FeatureCustomisation.transform)
+    foreach (Transform child in FeaturesBox.transform)
     {
       Debug.Log("Child GameObject: " + child.gameObject.name);
       if (child.gameObject.name == chooseFeatureName)
