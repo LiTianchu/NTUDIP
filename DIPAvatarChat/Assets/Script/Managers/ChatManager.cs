@@ -8,11 +8,11 @@ public class ChatManager : Singleton<ChatManager>
 {
     public List<MessageData> CurrentMessages { get; set; }
     public string CurrentRecipientName { get; set; }
-    //public AvatarData MyAvatarData { get; set; }
-    //public AvatarData TheirAvatarData { get; set; }
     public List<UserData> Friends { get; set; }
-    public Dictionary<string, AvatarData> EmailToAvatar { get; set; }
+    public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
 
+    //path for files
+    public readonly string AVATAR_BODY_PATH = "Blender/CatBaseTest2_v0_30";
     //rotation for avatar spawn
     public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 75f, 0f);
     public readonly Quaternion THEIR_AVATAR_ROTAION = Quaternion.Euler(0f, -75f, 0f);
@@ -50,7 +50,7 @@ public class ChatManager : Singleton<ChatManager>
     {
         CurrentMessages = new List<MessageData>();
         Friends = new List<UserData>();
-        EmailToAvatar = new Dictionary<string, AvatarData>();
+        EmailToAvatarDict = new Dictionary<string, AvatarData>();
     }
 
     // Update is called once per frame
@@ -141,7 +141,7 @@ public class ChatManager : Singleton<ChatManager>
     }
 
     public GameObject LoadAvatar(AvatarData avatarData) {
-       GameObject avatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30");
+       GameObject avatar = LoadAvatarBody(AVATAR_BODY_PATH);
 
         // Load hat accessory
         LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE);
@@ -157,9 +157,9 @@ public class ChatManager : Singleton<ChatManager>
 
     public GameObject LoadAvatar(string email)
     {
-        if (EmailToAvatar.ContainsKey(email))
+        if (EmailToAvatarDict.ContainsKey(email))
         {
-            return LoadAvatar(this.EmailToAvatar[email]);
+            return LoadAvatar(this.EmailToAvatarDict[email]);
         }else
         {
             throw new KeyNotFoundException(email);

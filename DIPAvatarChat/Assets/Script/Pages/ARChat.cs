@@ -33,14 +33,11 @@ public class ARChat : PageSingleton<ARChat>
     public Vector3 TextBubblePos;
     public Vector3 NamePos;
 
-    private List<ARRaycastHit> raycastHits = new List<ARRaycastHit>();
+    private List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
 
-    private bool isPopulated = false;
-    private ListenerRegistration listener;
-    private GameObject myAvatar;
-    private GameObject theirAvatar;
-    private GameObject myARChatBubbleContainer;
-    private GameObject theirARChatBubbleContainer;
+    private bool _isPopulated = false;
+    private ListenerRegistration _listener;
+    private List<GameObject> _avatarList;
     
 
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0,5,0);
@@ -81,19 +78,41 @@ public class ARChat : PageSingleton<ARChat>
         ////set selected avatar
         //SelectedAvatar = myAvatar;
 
-
+        foreach (UserData friend in ChatManager.Instance.Friends)
+        {
+            if (ChatManager.Instance.EmailToAvatarDict.ContainsKey(friend.email))
+            {
+                AvatarData avatarData = ChatManager.Instance.EmailToAvatarDict[friend.email];
+                GameObject avatarObj = ChatManager.Instance.LoadAvatar(avatarData);
+                Avatar avatar = avatarObj.AddComponent<Avatar>();
+                avatar.AvatarData = avatarData;
+                if (avatarData.email.Equals(AuthManager.Instance.currUser.email))
+                {
+                    SelectedAvatar = avatarObj;
+                }
+                else
+                {
+                    avatarObj.SetActive(false);
+                }
+                _avatarList.Add(avatarObj);
+                
+            }
+            else { 
+                //send database call to retrieve avatar
+            }
+        }
         ListenForNewMessages();
     }
     void OnDestroy()
     {
         // Destroy the listener when the scene is changed
-        listener.Stop();
+        _listener.Stop();
     }
 
     private async void ListenForNewMessages()
     {
         DocumentReference docRef = await ConversationBackendManager.Instance.GetConversationReferenceTask(AuthManager.Instance.currConvId);
-        listener = docRef.Listen(async snapshot =>
+        _listener = docRef.Listen(async snapshot =>
         {
             // Check if the snapshot exists and contains valid data
             if (snapshot.Exists)
@@ -112,7 +131,7 @@ public class ARChat : PageSingleton<ARChat>
                     string messageId = messageDoc.Id;
 
                     // if messages are not loaded in yet
-                    if (!isPopulated)
+                    if (!_isPopulated)
                     {
                         PopulateCachedMessage();
                     }
@@ -128,15 +147,15 @@ public class ARChat : PageSingleton<ARChat>
                             {
                                 // Message is sent by the current user, spawn text bubble at right side
                                 Debug.Log("Received message from current user");
-                                GameObject parent = myARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-                                ChatManager.Instance.InstantiateChatBubble(parent, MyChatBubblePrefab, msgText, messageId);
+                                //GameObject parent = myARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+                                //ChatManager.Instance.InstantiateChatBubble(parent, MyChatBubblePrefab, msgText, messageId);
                             }
                             else
                             {
                                 // Message is sent by another user, spawn text bubble at left side
                                 Debug.Log("Received message from another user");
-                                GameObject parent = theirARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-                                ChatManager.Instance.InstantiateChatBubble(parent, TheirChatBubblePrefab, msgText, messageId);
+                                //GameObject parent = theirARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+                                //ChatManager.Instance.InstantiateChatBubble(parent, TheirChatBubblePrefab, msgText, messageId);
                             }
                         }
                     }
@@ -175,20 +194,20 @@ public class ARChat : PageSingleton<ARChat>
             {
                 // Message is sent by me
                 // Spawn text bubble at right side of the chat
-                GameObject parent = myARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-                ChatManager.Instance.InstantiateChatBubble(parent, MyChatBubblePrefab, msgText, messageId);
+                //GameObject parent = myARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+                //ChatManager.Instance.InstantiateChatBubble(parent, MyChatBubblePrefab, msgText, messageId);
             }
             else
             {
                 // Message is sent by the other party
-                GameObject parent = theirARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-                ChatManager.Instance.InstantiateChatBubble(parent, TheirChatBubblePrefab, msgText, messageId);
+                //GameObject parent = theirARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+                //ChatManager.Instance.InstantiateChatBubble(parent, TheirChatBubblePrefab, msgText, messageId);
             }
         }
 
         SetRecipientName();
-        isPopulated = true;
-        if (isPopulated)
+        _isPopulated = true;
+        if (_isPopulated)
         {
             Debug.Log("Message Populated!");
         }
@@ -224,13 +243,13 @@ public class ARChat : PageSingleton<ARChat>
 
     public void PlaceAvatar(InputAction.CallbackContext context) {
         if (context.performed) {
-            bool collision = RaycastManager.Raycast(Input.mousePosition, raycastHits, TrackableType.PlaneWithinPolygon);
+            bool collision = RaycastManager.Raycast(Input.mousePosition, _raycastHits, TrackableType.PlaneWithinPolygon);
 
             if (collision)
             {
                 SelectedAvatar.SetActive(true);
-                SelectedAvatar.transform.position = raycastHits[0].pose.position;
-                SelectedAvatar.transform.rotation = raycastHits[0].pose.rotation;
+                SelectedAvatar.transform.position = _raycastHits[0].pose.position;
+                SelectedAvatar.transform.rotation = _raycastHits[0].pose.rotation;
                 SelectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
             }
         }
