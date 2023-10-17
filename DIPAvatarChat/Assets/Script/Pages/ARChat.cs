@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TMPro;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -24,6 +25,7 @@ public class ARChat : PageSingleton<ARChat>
     public GameObject UsernameContainer;
     public GameObject AvatarSelectionBar;
     public AvatarIconContainer AvatarIconContainer;
+    public LayerMask UILayer;
 
     [Header("AR")]
     public XROrigin XrOrigin;
@@ -157,13 +159,16 @@ public class ARChat : PageSingleton<ARChat>
                             {
                                 // Message is sent by the current user, spawn text bubble at right side
                                 Debug.Log("Received message from current user");
-                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                                bubble.transform.localScale = Vector3.one;
+
                             }
                             else
                             {
                                 // Message is sent by another user, spawn text bubble at left side
                                 Debug.Log("Received message from another user");
-                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
+                                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
+                                bubble.transform.localScale = Vector3.one;
                             }
                         }
                     }
@@ -202,12 +207,14 @@ public class ARChat : PageSingleton<ARChat>
             {
                 // Message is sent by me
                 // Spawn text bubble at right side of the chat
-                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                bubble.transform.localScale = Vector3.one;
             }
             else
             {
                 // Message is sent by the other party
-                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
+                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
+                bubble.transform.localScale = Vector3.one;
             }
         }
 
@@ -248,12 +255,38 @@ public class ARChat : PageSingleton<ARChat>
         AppManager.Instance.LoadScene("6-ChatUI");
     }
 
+    public bool IsUIPressed()
+    {
+        if (Input.touchCount > 0) { 
+            Touch touch = Input.GetTouch(0);
+            
+        }
+        return !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+    }
+
+    private bool ClickedOnUi()
+    { 
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        // return results.Count > 0;
+        foreach (var item in results)
+        {
+            if ((UILayer & (1 << item.gameObject.layer)) != 0) //UI layer contains the item's layer
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void PlaceAvatar(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
+            if(ClickedOnUi()) { Debug.Log("Clicked on UI"); return; }
             bool collision = RaycastManager.Raycast(Input.mousePosition, _raycastHits, TrackableType.PlaneWithinPolygon);
-
             if (collision)
             {
                 SelectedAvatar.gameObject.SetActive(true);
@@ -263,6 +296,7 @@ public class ARChat : PageSingleton<ARChat>
             }
         }
     }
+
 
 
 

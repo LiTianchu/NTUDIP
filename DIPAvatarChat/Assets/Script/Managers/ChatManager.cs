@@ -59,7 +59,7 @@ public class ChatManager : Singleton<ChatManager>
 
     }
 
-    public void InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
+    public GameObject InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
     {
         GameObject box = Instantiate(_ChatBubblePrefab);
         box.transform.parent = _ChatBubbleParent.transform;
@@ -67,6 +67,7 @@ public class ChatManager : Singleton<ChatManager>
         box.name = messageId;
 
         box.transform.GetComponentInChildren<TMP_Text>().text = msgText;
+        return box;
     }
 
     public async void SendMessage(TMP_InputField messageInputField)
