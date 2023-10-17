@@ -24,7 +24,7 @@ public class ARChat : PageSingleton<ARChat>
     public GameObject UsernameContainer;
     public GameObject AvatarSelectionBar;
     public AvatarIconContainer AvatarIconContainer;
-    
+
     [Header("AR")]
     public XROrigin XrOrigin;
     public ARRaycastManager RaycastManager;
@@ -37,12 +37,12 @@ public class ARChat : PageSingleton<ARChat>
 
     private bool _isPopulated = false;
     private ListenerRegistration _listener;
-    private List<GameObject> _avatarList;
-    
+    private List<Avatar> _avatarList;
 
-    private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0,5,0);
 
-    public GameObject SelectedAvatar { get; set; }
+    private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
+
+    public Avatar SelectedAvatar { get; set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -77,32 +77,55 @@ public class ARChat : PageSingleton<ARChat>
 
         ////set selected avatar
         //SelectedAvatar = myAvatar;
+        _avatarList = new List<Avatar>();
+        SelectedAvatar = RetrieveAvatar(AuthManager.Instance.currUser.email); //retrieve my avatar
 
+        //load all avatar
         foreach (UserData friend in ChatManager.Instance.Friends)
         {
-            if (ChatManager.Instance.EmailToAvatarDict.ContainsKey(friend.email))
+
+            _avatarList.Add(RetrieveAvatar(friend.email));
+
+
+            //populate the avatar selection list
+            AvatarIconContainer avContainer = Instantiate(AvatarIconContainer, AvatarSelectionBar.transform);
+            avContainer.GetComponentInChildren<TMP_Text>().text = friend.username;
+
+        }
+
+        //iterate through avatar list, activate user's avatar and disable others
+        foreach (Avatar av in _avatarList)
+        {
+            if (av.AvatarData.email.Equals(AuthManager.Instance.currUser.email))
             {
-                AvatarData avatarData = ChatManager.Instance.EmailToAvatarDict[friend.email];
-                GameObject avatarObj = ChatManager.Instance.LoadAvatar(avatarData);
-                Avatar avatar = avatarObj.AddComponent<Avatar>();
-                avatar.AvatarData = avatarData;
-                if (avatarData.email.Equals(AuthManager.Instance.currUser.email))
-                {
-                    SelectedAvatar = avatarObj;
-                }
-                else
-                {
-                    avatarObj.SetActive(false);
-                }
-                _avatarList.Add(avatarObj);
-                
+                SelectedAvatar = av;
             }
-            else { 
-                //send database call to retrieve avatar
+            else
+            {
+                av.gameObject.SetActive(false);
             }
         }
+
         ListenForNewMessages();
     }
+
+    private Avatar RetrieveAvatar(string email)
+    {
+        bool avatarHasLoaded = ChatManager.Instance.EmailToAvatarDict.TryGetValue(email, out AvatarData data); //check if the avatar is already cached
+        if (!avatarHasLoaded) //if not cached, load from database
+        {
+            AvatarBackendManager.Instance.GetAvatarByEmailTask(email).ContinueWith((task) =>
+            {
+                data = task.Result.ConvertTo<AvatarData>();
+                ChatManager.Instance.EmailToAvatarDict[email] = data;
+            });
+        }
+        GameObject avatarObj = ChatManager.Instance.LoadAvatar(data);
+        Avatar avatar = avatarObj.AddComponent<Avatar>();
+        avatar.AvatarData = data;
+        return avatar;
+    }
+
     void OnDestroy()
     {
         // Destroy the listener when the scene is changed
@@ -177,10 +200,10 @@ public class ARChat : PageSingleton<ARChat>
     {
         ClearDisplay();
         // Populate the data onto the UI
-    
+
         foreach (MessageData msg in ChatManager.Instance.CurrentMessages)
         {
-         
+
             string msgText = msg.message;
             string msgSender = msg.sender;
             string msgReceiver = msg.receiver;
@@ -213,7 +236,7 @@ public class ARChat : PageSingleton<ARChat>
         }
     }
 
-  
+
     public void SetRecipientName()
     {
         RecipientName.text = ChatManager.Instance.CurrentRecipientName;
@@ -236,18 +259,21 @@ public class ARChat : PageSingleton<ARChat>
         }
     }
 
-    public void BackToNormalChat() {
+    public void BackToNormalChat()
+    {
 
         AppManager.Instance.LoadScene("6-ChatUI");
     }
 
-    public void PlaceAvatar(InputAction.CallbackContext context) {
-        if (context.performed) {
+    public void PlaceAvatar(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
             bool collision = RaycastManager.Raycast(Input.mousePosition, _raycastHits, TrackableType.PlaneWithinPolygon);
 
             if (collision)
             {
-                SelectedAvatar.SetActive(true);
+                SelectedAvatar.gameObject.SetActive(true);
                 SelectedAvatar.transform.position = _raycastHits[0].pose.position;
                 SelectedAvatar.transform.rotation = _raycastHits[0].pose.rotation;
                 SelectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
@@ -257,5 +283,5 @@ public class ARChat : PageSingleton<ARChat>
 
 
 
-    
+
 }
