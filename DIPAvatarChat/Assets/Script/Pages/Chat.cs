@@ -199,7 +199,7 @@ public class Chat : MonoBehaviour
 
     public async void DisplayAvatars()
     {
-        if (await GetAvatars())
+        if (await AvatarBackendManager.Instance.GetAvatars())
         {
             GameObject myAvatar = ChatManager.Instance.LoadMyAvatar();
             GameObject theirAvatar = ChatManager.Instance.LoadTheirAvatar();
@@ -222,43 +222,6 @@ public class Chat : MonoBehaviour
         float scale = 30f;
         avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
-
-    private async Task<bool> GetAvatars()
-    {
-        try
-        {
-            DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
-            ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
-
-            if (currConvData != null)
-            {
-                foreach (string member in currConvData.members)
-                {
-                    if (member == AuthManager.Instance.currUser.email)
-                    {
-                        DocumentSnapshot myAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(member);
-                        ChatManager.Instance.MyAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
-                    }
-                    else
-                    {
-                        DocumentSnapshot theirAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(member);
-                        ChatManager.Instance.TheirAvatarData = theirAvatarDoc.ConvertTo<AvatarData>();
-                    }
-                }
-            }
-
-            Debug.Log("My Avatar: " + ChatManager.Instance.MyAvatarData.avatarId);
-            Debug.Log("Their Avatar: " + ChatManager.Instance.TheirAvatarData.avatarId);
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Avatar Display Error: " + e.Message);
-            return false;
-        }
-    }
-
 
     public void ReturnToChatList()
     {

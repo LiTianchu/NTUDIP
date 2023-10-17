@@ -129,35 +129,41 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-
-
-    //updating avatardata
-    /*public async Task<bool> UpdateAvatarData(string avatarID, AvatarData updatedAvatarData)
+    public async Task<bool> GetAvatars()
     {
         try
         {
-            DocumentReference avatarRef = db.Collection("avatar").Document(avatarID);
+            DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
+            ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
 
-            Dictionary<string, object> updatedData = new Dictionary<string, object>
-        {
-            { "colour", updatedAvatarData.colour },
-            { "texture", updatedAvatarData.texture },
-            { "expression", updatedAvatarData.expression },
-            { "hat", updatedAvatarData.hat },
-            { "arm", updatedAvatarData.arm },
-            { "wings", updatedAvatarData.wings },
-            { "tail", updatedAvatarData.tail },
-        };
+            if (currConvData != null)
+            {
+                foreach (string member in currConvData.members)
+                {
+                    if (member == AuthManager.Instance.currUser.email)
+                    {
+                        DocumentSnapshot myAvatarDoc = await GetAvatarByEmailTask(member);
+                        ChatManager.Instance.MyAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
+                    }
+                    else
+                    {
+                        DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(member);
+                        ChatManager.Instance.TheirAvatarData = theirAvatarDoc.ConvertTo<AvatarData>();
+                    }
+                }
+            }
 
-            await avatarRef.UpdateAsync(updatedData);
+            Debug.Log("My Avatar: " + ChatManager.Instance.MyAvatarData.avatarId);
+            Debug.Log("Their Avatar: " + ChatManager.Instance.TheirAvatarData.avatarId);
+
             return true;
         }
         catch (Exception e)
         {
-            Debug.LogError("Error updating avatar data: " + e.Message);
+            Debug.LogError("Avatar Display Error: " + e.Message);
             return false;
         }
-    }*/
+    }
 
     //deleting avatar
     public async Task<bool> DeleteAvatar(string avatarID)
