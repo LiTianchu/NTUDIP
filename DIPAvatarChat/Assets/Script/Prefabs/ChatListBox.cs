@@ -2,14 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//
+using Firebase.Extensions;
+using Firebase.Firestore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
+
+
 public class ChatListBox : MonoBehaviour
 {
     public GameObject Box;
 
+    //
+    public GameObject AvatarDisplayArea;
+
+
     // Start is called before the first frame update
     void Start()
     {
-
+        DisplayFriendAvatar();
+        Debug.Log("Avatars loaded");
     }
 
     // Update is called once per frame
@@ -30,5 +48,25 @@ public class ChatListBox : MonoBehaviour
         {
             GameObject.Find("Canvas").GetComponent<ChatList>().RefreshConversation();
         }
+    }
+
+    //
+    public async void DisplayFriendAvatar()
+    {
+        if (await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name))
+        {
+            
+            GameObject theirAvatarHead = ChatManager.Instance.LoadTheirAvatarHead();
+            SetAvatar("TheirAvatarHead", theirAvatarHead, AvatarDisplayArea);
+        }
+    }
+
+    private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent)
+    {
+        avatarObj.transform.SetParent(avatarParent.transform, false);
+        avatarObj.name = name;
+
+        float scale = 30f;
+        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
 }

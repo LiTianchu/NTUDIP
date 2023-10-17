@@ -40,6 +40,8 @@ public class ARChat : MonoBehaviour
     private GameObject selectedAvatar;
     private GameObject myARChatBubbleContainer;
     private GameObject theirARChatBubbleContainer;
+
+    private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0,5,0);
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +59,21 @@ public class ARChat : MonoBehaviour
 
         myAvatar.SetActive(false);
         theirAvatar.SetActive(false);
+
+        //spawn light source
+        GameObject lightSource = new GameObject();
+        Light light = lightSource.AddComponent<Light>();
+        light.type = LightType.Point;
+        light.intensity = 1;
+
+        GameObject myAvatarLight = Instantiate(lightSource, myAvatar.transform);
+        GameObject theirAvatarLight = Instantiate(lightSource, theirAvatar.transform);
+
+        
+        myAvatarLight.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
+        theirAvatarLight.transform.localPosition= LIGHT_SOURCE_LOCAL_POS;
+
+        //set selected avatar
         selectedAvatar = myAvatar;
 
         ListenForNewMessages();
@@ -211,9 +228,9 @@ public class ARChat : MonoBehaviour
                 selectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
             }
         }
-        
-
-
     }
+
+
+
     
 }
