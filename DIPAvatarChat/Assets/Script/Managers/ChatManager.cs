@@ -24,8 +24,8 @@ public class ChatManager : Singleton<ChatManager>
     public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
 
     //pos for hat accessories
-    public readonly Vector3 HAT_POS = new Vector3(0f, 3.6f, 10f);
-    public readonly Vector3 HAT_SCALE = new Vector3(0.8f, 0.8f, 0.8f);
+    private readonly Vector3 HAT_POS = new Vector3(0f, 3.6f, 0f);
+    private readonly Vector3 HAT_SCALE = new Vector3(1f, 1f, 1f);
 
     //pos for arm accessories
     public readonly Vector3 ARM_POS1 = new Vector3(-1.087f, 1.953f, 0f);
