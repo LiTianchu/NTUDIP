@@ -199,7 +199,7 @@ public class Chat : MonoBehaviour
 
     public async void DisplayAvatars()
     {
-        if (await AvatarBackendManager.Instance.GetAvatars())
+        if (await AvatarBackendManager.Instance.GetAvatarsForChat())
         {
             GameObject myAvatar = ChatManager.Instance.LoadMyAvatar();
             GameObject theirAvatar = ChatManager.Instance.LoadTheirAvatar();

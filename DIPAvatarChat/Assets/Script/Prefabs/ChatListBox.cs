@@ -26,7 +26,7 @@ public class ChatListBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DisplayAvatars();
+        DisplayFriendAvatar();
         Debug.Log("Avatars loaded");
     }
 
@@ -50,16 +50,13 @@ public class ChatListBox : MonoBehaviour
         }
     }
 
-
-
-
     //
-    public async void DisplayAvatars()
+    public async void DisplayFriendAvatar()
     {
-        if (await AvatarBackendManager.Instance.GetAvatars())
+        if (await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name))
         {
             
-            GameObject theirAvatarHead = ChatManager.Instance.LoadTheirAvatar();
+            GameObject theirAvatarHead = ChatManager.Instance.LoadTheirAvatarHead();
             SetAvatar("TheirAvatarHead", theirAvatarHead, AvatarDisplayArea);
         }
     }

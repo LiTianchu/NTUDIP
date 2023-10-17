@@ -15,6 +15,7 @@ public class ChatManager : Singleton<ChatManager>
     private readonly Vector3 MY_AVATAR_POS = new Vector3(40f, 10f, -30f);
     private readonly Vector3 THEIR_AVATAR_POS = new Vector3(-30f, 10f, -30f);
     private readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
+    private readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
 
     //pos for hat accessories
     private readonly Vector3 HAT_POS = new Vector3(0f, 3.6f, 0f);
@@ -186,7 +187,7 @@ public class ChatManager : Singleton<ChatManager>
     public GameObject LoadTheirAvatarHead()
     {
         // Spawn both avatar bodies
-        GameObject theirAvatarHead = LoadAvatarBody("Blender/CatBaseTest2_v0_30", THEIR_AVATAR_POS, Quaternion.Euler(0f, 0f, 0f));
+        GameObject theirAvatarHead = LoadAvatarBody("Blender/CatBaseTest2_v0_30", HEAD_AVATAR_POS, Quaternion.Euler(0f, 0f, 0f));
 
         // Load hat accessory
         LoadAccessory(TheirAvatarData.hat, theirAvatarHead, HAT_POS, HAT_SCALE);
