@@ -10,6 +10,8 @@ public class ChatManager : Singleton<ChatManager>
     public string CurrentRecipientName { get; set; }
     public AvatarData MyAvatarData { get; set; }
     public AvatarData TheirAvatarData { get; set; }
+    public List<UserData> Friends { get; set; }
+    
 
     //pos for avatar spawn pos
     private readonly Vector3 MY_AVATAR_POS = new Vector3(40f, 10f, -30f);

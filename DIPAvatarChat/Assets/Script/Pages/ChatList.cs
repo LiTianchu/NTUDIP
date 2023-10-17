@@ -135,6 +135,9 @@ public class ChatList : MonoBehaviour
                     latestMessageText = latestMessageText.Substring(0, maxLength) + "...";
                 }
                 messageText.text = latestMessageText;
+
+                //cache the chatlist data
+                ChatManager.Instance.Friends.Add(friendData);
             }
         }
 

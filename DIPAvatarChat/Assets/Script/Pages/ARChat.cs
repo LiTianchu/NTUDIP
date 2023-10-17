@@ -22,6 +22,7 @@ public class ARChat : MonoBehaviour
     public GameObject ARChatBubbleContainer;
     public GameObject AvatarContainer;
     public GameObject UsernameContainer;
+    public GameObject AvatarSelectionBar;
     
     [Header("AR")]
     public XROrigin XrOrigin;
@@ -65,11 +66,12 @@ public class ARChat : MonoBehaviour
         Light light = lightSource.AddComponent<Light>();
         light.type = LightType.Point;
         light.intensity = 1;
+        lightSource.name = "LightSource";
 
         GameObject myAvatarLight = Instantiate(lightSource, myAvatar.transform);
         GameObject theirAvatarLight = Instantiate(lightSource, theirAvatar.transform);
 
-        
+        Destroy(lightSource);
         myAvatarLight.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
         theirAvatarLight.transform.localPosition= LIGHT_SOURCE_LOCAL_POS;
 
