@@ -27,6 +27,8 @@ public class Chat : MonoBehaviour
     private bool isPopulated = false;
     private ListenerRegistration listener;
 
+    private readonly float AVATAR_SCALE_CHAT = 30f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -201,25 +203,28 @@ public class Chat : MonoBehaviour
     {
         if (await AvatarBackendManager.Instance.GetAvatarsForChat())
         {
-            GameObject myAvatar = ChatManager.Instance.LoadMyAvatar();
-            GameObject theirAvatar = ChatManager.Instance.LoadTheirAvatar();
-
+            GameObject myAvatar = ChatManager.Instance.LoadAvatar(AuthManager.Instance.currUser.email);
+            GameObject theirAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
+            
+            
             //initial settings
-            SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea);
-            SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea);
+            SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, ChatManager.Instance.MY_AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION);
+            SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS,ChatManager.Instance.THEIR_AVATAR_ROTAION);
 
             //Display popup avatar when click on friend's avatar
-            GameObject popupAvatar = ChatManager.Instance.LoadPopupAvatar();
-            SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea);
+            GameObject popupAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
+            SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea,ChatManager.Instance.POPUP_AVATAR_POS,Quaternion.identity);
         }
     }
 
-    private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent)
+    private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent, Vector3 pos, Quaternion rot)
     {
         avatarObj.transform.SetParent(avatarParent.transform, false);
         avatarObj.name = name;
+        avatarObj.transform.localPosition = pos;
+        avatarObj.transform.localRotation = rot;
 
-        float scale = 30f;
+        float scale = AVATAR_SCALE_CHAT;
         avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
 
@@ -227,20 +232,14 @@ public class Chat : MonoBehaviour
     {
         ChatManager.Instance.CurrentMessages.Clear();
         ChatManager.Instance.CurrentRecipientName = "";
-        ChatManager.Instance.MyAvatarData = null;
-        ChatManager.Instance.TheirAvatarData = null;
+        //ChatManager.Instance.MyAvatarData = null;
+        //ChatManager.Instance.TheirAvatarData = null;
 
         AppManager.Instance.LoadScene("4-ChatList");
     }
 
     public void LoadARChat()
     {
-        //GameObject[] sceneObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
-
-        //foreach (GameObject obj in sceneObjects)
-        //{
-        //    obj.SetActive(false); // Deactivate the GameObject
-        //}
         AppManager.Instance.LoadScene("7-ARChat");
     }
 

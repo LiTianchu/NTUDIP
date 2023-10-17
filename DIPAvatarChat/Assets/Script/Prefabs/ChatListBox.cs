@@ -13,13 +13,12 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Firebase.Auth;
 
 public class ChatListBox : MonoBehaviour
 {
     public GameObject Box;
-
-    //
+    public string CurrentAvatarUserEmail {  get; set; }
     public GameObject AvatarDisplayArea;
 
 
@@ -55,8 +54,10 @@ public class ChatListBox : MonoBehaviour
     {
         if (await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name))
         {
-            
-            GameObject theirAvatarHead = ChatManager.Instance.LoadTheirAvatarHead();
+
+            GameObject theirAvatarHead = ChatManager.Instance.LoadAvatar(CurrentAvatarUserEmail);
+            theirAvatarHead.transform.position = ChatManager.Instance.HEAD_AVATAR_POS;
+            theirAvatarHead.transform.rotation = Quaternion.identity;
             SetAvatar("TheirAvatarHead", theirAvatarHead, AvatarDisplayArea);
         }
     }

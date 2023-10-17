@@ -8,29 +8,33 @@ public class ChatManager : Singleton<ChatManager>
 {
     public List<MessageData> CurrentMessages { get; set; }
     public string CurrentRecipientName { get; set; }
-    public AvatarData MyAvatarData { get; set; }
-    public AvatarData TheirAvatarData { get; set; }
+    //public AvatarData MyAvatarData { get; set; }
+    //public AvatarData TheirAvatarData { get; set; }
     public List<UserData> Friends { get; set; }
-    
+    public Dictionary<string, AvatarData> EmailToAvatar { get; set; }
+
+    //rotation for avatar spawn
+    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 75f, 0f);
+    public readonly Quaternion THEIR_AVATAR_ROTAION = Quaternion.Euler(0f, -75f, 0f);
 
     //pos for avatar spawn pos
-    private readonly Vector3 MY_AVATAR_POS = new Vector3(40f, 10f, -30f);
-    private readonly Vector3 THEIR_AVATAR_POS = new Vector3(-30f, 10f, -30f);
-    private readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
-    private readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
+    public readonly Vector3 MY_AVATAR_POS = new Vector3(40f, 10f, -30f);
+    public readonly Vector3 THEIR_AVATAR_POS = new Vector3(-30f, 10f, -30f);
+    public readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
+    public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
 
     //pos for hat accessories
     private readonly Vector3 HAT_POS = new Vector3(0f, 3.6f, 0f);
     private readonly Vector3 HAT_SCALE = new Vector3(1f, 1f, 1f);
 
     //pos for arm accessories
-    private readonly Vector3 ARM_POS1 = new Vector3(-1.087f, 1.953f, 0f);
-    private readonly Vector3 ARM_POS2 = new Vector3(1.087f, 1.953f, 0f);
-    private readonly Vector3 ARM_SCALE = new Vector3(0.08f, 0.08f, 0.08f);
+    public readonly Vector3 ARM_POS1 = new Vector3(-1.087f, 1.953f, 0f);
+    public readonly Vector3 ARM_POS2 = new Vector3(1.087f, 1.953f, 0f);
+    public readonly Vector3 ARM_SCALE = new Vector3(0.08f, 0.08f, 0.08f);
 
     //pos for shoes accessories
-    private readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
-    private readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
+    public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
+    public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
 
     private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
 
@@ -46,6 +50,7 @@ public class ChatManager : Singleton<ChatManager>
     {
         CurrentMessages = new List<MessageData>();
         Friends = new List<UserData>();
+        EmailToAvatar = new Dictionary<string, AvatarData>();
     }
 
     // Update is called once per frame
@@ -135,75 +140,33 @@ public class ChatManager : Singleton<ChatManager>
         return false;
     }
 
-    public GameObject LoadMyAvatar()
-    {
-        // Spawn both avatar bodies
-        GameObject myAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", MY_AVATAR_POS, Quaternion.Euler(0f, 75f, 0f));
+    public GameObject LoadAvatar(AvatarData avatarData) {
+       GameObject avatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30");
 
         // Load hat accessory
-        LoadAccessory(MyAvatarData.hat, myAvatar, HAT_POS, HAT_SCALE);
+        LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE);
 
         // Load arm accessory
-        LoadAccessory(MyAvatarData.arm, myAvatar, ARM_POS1, ARM_SCALE);
+        LoadAccessory(avatarData.arm, avatar, ARM_POS1, ARM_SCALE);
 
         // Load shoes accessory
-        LoadAccessory(MyAvatarData.shoes, myAvatar, SHOES_POS, SHOES_SCALE);
+        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE);
 
-        return myAvatar;
+        return avatar;
     }
 
-    public GameObject LoadTheirAvatar()
+    public GameObject LoadAvatar(string email)
     {
-        // Spawn both avatar bodies
-        GameObject theirAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", THEIR_AVATAR_POS, Quaternion.Euler(0f, -75f, 0f));
-
-        // Load hat accessory
-        LoadAccessory(TheirAvatarData.hat, theirAvatar, HAT_POS, HAT_SCALE);
-
-        // Load arm accessory
-        LoadAccessory(TheirAvatarData.arm, theirAvatar, ARM_POS2, ARM_SCALE);
-
-        // Load shoes accessory
-        LoadAccessory(TheirAvatarData.shoes, theirAvatar, SHOES_POS, SHOES_SCALE);
-
-        return theirAvatar;
+        if (EmailToAvatar.ContainsKey(email))
+        {
+            return LoadAvatar(this.EmailToAvatar[email]);
+        }else
+        {
+            throw new KeyNotFoundException(email);
+        }
     }
 
-    public GameObject LoadPopupAvatar()
-    {
-        // Spawn both avatar bodies
-        GameObject popupAvatar = LoadAvatarBody("Blender/CatBaseTest2_v0_30", POPUP_AVATAR_POS, Quaternion.Euler(0f, 0f, 0f));
-
-        // Load hat accessory
-        LoadAccessory(TheirAvatarData.hat, popupAvatar, HAT_POS, HAT_SCALE);
-
-        // Load arm accessory
-        LoadAccessory(TheirAvatarData.arm, popupAvatar, ARM_POS1, ARM_SCALE);
-
-        // Load shoes accessory
-        LoadAccessory(TheirAvatarData.shoes, popupAvatar, SHOES_POS, SHOES_SCALE);
-
-        return popupAvatar;
-    }
-
-    public GameObject LoadTheirAvatarHead()
-    {
-        // Spawn both avatar bodies
-        GameObject theirAvatarHead = LoadAvatarBody("Blender/CatBaseTest2_v0_30", HEAD_AVATAR_POS, Quaternion.Euler(0f, 0f, 0f));
-
-        // Load hat accessory
-        LoadAccessory(TheirAvatarData.hat, theirAvatarHead, HAT_POS, HAT_SCALE);
-
-        // Load arm accessory
-        LoadAccessory(TheirAvatarData.arm, theirAvatarHead, ARM_POS2, ARM_SCALE);
-
-        // Load shoes accessory
-        LoadAccessory(TheirAvatarData.shoes, theirAvatarHead, SHOES_POS, SHOES_SCALE);
-
-        return theirAvatarHead;
-    }
-
-    public GameObject LoadAvatarBody(string avatarBaseFbxFileName, Vector3 itemPosition, Quaternion itemRotation)
+    public GameObject LoadAvatarBody(string avatarBaseFbxFileName)
     {
         if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
         {
@@ -211,7 +174,7 @@ public class ChatManager : Singleton<ChatManager>
 
             if (loadedFBX != null)
             {
-                GameObject fbx = Instantiate(loadedFBX, itemPosition, itemRotation);
+                GameObject fbx = Instantiate(loadedFBX);
                 return fbx;
             }
             else
