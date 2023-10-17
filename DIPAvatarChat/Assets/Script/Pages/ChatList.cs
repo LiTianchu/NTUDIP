@@ -24,13 +24,13 @@ public class ChatList : MonoBehaviour
     public GameObject FriendRequestBoxPrefab;
     public Button SendFriendRequestBtn;
     public GameObject ChatListParent;
-    public GameObject ChatListObject;
+    public ChatListBox ChatListObject;
     public GameObject LoadingUI;
     List<string> friendRequestsList;
     List<string> friendsList;
     private bool needsRefresh = true; // Flag to track whether chat list needs refreshing
                                       // Store existing chat list items by conversation ID
-    private Dictionary<string, GameObject> chatListItems = new Dictionary<string, GameObject>();
+    private Dictionary<string, ChatListBox> chatListItems = new Dictionary<string, ChatListBox>();
 
 
     // Start is called before the first frame update
@@ -107,12 +107,13 @@ public class ChatList : MonoBehaviour
                 Timestamp displayTime = latestMessage.createdAt;
 
                 // Instantiate the ChatListObject (ChatDisplayBox) prefab if it doesn't exist
-                GameObject chatListItem;
+                ChatListBox chatListItem;
                 if (!chatListItems.TryGetValue(convId, out chatListItem))
                 {
-                    chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                    chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity);
                     chatListItem.transform.SetParent(ChatListParent.transform, false);
                     chatListItem.name = convId;
+                    chatListItem.CurrentAvatarUserEmail = friendEmail;
                     chatListItems.Add(convId, chatListItem);
                 }
 

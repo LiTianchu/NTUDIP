@@ -143,7 +143,9 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                     if (member != AuthManager.Instance.currUser.email)
                     {
                         DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(member);
-                        ChatManager.Instance.TheirAvatarData = theirAvatarDoc.ConvertTo<AvatarData>();
+                        
+                        ChatManager.Instance.EmailToAvatar[member] = theirAvatarDoc.ConvertTo<AvatarData>();
+                        
                     }
                 }
             }
@@ -168,21 +170,11 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
             {
                 foreach (string member in currConvData.members)
                 {
-                    if (member == AuthManager.Instance.currUser.email)
-                    {
-                        DocumentSnapshot myAvatarDoc = await GetAvatarByEmailTask(member);
-                        ChatManager.Instance.MyAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
-                    }
-                    else
-                    {
-                        DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(member);
-                        ChatManager.Instance.TheirAvatarData = theirAvatarDoc.ConvertTo<AvatarData>();
-                    }
+                    DocumentSnapshot avatarDoc = await GetAvatarByEmailTask(member);
+                    
+                    ChatManager.Instance.EmailToAvatar[member]= avatarDoc.ConvertTo<AvatarData>();
                 }
             }
-
-            Debug.Log("My Avatar: " + ChatManager.Instance.MyAvatarData.avatarId);
-            Debug.Log("Their Avatar: " + ChatManager.Instance.TheirAvatarData.avatarId);
 
             return true;
         }
@@ -216,6 +208,11 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
 
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(email);
         UserData userData = userDoc.ConvertTo<UserData>();
+        if(userData.currentAvatar==null)
+        {
+            Debug.Log("Theres no avatar fir user: " + email);
+            return null;
+        }
 
         DocumentSnapshot doc = null;
         try

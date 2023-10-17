@@ -12,7 +12,7 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class ARChat : MonoBehaviour
+public class ARChat : PageSingleton<ARChat>
 {
     [Header("UI Elements")]
     public TMP_InputField MessageInputField;
@@ -23,6 +23,7 @@ public class ARChat : MonoBehaviour
     public GameObject AvatarContainer;
     public GameObject UsernameContainer;
     public GameObject AvatarSelectionBar;
+    public AvatarIconContainer AvatarIconContainer;
     
     [Header("AR")]
     public XROrigin XrOrigin;
@@ -38,45 +39,48 @@ public class ARChat : MonoBehaviour
     private ListenerRegistration listener;
     private GameObject myAvatar;
     private GameObject theirAvatar;
-    private GameObject selectedAvatar;
     private GameObject myARChatBubbleContainer;
     private GameObject theirARChatBubbleContainer;
+    
 
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0,5,0);
+
+    public GameObject SelectedAvatar { get; set; }
     // Start is called before the first frame update
     void Start()
     {
-        myAvatar = ChatManager.Instance.LoadMyAvatar();
-        theirAvatar = ChatManager.Instance.LoadTheirAvatar();
+        //myAvatar = ChatManager.Instance.LoadAvatar();
+        //theirAvatar = ChatManager.Instance.LoadTheirAvatar();
 
-        myARChatBubbleContainer = Instantiate(ARChatBubbleContainer, myAvatar.transform) as GameObject;
-        myARChatBubbleContainer.transform.parent = myAvatar.transform;
-        myARChatBubbleContainer.transform.localPosition = TextBubblePos;
-        myARChatBubbleContainer.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+        //myARChatBubbleContainer = Instantiate(ARChatBubbleContainer, myAvatar.transform) as GameObject;
+        //myARChatBubbleContainer.transform.parent = myAvatar.transform;
+        //myARChatBubbleContainer.transform.localPosition = TextBubblePos;
+        //myARChatBubbleContainer.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
 
-        theirARChatBubbleContainer = Instantiate(ARChatBubbleContainer, theirAvatar.transform) as GameObject;
-        theirARChatBubbleContainer.transform.parent = theirAvatar.transform;
-        theirARChatBubbleContainer.transform.localPosition = TextBubblePos;
+        //theirARChatBubbleContainer = Instantiate(ARChatBubbleContainer, theirAvatar.transform) as GameObject;
+        //theirARChatBubbleContainer.transform.parent = theirAvatar.transform;
+        //theirARChatBubbleContainer.transform.localPosition = TextBubblePos;
 
-        myAvatar.SetActive(false);
-        theirAvatar.SetActive(false);
+        //myAvatar.SetActive(false);
+        //theirAvatar.SetActive(false);
 
-        //spawn light source
-        GameObject lightSource = new GameObject();
-        Light light = lightSource.AddComponent<Light>();
-        light.type = LightType.Point;
-        light.intensity = 1;
-        lightSource.name = "LightSource";
+        ////spawn light source
+        //GameObject lightSource = new GameObject();
+        //Light light = lightSource.AddComponent<Light>();
+        //light.type = LightType.Point;
+        //light.intensity = 1;
+        //lightSource.name = "LightSource";
 
-        GameObject myAvatarLight = Instantiate(lightSource, myAvatar.transform);
-        GameObject theirAvatarLight = Instantiate(lightSource, theirAvatar.transform);
+        //GameObject myAvatarLight = Instantiate(lightSource, myAvatar.transform);
+        //GameObject theirAvatarLight = Instantiate(lightSource, theirAvatar.transform);
 
-        Destroy(lightSource);
-        myAvatarLight.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
-        theirAvatarLight.transform.localPosition= LIGHT_SOURCE_LOCAL_POS;
+        //Destroy(lightSource);
+        //myAvatarLight.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
+        //theirAvatarLight.transform.localPosition= LIGHT_SOURCE_LOCAL_POS;
 
-        //set selected avatar
-        selectedAvatar = myAvatar;
+        ////set selected avatar
+        //SelectedAvatar = myAvatar;
+
 
         ListenForNewMessages();
     }
@@ -224,10 +228,10 @@ public class ARChat : MonoBehaviour
 
             if (collision)
             {
-                selectedAvatar.SetActive(true);
-                selectedAvatar.transform.position = raycastHits[0].pose.position;
-                selectedAvatar.transform.rotation = raycastHits[0].pose.rotation;
-                selectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
+                SelectedAvatar.SetActive(true);
+                SelectedAvatar.transform.position = raycastHits[0].pose.position;
+                SelectedAvatar.transform.rotation = raycastHits[0].pose.rotation;
+                SelectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
             }
         }
     }
