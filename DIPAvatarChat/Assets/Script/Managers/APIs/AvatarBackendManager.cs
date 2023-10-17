@@ -144,7 +144,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                     {
                         DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(member);
                         
-                        ChatManager.Instance.EmailToAvatar[member] = theirAvatarDoc.ConvertTo<AvatarData>();
+                        ChatManager.Instance.EmailToAvatarDict[member] = theirAvatarDoc.ConvertTo<AvatarData>();
                         
                     }
                 }
@@ -172,7 +172,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 {
                     DocumentSnapshot avatarDoc = await GetAvatarByEmailTask(member);
                     
-                    ChatManager.Instance.EmailToAvatar[member]= avatarDoc.ConvertTo<AvatarData>();
+                    ChatManager.Instance.EmailToAvatarDict[member]= avatarDoc.ConvertTo<AvatarData>();
                 }
             }
 
