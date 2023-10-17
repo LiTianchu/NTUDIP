@@ -183,6 +183,23 @@ public class ChatManager : Singleton<ChatManager>
         return popupAvatar;
     }
 
+    public GameObject LoadTheirAvatarHead()
+    {
+        // Spawn both avatar bodies
+        GameObject theirAvatarHead = LoadAvatarBody("Blender/CatBaseTest2_v0_30", THEIR_AVATAR_POS, Quaternion.Euler(0f, 0f, 0f));
+
+        // Load hat accessory
+        LoadAccessory(TheirAvatarData.hat, theirAvatarHead, HAT_POS, HAT_SCALE);
+
+        // Load arm accessory
+        LoadAccessory(TheirAvatarData.arm, theirAvatarHead, ARM_POS2, ARM_SCALE);
+
+        // Load shoes accessory
+        LoadAccessory(TheirAvatarData.shoes, theirAvatarHead, SHOES_POS, SHOES_SCALE);
+
+        return theirAvatarHead;
+    }
+
     public GameObject LoadAvatarBody(string avatarBaseFbxFileName, Vector3 itemPosition, Quaternion itemRotation)
     {
         if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
