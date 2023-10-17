@@ -129,7 +129,35 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-    public async Task<bool> GetAvatars()
+    public async Task<bool> GetAvatarForChatListBox(string currConvId)
+    {
+        try
+        {
+            DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(currConvId);
+            ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
+
+            if (currConvData != null)
+            {
+                foreach (string member in currConvData.members)
+                {
+                    if (member != AuthManager.Instance.currUser.email)
+                    {
+                        DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(member);
+                        ChatManager.Instance.TheirAvatarData = theirAvatarDoc.ConvertTo<AvatarData>();
+                    }
+                }
+            }
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Avatar Display Error: " + e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> GetAvatarsForChat()
     {
         try
         {
