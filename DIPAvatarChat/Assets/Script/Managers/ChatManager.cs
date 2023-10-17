@@ -45,7 +45,7 @@ public class ChatManager : Singleton<ChatManager>
     void Start()
     {
         CurrentMessages = new List<MessageData>();
-
+        Friends = new List<UserData>();
     }
 
     // Update is called once per frame

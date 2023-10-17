@@ -7,10 +7,7 @@
     "com.unity.timeline": "1.7.5",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.9.0",
-<<<<<<< HEAD
-=======
     "com.unity.xr-content.xr-sim-environments": "file:../ContentPackages\\com.unity.xr-content.xr-sim-environments-1.0.0.tgz",
->>>>>>> 7f25b2e35fe679cd281ef192e96853150d4d5d7b
     "com.unity.xr.arcore": "5.0.7",
     "com.unity.xr.arfoundation": "5.0.7",
     "com.unity.modules.ai": "1.0.0",
