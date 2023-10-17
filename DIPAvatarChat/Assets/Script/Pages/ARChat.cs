@@ -19,7 +19,7 @@ public class ARChat : PageSingleton<ARChat>
     public TMP_Text RecipientName;
     public GameObject MyChatBubblePrefab;
     public GameObject TheirChatBubblePrefab;
-    public GameObject ARChatBubbleContainer;
+    public GameObject ChatBubbleParent;
     public GameObject AvatarContainer;
     public GameObject UsernameContainer;
     public GameObject AvatarSelectionBar;
@@ -46,51 +46,25 @@ public class ARChat : PageSingleton<ARChat>
     // Start is called before the first frame update
     void Start()
     {
-        //myAvatar = ChatManager.Instance.LoadAvatar();
-        //theirAvatar = ChatManager.Instance.LoadTheirAvatar();
-
-        //myARChatBubbleContainer = Instantiate(ARChatBubbleContainer, myAvatar.transform) as GameObject;
-        //myARChatBubbleContainer.transform.parent = myAvatar.transform;
-        //myARChatBubbleContainer.transform.localPosition = TextBubblePos;
-        //myARChatBubbleContainer.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
-
-        //theirARChatBubbleContainer = Instantiate(ARChatBubbleContainer, theirAvatar.transform) as GameObject;
-        //theirARChatBubbleContainer.transform.parent = theirAvatar.transform;
-        //theirARChatBubbleContainer.transform.localPosition = TextBubblePos;
-
-        //myAvatar.SetActive(false);
-        //theirAvatar.SetActive(false);
-
-        ////spawn light source
-        //GameObject lightSource = new GameObject();
-        //Light light = lightSource.AddComponent<Light>();
-        //light.type = LightType.Point;
-        //light.intensity = 1;
-        //lightSource.name = "LightSource";
-
-        //GameObject myAvatarLight = Instantiate(lightSource, myAvatar.transform);
-        //GameObject theirAvatarLight = Instantiate(lightSource, theirAvatar.transform);
-
-        //Destroy(lightSource);
-        //myAvatarLight.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
-        //theirAvatarLight.transform.localPosition= LIGHT_SOURCE_LOCAL_POS;
-
-        ////set selected avatar
-        //SelectedAvatar = myAvatar;
         _avatarList = new List<Avatar>();
         SelectedAvatar = RetrieveAvatar(AuthManager.Instance.currUser.email); //retrieve my avatar
+        _avatarList.Add(SelectedAvatar);
+
+        AvatarIconContainer myContainer = Instantiate(AvatarIconContainer, AvatarSelectionBar.transform);
+        myContainer.AttachedAvatar = SelectedAvatar;
+        myContainer.GetComponentInChildren<TMP_Text>().text = "Me";
 
         //load all avatar
         foreach (UserData friend in ChatManager.Instance.Friends)
         {
-
-            _avatarList.Add(RetrieveAvatar(friend.email));
+            Avatar avatarRetrieved = RetrieveAvatar(friend.email);
+            _avatarList.Add(avatarRetrieved);
 
 
             //populate the avatar selection list
             AvatarIconContainer avContainer = Instantiate(AvatarIconContainer, AvatarSelectionBar.transform);
+            avContainer.AttachedAvatar = avatarRetrieved;
             avContainer.GetComponentInChildren<TMP_Text>().text = friend.username;
-
         }
 
         //iterate through avatar list, activate user's avatar and disable others
@@ -121,6 +95,19 @@ public class ARChat : PageSingleton<ARChat>
             });
         }
         GameObject avatarObj = ChatManager.Instance.LoadAvatar(data);
+        avatarObj.transform.parent = AvatarContainer.transform;
+        avatarObj.name = email+"_"+"Avatar";
+        avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
+
+        //spawn light source
+        GameObject lightsource = new GameObject();
+        lightsource.transform.parent = avatarObj.transform;
+        lightsource.name = "Lightsource";
+        Light light = lightsource.AddComponent<Light>();
+        light.type = LightType.Point;
+        light.intensity = 1;
+        lightsource.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
+
         Avatar avatar = avatarObj.AddComponent<Avatar>();
         avatar.AvatarData = data;
         return avatar;
@@ -170,15 +157,13 @@ public class ARChat : PageSingleton<ARChat>
                             {
                                 // Message is sent by the current user, spawn text bubble at right side
                                 Debug.Log("Received message from current user");
-                                //GameObject parent = myARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-                                //ChatManager.Instance.InstantiateChatBubble(parent, MyChatBubblePrefab, msgText, messageId);
+                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
                             }
                             else
                             {
                                 // Message is sent by another user, spawn text bubble at left side
                                 Debug.Log("Received message from another user");
-                                //GameObject parent = theirARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-                                //ChatManager.Instance.InstantiateChatBubble(parent, TheirChatBubblePrefab, msgText, messageId);
+                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
                             }
                         }
                     }
@@ -217,14 +202,12 @@ public class ARChat : PageSingleton<ARChat>
             {
                 // Message is sent by me
                 // Spawn text bubble at right side of the chat
-                //GameObject parent = myARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-                //ChatManager.Instance.InstantiateChatBubble(parent, MyChatBubblePrefab, msgText, messageId);
+                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
             }
             else
             {
                 // Message is sent by the other party
-                //GameObject parent = theirARChatBubbleContainer.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-                //ChatManager.Instance.InstantiateChatBubble(parent, TheirChatBubblePrefab, msgText, messageId);
+                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
             }
         }
 

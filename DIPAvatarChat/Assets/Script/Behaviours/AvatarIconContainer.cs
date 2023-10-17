@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AvatarIconContainer : MonoBehaviour, IPointerDownHandler
+public class AvatarIconContainer : MonoBehaviour
 {
-    private GameObject _avatar;
+    private Avatar _avatar;
     private Image _img;
 
-    public GameObject AttachedAvatar { set { _avatar = value; } }
+    public Avatar AttachedAvatar { set { _avatar = value; } }
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class AvatarIconContainer : MonoBehaviour, IPointerDownHandler
     {
         
     }
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnImgButtonDown()
     {
         Transform parent = transform.parent;
         foreach (AvatarIconContainer sibling in parent.GetComponentsInChildren<AvatarIconContainer>())
@@ -31,7 +31,7 @@ public class AvatarIconContainer : MonoBehaviour, IPointerDownHandler
 
         }
         _img.enabled = true;
-       // ARChat.Instance.SelectedAvatar = this._avatar;
+        ARChat.Instance.SelectedAvatar = this._avatar;
     }
 
 }
