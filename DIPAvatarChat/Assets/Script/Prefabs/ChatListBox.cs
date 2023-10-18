@@ -18,14 +18,15 @@ using Firebase.Auth;
 public class ChatListBox : MonoBehaviour
 {
     public GameObject Box;
-    public string CurrentAvatarUserEmail {  get; set; }
-    public GameObject AvatarDisplayArea;
+    public string CurrentAvatarUserEmail { get; set; }
+    public GameObject AvatarHatDisplayArea;
+    public GameObject AvatarHeadDisplayArea;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        DisplayFriendAvatar();
+        DisplayFriendAvatar2d();
         Debug.Log("Avatars loaded");
     }
 
@@ -50,7 +51,7 @@ public class ChatListBox : MonoBehaviour
     }
 
     //
-    public async void DisplayFriendAvatar()
+    /*public async void DisplayFriendAvatar()
     {
         if (await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name))
         {
@@ -60,6 +61,38 @@ public class ChatListBox : MonoBehaviour
             theirAvatarHead.transform.rotation = Quaternion.identity;
             SetAvatar("TheirAvatarHead", theirAvatarHead, AvatarDisplayArea);
         }
+    }*/
+
+    public async void DisplayFriendAvatar2d()
+    {
+        //display 2d avatar
+        string friendEmail = await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name);
+        AvatarData avatarData = ChatManager.Instance.EmailToAvatarDict[friendEmail];
+
+        Sprite hat2d = ChatManager.Instance.LoadAvatarHatSprite2d(avatarData.hat);
+        Sprite head2d = ChatManager.Instance.LoadAvatarHeadSprite2d("Images/test_base");
+
+        if (hat2d != null)
+        {
+            AvatarHatDisplayArea.SetActive(true);
+
+            // Get the Image component attached to the GameObject
+            Image imageComponent = AvatarHatDisplayArea.GetComponent<Image>();
+
+            // Set the sprite
+            imageComponent.sprite = hat2d;
+        }
+        else
+        {
+            Debug.Log("Hat sprite not found");
+        }
+
+        if (head2d != null)
+        {
+            Image imageComponent = AvatarHeadDisplayArea.GetComponent<Image>();
+            imageComponent.sprite = head2d;
+        }
+
     }
 
     private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent)
