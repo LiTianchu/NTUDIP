@@ -129,10 +129,12 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-    public async Task<bool> GetAvatarForChatListBox(string currConvId)
+    public async Task<string> GetAvatarForChatListBox(string currConvId)
     {
         try
         {
+            string email = null;
+            
             DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(currConvId);
             ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
 
@@ -142,6 +144,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 {
                     if (member != AuthManager.Instance.currUser.email)
                     {
+                        email = member;
                         DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(member);
                         
                         ChatManager.Instance.EmailToAvatarDict[member] = theirAvatarDoc.ConvertTo<AvatarData>();
@@ -150,12 +153,12 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 }
             }
 
-            return true;
+            return email;
         }
         catch (Exception e)
         {
             Debug.LogError("Avatar Display Error: " + e.Message);
-            return false;
+            return null;
         }
     }
 

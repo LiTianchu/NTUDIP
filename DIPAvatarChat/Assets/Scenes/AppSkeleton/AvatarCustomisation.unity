@@ -39,6 +39,7 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1510,8 +1511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 25
-    m_Right: 25
+    m_Left: 36
+    m_Right: 36
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
@@ -2174,7 +2175,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -623}
-  m_SizeDelta: {x: -120, y: 68}
+  m_SizeDelta: {x: -96, y: 68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &252698129
 MonoBehaviour:
@@ -5927,8 +5928,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1380856669}
   m_HandleRect: {fileID: 1380856668}
   m_Direction: 0
-  m_Value: 0.16000044
-  m_Size: 0.87179434
+  m_Value: 0.15999992
+  m_Size: 0.8756216
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5940,7 +5941,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653369844}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -18534,7 +18535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1857883067
 RectTransform:
   m_ObjectHideFlags: 0

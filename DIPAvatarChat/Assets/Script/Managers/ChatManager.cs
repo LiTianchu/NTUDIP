@@ -46,6 +46,19 @@ public class ChatManager : Singleton<ChatManager>
         // Add more emoji-to-animation mappings here
     };
 
+    public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
+    {
+        { "Blender/beret", "Images/test"},
+        { "Blender/crown", "2D_assets/crown"},
+        { "Blender/horns", "Images/test"},
+        { "Blender/nightcap", "2D_assets/sleepcap"},
+        { "Blender/partyhat", "Images/test"},
+        { "Blender/porkpiehat", "Images/test"},
+        { "Blender/starclip", "Images/test"},
+        { "Blender/strawboater", "Images/test"},
+        { "Blender/sunflower", "2D_assets/flowers"},
+    };
+
     void Start()
     {
         CurrentMessages = new List<MessageData>();
@@ -116,6 +129,7 @@ public class ChatManager : Singleton<ChatManager>
             Debug.Log("message is null...");
         }
     }
+
     // Function to get the animation for a specific .anim file
     private bool TryGetEmojiAnimation(string animFileName, out Animation animation)
     {
@@ -141,8 +155,41 @@ public class ChatManager : Singleton<ChatManager>
         return false;
     }
 
-    public GameObject LoadAvatar(AvatarData avatarData) {
-       GameObject avatar = LoadAvatarBody(AVATAR_BODY_PATH);
+    public Sprite LoadAvatarHeadSprite2d(string headFilePath2d)
+    {
+        Sprite head2d = Resources.Load<Sprite>(headFilePath2d);
+
+        return head2d;
+    }
+
+    public Sprite LoadAvatarSkinSprite2d(string skinFilePath)
+    {
+        Sprite skin2d = Resources.Load<Sprite>(skinFilePath);
+
+        return skin2d;
+    }
+
+    public Sprite LoadAvatarHatSprite2d(string hatFilePath)
+    {
+        string hatFilePath2d = null;
+
+        foreach (var kvp in hatTo2dHatMap)
+        {
+            if (hatFilePath.Contains(kvp.Key))
+            {
+                Debug.Log("2d Hat file path: " + kvp.Value);
+                hatFilePath2d = kvp.Value;
+            }
+        }
+
+        Sprite hat2d = Resources.Load<Sprite>(hatFilePath2d);
+
+        return hat2d;
+    }
+
+    public GameObject LoadAvatar(AvatarData avatarData)
+    {
+        GameObject avatar = LoadAvatarBody(AVATAR_BODY_PATH);
 
         // Load hat accessory
         LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE);
@@ -161,7 +208,8 @@ public class ChatManager : Singleton<ChatManager>
         if (EmailToAvatarDict.ContainsKey(email))
         {
             return LoadAvatar(this.EmailToAvatarDict[email]);
-        }else
+        }
+        else
         {
             throw new KeyNotFoundException(email);
         }

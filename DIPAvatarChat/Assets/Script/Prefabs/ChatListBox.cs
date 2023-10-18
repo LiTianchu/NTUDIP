@@ -18,14 +18,16 @@ using Firebase.Auth;
 public class ChatListBox : MonoBehaviour
 {
     public GameObject Box;
-    public string CurrentAvatarUserEmail {  get; set; }
-    public GameObject AvatarDisplayArea;
+    public string CurrentAvatarUserEmail { get; set; }
+    public GameObject AvatarSkinDisplayArea;
+    public GameObject AvatarHeadDisplayArea;
+    public GameObject AvatarHatDisplayArea;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        DisplayFriendAvatar();
+        DisplayFriendAvatar2d();
         Debug.Log("Avatars loaded");
     }
 
@@ -49,17 +51,51 @@ public class ChatListBox : MonoBehaviour
         }
     }
 
-    //
-    public async void DisplayFriendAvatar()
+    public async void DisplayFriendAvatar2d()
     {
-        if (await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name))
-        {
+        //display 2d avatar
+        string friendEmail = await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name);
+        AvatarData avatarData = ChatManager.Instance.EmailToAvatarDict[friendEmail];
 
-            GameObject theirAvatarHead = ChatManager.Instance.LoadAvatar(CurrentAvatarUserEmail);
-            theirAvatarHead.transform.position = ChatManager.Instance.HEAD_AVATAR_POS;
-            theirAvatarHead.transform.rotation = Quaternion.identity;
-            SetAvatar("TheirAvatarHead", theirAvatarHead, AvatarDisplayArea);
+        Sprite skin2d = ChatManager.Instance.LoadAvatarSkinSprite2d("2D_assets/catcolor");
+        Sprite head2d = ChatManager.Instance.LoadAvatarHeadSprite2d("2D_assets/catbase");
+        Sprite hat2d = ChatManager.Instance.LoadAvatarHatSprite2d(avatarData.hat);
+
+        if (skin2d != null)
+        {
+            Image imageComponent = AvatarSkinDisplayArea.GetComponent<Image>();
+            imageComponent.sprite = skin2d;
         }
+        else
+        {
+            Debug.Log("Skin sprite not found");
+        }
+
+        if (head2d != null)
+        {
+            Image imageComponent = AvatarHeadDisplayArea.GetComponent<Image>();
+            imageComponent.sprite = head2d;
+        }
+        else
+        {
+            Debug.Log("Head sprite not found");
+        }
+
+        if (hat2d != null)
+        {
+            AvatarHatDisplayArea.SetActive(true);
+
+            // Get the Image component attached to the GameObject
+            Image imageComponent = AvatarHatDisplayArea.GetComponent<Image>();
+
+            // Set the sprite
+            imageComponent.sprite = hat2d;
+        }
+        else
+        {
+            Debug.Log("Hat sprite not found");
+        }
+
     }
 
     private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent)
