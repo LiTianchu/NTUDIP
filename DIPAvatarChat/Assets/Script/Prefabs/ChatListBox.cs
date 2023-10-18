@@ -22,6 +22,7 @@ public class ChatListBox : MonoBehaviour
     public GameObject AvatarSkinDisplayArea;
     public GameObject AvatarHeadDisplayArea;
     public GameObject AvatarHatDisplayArea;
+    public GameObject LoadingUI;
 
 
     // Start is called before the first frame update
@@ -57,9 +58,11 @@ public class ChatListBox : MonoBehaviour
         string friendEmail = await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name);
         AvatarData avatarData = ChatManager.Instance.EmailToAvatarDict[friendEmail];
 
-        Sprite skin2d = ChatManager.Instance.LoadAvatarSkinSprite2d("2D_assets/catcolor");
-        Sprite head2d = ChatManager.Instance.LoadAvatarHeadSprite2d("2D_assets/catbase");
-        Sprite hat2d = ChatManager.Instance.LoadAvatarHatSprite2d(avatarData.hat);
+        List<Sprite> sprites = ChatManager.Instance.LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat);
+        
+        Sprite skin2d = sprites[0];
+        Sprite head2d = sprites[1];
+        Sprite hat2d = sprites[2];
 
         if (skin2d != null)
         {
@@ -83,19 +86,25 @@ public class ChatListBox : MonoBehaviour
 
         if (hat2d != null)
         {
-            AvatarHatDisplayArea.SetActive(true);
-
             // Get the Image component attached to the GameObject
             Image imageComponent = AvatarHatDisplayArea.GetComponent<Image>();
 
             // Set the sprite
             imageComponent.sprite = hat2d;
+
+            //LoadingUI.SetActive(false);
+            AvatarHatDisplayArea.SetActive(true);
+            AvatarSkinDisplayArea.SetActive(true);
+            AvatarHeadDisplayArea.SetActive(true);
         }
         else
         {
-            Debug.Log("Hat sprite not found");
-        }
+            Debug.Log("No hat equipped");
 
+            //LoadingUI.SetActive(false);
+            AvatarSkinDisplayArea.SetActive(true);
+            AvatarHeadDisplayArea.SetActive(true);
+        }
     }
 
     private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent)

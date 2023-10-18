@@ -48,14 +48,14 @@ public class ChatManager : Singleton<ChatManager>
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
     {
-        { "Blender/beret", "Images/test"},
+        { "Blender/beret", "2D_assets/beret"},
         { "Blender/crown", "2D_assets/crown"},
-        { "Blender/horns", "Images/test"},
+        { "Blender/horns", "2D_assets/horns"},
         { "Blender/nightcap", "2D_assets/sleepcap"},
-        { "Blender/partyhat", "Images/test"},
-        { "Blender/porkpiehat", "Images/test"},
-        { "Blender/starclip", "Images/test"},
-        { "Blender/strawboater", "Images/test"},
+        { "Blender/partyhat", "2D_assets/partyhat"},
+        { "Blender/porkpiehat", "2D_assets/porkpiehat"},
+        { "Blender/starclip", "2D_assets/starclip"},
+        { "Blender/strawboater", "2D_assets/strawboater"},
         { "Blender/sunflower", "2D_assets/flowers"},
     };
 
@@ -155,36 +155,31 @@ public class ChatManager : Singleton<ChatManager>
         return false;
     }
 
-    public Sprite LoadAvatarHeadSprite2d(string headFilePath2d)
+    public List<Sprite> LoadAvatarSprite2d(string headFilePath, string skinFilePath, string hatFilePath)
     {
-        Sprite head2d = Resources.Load<Sprite>(headFilePath2d);
+        List<Sprite> sprites = new List<Sprite>();
 
-        return head2d;
-    }
-
-    public Sprite LoadAvatarSkinSprite2d(string skinFilePath)
-    {
+        Sprite head2d = Resources.Load<Sprite>(headFilePath);
         Sprite skin2d = Resources.Load<Sprite>(skinFilePath);
+        Sprite hat2d = null;
 
-        return skin2d;
-    }
-
-    public Sprite LoadAvatarHatSprite2d(string hatFilePath)
-    {
-        string hatFilePath2d = null;
-
-        foreach (var kvp in hatTo2dHatMap)
+        if (hatFilePath != null && hatFilePath != "")
         {
-            if (hatFilePath != null && hatFilePath.Contains(kvp.Key))
+            foreach (var kvp in hatTo2dHatMap)
             {
-                Debug.Log("2d Hat file path: " + kvp.Value);
-                hatFilePath2d = kvp.Value;
+                if (hatFilePath.Contains(kvp.Key))
+                {
+                    Debug.Log("2d Hat file path: " + kvp.Value);
+                    hat2d = Resources.Load<Sprite>(kvp.Value);
+                }
             }
         }
 
-        Sprite hat2d = Resources.Load<Sprite>(hatFilePath2d);
+        sprites.Add(skin2d);
+        sprites.Add(head2d);
+        sprites.Add(hat2d);
 
-        return hat2d;
+        return sprites;
     }
 
     public GameObject LoadAvatar(AvatarData avatarData)
