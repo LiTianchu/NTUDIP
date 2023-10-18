@@ -175,7 +175,7 @@ public class ChatManager : Singleton<ChatManager>
 
         foreach (var kvp in hatTo2dHatMap)
         {
-            if (hatFilePath.Contains(kvp.Key))
+            if (hatFilePath != null && hatFilePath.Contains(kvp.Key))
             {
                 Debug.Log("2d Hat file path: " + kvp.Value);
                 hatFilePath2d = kvp.Value;
