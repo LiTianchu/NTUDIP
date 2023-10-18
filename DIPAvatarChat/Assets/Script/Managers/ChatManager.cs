@@ -48,12 +48,12 @@ public class ChatManager : Singleton<ChatManager>
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
     {
-        { "Blender/beret", "Images/test"},
+        { "Blender/beret", "2D_assets/beret"},
         { "Blender/crown", "2D_assets/crown"},
         { "Blender/horns", "2D_assets/horns"},
         { "Blender/nightcap", "2D_assets/sleepcap"},
         { "Blender/partyhat", "2D_assets/partyhat"},
-        { "Blender/porkpiehat", "Images/test"},
+        { "Blender/porkpiehat", "2D_assets/porkpiehat"},
         { "Blender/starclip", "2D_assets/starclip"},
         { "Blender/strawboater", "2D_assets/strawboater"},
         { "Blender/sunflower", "2D_assets/flowers"},
