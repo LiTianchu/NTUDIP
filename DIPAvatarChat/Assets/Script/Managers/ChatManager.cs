@@ -14,12 +14,12 @@ public class ChatManager : Singleton<ChatManager>
     //path for files
     public readonly string AVATAR_BODY_PATH = "Blender/CatBaseTest2_v0_30";
     //rotation for avatar spawn
-    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 75f, 0f);
-    public readonly Quaternion THEIR_AVATAR_ROTAION = Quaternion.Euler(0f, -75f, 0f);
+    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 0f, 0f);
+    public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 0f, 0f);
 
     //pos for avatar spawn pos
-    public readonly Vector3 MY_AVATAR_POS = new Vector3(40f, 10f, -30f);
-    public readonly Vector3 THEIR_AVATAR_POS = new Vector3(-30f, 10f, -30f);
+    public readonly Vector3 MY_AVATAR_POS = new Vector3(55f, 10f, -30f);
+    public readonly Vector3 THEIR_AVATAR_POS = new Vector3(-55f, 10f, -30f);
     public readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
     public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
 

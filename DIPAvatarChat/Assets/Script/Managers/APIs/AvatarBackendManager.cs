@@ -1,9 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+using Firebase.Auth;
 
 public class AvatarBackendManager : Singleton<AvatarBackendManager>
 {
@@ -130,51 +138,56 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-    public async Task<DocumentSnapshot> GetAvatarForFriendRequestBox(string email)
+    public async void DisplayFriendAvatar2d(DocumentSnapshot snapshot, GameObject AvatarHeadDisplayArea, GameObject AvatarSkinDisplayArea, GameObject AvatarHatDisplayArea)
     {
-        try
+        AvatarData avatarData = snapshot.ConvertTo<AvatarData>();
+
+        List<Sprite> sprites = ChatManager.Instance.LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat);
+
+        Sprite skin2d = sprites[0];
+        Sprite head2d = sprites[1];
+        Sprite hat2d = sprites[2];
+
+        if (skin2d != null)
         {
-            DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(email);
-            return theirAvatarDoc;
+            Image imageComponent = AvatarSkinDisplayArea.GetComponent<Image>();
+            imageComponent.sprite = skin2d;
         }
-        catch (Exception e)
+        else
         {
-            Debug.LogError("Avatar Display Error: " + e.Message);
-            return null;
+            Debug.Log("Skin sprite not found");
         }
-    }
 
-    public async Task<DocumentSnapshot> GetAvatarForChatListBox(string currConvId)
-    {
-        try
+        if (head2d != null)
         {
-            string email = null;
-
-            DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(currConvId);
-            ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
-
-            DocumentSnapshot theirAvatarDoc = null;
-
-            if (currConvData != null)
-            {
-                foreach (string member in currConvData.members)
-                {
-                    if (member != AuthManager.Instance.currUser.email)
-                    {
-                        email = member;
-                        theirAvatarDoc = await GetAvatarByEmailTask(member);
-
-                        //ChatManager.Instance.EmailToAvatarDict[member] = theirAvatarDoc.ConvertTo<AvatarData>();  
-                    }
-                }
-            }
-
-            return theirAvatarDoc;
+            Image imageComponent = AvatarHeadDisplayArea.GetComponent<Image>();
+            imageComponent.sprite = head2d;
         }
-        catch (Exception e)
+        else
         {
-            Debug.LogError("Avatar Display Error: " + e.Message);
-            return null;
+            Debug.Log("Head sprite not found");
+        }
+
+        if (hat2d != null)
+        {
+            // Get the Image component attached to the GameObject
+            Image imageComponent = AvatarHatDisplayArea.GetComponent<Image>();
+
+            // Set the sprite
+            imageComponent.sprite = hat2d;
+
+            //LoadingUI.SetActive(false);
+            AvatarHatDisplayArea.SetActive(true);
+            AvatarSkinDisplayArea.SetActive(true);
+            AvatarHeadDisplayArea.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("No hat equipped");
+
+            //LoadingUI.SetActive(false);
+            AvatarSkinDisplayArea.SetActive(true);
+            AvatarHeadDisplayArea.SetActive(true);
         }
     }
 
@@ -247,6 +260,37 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         return doc;
     }
 
+    public async Task<DocumentSnapshot> GetAvatarByConversationIdTask(string currConvId)
+    {
+        DocumentSnapshot doc = null;
+
+        try
+        {
+            string email = null;
+
+            DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(currConvId);
+            ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
+
+            if (currConvData != null)
+            {
+                foreach (string member in currConvData.members)
+                {
+                    if (member != AuthManager.Instance.currUser.email)
+                    {
+                        email = member;
+                        doc = await GetAvatarByEmailTask(member);
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Avatar Display Error: " + e.Message);
+        }
+
+        return doc;
+    }
+
     //querying avatar by userid for future use
     public async Task<List<string>> QueryAvatarsByUserEmailTask(string email)
     {
@@ -270,7 +314,6 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
             return null;
         }
     }
-
 }
 
 

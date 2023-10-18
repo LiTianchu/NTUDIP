@@ -76,7 +76,7 @@ public class Chat : MonoBehaviour
 
             //initial settings
             SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, ChatManager.Instance.MY_AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION);
-            SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTAION);
+            SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTATION);
 
             //Display popup avatar when click on friend's avatar
             GameObject popupAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
@@ -168,7 +168,7 @@ public class Chat : MonoBehaviour
             //cache the msg
             ChatManager.Instance.CurrentMessages.Add(msg);
 
-            if (msgSender.Equals(AuthManager.Instance.emailData))
+            if (msgSender.Equals(AuthManager.Instance.currUser.email))
             {
                 // Message is sent by me
                 // Spawn text bubble at right side of the chat
@@ -233,7 +233,7 @@ public class Chat : MonoBehaviour
             
     //        //initial settings
     //        SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, ChatManager.Instance.MY_AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION);
-    //        SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS,ChatManager.Instance.THEIR_AVATAR_ROTAION);
+    //        SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS,ChatManager.Instance.THEIR_AVATAR_ROTATION);
 
     //        //Display popup avatar when click on friend's avatar
     //        GameObject popupAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
