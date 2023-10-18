@@ -26,8 +26,6 @@ public class ChatList : MonoBehaviour
     public GameObject ChatListParent;
     public ChatListBox ChatListObject;
     public GameObject LoadingUI;
-    List<string> friendRequestsList;
-    List<string> friendsList;
     private bool needsRefresh = true; // Flag to track whether chat list needs refreshing
                                       // Store existing chat list items by conversation ID
     private Dictionary<string, ChatListBox> chatListItems = new Dictionary<string, ChatListBox>();
@@ -396,7 +394,6 @@ public class ChatList : MonoBehaviour
         UIManager.Instance.DisableGeneralTab(SearchFriendTab);
         UIManager.Instance.DisableGeneralTab(SearchFriendInfoTab);
         ClearDisplay();
-        PopulateChatList();
     }
 
     public void EnableTab(GameObject Tab)
@@ -431,26 +428,21 @@ public class ChatList : MonoBehaviour
             SearchEmailDisplay.text = "";
             SearchStatusDisplay.text = "";
 
-            if (friendRequestsList != null)
+            DestroyTempPrefabs();
+        }
+    }
+
+    public void DestroyTempPrefabs()
+    {
+        GameObject[] tempPrefabs;
+
+        tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
+
+        foreach (GameObject tempPrefab in tempPrefabs)
+        {
+            if (tempPrefab != null)
             {
-                friendRequestsList.Clear();
-            }
-
-            if (friendsList != null)
-            {
-                friendsList.Clear();
-            }
-
-            GameObject[] tempPrefabs;
-
-            tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
-
-            foreach (GameObject tempPrefab in tempPrefabs)
-            {
-                if (tempPrefab != null)
-                {
-                    Destroy(tempPrefab);
-                }
+                Destroy(tempPrefab);
             }
         }
     }
