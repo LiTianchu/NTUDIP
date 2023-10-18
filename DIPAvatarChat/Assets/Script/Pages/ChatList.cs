@@ -293,8 +293,8 @@ public class ChatList : MonoBehaviour
 
     async public void DisplayFriendRequests()
     {
-        DestroyTempPrefabs();
         EnableTab(FriendRequestsTab);
+        DestroyTempPrefabs();
         Debug.Log(AuthManager.Instance.emailData);
 
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
