@@ -293,6 +293,7 @@ public class ChatList : MonoBehaviour
 
     async public void DisplayFriendRequests()
     {
+        DestroyTempPrefabs();
         EnableTab(FriendRequestsTab);
         Debug.Log(AuthManager.Instance.emailData);
 
@@ -399,18 +400,11 @@ public class ChatList : MonoBehaviour
     public void EnableTab(GameObject Tab)
     {
         UIManager.Instance.EnableGeneralTab(Tab);
-        ClearDisplay();
     }
 
     public void DisableTab(GameObject Tab)
     {
         UIManager.Instance.DisableGeneralTab(Tab);
-        // Only clear and refresh the chat list if needed
-        if (needsRefresh)
-        {
-            ClearDisplay();
-            StartCoroutine(DelayedPopulateChatList(1f)); // Wait for 1 second before refreshing
-        }
     }
 
     async public void GetCurrentUserData()
@@ -422,14 +416,9 @@ public class ChatList : MonoBehaviour
     public void ClearDisplay()
     {
         // Only clear the display if a refresh is needed
-        if (needsRefresh)
-        {
-            SearchNameDisplay.text = "";
-            SearchEmailDisplay.text = "";
-            SearchStatusDisplay.text = "";
-
-            DestroyTempPrefabs();
-        }
+        SearchNameDisplay.text = "";
+        SearchEmailDisplay.text = "";
+        SearchStatusDisplay.text = "";
     }
 
     public void DestroyTempPrefabs()
