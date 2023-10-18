@@ -1900,8 +1900,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125.5, y: -290.7}
-  m_SizeDelta: {x: 80.9293, y: 30}
+  m_AnchoredPosition: {x: 653, y: 1831}
+  m_SizeDelta: {x: 337.4631, y: 91.293}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &291398348
 MonoBehaviour:
@@ -5273,7 +5273,6 @@ RectTransform:
   m_Children:
   - {fileID: 1097925263}
   - {fileID: 1812326046}
-  - {fileID: 1493726393}
   - {fileID: 1467296472}
   - {fileID: 1494365259}
   - {fileID: 867908280}
@@ -5611,6 +5610,7 @@ RectTransform:
   m_LocalScale: {x: 0.26838946, y: 0.26838946, z: 0.26838946}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1493726393}
   - {fileID: 291398347}
   m_Father: {fileID: 1812326046}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5631,10 +5631,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80c2683f1eac834e856dd9538865446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundImage: {fileID: 0}
+  backgroundImage: {fileID: 185928054}
   originalSprite: {fileID: 21300000, guid: e8a67330e3a241e4aaed5f6d938545e2, type: 3}
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
-  headerImage: {fileID: 0}
+  headerImage: {fileID: 1750477318}
   sourceImage: {fileID: 0}
 --- !u!1 &813396140
 GameObject:
@@ -9077,8 +9077,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10281,19 +10281,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493726392}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 3.3533356, y: 3.3533356, z: 3.3533356}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1750477317}
   - {fileID: 149717805}
   - {fileID: 2087247997}
-  m_Father: {fileID: 692963939}
+  m_Father: {fileID: 757852192}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00034332, y: 255.97}
+  m_AnchoredPosition: {x: 349.54984, y: 1751.369}
   m_SizeDelta: {x: 338.01, y: 90.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1494365258
