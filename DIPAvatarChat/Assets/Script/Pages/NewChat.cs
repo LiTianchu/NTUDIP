@@ -44,9 +44,9 @@ public class NewChat : MonoBehaviour
   async public void DisplayAllContacts()
   {
     ClearDisplay();
-    Debug.Log(AuthManager.Instance.emailData); // AuthManager.Instance.emailData;
+    Debug.Log(AuthManager.Instance.currUser.email);
 
-    DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
+    DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
     UserData myUserData = myUserDoc.ConvertTo<UserData>();
 
     foreach (string friend in myUserData.friends)

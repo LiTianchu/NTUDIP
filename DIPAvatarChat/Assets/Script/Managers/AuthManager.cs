@@ -17,7 +17,7 @@ public class AuthManager : Singleton<AuthManager>
     public FirebaseAuth auth = null;
     public FirebaseUser user;
 
-    public string emailData { get; set; }
+    //public string emailData { get; set; }
     //public string passwordData { get; set; }
     public string userPathData { get; set; }
     public string friendRequestPathData { get; set; }
@@ -133,11 +133,10 @@ public class AuthManager : Singleton<AuthManager>
 
                 //raise event
                 LoginConfirm?.Invoke("Logged In");
-                emailData = _email;
 
                 SaveSession(_email, _password);
 
-                UserBackendManager.Instance.GetUserByEmailTask(emailData).ContinueWithOnMainThread(task =>
+                UserBackendManager.Instance.GetUserByEmailTask(_email).ContinueWithOnMainThread(task =>
                 {
                     DocumentSnapshot currUserDoc = task.Result;
                     this.currUser = currUserDoc.ConvertTo<UserData>();
@@ -243,13 +242,12 @@ public class AuthManager : Singleton<AuthManager>
             //User has now been created
             //Now get the result
             user = RegisterTask.Result.User;
-            emailData = _email;
 
             //ps: I don't think we need to store password in database - Tianchu
             //passwordData = _password;
             userPathData = "user/" + _email;
 
-            bool recordSaved = UserBackendManager.Instance.AddUser(emailData);
+            bool recordSaved = UserBackendManager.Instance.AddUser(_email);
 
             if (user != null && recordSaved)
             {

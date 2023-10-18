@@ -203,7 +203,7 @@ public class ARChat : PageSingleton<ARChat>
             // Check if the message has not been displayed already
             // !displayedMessageIds.Contains(messageId)
 
-            if (msgSender.Equals(AuthManager.Instance.emailData))
+            if (msgSender.Equals(AuthManager.Instance.currUser.email))
             {
                 // Message is sent by me
                 // Spawn text bubble at right side of the chat

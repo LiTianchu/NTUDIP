@@ -191,20 +191,6 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-    /*public async Task<DocumentSnapshot> GetAvatarByEmail(string email)
-    {
-        try
-        {
-            DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(email);
-            return theirAvatarDoc;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Avatar Display Error: " + e.Message);
-            return null;
-        }
-    }*/
-
     public async Task<bool> GetAvatarsForChat()
     {
         try

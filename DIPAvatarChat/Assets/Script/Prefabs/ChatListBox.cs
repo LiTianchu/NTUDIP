@@ -20,8 +20,6 @@ public class ChatListBox : MonoBehaviour
     public GameObject AvatarSkinDisplayArea;
     public GameObject AvatarHeadDisplayArea;
     public GameObject AvatarHatDisplayArea;
-    public GameObject LoadingUI;
-
 
     // Start is called before the first frame update
     void Start()

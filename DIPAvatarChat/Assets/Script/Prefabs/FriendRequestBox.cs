@@ -19,7 +19,7 @@ public class FriendRequestBox : MonoBehaviour
     public GameObject AvatarSkinDisplayArea;
     public GameObject AvatarHeadDisplayArea;
     public GameObject AvatarHatDisplayArea;
-    public static string id;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,14 +34,12 @@ public class FriendRequestBox : MonoBehaviour
 
     public void AcceptFriendRequest()
     {
-        id = Box.name;
-        GameObject.Find("Canvas").GetComponent<ChatList>().AcceptFriendRequest();
+        GameObject.Find("Canvas").GetComponent<ChatList>().AcceptFriendRequest(Box.name);
     }
 
     public void RejectFriendRequest()
     {
-        id = Box.name;
-        GameObject.Find("Canvas").GetComponent<ChatList>().RejectFriendRequest();
+        GameObject.Find("Canvas").GetComponent<ChatList>().RejectFriendRequest(Box.name);
     }
 
     public async void DisplayFriendAvatar2d()

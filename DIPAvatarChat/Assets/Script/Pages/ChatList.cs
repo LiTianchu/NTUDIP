@@ -244,7 +244,7 @@ public class ChatList : MonoBehaviour
 
     async public void SendFriendRequest()
     {
-        string myEmail = AuthManager.Instance.emailData;
+        string myEmail = AuthManager.Instance.currUser.email;
         string theirEmail = emailSearchBar.text;
 
         List<string>[] friendAndFriendRequestLists = await GetFriendAndFriendRequestListsTask(myEmail, theirEmail);
@@ -295,9 +295,9 @@ public class ChatList : MonoBehaviour
     {
         EnableTab(FriendRequestsTab);
         DestroyTempPrefabs();
-        Debug.Log(AuthManager.Instance.emailData);
+        Debug.Log(AuthManager.Instance.currUser.email);
 
-        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
         UserData myUserData = myUserDoc.ConvertTo<UserData>();
 
         foreach (string friendRequest in myUserData.friendRequests)
@@ -335,10 +335,9 @@ public class ChatList : MonoBehaviour
         SearchStatusDisplay.text = userData.status;
     }
 
-    async public void AcceptFriendRequest()
+    async public void AcceptFriendRequest(string theirEmail)
     {
-        string myEmail = AuthManager.Instance.emailData;
-        string theirEmail = FriendRequestBox.id;
+        string myEmail = AuthManager.Instance.currUser.email;
 
         List<string>[] friendAndFriendRequestLists = await GetFriendAndFriendRequestListsTask(myEmail, theirEmail);
 
@@ -346,10 +345,9 @@ public class ChatList : MonoBehaviour
         DisplayFriendRequests();
     }
 
-    async public void RejectFriendRequest()
+    async public void RejectFriendRequest(string theirEmail)
     {
-        string myEmail = AuthManager.Instance.emailData;
-        string theirEmail = FriendRequestBox.id;
+        string myEmail = AuthManager.Instance.currUser.email;
 
         List<string>[] friendAndFriendRequestLists = await GetFriendAndFriendRequestListsTask(myEmail, theirEmail);
 
@@ -409,7 +407,7 @@ public class ChatList : MonoBehaviour
 
     async public void GetCurrentUserData()
     {
-        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.emailData);
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
         UserData userData = myUserDoc.ConvertTo<UserData>();
     }
 
