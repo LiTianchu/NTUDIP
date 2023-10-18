@@ -50,12 +50,12 @@ public class ChatManager : Singleton<ChatManager>
     {
         { "Blender/beret", "Images/test"},
         { "Blender/crown", "2D_assets/crown"},
-        { "Blender/horns", "Images/test"},
+        { "Blender/horns", "2D_assets/horns"},
         { "Blender/nightcap", "2D_assets/sleepcap"},
-        { "Blender/partyhat", "Images/test"},
+        { "Blender/partyhat", "2D_assets/partyhat"},
         { "Blender/porkpiehat", "Images/test"},
-        { "Blender/starclip", "Images/test"},
-        { "Blender/strawboater", "Images/test"},
+        { "Blender/starclip", "2D_assets/starclip"},
+        { "Blender/strawboater", "2D_assets/strawboater"},
         { "Blender/sunflower", "2D_assets/flowers"},
     };
 
