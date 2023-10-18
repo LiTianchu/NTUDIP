@@ -7,8 +7,8 @@ public class BackgroundImageToggle : MonoBehaviour
     public Image backgroundImage;
     public Sprite originalSprite;
     public Sprite alternateSprite;
-    public Image headerImage; // Reference to the header UI element.
-    public Image sourceImage; // Reference to the source image UI element.
+    public Image headerImage;
+    public Image sourceImage;
 
     private bool isAlternate = false;
 
@@ -24,43 +24,52 @@ public class BackgroundImageToggle : MonoBehaviour
     public void ToggleBackgroundImage()
     {
         isAlternate = !isAlternate;
+        SaveBackgroundState(); // Save the state before transitioning to the next scene.
         UpdateButtonState();
-        SaveBackgroundState(); // Save the state when toggling.
     }
+
+
 
     private void UpdateButtonState()
-{
-    if (isAlternate)
     {
-        backgroundImage.sprite = alternateSprite;
-        headerImage.color = new Color(0.75f, 0.75f, 0.75f); // Grey color (R: 0.75, G: 0.75, B: 0.75).
-        sourceImage.color = Color.black; // Change the source image color to black.
+        if (isAlternate)
+        {
+            backgroundImage.sprite = alternateSprite;
+            headerImage.color = new Color(0.75f, 0.75f, 0.75f);
+            sourceImage.color = Color.black;
+        }
+        else
+        {
+            backgroundImage.sprite = originalSprite;
+            headerImage.color = new Color(0.86f, 0.63f, 0.63f);
+            sourceImage.color = Color.white;
+        }
     }
-    else
-    {
-        backgroundImage.sprite = originalSprite;
-        headerImage.color = new Color(0.86f, 0.63f, 0.63f); // Pink color (R: 0.86, G: 0.63, B: 0.63).
-        sourceImage.color = Color.white; // Change the source image color to white.
-    }
-}
-
-
 
     private void SaveBackgroundState()
     {
-        // Save the state to PlayerPrefs.
         PlayerPrefs.SetInt("IsAlternateBackground", isAlternate ? 1 : 0);
         PlayerPrefs.Save();
     }
 
     private void LoadBackgroundState()
     {
-        // Load the state from PlayerPrefs.
         isAlternate = PlayerPrefs.GetInt("IsAlternateBackground", 0) == 1;
+        Debug.Log("Loaded background state: " + isAlternate); // Add this line for debugging.
     }
 
-    // This method is called when the scene changes.
-    private void OnLevelWasLoaded(int level)
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += SceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= SceneLoaded;
+    }
+
+    private void SceneLoaded(Scene scene, LoadSceneMode mode)
     {
         LoadBackgroundState();
         UpdateButtonState();
