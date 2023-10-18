@@ -99,7 +99,7 @@ public class ChatListBox : MonoBehaviour
         }
         else
         {
-            Debug.Log("Hat sprite not found");
+            Debug.Log("No hat equipped");
 
             //LoadingUI.SetActive(false);
             AvatarSkinDisplayArea.SetActive(true);
