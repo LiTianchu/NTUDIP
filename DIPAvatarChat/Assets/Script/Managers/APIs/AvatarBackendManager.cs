@@ -21,6 +21,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
 
     // A private method to upload avatar data and return the document reference
     // A private method to create a new avatar data and return the document reference
+
     private async Task<DocumentReference> CreateNewAvatarData()
     {
         try
@@ -129,14 +130,30 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
     }
 
-    public async Task<string> GetAvatarForChatListBox(string currConvId)
+    public async Task<DocumentSnapshot> GetAvatarForFriendRequestBox(string email)
+    {
+        try
+        {
+            DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(email);
+            return theirAvatarDoc;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Avatar Display Error: " + e.Message);
+            return null;
+        }
+    }
+
+    public async Task<DocumentSnapshot> GetAvatarForChatListBox(string currConvId)
     {
         try
         {
             string email = null;
-            
+
             DocumentSnapshot currConvDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(currConvId);
             ConversationData currConvData = currConvDoc.ConvertTo<ConversationData>();
+
+            DocumentSnapshot theirAvatarDoc = null;
 
             if (currConvData != null)
             {
@@ -145,15 +162,14 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                     if (member != AuthManager.Instance.currUser.email)
                     {
                         email = member;
-                        DocumentSnapshot theirAvatarDoc = await GetAvatarByEmailTask(member);
-                        
-                        ChatManager.Instance.EmailToAvatarDict[member] = theirAvatarDoc.ConvertTo<AvatarData>();
-                        
+                        theirAvatarDoc = await GetAvatarByEmailTask(member);
+
+                        //ChatManager.Instance.EmailToAvatarDict[member] = theirAvatarDoc.ConvertTo<AvatarData>();  
                     }
                 }
             }
 
-            return email;
+            return theirAvatarDoc;
         }
         catch (Exception e)
         {
@@ -174,8 +190,8 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                 foreach (string member in currConvData.members)
                 {
                     DocumentSnapshot avatarDoc = await GetAvatarByEmailTask(member);
-                    
-                    ChatManager.Instance.EmailToAvatarDict[member]= avatarDoc.ConvertTo<AvatarData>();
+
+                    ChatManager.Instance.EmailToAvatarDict[member] = avatarDoc.ConvertTo<AvatarData>();
                 }
             }
 
@@ -211,7 +227,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
 
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(email);
         UserData userData = userDoc.ConvertTo<UserData>();
-        if(userData.currentAvatar==null)
+        if (userData.currentAvatar == null)
         {
             Debug.Log("Theres no avatar fir user: " + email);
             return null;

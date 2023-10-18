@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-//
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
@@ -55,8 +53,10 @@ public class ChatListBox : MonoBehaviour
     public async void DisplayFriendAvatar2d()
     {
         //display 2d avatar
-        string friendEmail = await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name);
-        AvatarData avatarData = ChatManager.Instance.EmailToAvatarDict[friendEmail];
+        //string friendEmail = await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name);
+        //AvatarData avatarData = ChatManager.Instance.EmailToAvatarDict[friendEmail];
+        DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name);
+        AvatarData avatarData = snapshot.ConvertTo<AvatarData>();
 
         List<Sprite> sprites = ChatManager.Instance.LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat);
         
@@ -105,14 +105,5 @@ public class ChatListBox : MonoBehaviour
             AvatarSkinDisplayArea.SetActive(true);
             AvatarHeadDisplayArea.SetActive(true);
         }
-    }
-
-    private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent)
-    {
-        avatarObj.transform.SetParent(avatarParent.transform, false);
-        avatarObj.name = name;
-
-        float scale = 30f;
-        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
 }
