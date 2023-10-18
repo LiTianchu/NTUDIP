@@ -19,8 +19,9 @@ public class ChatListBox : MonoBehaviour
 {
     public GameObject Box;
     public string CurrentAvatarUserEmail { get; set; }
-    public GameObject AvatarHatDisplayArea;
+    public GameObject AvatarSkinDisplayArea;
     public GameObject AvatarHeadDisplayArea;
+    public GameObject AvatarHatDisplayArea;
 
 
     // Start is called before the first frame update
@@ -50,27 +51,35 @@ public class ChatListBox : MonoBehaviour
         }
     }
 
-    //
-    /*public async void DisplayFriendAvatar()
-    {
-        if (await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name))
-        {
-
-            GameObject theirAvatarHead = ChatManager.Instance.LoadAvatar(CurrentAvatarUserEmail);
-            theirAvatarHead.transform.position = ChatManager.Instance.HEAD_AVATAR_POS;
-            theirAvatarHead.transform.rotation = Quaternion.identity;
-            SetAvatar("TheirAvatarHead", theirAvatarHead, AvatarDisplayArea);
-        }
-    }*/
-
     public async void DisplayFriendAvatar2d()
     {
         //display 2d avatar
         string friendEmail = await AvatarBackendManager.Instance.GetAvatarForChatListBox(Box.name);
         AvatarData avatarData = ChatManager.Instance.EmailToAvatarDict[friendEmail];
 
+        Sprite skin2d = ChatManager.Instance.LoadAvatarSkinSprite2d("2D_assets/catcolor");
+        Sprite head2d = ChatManager.Instance.LoadAvatarHeadSprite2d("2D_assets/catbase");
         Sprite hat2d = ChatManager.Instance.LoadAvatarHatSprite2d(avatarData.hat);
-        Sprite head2d = ChatManager.Instance.LoadAvatarHeadSprite2d("Images/test_base");
+
+        if (skin2d != null)
+        {
+            Image imageComponent = AvatarSkinDisplayArea.GetComponent<Image>();
+            imageComponent.sprite = skin2d;
+        }
+        else
+        {
+            Debug.Log("Skin sprite not found");
+        }
+
+        if (head2d != null)
+        {
+            Image imageComponent = AvatarHeadDisplayArea.GetComponent<Image>();
+            imageComponent.sprite = head2d;
+        }
+        else
+        {
+            Debug.Log("Head sprite not found");
+        }
 
         if (hat2d != null)
         {
@@ -85,12 +94,6 @@ public class ChatListBox : MonoBehaviour
         else
         {
             Debug.Log("Hat sprite not found");
-        }
-
-        if (head2d != null)
-        {
-            Image imageComponent = AvatarHeadDisplayArea.GetComponent<Image>();
-            imageComponent.sprite = head2d;
         }
 
     }

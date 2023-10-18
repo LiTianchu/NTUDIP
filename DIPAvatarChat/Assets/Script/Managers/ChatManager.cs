@@ -49,14 +49,14 @@ public class ChatManager : Singleton<ChatManager>
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
     {
         { "Blender/beret", "Images/test"},
-        { "Blender/crown", "Images/test"},
+        { "Blender/crown", "2D_assets/crown"},
         { "Blender/horns", "Images/test"},
-        { "Blender/nightcap", "Images/test"},
+        { "Blender/nightcap", "2D_assets/sleepcap"},
         { "Blender/partyhat", "Images/test"},
         { "Blender/porkpiehat", "Images/test"},
         { "Blender/starclip", "Images/test"},
         { "Blender/strawboater", "Images/test"},
-        { "Blender/sunflower", "Images/test"},
+        { "Blender/sunflower", "2D_assets/flowers"},
     };
 
     void Start()
@@ -155,6 +155,20 @@ public class ChatManager : Singleton<ChatManager>
         return false;
     }
 
+    public Sprite LoadAvatarHeadSprite2d(string headFilePath2d)
+    {
+        Sprite head2d = Resources.Load<Sprite>(headFilePath2d);
+
+        return head2d;
+    }
+
+    public Sprite LoadAvatarSkinSprite2d(string skinFilePath)
+    {
+        Sprite skin2d = Resources.Load<Sprite>(skinFilePath);
+
+        return skin2d;
+    }
+
     public Sprite LoadAvatarHatSprite2d(string hatFilePath)
     {
         string hatFilePath2d = null;
@@ -171,13 +185,6 @@ public class ChatManager : Singleton<ChatManager>
         Sprite hat2d = Resources.Load<Sprite>(hatFilePath2d);
 
         return hat2d;
-    }
-
-    public Sprite LoadAvatarHeadSprite2d(string headFilePath2d)
-    {
-        Sprite head2d = Resources.Load<Sprite>(headFilePath2d);
-
-        return head2d;
     }
 
     public GameObject LoadAvatar(AvatarData avatarData)
