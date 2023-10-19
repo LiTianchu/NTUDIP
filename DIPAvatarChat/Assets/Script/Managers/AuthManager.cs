@@ -141,7 +141,7 @@ public class AuthManager : Singleton<AuthManager>
                 {
                     DocumentSnapshot currUserDoc = task.Result;
                     this.currUser = currUserDoc.ConvertTo<UserData>();
-                    ChatManager.Instance.EmailToUsersDict[_email] = currUser; //record the logged in user
+                    //ChatManager.Instance.EmailToUsersDict[_email] = currUser; //record the logged in user
                     AppManager.Instance.LoadScene(landingScene);
                 });
                 

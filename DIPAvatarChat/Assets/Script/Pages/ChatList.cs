@@ -137,6 +137,7 @@ public class ChatList : MonoBehaviour
 
                 //cache the chatlist data
                 ChatManager.Instance.EmailToUsersDict[friendData.email] = friendData;
+                ChatManager.Instance.EmailToConversationDict[friendData.email] = conversation;
             }
         }
 
@@ -438,5 +439,10 @@ public class ChatList : MonoBehaviour
     {
         AuthManager.Instance.SignOut();
         AppManager.Instance.LoadScene("2-RegisterAndLogin");
+    }
+
+    public void LoadARChat()
+    {
+        AppManager.Instance.LoadScene("7-ARChat");
     }
 }

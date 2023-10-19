@@ -18,13 +18,13 @@ public class ARChat : PageSingleton<ARChat>
 {
     [Header("UI Elements")]
     public TMP_InputField MessageInputField;
-    public TMP_Text RecipientName;
+    //public TMP_Text RecipientName;
     //public GameObject MyChatBubblePrefab;
     //public GameObject TheirChatBubblePrefab;
     public GameObject ARChatBubblePrefab;
-    public GameObject ChatBubbleParent;
+    //public GameObject ChatBubbleParent;
     public GameObject AvatarContainer;
-    public GameObject UsernameContainer;
+    //public GameObject UsernameContainer;
     public GameObject AvatarSelectionBar;
     public AvatarIconContainer AvatarIconContainer;
     public LayerMask UILayer;
@@ -40,7 +40,7 @@ public class ARChat : PageSingleton<ARChat>
     private List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
 
     private bool _isPopulated = false;
-    private ListenerRegistration _listener;
+    //private ListenerRegistration _listener;
     private List<Avatar> _avatarList;
 
     private bool _isLoading;
@@ -57,9 +57,11 @@ public class ARChat : PageSingleton<ARChat>
         _avatarList = new List<Avatar>();
         _isLoading = true;
         //load all avatar of friends and me
-        foreach (string friendEmail in ChatManager.Instance.EmailToUsersDict.Keys)
+        foreach (string email in ChatManager.Instance.EmailToUsersDict.Keys)
         {
-            RetrieveAvatarData(friendEmail);
+
+            RetrieveAvatarData(email);
+
         }
 
         //ListenForNewMessages();
@@ -81,25 +83,28 @@ public class ARChat : PageSingleton<ARChat>
         {
             DocumentSnapshot avatarDataDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(email);
             data = avatarDataDoc.ConvertTo<AvatarData>();
-            
-               
+
+
             ChatManager.Instance.EmailToAvatarDict[email] = data;
             _avatarList.Add(LoadAvatarObject(data));
-            
+
         }
         else
         {
             _avatarList.Add(LoadAvatarObject(data));
         }
-        if(_avatarList.Count == ChatManager.Instance.EmailToUsersDict.Keys.Count)
+
+
+        if (_avatarList.Count == ChatManager.Instance.EmailToUsersDict.Keys.Count) //if loaded all users
         {
             _isLoading = false;
             OnARFinishedLoading?.Invoke();
         }
-        
+
     }
 
-    private Avatar LoadAvatarObject(AvatarData data) {
+    private Avatar LoadAvatarObject(AvatarData data)
+    {
         GameObject avatarObj = ChatManager.Instance.LoadAvatar(data);
         avatarObj.transform.parent = AvatarContainer.transform;
         avatarObj.name = data.email + "_" + "Avatar";
@@ -116,15 +121,16 @@ public class ARChat : PageSingleton<ARChat>
 
         Avatar avatar = avatarObj.AddComponent<Avatar>();
         avatar.AvatarData = data;
+        avatar.ChatBubblePrefab = ARChatBubblePrefab;
         avatarObj.SetActive(false);
 
         //need a way to get the username
-        PopulateAvatarSelectionBar(avatar,data.email);
+        PopulateAvatarSelectionBar(avatar, data.email);
 
         return avatar;
     }
 
-    private void PopulateAvatarSelectionBar(Avatar avatarRetrieved,string email)
+    private void PopulateAvatarSelectionBar(Avatar avatarRetrieved, string email)
     {
         AvatarIconContainer avContainer = Instantiate(AvatarIconContainer, AvatarSelectionBar.transform);
         avContainer.AttachedAvatar = avatarRetrieved;
@@ -134,7 +140,7 @@ public class ARChat : PageSingleton<ARChat>
     void OnDestroy()
     {
         // Destroy the listener when the scene is changed
-        _listener.Stop();
+        // _listener.Stop();
     }
 
     //private async void ListenForNewMessages()
@@ -253,17 +259,17 @@ public class ARChat : PageSingleton<ARChat>
         ChatManager.Instance.SendMessage(MessageInputField);
     }
 
-    public void ClearDisplay()
-    {
-        GameObject[] tempPrefabs;
+    //public void ClearDisplay()
+    //{
+    //    GameObject[] tempPrefabs;
 
-        tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
+    //    tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
 
-        foreach (GameObject tempPrefab in tempPrefabs)
-        {
-            Destroy(tempPrefab);
-        }
-    }
+    //    foreach (GameObject tempPrefab in tempPrefabs)
+    //    {
+    //        Destroy(tempPrefab);
+    //    }
+    //}
 
     public void BackToNormalChat()
     {
@@ -273,15 +279,16 @@ public class ARChat : PageSingleton<ARChat>
 
     public bool IsUIPressed()
     {
-        if (Input.touchCount > 0) { 
+        if (Input.touchCount > 0)
+        {
             Touch touch = Input.GetTouch(0);
-            
+
         }
         return !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
     }
 
     private bool ClickedOnUi()
-    { 
+    {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
         eventDataCurrentPosition.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
@@ -299,9 +306,9 @@ public class ARChat : PageSingleton<ARChat>
 
     public void PlaceAvatar(InputAction.CallbackContext context)
     {
-        if (SelectedAvatar !=null && context.performed)
+        if (SelectedAvatar != null && context.performed)
         {
-            if(ClickedOnUi()) { Debug.Log("Clicked on UI"); return; }
+            if (ClickedOnUi()) { Debug.Log("Clicked on UI"); return; }
             bool collision = RaycastManager.Raycast(Input.mousePosition, _raycastHits, TrackableType.PlaneWithinPolygon);
             if (collision)
             {

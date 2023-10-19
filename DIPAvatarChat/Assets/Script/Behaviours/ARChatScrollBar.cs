@@ -23,6 +23,7 @@ public class ARChatScrollBar : MonoBehaviour
 
     private void OnDestroy()
     {
+        if(!this.gameObject.scene.isLoaded) return;
         ARChat.Instance.OnARFinishedLoading -= UpdateBarSize;
     }
 

@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class ChatManager : Singleton<ChatManager>
 {
-    public Dictionary<string,List<MessageData>> ConvIDToMessageDataDict { get; set; }
     public string CurrentRecipientName { get; set; }
+    public Dictionary<string,HashSet<MessageData>> ConvIDToMessageDataDict { get; set; }
+    public Dictionary<string, ConversationData> EmailToConversationDict { get; set; }
     public Dictionary<string,UserData> EmailToUsersDict { get; set; }
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
 
@@ -61,9 +62,10 @@ public class ChatManager : Singleton<ChatManager>
 
     void Start()
     {
-        ConvIDToMessageDataDict = new Dictionary<string, List<MessageData>>();
+        ConvIDToMessageDataDict = new Dictionary<string, HashSet<MessageData>>();
         EmailToUsersDict = new Dictionary<string, UserData>();
         EmailToAvatarDict = new Dictionary<string, AvatarData>();
+        EmailToConversationDict = new Dictionary<string, ConversationData>();
     }
 
     // Update is called once per frame
@@ -128,6 +130,15 @@ public class ChatManager : Singleton<ChatManager>
         {
             Debug.Log("message is null...");
         }
+    }
+
+    public void CacheMessage(string convID, MessageData msg)
+    {
+        if (!ConvIDToMessageDataDict.ContainsKey(convID))
+        {
+            ConvIDToMessageDataDict[convID] = new HashSet<MessageData>();
+        }
+        ConvIDToMessageDataDict[convID].Add(msg);
     }
 
     // Function to get the animation for a specific .anim file
