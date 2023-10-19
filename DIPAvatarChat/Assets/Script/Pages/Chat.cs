@@ -118,7 +118,7 @@ public class Chat : MonoBehaviour
                         if (GameObject.Find(messageId) == null)
                         {
                             //cache message
-                            CacheMessage(conversation.conversationID, msg);
+                            ChatManager.Instance.CacheMessage(conversation.conversationID, msg);
 
                             Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
                             if (msgSender == AuthManager.Instance.currUser.email)
@@ -166,7 +166,7 @@ public class Chat : MonoBehaviour
             // !displayedMessageIds.Contains(messageId)
 
             //cache the msg
-            CacheMessage(conversationID, msg);
+            ChatManager.Instance.CacheMessage(conversationID, msg);
 
             if (msgSender.Equals(AuthManager.Instance.currUser.email))
             {
@@ -189,13 +189,7 @@ public class Chat : MonoBehaviour
         }
     }
 
-    private void CacheMessage(string convID, MessageData msg)
-    {
-        if (!ChatManager.Instance.ConvIDToMessageDataDict.ContainsKey(convID)) {
-            ChatManager.Instance.ConvIDToMessageDataDict[convID] = new List<MessageData>();
-        }
-        ChatManager.Instance.ConvIDToMessageDataDict[convID].Add(msg);
-    }
+  
 
     public void SendMessage()
     {
@@ -270,10 +264,7 @@ public class Chat : MonoBehaviour
         AppManager.Instance.LoadScene("4-ChatList");
     }
 
-    public void LoadARChat()
-    {
-        AppManager.Instance.LoadScene("7-ARChat");
-    }
+  
 
     public void ClearDisplay()
     {
