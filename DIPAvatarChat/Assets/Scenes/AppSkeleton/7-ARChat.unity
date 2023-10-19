@@ -2257,9 +2257,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Chat, Assembly-CSharp
-        m_MethodName: ReturnToChatList
+      - m_Target: {fileID: 2118428257}
+        m_TargetAssemblyTypeName: ARChat, Assembly-CSharp
+        m_MethodName: BackToNormalChat
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

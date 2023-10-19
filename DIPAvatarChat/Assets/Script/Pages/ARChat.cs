@@ -267,7 +267,7 @@ public class ARChat : PageSingleton<ARChat>
     public void BackToNormalChat()
     {
 
-        AppManager.Instance.LoadScene("6-ChatUI");
+        AppManager.Instance.LoadScene("4-ChatList");
     }
 
     public bool IsUIPressed()
