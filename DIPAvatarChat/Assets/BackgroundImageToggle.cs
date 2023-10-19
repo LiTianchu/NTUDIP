@@ -32,6 +32,9 @@ public class BackgroundImageToggle : MonoBehaviour
 
     private void UpdateButtonState()
     {
+        if (backgroundImage == null || sourceImage == null || headerImage == null) {
+            return;
+        }
         if (isAlternate)
         {
             backgroundImage.sprite = alternateSprite;
