@@ -4,6 +4,7 @@ using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
@@ -140,8 +141,10 @@ public class AuthManager : Singleton<AuthManager>
                 {
                     DocumentSnapshot currUserDoc = task.Result;
                     this.currUser = currUserDoc.ConvertTo<UserData>();
+                    ChatManager.Instance.EmailToUsersDict[_email] = currUser; //record the logged in user
                     AppManager.Instance.LoadScene(landingScene);
                 });
+                
             }
             else
             {

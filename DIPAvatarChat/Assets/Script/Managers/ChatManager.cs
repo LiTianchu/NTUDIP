@@ -8,7 +8,7 @@ public class ChatManager : Singleton<ChatManager>
 {
     public List<MessageData> CurrentMessages { get; set; }
     public string CurrentRecipientName { get; set; }
-    public List<UserData> Friends { get; set; }
+    public Dictionary<string,UserData> EmailToUsersDict { get; set; }
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
 
     //path for files
@@ -62,7 +62,7 @@ public class ChatManager : Singleton<ChatManager>
     void Start()
     {
         CurrentMessages = new List<MessageData>();
-        Friends = new List<UserData>();
+        EmailToUsersDict = new Dictionary<string, UserData>();
         EmailToAvatarDict = new Dictionary<string, AvatarData>();
     }
 
