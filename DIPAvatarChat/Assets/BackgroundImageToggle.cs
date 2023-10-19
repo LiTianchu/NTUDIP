@@ -14,6 +14,7 @@ public class BackgroundImageToggle : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Start method called.");
         // Load the saved state when the scene starts.
         LoadBackgroundState();
 
@@ -23,29 +24,46 @@ public class BackgroundImageToggle : MonoBehaviour
 
     public void ToggleBackgroundImage()
     {
+        Debug.Log("ToggleBackgroundImage method called.");
         isAlternate = !isAlternate;
         SaveBackgroundState(); // Save the state before transitioning to the next scene.
         UpdateButtonState();
     }
 
-
-
     private void UpdateButtonState()
     {
-        if (backgroundImage == null || sourceImage == null || headerImage == null) {
+        if (backgroundImage == null) {
+            Debug.LogWarning("backgroundImage component is missing.");
             return;
         }
+
+        if (sourceImage == null) {
+            Debug.LogWarning("sourceImage component is missing.");
+        }
+
+        if (headerImage == null) {
+            Debug.LogWarning("headerImage component is missing.");
+        }
+
         if (isAlternate)
         {
             backgroundImage.sprite = alternateSprite;
-            headerImage.color = new Color(0.75f, 0.75f, 0.75f);
-            sourceImage.color = Color.black;
+            if (headerImage != null) {
+                headerImage.color = new Color(0.75f, 0.75f, 0.75f);
+            }
+            if (sourceImage != null) {
+                sourceImage.color = Color.black;
+            }
         }
         else
         {
             backgroundImage.sprite = originalSprite;
-            headerImage.color = new Color(0.86f, 0.63f, 0.63f);
-            sourceImage.color = Color.white;
+            if (headerImage != null) {
+                headerImage.color = new Color(0.86f, 0.63f, 0.63f);
+            }
+            if (sourceImage != null) {
+                sourceImage.color = Color.white;
+            }
         }
     }
 
@@ -61,7 +79,6 @@ public class BackgroundImageToggle : MonoBehaviour
         Debug.Log("Loaded background state: " + isAlternate); // Add this line for debugging.
     }
 
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += SceneLoaded;
@@ -74,6 +91,7 @@ public class BackgroundImageToggle : MonoBehaviour
 
     private void SceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("SceneLoaded method called.");
         LoadBackgroundState();
         UpdateButtonState();
     }
