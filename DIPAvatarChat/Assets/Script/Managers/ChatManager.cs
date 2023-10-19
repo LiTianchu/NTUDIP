@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ChatManager : Singleton<ChatManager>
 {
-    public List<MessageData> CurrentMessages { get; set; }
+    public Dictionary<string,List<MessageData>> ConvIDToMessageDataDict { get; set; }
     public string CurrentRecipientName { get; set; }
     public Dictionary<string,UserData> EmailToUsersDict { get; set; }
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
@@ -61,7 +61,7 @@ public class ChatManager : Singleton<ChatManager>
 
     void Start()
     {
-        CurrentMessages = new List<MessageData>();
+        ConvIDToMessageDataDict = new Dictionary<string, List<MessageData>>();
         EmailToUsersDict = new Dictionary<string, UserData>();
         EmailToAvatarDict = new Dictionary<string, AvatarData>();
     }

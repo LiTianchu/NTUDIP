@@ -118,7 +118,7 @@ public class Chat : MonoBehaviour
                         if (GameObject.Find(messageId) == null)
                         {
                             //cache message
-                            ChatManager.Instance.CurrentMessages.Add(msg);
+                            CacheMessage(conversation.conversationID, msg);
 
                             Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
                             if (msgSender == AuthManager.Instance.currUser.email)
@@ -166,7 +166,7 @@ public class Chat : MonoBehaviour
             // !displayedMessageIds.Contains(messageId)
 
             //cache the msg
-            ChatManager.Instance.CurrentMessages.Add(msg);
+            CacheMessage(conversationID, msg);
 
             if (msgSender.Equals(AuthManager.Instance.currUser.email))
             {
@@ -187,6 +187,14 @@ public class Chat : MonoBehaviour
         {
             Debug.Log("Message Populated!");
         }
+    }
+
+    private void CacheMessage(string convID, MessageData msg)
+    {
+        if (!ChatManager.Instance.ConvIDToMessageDataDict.ContainsKey(convID)) {
+            ChatManager.Instance.ConvIDToMessageDataDict[convID] = new List<MessageData>();
+        }
+        ChatManager.Instance.ConvIDToMessageDataDict[convID].Add(msg);
     }
 
     public void SendMessage()
@@ -254,7 +262,7 @@ public class Chat : MonoBehaviour
 
     public void ReturnToChatList()
     {
-        ChatManager.Instance.CurrentMessages.Clear();
+        //ChatManager.Instance.CurrentMessages.Clear();
         ChatManager.Instance.CurrentRecipientName = "";
         //ChatManager.Instance.MyAvatarData = null;
         //ChatManager.Instance.TheirAvatarData = null;
