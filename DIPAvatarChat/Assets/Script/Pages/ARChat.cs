@@ -19,10 +19,10 @@ public class ARChat : PageSingleton<ARChat>
     [Header("UI Elements")]
     public TMP_InputField MessageInputField;
     //public TMP_Text RecipientName;
-    //public GameObject MyChatBubblePrefab;
-    //public GameObject TheirChatBubblePrefab;
+    public GameObject MyChatBubblePrefab;
+    public GameObject TheirChatBubblePrefab;
     public GameObject ARChatBubblePrefab;
-    //public GameObject ChatBubbleParent;
+    public GameObject ScreenChatContainer;
     public GameObject AvatarContainer;
     //public GameObject UsernameContainer;
     public GameObject AvatarSelectionBar;
@@ -51,6 +51,7 @@ public class ARChat : PageSingleton<ARChat>
     public List<Avatar> AvatarList { get { return _avatarList; } }
 
     public event Action OnARFinishedLoading;
+    public event Action<Avatar> OnAvatarSelected;
     // Start is called before the first frame update
     void Start()
     {
@@ -63,8 +64,6 @@ public class ARChat : PageSingleton<ARChat>
             RetrieveAvatarData(email);
 
         }
-
-        //ListenForNewMessages();
     }
 
     private void Update()
@@ -121,12 +120,12 @@ public class ARChat : PageSingleton<ARChat>
 
         Avatar avatar = avatarObj.AddComponent<Avatar>();
         avatar.AvatarData = data;
-        avatar.ChatBubblePrefab = ARChatBubblePrefab;
         avatarObj.SetActive(false);
+        avatarObj.layer = 6; //avatar layer
 
         //need a way to get the username
         PopulateAvatarSelectionBar(avatar, data.email);
-
+        //avatar.ListenForNewMessages();
         return avatar;
     }
 
@@ -139,137 +138,21 @@ public class ARChat : PageSingleton<ARChat>
 
     void OnDestroy()
     {
-        // Destroy the listener when the scene is changed
-        // _listener.Stop();
     }
-
-    //private async void ListenForNewMessages()
-    //{
-    //    DocumentReference docRef = await ConversationBackendManager.Instance.GetConversationReferenceTask(AuthManager.Instance.currConvId);
-    //    _listener = docRef.Listen(async snapshot =>
-    //    {
-    //        // Check if the snapshot exists and contains valid data
-    //        if (snapshot.Exists)
-    //        {
-    //            Debug.Log("snapshot exists");
-    //            // Extract the new message data
-    //            ConversationData conversation = snapshot.ConvertTo<ConversationData>();
-
-    //            if (conversation.messages.Last() != null)
-    //            {
-    //                DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages.Last());
-    //                MessageData msg = messageDoc.ConvertTo<MessageData>();
-
-    //                string msgSender = msg.sender;
-    //                string msgText = msg.message;
-    //                string messageId = messageDoc.Id;
-
-    //                // if messages are not loaded in yet
-    //                if (!_isPopulated)
-    //                {
-    //                    PopulateCachedMessage();
-    //                }
-    //                else
-    //                {
-    //                    // Check if the message has not been displayed already
-    //                    if (GameObject.Find(messageId) == null)
-    //                    {
-    //                        //cache message
-    //                        ChatManager.Instance.CurrentMessages.Add(msg);
-    //                        Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
-    //                        if (msgSender == AuthManager.Instance.currUser.email)
-    //                        {
-    //                            // Message is sent by the current user, spawn text bubble at right side
-    //                            Debug.Log("Received message from current user");
-    //                            GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
-    //                            bubble.transform.localScale = Vector3.one;
-
-    //                        }
-    //                        else
-    //                        {
-    //                            // Message is sent by another user, spawn text bubble at left side
-    //                            Debug.Log("Received message from another user");
-    //                            GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
-    //                            bubble.transform.localScale = Vector3.one;
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //            else
-    //            {
-    //                SetRecipientName();
-    //            }
-    //        }
-    //        else
-    //        {
-    //            // Handle the case where the snapshot does not exist or contains invalid data
-    //            Debug.LogError("Snapshot does not exist or contains invalid data.");
-    //        }
-    //    });
-    //}
-
-    //private void PopulateCachedMessage()
-    //{
-    //    ClearDisplay();
-    //    // Populate the data onto the UI
-
-    //    foreach (MessageData msg in ChatManager.Instance.CurrentMessages)
-    //    {
-
-    //        string msgText = msg.message;
-    //        string msgSender = msg.sender;
-    //        string msgReceiver = msg.receiver;
-    //        Timestamp msgTime = msg.createdAt;
-    //        string messageId = msg.messageID;
-
-    //        // Check if the message has not been displayed already
-    //        // !displayedMessageIds.Contains(messageId)
-
-    //        if (msgSender.Equals(AuthManager.Instance.currUser.email))
-    //        {
-    //            // Message is sent by me
-    //            // Spawn text bubble at right side of the chat
-    //            GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
-    //            bubble.transform.localScale = Vector3.one;
-    //        }
-    //        else
-    //        {
-    //            // Message is sent by the other party
-    //            GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
-    //            bubble.transform.localScale = Vector3.one;
-    //        }
-    //    }
-
-    //    SetRecipientName();
-    //    _isPopulated = true;
-    //    if (_isPopulated)
-    //    {
-    //        Debug.Log("Message Populated!");
-    //    }
-    //}
-
-
-    //public void SetRecipientName()
-    //{
-    //    RecipientName.text = ChatManager.Instance.CurrentRecipientName;
-    //}
 
     public void SendMessage()
     {
-        ChatManager.Instance.SendMessage(MessageInputField);
+        ChatManager.Instance.SendMessage(MessageInputField,SelectedAvatar.ConversationData.conversationID);
     }
 
-    //public void ClearDisplay()
-    //{
-    //    GameObject[] tempPrefabs;
+    public void ClearChatDisplay()
+    {
 
-    //    tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
-
-    //    foreach (GameObject tempPrefab in tempPrefabs)
-    //    {
-    //        Destroy(tempPrefab);
-    //    }
-    //}
+        foreach (Transform temp in ScreenChatContainer.transform)
+        {
+            Destroy(temp.gameObject);
+        }
+    }
 
     public void BackToNormalChat()
     {
@@ -287,7 +170,7 @@ public class ARChat : PageSingleton<ARChat>
         return !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
     }
 
-    private bool ClickedOnUi()
+    private bool TouchedOnUi()
     {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
         eventDataCurrentPosition.position = Input.mousePosition;
@@ -304,11 +187,30 @@ public class ARChat : PageSingleton<ARChat>
         return false;
     }
 
-    public void PlaceAvatar(InputAction.CallbackContext context)
+    public void HandleTouch(InputAction.CallbackContext context)
     {
         if (SelectedAvatar != null && context.performed)
         {
-            if (ClickedOnUi()) { Debug.Log("Clicked on UI"); return; }
+            if (TouchedOnUi()) { Debug.Log("Touched on UI"); return; }
+            
+            //first check if the player is touching on the avatar
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit))
+            {
+                Avatar touchedAvatar = hit.transform.GetComponent<Avatar>();
+                if (touchedAvatar!= null)
+                {
+                    if (touchedAvatar != SelectedAvatar) { ClearChatDisplay(); }
+                    SelectedAvatar = touchedAvatar;
+                    Debug.Log(SelectedAvatar.name + " touched");
+                    
+                    OnAvatarSelected?.Invoke(SelectedAvatar);
+                    return;
+                }
+            }
+
+            //then check for plane
             bool collision = RaycastManager.Raycast(Input.mousePosition, _raycastHits, TrackableType.PlaneWithinPolygon);
             if (collision)
             {

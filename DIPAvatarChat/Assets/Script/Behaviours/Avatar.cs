@@ -1,4 +1,5 @@
 using Firebase.Firestore;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,39 @@ public class Avatar : MonoBehaviour
     private bool _isMsgReceived;
     private ConversationData _conversationData;
     public AvatarData AvatarData { get; set; }
-    public GameObject ChatBubblePrefab { get; set; }
+    public ConversationData ConversationData { get { return _conversationData;} }
     // Start is called before the first frame update
     void Start()
     {
-       ListenForNewMessages();
+        //ListenForNewMessages();
+    }
+    private void OnEnable()
+    {
+        ARChat.Instance.OnAvatarSelected += HandleAvatarSelected;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         if (!this.gameObject.scene.isLoaded) return;
-        _listener.Stop();
+        _listener?.Stop();
+        ARChat.Instance.OnAvatarSelected -= HandleAvatarSelected;
     }
-    private async void ListenForNewMessages()
+
+    private void HandleAvatarSelected(Avatar avatarSelected)
+    {
+        if (avatarSelected == this)
+        {
+            _isMsgReceived = false;
+            ListenForNewMessages();
+        }
+        else
+        {
+            _listener?.Stop();
+        }
+    }
+
+
+    public async void ListenForNewMessages()
     {
         _conversationData = ChatManager.Instance.EmailToConversationDict[AvatarData.email];
         DocumentReference docRef = await ConversationBackendManager.Instance.GetConversationReferenceTask(_conversationData.conversationID);
@@ -68,7 +89,7 @@ public class Avatar : MonoBehaviour
                             {
                                 // Message is sent by the current user, spawn text bubble at right side
                                 Debug.Log("Received message from current user");
-                                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(this.gameObject, ChatBubblePrefab, msgText, messageId);
+                                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ARChat.Instance.ScreenChatContainer, ARChat.Instance.MyChatBubblePrefab, msgText, messageId);
                                 bubble.transform.localScale = Vector3.one;
 
                             }
@@ -76,13 +97,13 @@ public class Avatar : MonoBehaviour
                             {
                                 // Message is sent by another user, spawn text bubble at left side
                                 Debug.Log("Received message from another user");
-                                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(this.gameObject, ChatBubblePrefab, msgText, messageId);
+                                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ARChat.Instance.ScreenChatContainer, ARChat.Instance.TheirChatBubblePrefab, msgText, messageId);
                                 bubble.transform.localScale = Vector3.one;
                             }
                         }
                     }
                 }
-                
+
             }
             else
             {
@@ -92,11 +113,13 @@ public class Avatar : MonoBehaviour
         });
     }
 
-    private async void PopulateMessage() {
+    private async void PopulateMessage()
+    {
         string email = AvatarData.email;
-        
 
-        if (!ChatManager.Instance.ConvIDToMessageDataDict.ContainsKey(_conversationData.conversationID)) {
+
+        if (!ChatManager.Instance.ConvIDToMessageDataDict.ContainsKey(_conversationData.conversationID))
+        {
             QuerySnapshot messages = await MessageBackendManager.Instance.GetAllMessagesTask(_conversationData.conversationID);
             foreach (DocumentSnapshot message in messages.Documents)
             {
@@ -105,10 +128,11 @@ public class Avatar : MonoBehaviour
                 //cache the msg
                 ChatManager.Instance.CacheMessage(_conversationData.conversationID, msg);
 
-              
+
             }
         }
-        if (!ChatManager.Instance.ConvIDToMessageDataDict.ContainsKey(_conversationData.conversationID)) {  //check if there is no message
+        if (!ChatManager.Instance.ConvIDToMessageDataDict.ContainsKey(_conversationData.conversationID))
+        {  //check if there is no message
             Debug.Log("Has no message with user " + email);
             return; //return early
         }
@@ -127,20 +151,22 @@ public class Avatar : MonoBehaviour
             if (msgSender.Equals(AuthManager.Instance.currUser.email))
             {
                 // Message is sent by me
-                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(this.gameObject, ChatBubblePrefab, msgText, messageId);
+                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ARChat.Instance.ScreenChatContainer, ARChat.Instance.MyChatBubblePrefab, msgText, messageId);
                 bubble.transform.localScale = Vector3.one;
             }
             else
             {
                 // Message is sent by the other party
-                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(this.gameObject, ChatBubblePrefab, msgText, messageId);
+                GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ARChat.Instance.ScreenChatContainer, ARChat.Instance.TheirChatBubblePrefab, msgText, messageId);
                 bubble.transform.localScale = Vector3.one;
             }
         }
 
         _isMsgReceived = true;
         Debug.Log("Message Populated!");
-       
+
     }
+
+
 
 }
