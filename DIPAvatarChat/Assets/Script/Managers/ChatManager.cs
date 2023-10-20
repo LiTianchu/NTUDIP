@@ -17,6 +17,8 @@ public class ChatManager : Singleton<ChatManager>
     //rotation for avatar spawn
     public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 0f, 0f);
     public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 0f, 0f);
+    public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
+    public readonly Vector3 AVATAR_COLLIDER_CENTER = new Vector3(0f,2f,0f);
 
     //pos for avatar spawn pos
     public readonly Vector3 MY_AVATAR_POS = new Vector3(55f, 10f, -30f);
@@ -85,12 +87,17 @@ public class ChatManager : Singleton<ChatManager>
         return box;
     }
 
-    public async void SendMessage(TMP_InputField messageInputField)
+    public void SendMessage(TMP_InputField messageInputField)
+    {
+        SendMessage(messageInputField, AuthManager.Instance.currConvId);
+    }
+
+    public async void SendMessage(TMP_InputField messageInputField, string convID)
     {
         string myEmail = AuthManager.Instance.currUser.email;
         string theirEmail = null;
 
-        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(AuthManager.Instance.currConvId);
+        DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(convID);
         ConversationData currConvData = conversationDoc.ConvertTo<ConversationData>();
 
         Debug.Log(currConvData.messages.Count + " in SendMessage.");
@@ -230,6 +237,9 @@ public class ChatManager : Singleton<ChatManager>
             if (loadedFBX != null)
             {
                 GameObject fbx = Instantiate(loadedFBX);
+                BoxCollider collider = fbx.AddComponent<BoxCollider>(); //add collider to body to detect raycast
+                collider.size = AVATAR_COLLIDER_SIZE;
+                collider.center = AVATAR_COLLIDER_CENTER;
                 return fbx;
             }
             else
