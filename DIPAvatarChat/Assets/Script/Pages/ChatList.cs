@@ -26,6 +26,7 @@ public class ChatList : MonoBehaviour
     public GameObject ChatListParent;
     public ChatListBox ChatListObject;
     public GameObject LoadingUI;
+    public GameObject LoadingSwipe;
     private bool needsRefresh = true; // Flag to track whether chat list needs refreshing
                                       // Store existing chat list items by conversation ID
     private Dictionary<string, ChatListBox> chatListItems = new Dictionary<string, ChatListBox>();
@@ -43,9 +44,9 @@ public class ChatList : MonoBehaviour
     {
         if (LoadingUI != null)
         {
+            ChatListParent.SetActive(false);
             LoadingUI.SetActive(true);
         }
-        ChatListParent.SetActive(false);
 
         // Clear existing chat list items
         ClearChatList();
@@ -143,9 +144,11 @@ public class ChatList : MonoBehaviour
 
         if (LoadingUI != null)
         {
+            ChatListParent.SetActive(true);
             LoadingUI.SetActive(false);
+            StartCoroutine(DisableLoadingAnim(0.5f));
         }
-        ChatListParent.SetActive(true);
+        
         // After populating the chat list, set needsRefresh to false
         needsRefresh = false;
     }
@@ -228,11 +231,20 @@ public class ChatList : MonoBehaviour
             StartCoroutine(DelayedPopulateChatList(1f)); // Wait for 1 second before refreshing
         }
     }
+
     private IEnumerator DelayedPopulateChatList(float delay)
     {
         yield return new WaitForSeconds(delay);
         PopulateChatList();
     }
+
+    private IEnumerator DisableLoadingAnim(float delay)
+    {
+        LoadingSwipe.SetActive(true);
+        yield return new WaitForSecondsRealtime(delay);
+        LoadingSwipe.SetActive(false);
+    }
+
     async public void SearchUserByEmailAsync()
     {
         EnableTab(SearchFriendInfoTab);
