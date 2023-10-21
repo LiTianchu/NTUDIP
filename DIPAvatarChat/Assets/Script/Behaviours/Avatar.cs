@@ -33,12 +33,12 @@ public class Avatar : MonoBehaviour
 
     private void HandleAvatarSelected(Avatar avatarSelected)
     {
-        if (avatarSelected == this)
+        if (avatarSelected == this) //if the selected avatar is this avatar, register message listener
         {
             _isMsgReceived = false;
             ListenForNewMessages();
         }
-        else
+        else //if not this avatar, stop listening for messages
         {
             _listener?.Stop();
         }

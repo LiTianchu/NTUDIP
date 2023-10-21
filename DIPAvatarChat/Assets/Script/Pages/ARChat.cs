@@ -90,14 +90,14 @@ public class ARChat : PageSingleton<ARChat>
         }
         else
         {
-            _avatarList.Add(LoadAvatarObject(data));
+            _avatarList.Add(LoadAvatarObject(data)); //if it is cached, load from the avatar list
         }
 
 
         if (_avatarList.Count == ChatManager.Instance.EmailToUsersDict.Keys.Count) //if loaded all users
         {
             _isLoading = false;
-            OnARFinishedLoading?.Invoke();
+            OnARFinishedLoading?.Invoke(); //invoke the event
         }
 
     }
@@ -115,7 +115,7 @@ public class ARChat : PageSingleton<ARChat>
         lightsource.name = "Lightsource";
         Light light = lightsource.AddComponent<Light>();
         light.type = LightType.Point;
-        light.intensity = 1;
+        light.intensity = 0.5f;
         lightsource.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
 
         Avatar avatar = avatarObj.AddComponent<Avatar>();
@@ -170,6 +170,7 @@ public class ARChat : PageSingleton<ARChat>
         return !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
     }
 
+    //This method is to check whether the user is touching on the UI
     private bool TouchedOnUi()
     {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
