@@ -223,21 +223,6 @@ public class ChatList : MonoBehaviour
         return conv;
     }
 
-    public async void RefreshConversation()
-    {
-        if (needsRefresh)
-        {
-            ClearDisplay();
-            StartCoroutine(DelayedPopulateChatList(1f)); // Wait for 1 second before refreshing
-        }
-    }
-
-    private IEnumerator DelayedPopulateChatList(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        PopulateChatList();
-    }
-
     private IEnumerator DisableLoadingAnim(float delay)
     {
         LoadingSwipe.SetActive(true);
