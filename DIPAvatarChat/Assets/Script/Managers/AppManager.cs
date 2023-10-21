@@ -10,12 +10,20 @@ public class AppManager : Singleton<AppManager>
         if (!SceneManager.GetSceneByName(sceneName).isLoaded)
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
-            
+
             Debug.Log("Loaded Scene " + sceneName);
         }
     }
 
-    public void LoadSceneAdditive(string sceneName) {
+    public void ReloadScene()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
+        Debug.Log("Reloaded current scene");
+    }
+
+    public void LoadSceneAdditive(string sceneName)
+    {
         if (!SceneManager.GetSceneByName(sceneName).isLoaded)
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
@@ -23,7 +31,8 @@ public class AppManager : Singleton<AppManager>
         }
     }
 
-    public void UnloadScene(string sceneName) {
+    public void UnloadScene(string sceneName)
+    {
         if (SceneManager.GetSceneByName(sceneName).isLoaded)
         {
             SceneManager.UnloadSceneAsync(sceneName);

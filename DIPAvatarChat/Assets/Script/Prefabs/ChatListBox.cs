@@ -44,13 +44,14 @@ public class ChatListBox : MonoBehaviour
     {
         if (await ConversationBackendManager.Instance.DeleteConversationTask(Box.name))
         {
-            GameObject.Find("Canvas").GetComponent<ChatList>().RefreshConversation();
+            //GameObject.Find("Canvas").GetComponent<ChatList>().PopulateChatList();
+            AppManager.Instance.ReloadScene();
         }
     }
 
     public async void DisplayFriendAvatar2d()
     {
-        DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByConversationIdTask(Box.name);  
+        DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByConversationIdTask(Box.name);
         AvatarBackendManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea, AvatarSkinDisplayArea, AvatarHatDisplayArea);
     }
 }
