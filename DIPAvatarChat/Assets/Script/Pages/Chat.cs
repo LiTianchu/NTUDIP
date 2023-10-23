@@ -26,6 +26,7 @@ public class Chat : MonoBehaviour
     private UserData recipientUserData;
     private bool isPopulated = false;
     private ListenerRegistration listener;
+    public bool isCooldown = false;
 
     private readonly float AVATAR_SCALE_CHAT = 30f;
 
@@ -136,7 +137,7 @@ public class Chat : MonoBehaviour
                         }
                     }
                 }
-               
+
             }
             else
             {
@@ -181,7 +182,7 @@ public class Chat : MonoBehaviour
             }
         }
 
-        
+
         isPopulated = true;
         if (isPopulated)
         {
@@ -189,12 +190,23 @@ public class Chat : MonoBehaviour
         }
     }
 
-  
-
     public void SendMessage()
     {
-        ChatManager.Instance.SendMessage(MessageInputField);
+        if (!UIManager.Instance.isCooldown || UIManager.Instance.isCooldown == null)
+        {
+            StartCoroutine(UIManager.Instance.StartCooldown(0.25f));
+
+            // Perform your button click actions here
+            ChatManager.Instance.SendMessage(MessageInputField);
+            Debug.Log("Button clicked!");
+        }
+        else
+        {
+            Debug.Log("Button on cooldown!");
+        }
     }
+
+
 
     //public async void SetRecipientName()
     //{
@@ -231,8 +243,8 @@ public class Chat : MonoBehaviour
     //    {
     //        GameObject myAvatar = ChatManager.Instance.LoadAvatar(AuthManager.Instance.currUser.email);
     //        GameObject theirAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
-            
-            
+
+
     //        //initial settings
     //        SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, ChatManager.Instance.MY_AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION);
     //        SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS,ChatManager.Instance.THEIR_AVATAR_ROTATION);
@@ -264,7 +276,7 @@ public class Chat : MonoBehaviour
         AppManager.Instance.LoadScene("4-ChatList");
     }
 
-  
+
 
     public void ClearDisplay()
     {
