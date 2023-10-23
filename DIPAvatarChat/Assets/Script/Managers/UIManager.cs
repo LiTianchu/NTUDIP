@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
-
+    public bool isCooldown { get; set; }
     //Functions to change the login screen UI
     public void ToggleLoginRegister(GameObject loginUI, GameObject registerUI) //Back button
     {
@@ -33,6 +33,13 @@ public class UIManager : Singleton<UIManager>
     public void DisableGeneralTab(GameObject tabUI)
     {
         tabUI.SetActive(false);
+    }
+
+    public IEnumerator StartCooldown(float f)
+    {
+        isCooldown = true;
+        yield return new WaitForSecondsRealtime(f);
+        isCooldown = false;
     }
 
     //public void RegisterScreen(GameObject loginUI, GameObject registerUI) // Regester button
