@@ -53,7 +53,7 @@ public class BackgroundImageToggle : MonoBehaviour
         {
             backgroundImage.sprite = alternateSprite;
             if (headerImage != null) {
-                headerImage.color = new Color(0f, 0f, 0f);
+                headerImage.color = new Color(0.16f, 0.16f, 0.16f);
             }
             if (sourceImage != null) {
                 sourceImage.color = Color.black;
