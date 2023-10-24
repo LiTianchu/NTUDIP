@@ -1870,7 +1870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5647059, g: 0.7607843, b: 1, a: 1}
+  m_Color: {r: 0.6509804, g: 0.54509807, b: 0.85882354, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3496,6 +3496,7 @@ MonoBehaviour:
   ChatBubbleParent: {fileID: 570572102}
   AvatarDisplayArea: {fileID: 1160785319}
   AvatarPopupDisplayArea: {fileID: 1077173127}
+  isCooldown: 0
 --- !u!114 &1989608748
 MonoBehaviour:
   m_ObjectHideFlags: 0
