@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class BackgroundImageToggle : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class BackgroundImageToggle : MonoBehaviour
     public Sprite alternateSprite;
     public Image headerImage;
     public Image sourceImage;
+
+    public TextMeshProUGUI alternateText;
+    public Image purpleButton;
 
     private bool isAlternate = false;
 
@@ -49,10 +53,16 @@ public class BackgroundImageToggle : MonoBehaviour
         {
             backgroundImage.sprite = alternateSprite;
             if (headerImage != null) {
-                headerImage.color = new Color(0.75f, 0.75f, 0.75f);
+                headerImage.color = new Color(0f, 0f, 0f);
             }
             if (sourceImage != null) {
                 sourceImage.color = Color.black;
+            }
+            if (alternateText != null) {
+                alternateText.color = Color.white;
+            }
+            if (purpleButton != null) {
+                purpleButton.color = new Color(0.651f, 0.545f, 0.859f);
             }
         }
         else
@@ -63,6 +73,12 @@ public class BackgroundImageToggle : MonoBehaviour
             }
             if (sourceImage != null) {
                 sourceImage.color = Color.white;
+            }
+            if (alternateText != null) {
+                alternateText.color = new Color(0.333f, 0.333f, 0.333f);
+            }
+            if (purpleButton != null) {
+                purpleButton.color = new Color(0.333f, 0.333f, 0.333f);
             }
         }
     }
