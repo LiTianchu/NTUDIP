@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -885,6 +885,8 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 1889168531}
   sourceImage: {fileID: 0}
+  alternateText: {fileID: 0}
+  purpleButton: {fileID: 0}
 --- !u!1 &167016274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,6 +1685,8 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 1384294730}
   sourceImage: {fileID: 0}
+  alternateText: {fileID: 0}
+  purpleButton: {fileID: 0}
 --- !u!1 &294670650
 GameObject:
   m_ObjectHideFlags: 0
@@ -2006,6 +2010,8 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 950012374}
   sourceImage: {fileID: 0}
+  alternateText: {fileID: 709196989}
+  purpleButton: {fileID: 0}
 --- !u!1 &404921274
 GameObject:
   m_ObjectHideFlags: 0
