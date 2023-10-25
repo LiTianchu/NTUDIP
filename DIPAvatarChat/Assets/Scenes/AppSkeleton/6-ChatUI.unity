@@ -3453,12 +3453,13 @@ MonoBehaviour:
   originalSprite: {fileID: 21300000, guid: e8a67330e3a241e4aaed5f6d938545e2, type: 3}
   alternateSprite: {fileID: 21300000, guid: 43cbf9a494bc56e4bbb7a577abe1a776, type: 3}
   headerImage: {fileID: 0}
-  chatUiHeaderImage: {fileID: 0}
+  chatUiHeaderImage: {fileID: 682720796}
   sourceImage: {fileID: 0}
   alternateText1: {fileID: 486116392}
   alternateText2: {fileID: 0}
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 700509924}
+  arChatSlideBtn: {fileID: 0}
 --- !u!1 &2122748599
 GameObject:
   m_ObjectHideFlags: 0

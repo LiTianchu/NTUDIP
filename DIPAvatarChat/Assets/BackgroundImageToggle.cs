@@ -16,6 +16,7 @@ public class BackgroundImageToggle : MonoBehaviour
     public TextMeshProUGUI alternateText2;
     public TextMeshProUGUI alternateText3;
     public Image alternateButton;
+    public Image arChatSlideBtn;
 
     private bool isAlternate = false;
 
@@ -70,10 +71,12 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 headerImage.color = new Color(0.188f, 0.161f, 0.212f);
             }
-            if (chatUiHeaderImage != null) {
+            if (chatUiHeaderImage != null) 
+            {
                 chatUiHeaderImage.color = new Color(0.278f, 0.239f, 0.31f);
             }
-            if (sourceImage != null) {
+            if (sourceImage != null) 
+            {
                 sourceImage.color = new Color(0.84f, 0.84f, 0.84f);
             }
             if (alternateText1 != null)
@@ -91,6 +94,10 @@ public class BackgroundImageToggle : MonoBehaviour
             if (alternateButton != null)
             {
                 alternateButton.color = Color.white;
+            }
+            if (arChatSlideBtn != null)
+            {
+                arChatSlideBtn.color = new Color(0.188f, 0.161f, 0.212f);
             }
         }
         else
@@ -122,6 +129,10 @@ public class BackgroundImageToggle : MonoBehaviour
             if (alternateButton != null)
             {
                 alternateButton.color = new Color(0.333f, 0.333f, 0.333f);
+            }
+            if (arChatSlideBtn != null)
+            {
+                arChatSlideBtn.color = new Color(1f, 0.855f, 0.839f);
             }
         }
     }
