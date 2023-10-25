@@ -86,7 +86,7 @@ public class Chat : MonoBehaviour
             SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, ChatManager.Instance.POPUP_AVATAR_POS, Quaternion.identity);
 
             myAvatarBody = GameObject.Find("/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody");
-            theirAvatarBody = GameObject.Find("/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/theirAvatarBody");
+            theirAvatarBody = GameObject.Find("/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody");
         }
     }
 
