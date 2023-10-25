@@ -62,7 +62,7 @@ public class ChatManager : Singleton<ChatManager>
     // E71 angry
     private Dictionary<string, string> emojiToImageMap = new Dictionary<string, string>
     {
-        { ":angry:", "Emojis/E71"},
+        { ":angry:", "Sprites/E71"},
     };
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
