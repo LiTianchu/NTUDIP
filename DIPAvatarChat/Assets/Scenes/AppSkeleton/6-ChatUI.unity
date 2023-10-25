@@ -651,10 +651,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 998758285}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1989608747}
+        m_TargetAssemblyTypeName: Chat, Assembly-CSharp
+        m_MethodName: PopupAvatar
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3361,6 +3361,7 @@ MonoBehaviour:
   TheirChatBubblePrefab: {fileID: 6655866526961314476, guid: 8fdadd0911ebe3b4384c6223a85eb3fd, type: 3}
   ChatBubbleParent: {fileID: 570572102}
   AvatarDisplayArea: {fileID: 1160785319}
+  PopupTheirAvatar: {fileID: 998758285}
   AvatarPopupDisplayArea: {fileID: 1077173127}
 --- !u!114 &1989608748
 MonoBehaviour:
