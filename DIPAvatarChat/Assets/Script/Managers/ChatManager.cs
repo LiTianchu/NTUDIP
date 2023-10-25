@@ -24,7 +24,9 @@ public class ChatManager : Singleton<ChatManager>
     public readonly string AVATAR_BODY_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
     public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
     public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
+    public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
     public readonly string AVATAR_HAT_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head";
+    public readonly string AVATAR_ARM_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
 
     //rotation for avatar spawn
     public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
@@ -41,13 +43,12 @@ public class ChatManager : Singleton<ChatManager>
     //pos for hat accessories
     private readonly Vector3 HAT_POS = new Vector3(-0.0005419353f, 0.01470897f, -5.878706e-05f);
     private readonly Vector3 HAT_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
-    private readonly Quaternion HAT_ROTATION = Quaternion.Euler(0.156f, -2.057f, 2.777f);
+    private readonly Quaternion HAT_ROTATION = Quaternion.Euler(0.156f, 180f, 2.777f);
 
-    //pos for arm accessories
-    public readonly Vector3 ARM_POS1 = new Vector3(-1.087f, 1.953f, 0f);
-    public readonly Vector3 ARM_POS2 = new Vector3(1.087f, 1.953f, 0f);
-    public readonly Vector3 ARM_SCALE = new Vector3(0.08f, 0.08f, 0.08f);
-    private readonly Quaternion ARM_ROTATION = Quaternion.Euler(0f, 0f, 0f);
+    //pos for arm accessories  
+    public readonly Vector3 ARM_POS = new Vector3(0.000391079f, 0.002983337f, -0.0007772499f);
+    public readonly Vector3 ARM_SCALE = new Vector3(0.0007f, 0.0007f, 0.0007f);
+    public readonly Quaternion ARM_ROTATION = Quaternion.Euler(-181.103f, 51.586f, -96.85901f);
 
     //pos for shoes accessories
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
@@ -243,13 +244,13 @@ public class ChatManager : Singleton<ChatManager>
         GameObject avatar = LoadAvatarBody(AVATAR_BODY_PATH);
 
         // Load hat accessory
-        LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION);
+        LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, "HatAccessory");
 
         // Load arm accessory
-        LoadAccessory(avatarData.arm, avatar, ARM_POS1, ARM_SCALE, ARM_ROTATION);
+        LoadAccessory(avatarData.arm, avatar, ARM_POS, ARM_SCALE, ARM_ROTATION, "ArmAccessory");
 
         // Load shoes accessory
-        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION);
+        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, "ShoesAccessory");
 
         return avatar;
     }
@@ -294,7 +295,7 @@ public class ChatManager : Singleton<ChatManager>
         return null;
     }
 
-    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale, Quaternion itemRotation)
+    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale, Quaternion itemRotation, string tag)
     {
         if (fbxFileName != null && fbxFileName != "")
         {
@@ -307,21 +308,12 @@ public class ChatManager : Singleton<ChatManager>
 
                 fbx.transform.SetParent(AvatarBody.transform, false);
                 fbx.transform.localScale = itemScale;
+                fbx.tag = tag;
             }
             else
             {
                 Debug.LogError("FBX asset not found: " + fbxFileName);
             }
-        }
-    }
-
-    public void EquipAccessory(GameObject accessory, string avatarBodyPath, string accessoryPath)
-    {
-        if (avatarBodyPath != null && accessoryPath != null)
-        {
-            Debug.Log("Filepath: " + avatarBodyPath + accessoryPath);
-            GameObject parent = GameObject.Find(avatarBodyPath + accessoryPath);
-            accessory.transform.SetParent(parent.transform, false);
         }
     }
 }

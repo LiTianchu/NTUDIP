@@ -19,6 +19,7 @@ public class Chat : MonoBehaviour
     public GameObject TheirChatBubblePrefab;
     public GameObject ChatBubbleParent;
     public GameObject AvatarDisplayArea;
+    public GameObject PopupTheirAvatar;
     public GameObject AvatarPopupDisplayArea;
     //public RuntimeAnimatorController animatorController;
 
@@ -75,11 +76,12 @@ public class Chat : MonoBehaviour
         //display avatar
         if (await AvatarBackendManager.Instance.GetAvatarsForChat())
         {
-            InitializeAvatar();
+            InitializeAvatars();
+            EquipAccessories();
         }
     }
 
-    private void InitializeAvatar()
+    private void InitializeAvatars()
     {
         GameObject myAvatar = ChatManager.Instance.LoadAvatar(AuthManager.Instance.currUser.email);
         GameObject theirAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
@@ -94,13 +96,65 @@ public class Chat : MonoBehaviour
 
         myAvatarBody = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
         theirAvatarBody = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
+    }
 
-        GameObject avatarHat = myAvatarBody.transform.GetChild(9).gameObject;
-        GameObject avatarArmAccessory = myAvatarBody.transform.GetChild(10).gameObject;
-        GameObject avatarShoes = myAvatarBody.transform.GetChild(11).gameObject;
+    private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent, Vector3 pos, Quaternion rot)
+    {
+        avatarObj.transform.SetParent(avatarParent.transform, false);
+        avatarObj.name = name;
+        avatarObj.transform.localPosition = pos;
+        avatarObj.transform.localRotation = rot;
+
+        float scale = AVATAR_SCALE_CHAT;
+        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
+    }
+
+    private void EquipAccessories()
+    {
+        GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
+        GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
+        GameObject[] ShoeAccessories = GameObject.FindGameObjectsWithTag("ShoesAccessory");
+        string[] avatarBodyPaths = new string[] { ChatManager.Instance.MY_AVATAR_BODY_PATH, ChatManager.Instance.THEIR_AVATAR_BODY_PATH, ChatManager.Instance.POPUP_AVATAR_BODY_PATH };
 
         // Move hat accessory to mixamo rig head (To stick to head)
-        ChatManager.Instance.EquipAccessory(avatarHat, ChatManager.Instance.MY_AVATAR_BODY_PATH, ChatManager.Instance.AVATAR_HAT_PATH);
+        EquipAccessoryType(HatAccessories, ChatManager.Instance.AVATAR_HAT_PATH);
+        // Move arm accessory to mixamo rig right forearm
+        EquipAccessoryType(ArmAccessories, ChatManager.Instance.AVATAR_ARM_PATH);
+
+        void EquipAccessoryType(GameObject[] accessories, string path)
+        {
+            int i = 0;
+            foreach (GameObject accessory in accessories)
+            {
+                Debug.Log(i + " Filepath: " + avatarBodyPaths[i] + path);
+                GameObject parent = GameObject.Find(avatarBodyPaths[i] + path);
+
+                if (parent != null)
+                {
+                    accessory.transform.SetParent(parent.transform, false);
+                }
+                else
+                {
+                    Debug.Log("Parent not found. " + i);
+                }
+
+                i++;
+            }
+        }
+    }
+
+    public void PopupAvatar()
+    {
+        PopupTheirAvatar.SetActive(true);
+        EquipAccessories();
+        
+        /*StartCoroutine(Equip(2f));
+
+        IEnumerator Equip(float f)
+        {
+            yield return new WaitForSecondsRealtime(f);
+            EquipAccessories();
+        }*/
     }
 
     private async void ListenForNewMessages()
@@ -166,8 +220,6 @@ public class Chat : MonoBehaviour
             }
         });
     }
-
-
 
     private async void PopulateMessage(string conversationID)
     {
@@ -274,17 +326,6 @@ public class Chat : MonoBehaviour
     //        SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea,ChatManager.Instance.POPUP_AVATAR_POS,Quaternion.identity);
     //    }
     //}
-
-    private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent, Vector3 pos, Quaternion rot)
-    {
-        avatarObj.transform.SetParent(avatarParent.transform, false);
-        avatarObj.name = name;
-        avatarObj.transform.localPosition = pos;
-        avatarObj.transform.localRotation = rot;
-
-        float scale = AVATAR_SCALE_CHAT;
-        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
-    }
 
     public void ReturnToChatList()
     {

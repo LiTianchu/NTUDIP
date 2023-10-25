@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - TempPrefab
+  - HatAccessory
+  - ShoesAccessory
+  - ArmAccessory
   layers:
   - Default
   - TransparentFX
