@@ -321,6 +321,11 @@ public class ChatList : MonoBehaviour
 
     public void DisplaySearchUserData(UserData userData)
     {
+        if (userData == null)
+        {
+            Debug.Log("User Data is not found");
+            return;
+        }
         Debug.Log("User Data Retrieved");
         Debug.Log(userData.username);
         Debug.Log(userData.email);
