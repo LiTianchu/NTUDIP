@@ -11,7 +11,9 @@ public class BackgroundImageToggle : MonoBehaviour
     public Image headerImage;
     public Image sourceImage;
 
-    public TextMeshProUGUI alternateText;
+    public TextMeshProUGUI alternateText1;
+    public TextMeshProUGUI alternateText2;
+    public TextMeshProUGUI alternateText3;
     public Image purpleButton;
 
     private bool isAlternate = false;
@@ -53,13 +55,19 @@ public class BackgroundImageToggle : MonoBehaviour
         {
             backgroundImage.sprite = alternateSprite;
             if (headerImage != null) {
-                headerImage.color = new Color(0.16f, 0.16f, 0.16f);
+                headerImage.color = new Color(0.188f, 0.161f, 0.212f);
             }
             if (sourceImage != null) {
                 sourceImage.color = Color.black;
             }
-            if (alternateText != null) {
-                alternateText.color = Color.white;
+            if (alternateText1 != null) {
+                alternateText1.color = Color.white;
+            }
+            if (alternateText2 != null) {
+                alternateText2.color = Color.white;
+            }
+            if (alternateText3 != null) {
+                alternateText3.color = Color.white;
             }
             if (purpleButton != null) {
                 purpleButton.color = new Color(0.651f, 0.545f, 0.859f);
@@ -69,13 +77,19 @@ public class BackgroundImageToggle : MonoBehaviour
         {
             backgroundImage.sprite = originalSprite;
             if (headerImage != null) {
-                headerImage.color = new Color(0.86f, 0.63f, 0.63f);
+                headerImage.color = new Color(1f, 0.855f, 0.839f);
             }
             if (sourceImage != null) {
                 sourceImage.color = Color.white;
             }
-            if (alternateText != null) {
-                alternateText.color = new Color(0.333f, 0.333f, 0.333f);
+            if (alternateText1 != null) {
+                alternateText1.color = new Color(0.333f, 0.333f, 0.333f);
+            }
+            if (alternateText2 != null) {
+                alternateText2.color = new Color(0.333f, 0.333f, 0.333f);
+            }
+            if (alternateText3 != null) {
+                alternateText3.color = new Color(0.333f, 0.333f, 0.333f);
             }
             if (purpleButton != null) {
                 purpleButton.color = new Color(0.333f, 0.333f, 0.333f);
