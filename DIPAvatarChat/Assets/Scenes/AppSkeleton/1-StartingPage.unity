@@ -2431,6 +2431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1694600776}
+  - component: {fileID: 1694600777}
   m_Layer: 0
   m_Name: CatBaseTest2_v0_30(Clone)
   m_TagString: Untagged
@@ -2466,6 +2467,27 @@ Transform:
   - {fileID: 1847190951}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1694600777
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694600775}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: dd8d45f6f59094644a5d1f067df1087e, type: 3}
+  m_Controller: {fileID: 9100000, guid: 473df13826cbb7941949d700872a15c6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1705074190
 GameObject:
   m_ObjectHideFlags: 0
@@ -3323,6 +3345,8 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 662702342}
   sourceImage: {fileID: 662702342}
+  alternateText: {fileID: 0}
+  purpleButton: {fileID: 0}
 --- !u!1 &2021752167
 GameObject:
   m_ObjectHideFlags: 0
