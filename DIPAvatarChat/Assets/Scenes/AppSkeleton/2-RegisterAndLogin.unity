@@ -885,7 +885,9 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 1889168531}
   sourceImage: {fileID: 0}
-  alternateText: {fileID: 0}
+  alternateText1: {fileID: 0}
+  alternateText2: {fileID: 0}
+  alternateText3: {fileID: 0}
   purpleButton: {fileID: 0}
 --- !u!1 &167016274
 GameObject:
@@ -1685,7 +1687,9 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 1384294730}
   sourceImage: {fileID: 0}
-  alternateText: {fileID: 0}
+  alternateText1: {fileID: 0}
+  alternateText2: {fileID: 0}
+  alternateText3: {fileID: 0}
   purpleButton: {fileID: 0}
 --- !u!1 &294670650
 GameObject:
@@ -2007,10 +2011,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 2009006183}
   originalSprite: {fileID: 21300000, guid: e8a67330e3a241e4aaed5f6d938545e2, type: 3}
-  alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
+  alternateSprite: {fileID: 21300000, guid: 43cbf9a494bc56e4bbb7a577abe1a776, type: 3}
   headerImage: {fileID: 950012374}
   sourceImage: {fileID: 0}
-  alternateText: {fileID: 709196989}
+  alternateText1: {fileID: 709196989}
+  alternateText2: {fileID: 0}
+  alternateText3: {fileID: 0}
   purpleButton: {fileID: 0}
 --- !u!1 &404921274
 GameObject:
