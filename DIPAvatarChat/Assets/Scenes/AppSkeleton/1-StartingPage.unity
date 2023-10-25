@@ -3304,7 +3304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadingUI: {fileID: 1917813994287706522}
-  autoLogin: 0
+  autoLogin: 1
   fadeInUI: {fileID: 2145223949}
 --- !u!114 &1880905985
 MonoBehaviour:
