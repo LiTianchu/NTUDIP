@@ -1,9 +1,15 @@
+using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class ChatManager : Singleton<ChatManager>
 {
     public RuntimeAnimatorController animatorController;
@@ -47,8 +53,8 @@ public class ChatManager : Singleton<ChatManager>
     {
         //{ "😀", "" },
         //{ "😂", "" },
-        { "😡", "angryy" },
-        { "😀", "waving" },
+        { "😀", "Angry" },
+        //{ "😀", "waving" },
         // Add more emoji-to-animation mappings here
     };
 
@@ -122,10 +128,7 @@ public class ChatManager : Singleton<ChatManager>
                     Debug.Log("Emoji Animation: " + kvp.Value);
 
                     // Play the animation for the emoji
-                    if (TryGetEmojiAnimation(kvp.Value, out Animation animation))
-                    {
-                        animation.Play();
-                    }
+
                 }
             }
 
@@ -174,6 +177,30 @@ public class ChatManager : Singleton<ChatManager>
 
         animation = null;
         return false;
+    }
+
+    public void PlayAnimation(GameObject avatar, string msgText)
+    {
+        Animator _animator = avatar.GetComponent<Animator>();
+
+        try
+        {
+            foreach (var kvp in emojiToAnimMap)
+            {
+                if (msgText.Contains(kvp.Key))
+                {
+                    Debug.Log("Animation: " + kvp.Value);
+
+                    _animator.SetBool(kvp.Value, true);
+                    _animator.SetBool("Default", true);
+                    return;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error playing animation: " + e);
+        }
     }
 
     public List<Sprite> LoadAvatarSprite2d(string headFilePath, string skinFilePath, string hatFilePath)
