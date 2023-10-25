@@ -1681,7 +1681,9 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 576056574}
   sourceImage: {fileID: 0}
-  alternateText: {fileID: 258146242}
+  alternateText1: {fileID: 617651773}
+  alternateText2: {fileID: 1604577282}
+  alternateText3: {fileID: 258146242}
   purpleButton: {fileID: 0}
 --- !u!1 &892985097
 GameObject:
