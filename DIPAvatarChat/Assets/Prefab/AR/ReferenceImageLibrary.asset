@@ -23,7 +23,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 7249876614628554966
       m_GuidHigh: 1494766181663919273
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
+    m_Size: {x: 0.1, y: 0.03483146}
+    m_SpecifySize: 1
     m_Name: UnityLogoWhiteRGB
     m_Texture: {fileID: 2800000, guid: 9858b8d6bc5e649ca94c5830ec79be14, type: 3}
