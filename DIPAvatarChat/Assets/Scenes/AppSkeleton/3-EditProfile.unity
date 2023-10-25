@@ -1678,7 +1678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 1393079398}
   originalSprite: {fileID: 21300000, guid: e8a67330e3a241e4aaed5f6d938545e2, type: 3}
-  alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
+  alternateSprite: {fileID: 21300000, guid: 43cbf9a494bc56e4bbb7a577abe1a776, type: 3}
   headerImage: {fileID: 576056574}
   sourceImage: {fileID: 0}
   alternateText1: {fileID: 617651773}
