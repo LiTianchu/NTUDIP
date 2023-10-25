@@ -3459,7 +3459,7 @@ MonoBehaviour:
   alternateText1: {fileID: 486116392}
   alternateText2: {fileID: 0}
   alternateText3: {fileID: 0}
-  purpleButton: {fileID: 700509924}
+  alternateButton: {fileID: 700509924}
 --- !u!1 &2122748599
 GameObject:
   m_ObjectHideFlags: 0

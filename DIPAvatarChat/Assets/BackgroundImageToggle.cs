@@ -14,7 +14,7 @@ public class BackgroundImageToggle : MonoBehaviour
     public TextMeshProUGUI alternateText1;
     public TextMeshProUGUI alternateText2;
     public TextMeshProUGUI alternateText3;
-    public Image purpleButton;
+    public Image alternateButton;
 
     private bool isAlternate = false;
 
@@ -69,8 +69,8 @@ public class BackgroundImageToggle : MonoBehaviour
             if (alternateText3 != null) {
                 alternateText3.color = Color.white;
             }
-            if (purpleButton != null) {
-                purpleButton.color = new Color(0.651f, 0.545f, 0.859f);
+            if (alternateButton != null) {
+                alternateButton.color = Color.white;
             }
         }
         else
@@ -91,8 +91,8 @@ public class BackgroundImageToggle : MonoBehaviour
             if (alternateText3 != null) {
                 alternateText3.color = new Color(0.333f, 0.333f, 0.333f);
             }
-            if (purpleButton != null) {
-                purpleButton.color = new Color(0.333f, 0.333f, 0.333f);
+            if (alternateButton != null) {
+                alternateButton.color = new Color(0.333f, 0.333f, 0.333f);
             }
         }
     }
