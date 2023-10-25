@@ -4734,11 +4734,12 @@ MonoBehaviour:
   originalSprite: {fileID: 0}
   alternateSprite: {fileID: 0}
   headerImage: {fileID: 727557585}
+  chatUIheaderImage: {fileID: 0}
   sourceImage: {fileID: 0}
-  alternateText1: {fileID: 1875191556}
+  alternateText1: {fileID: 0}
   alternateText2: {fileID: 0}
   alternateText3: {fileID: 0}
-  alternateButton: {fileID: 1313042408}
+  alternateButton: {fileID: 0}
 --- !u!1 &2118428253
 GameObject:
   m_ObjectHideFlags: 0

@@ -39,70 +39,92 @@ public class BackgroundImageToggle : MonoBehaviour
 
     private void UpdateButtonState()
     {
-        if (backgroundImage == null) {
+        if (backgroundImage == null)
+        {
             Debug.LogWarning("backgroundImage component is missing.");
-            return;
         }
 
-        if (sourceImage == null) {
+        if (sourceImage == null)
+        {
             Debug.LogWarning("sourceImage component is missing.");
         }
 
-        if (headerImage == null) {
+        if (headerImage == null)
+        {
             Debug.LogWarning("headerImage component is missing.");
         }
 
-        if (chatUIheaderImage == null) {
+        if (chatUIheaderImage == null)
+        {
             Debug.LogWarning("chatUIheaderImage component is missing.");
         }
 
         if (isAlternate)
         {
-            backgroundImage.sprite = alternateSprite;
-            if (headerImage != null) {
+            Debug.Log("isAlternate: " + isAlternate);
+
+            if (backgroundImage != null)
+            {
+                backgroundImage.sprite = alternateSprite;
+            }
+            if (headerImage != null)
+            {
                 headerImage.color = new Color(0.188f, 0.161f, 0.212f);
             }
-            if (chatUIheaderImage != null) {
+            if (chatUIheaderImage != null)
+            {
                 chatUIheaderImage.color = new Color(0.278f, 0.239f, 0.31f);
             }
-            if (sourceImage != null) {
+            if (sourceImage != null)
+            {
                 sourceImage.color = Color.black;
             }
-            if (alternateText1 != null) {
+            if (alternateText1 != null)
+            {
                 alternateText1.color = Color.white;
             }
-            if (alternateText2 != null) {
+            if (alternateText2 != null)
+            {
                 alternateText2.color = Color.white;
             }
-            if (alternateText3 != null) {
+            if (alternateText3 != null)
+            {
                 alternateText3.color = Color.white;
             }
-            if (alternateButton != null) {
+            if (alternateButton != null)
+            {
                 alternateButton.color = Color.white;
             }
         }
         else
         {
             backgroundImage.sprite = originalSprite;
-            if (headerImage != null) {
+            if (headerImage != null)
+            {
                 headerImage.color = new Color(1f, 0.855f, 0.839f);
             }
-            if (chatUIheaderImage != null) {
+            if (chatUIheaderImage != null)
+            {
                 chatUIheaderImage.color = new Color(1f, 0.855f, 0.839f);
             }
-            if (sourceImage != null) {
+            if (sourceImage != null)
+            {
                 sourceImage.color = Color.white;
             }
-            if (alternateText1 != null) {
+            if (alternateText1 != null)
+            {
                 alternateText1.color = new Color(0.333f, 0.333f, 0.333f);
             }
-            if (alternateText2 != null) {
+            if (alternateText2 != null)
+            {
                 alternateText2.color = new Color(0.333f, 0.333f, 0.333f);
             }
-            if (alternateText3 != null) {
+            if (alternateText3 != null)
+            {
                 alternateText3.color = new Color(0.333f, 0.333f, 0.333f);
             }
-            if (alternateButton != null) {
+            if (alternateButton != null)
+            {
                 alternateButton.color = new Color(0.333f, 0.333f, 0.333f);
             }
         }
