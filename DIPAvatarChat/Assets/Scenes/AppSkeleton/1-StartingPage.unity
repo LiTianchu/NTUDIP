@@ -3345,11 +3345,12 @@ MonoBehaviour:
   originalSprite: {fileID: 21300000, guid: e8a67330e3a241e4aaed5f6d938545e2, type: 3}
   alternateSprite: {fileID: 21300000, guid: 43cbf9a494bc56e4bbb7a577abe1a776, type: 3}
   headerImage: {fileID: 662702342}
+  chatUiHeaderImage: {fileID: 0}
   sourceImage: {fileID: 662702342}
   alternateText1: {fileID: 0}
   alternateText2: {fileID: 0}
   alternateText3: {fileID: 0}
-  purpleButton: {fileID: 0}
+  alternateButton: {fileID: 0}
 --- !u!1 &2021752167
 GameObject:
   m_ObjectHideFlags: 0

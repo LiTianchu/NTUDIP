@@ -59,6 +59,12 @@ public class ChatManager : Singleton<ChatManager>
         // Add more emoji-to-animation mappings here
     };
 
+    // E71 angry
+    private Dictionary<string, string> emojiToImageMap = new Dictionary<string, string>
+    {
+        { ":angry:", "Emojis/E71"},
+    };
+
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
     {
         { "Blender/beret", "2D_assets/beret"},
@@ -92,6 +98,20 @@ public class ChatManager : Singleton<ChatManager>
         box.transform.parent = _ChatBubbleParent.transform;
         box.transform.localPosition = new Vector3(box.transform.localPosition.x, box.transform.localPosition.y, 0);
         box.name = messageId;
+
+        foreach (var kvp in emojiToImageMap)
+        {
+            if (msgText.Contains(kvp.Key))
+            {
+                Sprite emojiSprite = LoadEmojiSprite(kvp.Value);
+
+                if (emojiSprite != null)
+                {
+                    //msgText = msgText.Replace(kvp.Key, $"<sprite={"Emojis"} index=71>");
+                    msgText = msgText.Replace(kvp.Key, "<sprite=1>");
+                }
+            }
+        }
 
         box.transform.GetComponentInChildren<TMP_Text>().text = msgText;
         return box;
@@ -190,6 +210,17 @@ public class ChatManager : Singleton<ChatManager>
         {
             Debug.Log("Error playing animation: " + e);
         }
+    }
+
+    public Sprite LoadEmojiSprite(string emojiFilePath)
+    {
+        if (emojiFilePath != null && emojiFilePath != "")
+        {
+            Sprite sprite = Resources.Load<Sprite>(emojiFilePath);
+
+            return sprite;
+        }
+        return null;
     }
 
     public List<Sprite> LoadAvatarSprite2d(string headFilePath, string skinFilePath, string hatFilePath)
