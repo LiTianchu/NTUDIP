@@ -3327,7 +3327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadingUI: {fileID: 1917813994287706522}
-  autoLogin: 0
+  autoLogin: 1
   fadeInUI: {fileID: 2145223949}
 --- !u!114 &1880905985
 MonoBehaviour:
@@ -3351,6 +3351,7 @@ MonoBehaviour:
   alternateText2: {fileID: 0}
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 0}
+  arChatSlideBtn: {fileID: 0}
 --- !u!1 &2021752167
 GameObject:
   m_ObjectHideFlags: 0

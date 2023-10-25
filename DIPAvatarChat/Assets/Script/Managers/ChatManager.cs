@@ -52,17 +52,29 @@ public class ChatManager : Singleton<ChatManager>
     // Define a dictionary that maps emojis to their corresponding .anim files
     private Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
     {
-        //{ "😀", "" },
-        //{ "😂", "" },
-        { "😀", "Angry" },
-        //{ "😀", "waving" },
-        // Add more emoji-to-animation mappings here
+        { ">:(", "Angry"},
+        { ":angry:", "Angry"},
     };
 
     // E71 angry
-    private Dictionary<string, string> emojiToImageMap = new Dictionary<string, string>
+    private Dictionary<string, int> emojiToImageMap = new Dictionary<string, int>
     {
-        { ":angry:", "Sprites/E71"},
+        { ":)", 0},
+        { ":smile:", 0},
+        { ":O", 10},
+        { ":shocked:", 10},
+        { "XD", 12},
+        { ":P", 16},
+        { ":nerd:", 18},
+        { ":sus:", 19},
+        { ">:(", 21},
+        { ":angry:", 21},
+        { ":flushed:", 24},
+        { ":laughing:", 24},
+        { "T.T", 26},
+        { ":crying:", 26},
+        { ":ok:", 39},
+        { ":oops:", 53},
     };
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
@@ -103,13 +115,8 @@ public class ChatManager : Singleton<ChatManager>
         {
             if (msgText.Contains(kvp.Key))
             {
-                Sprite emojiSprite = LoadEmojiSprite(kvp.Value);
-
-                if (emojiSprite != null)
-                {
-                    //msgText = msgText.Replace(kvp.Key, $"<sprite={"Emojis"} index=71>");
-                    msgText = msgText.Replace(kvp.Key, "<sprite=1>");
-                }
+                //msgText = msgText.Replace(kvp.Key, $"<sprite={"Emojis"} index=71>");
+                msgText = msgText.Replace(kvp.Key, $"<size=50><sprite={kvp.Value}></size>");
             }
         }
 
@@ -161,31 +168,6 @@ public class ChatManager : Singleton<ChatManager>
             ConvIDToMessageDataDict[convID] = new HashSet<MessageData>();
         }
         ConvIDToMessageDataDict[convID].Add(msg);
-    }
-
-    // Function to get the animation for a specific .anim file
-    private bool TryGetEmojiAnimation(string animFileName, out Animation animation)
-    {
-        // Check if the .anim file has already been loaded
-        if (emojiAnimations.TryGetValue(animFileName, out animation))
-        {
-            return true;
-        }
-        else
-        {
-            // Load the .anim file (replace 'AnimationPath' with the correct path)
-            Animation loadedAnimation = Resources.Load<Animation>("Animations/" + animFileName);
-            if (loadedAnimation != null)
-            {
-                // Store the loaded animation for future use
-                emojiAnimations[animFileName] = loadedAnimation;
-                animation = loadedAnimation;
-                return true;
-            }
-        }
-
-        animation = null;
-        return false;
     }
 
     public void PlayAnimation(GameObject avatar, string msgText)
