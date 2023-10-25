@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -121,18 +122,6 @@ public class ChatManager : Singleton<ChatManager>
 
         if (messageInputField.text != null && messageInputField.text != "")
         {
-            foreach (var kvp in emojiToAnimMap)
-            {
-                if (messageInputField.text.Contains(kvp.Key))
-                {
-                    Debug.Log("Emoji Animation: " + kvp.Value);
-
-                    // Play the animation for the emoji
-
-                }
-            }
-
-            // After processing the emojis, send the message
             bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, messageInputField.text, myEmail, theirEmail);
             if (IsMessageSent)
             {
