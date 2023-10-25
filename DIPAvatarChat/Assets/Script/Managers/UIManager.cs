@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -42,9 +43,19 @@ public class UIManager : Singleton<UIManager>
         isCooldown = false;
     }
 
-    //public void RegisterScreen(GameObject loginUI, GameObject registerUI) // Regester button
-    //{
-    //    loginUI.SetActive(false);
-    //    registerUI.SetActive(true);
-    //}
+    public void PanelFadeIn(RectTransform panelUIRect, CanvasGroup panelCanvasGroup, float fadeTime)
+    {
+        panelCanvasGroup.alpha = 0f; //starting opacity
+        panelUIRect.transform.localPosition = new Vector3(0,-1000,0); //starting position
+        panelUIRect.DOAnchorPos(Vector2.zero, fadeTime, false).SetEase(Ease.OutFlash); //falsh in animation
+        panelCanvasGroup.DOFade(1, fadeTime); //fade out animtion
+    }
+
+    public void PanelFadeOut(RectTransform panelUIRect, CanvasGroup panelCanvasGroup, float fadeTime)
+    {
+        panelCanvasGroup.alpha = 1f; //starting opcaity
+        panelUIRect.transform.localPosition = Vector3.zero; //starting position
+        panelUIRect.DOAnchorPos(new Vector2(0f, -1000f), fadeTime, false).SetEase(Ease.InOutQuint); //flash out animation
+        panelCanvasGroup.DOFade(0, fadeTime); //fade out animation
+    }
 }
