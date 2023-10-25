@@ -27,6 +27,8 @@ public class Chat : MonoBehaviour
     private UserData recipientUserData;
     private bool isPopulated = false;
     private ListenerRegistration listener;
+    private GameObject myAvatarBody;
+    private GameObject theirAvatarBody;
 
     private readonly float AVATAR_SCALE_CHAT = 30f;
 
@@ -82,6 +84,9 @@ public class Chat : MonoBehaviour
             //Display popup avatar when click on friend's avatar
             GameObject popupAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
             SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, ChatManager.Instance.POPUP_AVATAR_POS, Quaternion.identity);
+
+            myAvatarBody = GameObject.Find("/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody");
+            theirAvatarBody = GameObject.Find("/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody");
         }
     }
 
@@ -127,12 +132,14 @@ public class Chat : MonoBehaviour
                                 // Message is sent by the current user, spawn text bubble at right side
                                 Debug.Log("Received message from current user");
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                                ChatManager.Instance.PlayAnimation(myAvatarBody, msgText);
                             }
                             else
                             {
                                 // Message is sent by another user, spawn text bubble at left side
                                 Debug.Log("Received message from another user");
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
+                                ChatManager.Instance.PlayAnimation(theirAvatarBody, msgText);
                             }
                         }
                     }

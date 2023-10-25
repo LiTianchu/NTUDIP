@@ -16,9 +16,4 @@ public class AnimationManager : Singleton<AnimationManager>
     {
 
     }
-
-    public void PlayAnimation()
-    {
-        
-    }
 }
