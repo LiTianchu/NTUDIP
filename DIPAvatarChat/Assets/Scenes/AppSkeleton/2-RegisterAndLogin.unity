@@ -511,8 +511,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -885,7 +885,9 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 1889168531}
   sourceImage: {fileID: 0}
-  alternateText: {fileID: 0}
+  alternateText1: {fileID: 0}
+  alternateText2: {fileID: 0}
+  alternateText3: {fileID: 0}
   purpleButton: {fileID: 0}
 --- !u!1 &167016274
 GameObject:
@@ -1685,7 +1687,9 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
   headerImage: {fileID: 1384294730}
   sourceImage: {fileID: 0}
-  alternateText: {fileID: 0}
+  alternateText1: {fileID: 0}
+  alternateText2: {fileID: 0}
+  alternateText3: {fileID: 0}
   purpleButton: {fileID: 0}
 --- !u!1 &294670650
 GameObject:
@@ -2007,10 +2011,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 2009006183}
   originalSprite: {fileID: 21300000, guid: e8a67330e3a241e4aaed5f6d938545e2, type: 3}
-  alternateSprite: {fileID: 21300000, guid: 7f54b43c72152064cb02f696451ad005, type: 3}
+  alternateSprite: {fileID: 21300000, guid: 43cbf9a494bc56e4bbb7a577abe1a776, type: 3}
   headerImage: {fileID: 950012374}
   sourceImage: {fileID: 0}
-  alternateText: {fileID: 709196989}
+  alternateText1: {fileID: 709196989}
+  alternateText2: {fileID: 0}
+  alternateText3: {fileID: 0}
   purpleButton: {fileID: 0}
 --- !u!1 &404921274
 GameObject:
@@ -8476,8 +8482,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125.5, y: -290.7}
-  m_SizeDelta: {x: 80.9293, y: 30}
+  m_AnchoredPosition: {x: -88, y: -267}
+  m_SizeDelta: {x: 120, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1388697894
 MonoBehaviour:
@@ -8564,7 +8570,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1.3
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1388697896
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9721,7 +9727,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 103.17917, y: -262.85583}
-  m_SizeDelta: {x: 86.7095, y: 38.4536}
+  m_SizeDelta: {x: 86.7095, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1581890267
 MonoBehaviour:
