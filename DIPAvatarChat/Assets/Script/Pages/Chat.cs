@@ -31,6 +31,8 @@ public class Chat : MonoBehaviour
     private GameObject theirAvatarBody;
 
     private readonly float AVATAR_SCALE_CHAT = 30f;
+    public readonly string myAvatarBodyPath = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
+    public readonly string theirAvatarBodyPath = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
 
     // Start is called before the first frame update
     void Start()
@@ -73,21 +75,32 @@ public class Chat : MonoBehaviour
         //display avatar
         if (await AvatarBackendManager.Instance.GetAvatarsForChat())
         {
-            GameObject myAvatar = ChatManager.Instance.LoadAvatar(AuthManager.Instance.currUser.email);
-            GameObject theirAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
-
-
-            //initial settings
-            SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, ChatManager.Instance.MY_AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION);
-            SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTATION);
-
-            //Display popup avatar when click on friend's avatar
-            GameObject popupAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
-            SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, ChatManager.Instance.POPUP_AVATAR_POS, Quaternion.identity);
-
-            myAvatarBody = GameObject.Find("/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody");
-            theirAvatarBody = GameObject.Find("/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody");
+            InitializeAvatar();
         }
+    }
+
+    private void InitializeAvatar()
+    {
+        GameObject myAvatar = ChatManager.Instance.LoadAvatar(AuthManager.Instance.currUser.email);
+        GameObject theirAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
+
+        //initial settings
+        SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, ChatManager.Instance.MY_AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION);
+        SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTATION);
+
+        //Display popup avatar when click on friend's avatar
+        GameObject popupAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
+        SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, ChatManager.Instance.POPUP_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTATION);
+
+        myAvatarBody = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
+        theirAvatarBody = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
+
+        GameObject avatarHat = myAvatarBody.transform.GetChild(9).gameObject;
+        GameObject avatarArmAccessory = myAvatarBody.transform.GetChild(10).gameObject;
+        GameObject avatarShoes = myAvatarBody.transform.GetChild(11).gameObject;
+
+        // Move hat accessory to mixamo rig head (To stick to head)
+        ChatManager.Instance.EquipAccessory(avatarHat, ChatManager.Instance.MY_AVATAR_BODY_PATH, ChatManager.Instance.AVATAR_HAT_PATH);
     }
 
     private async void ListenForNewMessages()

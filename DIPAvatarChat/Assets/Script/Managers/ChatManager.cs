@@ -22,6 +22,10 @@ public class ChatManager : Singleton<ChatManager>
 
     //path for files
     public readonly string AVATAR_BODY_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
+    public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
+    public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
+    public readonly string AVATAR_HAT_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head";
+
     //rotation for avatar spawn
     public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
     public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
@@ -35,17 +39,20 @@ public class ChatManager : Singleton<ChatManager>
     public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
 
     //pos for hat accessories
-    private readonly Vector3 HAT_POS = new Vector3(0f, 3.6f, 0f);
-    private readonly Vector3 HAT_SCALE = new Vector3(1f, 1f, 1f);
+    private readonly Vector3 HAT_POS = new Vector3(-0.0005419353f, 0.01470897f, -5.878706e-05f);
+    private readonly Vector3 HAT_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
+    private readonly Quaternion HAT_ROTATION = Quaternion.Euler(0.156f, -2.057f, 2.777f);
 
     //pos for arm accessories
     public readonly Vector3 ARM_POS1 = new Vector3(-1.087f, 1.953f, 0f);
     public readonly Vector3 ARM_POS2 = new Vector3(1.087f, 1.953f, 0f);
     public readonly Vector3 ARM_SCALE = new Vector3(0.08f, 0.08f, 0.08f);
+    private readonly Quaternion ARM_ROTATION = Quaternion.Euler(0f, 0f, 0f);
 
     //pos for shoes accessories
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
+    private readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 0f, 0f);
 
     private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
 
@@ -115,8 +122,7 @@ public class ChatManager : Singleton<ChatManager>
         {
             if (msgText.Contains(kvp.Key))
             {
-                //msgText = msgText.Replace(kvp.Key, $"<sprite={"Emojis"} index=71>");
-                msgText = msgText.Replace(kvp.Key, $"<size=50><sprite={kvp.Value}></size>");
+                msgText = msgText.Replace(kvp.Key, $"<size=36><sprite={kvp.Value}></size>");
             }
         }
 
@@ -237,13 +243,13 @@ public class ChatManager : Singleton<ChatManager>
         GameObject avatar = LoadAvatarBody(AVATAR_BODY_PATH);
 
         // Load hat accessory
-        LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE);
+        LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION);
 
         // Load arm accessory
-        LoadAccessory(avatarData.arm, avatar, ARM_POS1, ARM_SCALE);
+        LoadAccessory(avatarData.arm, avatar, ARM_POS1, ARM_SCALE, ARM_ROTATION);
 
         // Load shoes accessory
-        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE);
+        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION);
 
         return avatar;
     }
@@ -288,7 +294,7 @@ public class ChatManager : Singleton<ChatManager>
         return null;
     }
 
-    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale)
+    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale, Quaternion itemRotation)
     {
         if (fbxFileName != null && fbxFileName != "")
         {
@@ -297,7 +303,8 @@ public class ChatManager : Singleton<ChatManager>
             if (loadedFBX != null)
             {
                 // Instantiate the loaded FBX as a GameObject in the scene
-                GameObject fbx = Instantiate(loadedFBX, itemPosition, Quaternion.identity);
+                GameObject fbx = Instantiate(loadedFBX, itemPosition, itemRotation);
+
                 fbx.transform.SetParent(AvatarBody.transform, false);
                 fbx.transform.localScale = itemScale;
             }
@@ -305,6 +312,16 @@ public class ChatManager : Singleton<ChatManager>
             {
                 Debug.LogError("FBX asset not found: " + fbxFileName);
             }
+        }
+    }
+
+    public void EquipAccessory(GameObject accessory, string avatarBodyPath, string accessoryPath)
+    {
+        if (avatarBodyPath != null && accessoryPath != null)
+        {
+            Debug.Log("Filepath: " + avatarBodyPath + accessoryPath);
+            GameObject parent = GameObject.Find(avatarBodyPath + accessoryPath);
+            accessory.transform.SetParent(parent.transform, false);
         }
     }
 }
