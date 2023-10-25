@@ -9,6 +9,7 @@ public class BackgroundImageToggle : MonoBehaviour
     public Sprite originalSprite;
     public Sprite alternateSprite;
     public Image headerImage;
+    public Image chatUIheaderImage;
     public Image sourceImage;
 
     public TextMeshProUGUI alternateText1;
@@ -51,11 +52,18 @@ public class BackgroundImageToggle : MonoBehaviour
             Debug.LogWarning("headerImage component is missing.");
         }
 
+        if (chatUIheaderImage == null) {
+            Debug.LogWarning("chatUIheaderImage component is missing.");
+        }
+
         if (isAlternate)
         {
             backgroundImage.sprite = alternateSprite;
             if (headerImage != null) {
                 headerImage.color = new Color(0.188f, 0.161f, 0.212f);
+            }
+            if (chatUIheaderImage != null) {
+                chatUIheaderImage.color = new Color(0.278f, 0.239f, 0.31f);
             }
             if (sourceImage != null) {
                 sourceImage.color = Color.black;
@@ -78,6 +86,9 @@ public class BackgroundImageToggle : MonoBehaviour
             backgroundImage.sprite = originalSprite;
             if (headerImage != null) {
                 headerImage.color = new Color(1f, 0.855f, 0.839f);
+            }
+            if (chatUIheaderImage != null) {
+                chatUIheaderImage.color = new Color(1f, 0.855f, 0.839f);
             }
             if (sourceImage != null) {
                 sourceImage.color = Color.white;
