@@ -20,13 +20,13 @@ public class Chat : MonoBehaviour
     public GameObject ChatBubbleParent;
     public GameObject AvatarDisplayArea;
     public GameObject AvatarPopupDisplayArea;
+    //public RuntimeAnimatorController animatorController;
 
     //public static string currConvId { get; set; }
     //ConversationData currConvData;
     private UserData recipientUserData;
     private bool isPopulated = false;
     private ListenerRegistration listener;
-    public bool isCooldown = false;
 
     private readonly float AVATAR_SCALE_CHAT = 30f;
 

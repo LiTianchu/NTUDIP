@@ -6,19 +6,20 @@ using UnityEngine;
 
 public class ChatManager : Singleton<ChatManager>
 {
+    public RuntimeAnimatorController animatorController;
     public string CurrentRecipientName { get; set; }
-    public Dictionary<string,HashSet<MessageData>> ConvIDToMessageDataDict { get; set; }
+    public Dictionary<string, HashSet<MessageData>> ConvIDToMessageDataDict { get; set; }
     public Dictionary<string, ConversationData> EmailToConversationDict { get; set; }
-    public Dictionary<string,UserData> EmailToUsersDict { get; set; }
+    public Dictionary<string, UserData> EmailToUsersDict { get; set; }
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
 
     //path for files
-    public readonly string AVATAR_BODY_PATH = "Blender/CatBaseTest2_v0_30";
+    public readonly string AVATAR_BODY_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
     //rotation for avatar spawn
-    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 0f, 0f);
-    public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 0f, 0f);
+    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+    public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
     public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
-    public readonly Vector3 AVATAR_COLLIDER_CENTER = new Vector3(0f,2f,0f);
+    public readonly Vector3 AVATAR_COLLIDER_CENTER = new Vector3(0f, 2f, 0f);
 
     //pos for avatar spawn pos
     public readonly Vector3 MY_AVATAR_POS = new Vector3(55f, 10f, -30f);
@@ -44,8 +45,10 @@ public class ChatManager : Singleton<ChatManager>
     // Define a dictionary that maps emojis to their corresponding .anim files
     private Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
     {
-        { "😀", "laughing.anim" },
-        { "😂", "crying.anim" },
+        //{ "😀", "" },
+        //{ "😂", "" },
+        { "😡", "angryy" },
+        { "😀", "waving" },
         // Add more emoji-to-animation mappings here
     };
 
@@ -119,10 +122,10 @@ public class ChatManager : Singleton<ChatManager>
                     Debug.Log("Emoji Animation: " + kvp.Value);
 
                     // Play the animation for the emoji
-                    /*if (TryGetEmojiAnimation(kvp.Value, out Animation animation))
+                    if (TryGetEmojiAnimation(kvp.Value, out Animation animation))
                     {
                         animation.Play();
-                    }*/
+                    }
                 }
             }
 
@@ -240,6 +243,11 @@ public class ChatManager : Singleton<ChatManager>
                 BoxCollider collider = fbx.AddComponent<BoxCollider>(); //add collider to body to detect raycast
                 collider.size = AVATAR_COLLIDER_SIZE;
                 collider.center = AVATAR_COLLIDER_CENTER;
+
+                fbx.AddComponent<Animator>();
+
+                Animator animator = fbx.GetComponent<Animator>();
+                animator.runtimeAnimatorController = animatorController;
                 return fbx;
             }
             else
