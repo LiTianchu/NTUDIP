@@ -25,7 +25,7 @@ public class ChatManager : Singleton<ChatManager>
     public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
     public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
     public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
-    public readonly string AVATAR_HAT_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head";
+    public readonly string AVATAR_HAT_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
     public readonly string AVATAR_ARM_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
 
     //rotation for avatar spawn
@@ -41,7 +41,7 @@ public class ChatManager : Singleton<ChatManager>
     public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
 
     //pos for hat accessories
-    private readonly Vector3 HAT_POS = new Vector3(-0.0005419353f, 0.01470897f, -5.878706e-05f);
+    private readonly Vector3 HAT_POS = new Vector3(-0.0005419354f, 0.0004996881f, 0.0008415249f);
     private readonly Vector3 HAT_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
     private readonly Quaternion HAT_ROTATION = Quaternion.Euler(0.156f, 180f, 2.777f);
 
