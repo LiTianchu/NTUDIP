@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class ChatManager : Singleton<ChatManager>
 {
     public RuntimeAnimatorController animatorController;
@@ -53,7 +54,7 @@ public class ChatManager : Singleton<ChatManager>
     //pos for shoes accessories
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
-    private readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 0f, 0f);
+    private readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 180f, 0f);
 
     private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
 
