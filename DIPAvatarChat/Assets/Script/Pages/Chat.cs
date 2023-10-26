@@ -77,7 +77,7 @@ public class Chat : MonoBehaviour
         if (await AvatarBackendManager.Instance.GetAvatarsForChat())
         {
             InitializeAvatars();
-            SetAccessories();
+            ChatManager.Instance.SetAccessories();
         }
     }
 
@@ -109,7 +109,7 @@ public class Chat : MonoBehaviour
         avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
 
-    private void SetAccessories()
+    /*private void SetAccessories()
     {
         GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
         GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
@@ -141,12 +141,12 @@ public class Chat : MonoBehaviour
                 i++;
             }
         }
-    }
+    }*/
 
     public void PopupAvatar()
     {
         PopupTheirAvatar.SetActive(true);
-        SetAccessories();
+        ChatManager.Instance.SetAccessories();
     }
 
     private async void ListenForNewMessages()

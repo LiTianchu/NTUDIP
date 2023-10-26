@@ -109,6 +109,9 @@ public class ARChat : PageSingleton<ARChat>
         avatarObj.name = data.email + "_" + "Avatar";
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
 
+        //Set accessories correctly
+        ChatManager.Instance.SetAccessories();
+
         //spawn light source
         GameObject lightsource = new GameObject();
         lightsource.transform.parent = avatarObj.transform;

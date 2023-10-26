@@ -286,4 +286,38 @@ public class ChatManager : Singleton<ChatManager>
             }
         }
     }
+
+    public void SetAccessories()
+    {
+        GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
+        GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
+        GameObject[] ShoeAccessories = GameObject.FindGameObjectsWithTag("ShoesAccessory");
+        string[] AVATAR_BODY_PATHS = new string[] { MY_AVATAR_BODY_PATH, THEIR_AVATAR_BODY_PATH, POPUP_AVATAR_BODY_PATH };
+
+        // Move hat accessory to mixamo rig head (To stick to head)
+        EquipAccessoryType(HatAccessories, AVATAR_BODY_PATHS, AVATAR_HAT_PATH);
+        // Move arm accessory to mixamo rig right forearm
+        EquipAccessoryType(ArmAccessories, AVATAR_BODY_PATHS, AVATAR_ARM_PATH);
+    }
+
+    void EquipAccessoryType(GameObject[] accessories, string[] avatarBodyPaths, string path)
+    {
+        int i = 0;
+        foreach (GameObject accessory in accessories)
+        {
+            Debug.Log(i + " Filepath: " + avatarBodyPaths[i] + path);
+            GameObject parent = GameObject.Find(avatarBodyPaths[i] + path);
+
+            if (parent != null)
+            {
+                accessory.transform.SetParent(parent.transform, false);
+            }
+            else
+            {
+                Debug.Log("Parent not found. " + i);
+            }
+
+            i++;
+        }
+    }
 }
