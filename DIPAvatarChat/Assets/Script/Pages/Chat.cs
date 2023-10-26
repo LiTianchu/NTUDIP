@@ -191,14 +191,14 @@ public class Chat : MonoBehaviour
                                 // Message is sent by the current user, spawn text bubble at right side
                                 Debug.Log("Received message from current user");
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
-                                ChatManager.Instance.PlayAnimation(myAvatarBody, msgText);
+                                AnimationManager.Instance.PlayAnimation(myAvatarBody, msgText);
                             }
                             else
                             {
                                 // Message is sent by another user, spawn text bubble at left side
                                 Debug.Log("Received message from another user");
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
-                                ChatManager.Instance.PlayAnimation(theirAvatarBody, msgText);
+                                AnimationManager.Instance.PlayAnimation(theirAvatarBody, msgText);
                             }
                         }
                     }

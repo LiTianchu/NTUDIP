@@ -57,14 +57,7 @@ public class ChatManager : Singleton<ChatManager>
 
     private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
 
-    // Define a dictionary that maps emojis to their corresponding .anim files
-    private Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
-    {
-        { ">:(", "Angry"},
-        { ":angry:", "Angry"},
-    };
-
-    // E71 angry
+    // Map commands to custom emotes
     private Dictionary<string, int> emojiToImageMap = new Dictionary<string, int>
     {
         { ":)", 0},
@@ -175,30 +168,6 @@ public class ChatManager : Singleton<ChatManager>
             ConvIDToMessageDataDict[convID] = new HashSet<MessageData>();
         }
         ConvIDToMessageDataDict[convID].Add(msg);
-    }
-
-    public void PlayAnimation(GameObject avatar, string msgText)
-    {
-        Animator _animator = avatar.GetComponent<Animator>();
-
-        try
-        {
-            foreach (var kvp in emojiToAnimMap)
-            {
-                if (msgText.Contains(kvp.Key))
-                {
-                    Debug.Log("Animation: " + kvp.Value);
-
-                    _animator.SetBool(kvp.Value, true);
-                    _animator.SetBool("Default", true);
-                    return;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Error playing animation: " + e);
-        }
     }
 
     public Sprite LoadEmojiSprite(string emojiFilePath)
