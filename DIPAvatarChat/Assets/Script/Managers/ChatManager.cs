@@ -71,7 +71,7 @@ public class ChatManager : Singleton<ChatManager>
         { ":sus:", 19},
         { ">:(", 21},
         { ":angry:", 21},
-        { ":flushed:", 24},
+        { ":flushed:", 22},
         { ":laughing:", 24},
         { "T.T", 26},
         { ":crying:", 26},

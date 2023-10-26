@@ -20,6 +20,8 @@ public class AnimationManager : Singleton<AnimationManager>
     {
         { ">:(", "Angry"},
         { ":angry:", "Angry"},
+        { "hi!", "Wave"},
+        { ":laughing:", "Laugh"},
     };
 
     void Start()
@@ -47,13 +49,18 @@ public class AnimationManager : Singleton<AnimationManager>
 
                     _animator.SetBool(kvp.Value, true);
                     _animator.SetBool("Default", true);
-                    return;
+                    StartCoroutine(Delay(1f));
                 }
             }
         }
         catch (Exception e)
         {
             Debug.Log("Error playing animation: " + e);
+        }
+
+        IEnumerator Delay(float f)
+        {
+            yield return new WaitForSecondsRealtime(f);
         }
     }
 }
