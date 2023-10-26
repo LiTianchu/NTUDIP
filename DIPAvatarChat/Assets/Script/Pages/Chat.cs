@@ -147,14 +147,6 @@ public class Chat : MonoBehaviour
     {
         PopupTheirAvatar.SetActive(true);
         SetAccessories();
-        
-        /*StartCoroutine(Equip(2f));
-
-        IEnumerator Equip(float f)
-        {
-            yield return new WaitForSecondsRealtime(f);
-            EquipAccessories();
-        }*/
     }
 
     private async void ListenForNewMessages()
