@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class ChatManager : Singleton<ChatManager>
 {
     public RuntimeAnimatorController animatorController;
@@ -53,18 +54,11 @@ public class ChatManager : Singleton<ChatManager>
     //pos for shoes accessories
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
-    private readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 0f, 0f);
+    private readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 180f, 0f);
 
     private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
 
-    // Define a dictionary that maps emojis to their corresponding .anim files
-    private Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
-    {
-        { ">:(", "Angry"},
-        { ":angry:", "Angry"},
-    };
-
-    // E71 angry
+    // Map commands to custom emotes
     private Dictionary<string, int> emojiToImageMap = new Dictionary<string, int>
     {
         { ":)", 0},
@@ -77,7 +71,7 @@ public class ChatManager : Singleton<ChatManager>
         { ":sus:", 19},
         { ">:(", 21},
         { ":angry:", 21},
-        { ":flushed:", 24},
+        { ":flushed:", 22},
         { ":laughing:", 24},
         { "T.T", 26},
         { ":crying:", 26},
@@ -175,30 +169,6 @@ public class ChatManager : Singleton<ChatManager>
             ConvIDToMessageDataDict[convID] = new HashSet<MessageData>();
         }
         ConvIDToMessageDataDict[convID].Add(msg);
-    }
-
-    public void PlayAnimation(GameObject avatar, string msgText)
-    {
-        Animator _animator = avatar.GetComponent<Animator>();
-
-        try
-        {
-            foreach (var kvp in emojiToAnimMap)
-            {
-                if (msgText.Contains(kvp.Key))
-                {
-                    Debug.Log("Animation: " + kvp.Value);
-
-                    _animator.SetBool(kvp.Value, true);
-                    _animator.SetBool("Default", true);
-                    return;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Error playing animation: " + e);
-        }
     }
 
     public Sprite LoadEmojiSprite(string emojiFilePath)
@@ -314,6 +284,40 @@ public class ChatManager : Singleton<ChatManager>
             {
                 Debug.LogError("FBX asset not found: " + fbxFileName);
             }
+        }
+    }
+
+    public void SetAccessories()
+    {
+        GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
+        GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
+        GameObject[] ShoeAccessories = GameObject.FindGameObjectsWithTag("ShoesAccessory");
+        string[] AVATAR_BODY_PATHS = new string[] { MY_AVATAR_BODY_PATH, THEIR_AVATAR_BODY_PATH, POPUP_AVATAR_BODY_PATH };
+
+        // Move hat accessory to mixamo rig head (To stick to head)
+        EquipAccessoryType(HatAccessories, AVATAR_BODY_PATHS, AVATAR_HAT_PATH);
+        // Move arm accessory to mixamo rig right forearm
+        EquipAccessoryType(ArmAccessories, AVATAR_BODY_PATHS, AVATAR_ARM_PATH);
+    }
+
+    void EquipAccessoryType(GameObject[] accessories, string[] avatarBodyPaths, string path)
+    {
+        int i = 0;
+        foreach (GameObject accessory in accessories)
+        {
+            Debug.Log(i + " Filepath: " + avatarBodyPaths[i] + path);
+            GameObject parent = GameObject.Find(avatarBodyPaths[i] + path);
+
+            if (parent != null)
+            {
+                accessory.transform.SetParent(parent.transform, false);
+            }
+            else
+            {
+                Debug.Log("Parent not found. " + i);
+            }
+
+            i++;
         }
     }
 }

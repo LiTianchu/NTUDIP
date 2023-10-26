@@ -1,11 +1,29 @@
-using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using Firebase.Extensions;
+using Firebase.Firestore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
+using Firebase.Auth;
 
 public class AnimationManager : Singleton<AnimationManager>
 {
+    // Map custom commands to play animation
+    public readonly Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
+    {
+        { ">:(", "Angry"},
+        { ":angry:", "Angry"},
+        { "hi!", "Wave"},
+        { ":laughing:", "Laugh"},
+    };
+
     void Start()
     {
 
@@ -15,5 +33,34 @@ public class AnimationManager : Singleton<AnimationManager>
     void Update()
     {
 
+    }
+
+    public void PlayAnimation(GameObject avatar, string msgText)
+    {
+        Animator _animator = avatar.GetComponent<Animator>();
+
+        try
+        {
+            foreach (var kvp in emojiToAnimMap)
+            {
+                if (msgText.Contains(kvp.Key))
+                {
+                    Debug.Log("Animation: " + kvp.Value);
+
+                    _animator.SetBool(kvp.Value, true);
+                    _animator.SetBool("Default", true);
+                    StartCoroutine(Delay(1f));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error playing animation: " + e);
+        }
+
+        IEnumerator Delay(float f)
+        {
+            yield return new WaitForSecondsRealtime(f);
+        }
     }
 }
