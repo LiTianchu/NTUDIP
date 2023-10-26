@@ -77,7 +77,7 @@ public class Chat : MonoBehaviour
         if (await AvatarBackendManager.Instance.GetAvatarsForChat())
         {
             InitializeAvatars();
-            EquipAccessories();
+            SetAccessories();
         }
     }
 
@@ -109,7 +109,7 @@ public class Chat : MonoBehaviour
         avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
 
-    private void EquipAccessories()
+    private void SetAccessories()
     {
         GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
         GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
@@ -146,7 +146,7 @@ public class Chat : MonoBehaviour
     public void PopupAvatar()
     {
         PopupTheirAvatar.SetActive(true);
-        EquipAccessories();
+        SetAccessories();
         
         /*StartCoroutine(Equip(2f));
 
