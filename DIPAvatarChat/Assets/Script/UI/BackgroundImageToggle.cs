@@ -22,8 +22,10 @@ public class BackgroundImageToggle : MonoBehaviour
     public Image chatlistBoxBackground;
     public TextMeshProUGUI chatlistBoxText;
 
-    public GameObject loadingUiPrefab;
-    public Image loadingUiBackground;
+    public GameObject loadingUiPrefab1;
+    public Image loadingUiBackground1;
+    public GameObject loadingUiPrefab2;
+    public Image loadingUiBackground2;
 
     private bool isAlternate = false;
 
@@ -119,11 +121,18 @@ public class BackgroundImageToggle : MonoBehaviour
                 }
             }
 
-            if (loadingUiPrefab != null)
+            if (loadingUiPrefab1 != null)
             {
-                if (loadingUiBackground != null)
+                if (loadingUiBackground1 != null)
                 {
-                    loadingUiBackground.color = new Color(0.33f, 0.33f, 0.33f);
+                    loadingUiBackground1.color = new Color(0.33f, 0.33f, 0.33f);
+                }
+            }
+            if (loadingUiPrefab2 != null)
+            {
+                if (loadingUiBackground2 != null)
+                {
+                    loadingUiBackground2.color = new Color(0.33f, 0.33f, 0.33f);
                 }
             }
         }
@@ -174,11 +183,18 @@ public class BackgroundImageToggle : MonoBehaviour
                 }
             }
 
-            if (loadingUiPrefab != null)
+            if (loadingUiPrefab1 != null)
             {
-                if (loadingUiBackground != null)
+                if (loadingUiBackground1 != null)
                 {
-                    loadingUiBackground.color = Color.white;
+                    loadingUiBackground1.color = Color.white;
+                }
+            }
+            if (loadingUiPrefab2 != null)
+            {
+                if (loadingUiBackground2 != null)
+                {
+                    loadingUiBackground2.color = Color.white;
                 }
             }
         }
