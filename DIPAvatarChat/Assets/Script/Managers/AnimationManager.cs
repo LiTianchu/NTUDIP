@@ -46,21 +46,14 @@ public class AnimationManager : Singleton<AnimationManager>
                 if (msgText.Contains(kvp.Key))
                 {
                     Debug.Log("Animation: " + kvp.Value);
-
                     _animator.SetBool(kvp.Value, true);
                     _animator.SetBool("Default", true);
-                    StartCoroutine(Delay(1f));
                 }
             }
         }
         catch (Exception e)
         {
             Debug.Log("Error playing animation: " + e);
-        }
-
-        IEnumerator Delay(float f)
-        {
-            yield return new WaitForSecondsRealtime(f);
         }
     }
 }
