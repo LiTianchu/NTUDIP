@@ -5251,12 +5251,18 @@ MonoBehaviour:
   originalSprite: {fileID: 21300000, guid: e8a67330e3a241e4aaed5f6d938545e2, type: 3}
   alternateSprite: {fileID: 21300000, guid: 43cbf9a494bc56e4bbb7a577abe1a776, type: 3}
   headerImage: {fileID: 1750477318}
-  chatUIheaderImage: {fileID: 0}
+  chatUiHeaderImage: {fileID: 0}
   sourceImage: {fileID: 0}
   alternateText1: {fileID: 2087247998}
   alternateText2: {fileID: 0}
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 1364801968}
+  arChatSlideBtn: {fileID: 0}
+  chatlistBoxPrefab: {fileID: 5551016608129215562, guid: 786ebba9cc4153043924d313b23536ae, type: 3}
+  chatlistBoxBackground: {fileID: 0}
+  chatlistBoxText: {fileID: 0}
+  loadingUiPrefab: {fileID: 805001303}
+  loadingUiBackground: {fileID: 805001305}
 --- !u!1 &705898371
 GameObject:
   m_ObjectHideFlags: 0
@@ -5901,6 +5907,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4495512799071944760, guid: 48c7df7fea27e3a43b5273259c61dae1, type: 3}
   m_PrefabInstance: {fileID: 805001302}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &805001305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5124537397750609768, guid: 48c7df7fea27e3a43b5273259c61dae1, type: 3}
+  m_PrefabInstance: {fileID: 805001302}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &813396140
 GameObject:
   m_ObjectHideFlags: 0

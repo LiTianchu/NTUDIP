@@ -18,6 +18,13 @@ public class BackgroundImageToggle : MonoBehaviour
     public Image alternateButton;
     public Image arChatSlideBtn;
 
+    public GameObject chatlistBoxPrefab;
+    public Image chatlistBoxBackground;
+    public TextMeshProUGUI chatlistBoxText;
+
+    public GameObject loadingUiPrefab;
+    public Image loadingUiBackground;
+
     private bool isAlternate = false;
 
     private void Start()
@@ -99,6 +106,26 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 arChatSlideBtn.color = new Color(0.188f, 0.161f, 0.212f);
             }
+
+            if (chatlistBoxPrefab != null)
+            {
+                if (chatlistBoxBackground != null)
+                {
+                    chatlistBoxBackground.color = new Color(0.188f, 0.161f, 0.212f); 
+                }
+                if (chatlistBoxText != null)
+                {
+                    chatlistBoxText.color = Color.white;
+                }
+            }
+
+            if (loadingUiPrefab != null)
+            {
+                if (loadingUiBackground != null)
+                {
+                    loadingUiBackground.color = new Color(0.33f, 0.33f, 0.33f);
+                }
+            }
         }
         else
         {
@@ -133,6 +160,26 @@ public class BackgroundImageToggle : MonoBehaviour
             if (arChatSlideBtn != null)
             {
                 arChatSlideBtn.color = new Color(1f, 0.855f, 0.839f);
+            }
+
+            if (chatlistBoxPrefab != null)
+            {
+                if (chatlistBoxBackground != null)
+                {
+                    chatlistBoxBackground.color = new Color(0.937f, 0.914f, 0.906f); 
+                }
+                if (chatlistBoxText != null)
+                {
+                    chatlistBoxText.color = Color.white;
+                }
+            }
+
+            if (loadingUiPrefab != null)
+            {
+                if (loadingUiBackground != null)
+                {
+                    loadingUiBackground.color = Color.white;
+                }
             }
         }
     }
