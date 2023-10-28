@@ -145,7 +145,7 @@ public class AvatarManager : Singleton<AvatarManager>
         }
     }
 
-    public GameObject LoadAvatar(AvatarData avatarData)
+    public GameObject LoadAvatar(AvatarData avatarData, string tag = null)
     {
         GameObject avatar = LoadAvatarBody(AVATAR_BODY_FILE_PATH);
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
@@ -161,6 +161,10 @@ public class AvatarManager : Singleton<AvatarManager>
         // Load shoes accessory
         LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParent, "ShoesAccessory");
 
+        if (tag != null)
+        {
+            avatar.tag = tag;
+        }
         return avatar;
     }
 
@@ -248,5 +252,14 @@ public class AvatarManager : Singleton<AvatarManager>
         avatarObj.transform.localRotation = rot;
 
         avatarObj.transform.localScale = new Vector3(scale, scale, scale);
+    }
+
+    public void InitialiseAvatarCustomisation(GameObject AvatarDisplayArea)
+    {
+        Vector3 AVATAR_POS = new Vector3(0f, -20f, -30f);
+        float AVATAR_SCALE = 7.5f;
+
+        GameObject avatar = LoadAvatar(AvatarBackendManager.Instance.currAvatarData, "AvatarCustomise");
+        SetAvatar("Avatar", avatar, AvatarDisplayArea, AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION, AVATAR_SCALE);
     }
 }

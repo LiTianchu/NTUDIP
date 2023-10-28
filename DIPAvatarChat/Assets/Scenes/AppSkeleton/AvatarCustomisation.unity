@@ -2060,8 +2060,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 698279706}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 230571348}
   accessoryType: hat
 --- !u!1 &245352881
@@ -3488,8 +3486,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 587086997}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 369749958}
   accessoryType: shoes
 --- !u!114 &369749958
@@ -3773,8 +3769,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 781943009}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 387677647}
   accessoryType: shoes
 --- !u!114 &387677647
@@ -5758,8 +5752,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 291399543}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 614769113}
   accessoryType: shoes
 --- !u!114 &614769113
@@ -6414,8 +6406,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 1066080645}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 682347505}
   accessoryType: hat
 --- !u!114 &682347505
@@ -9322,8 +9312,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 361646302}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 953183966}
   accessoryType: shoes
 --- !u!114 &953183966
@@ -10430,8 +10418,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 1066429320}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1036902496}
   accessoryType: hat
 --- !u!1 &1037266845
@@ -13133,15 +13119,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1283548192}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 174.43138, y: 324.62216, z: -3.47435}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.311807, y: 189.28491, z: 0}
+  m_LocalScale: {x: 12.313487, y: 12.313487, z: 12.313487}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 657030750}
   - {fileID: 408461272}
   - {fileID: 1445746120}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1893059626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1288911758
 GameObject:
@@ -13343,8 +13329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 338877651}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 1301589854}
   accessoryType: shoes
 --- !u!114 &1301589854
@@ -14960,7 +14944,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3778f60ac7b266d43b5b7c7ac6e9ab57, type: 3}
       propertyPath: m_Name
-      value: Avatar
+      value: v3_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3778f60ac7b266d43b5b7c7ac6e9ab57, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14970,11 +14958,6 @@ PrefabInstance:
 --- !u!4 &1445746120 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3778f60ac7b266d43b5b7c7ac6e9ab57, type: 3}
-  m_PrefabInstance: {fileID: 1445746119}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1445746121 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3778f60ac7b266d43b5b7c7ac6e9ab57, type: 3}
   m_PrefabInstance: {fileID: 1445746119}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1468758499
@@ -15643,8 +15626,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 2040435803}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 718121647}
   selectAccessoryButton: {fileID: 1515751801}
   accessoryType: arm
 --- !u!1 &1547352073
@@ -15700,8 +15681,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 1234714248}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1547352076}
   accessoryType: hat
 --- !u!114 &1547352076
@@ -16301,8 +16280,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 973490273}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1590503707}
   accessoryType: hat
 --- !u!114 &1590503707
@@ -16677,8 +16654,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 1499720407}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1637774991}
   accessoryType: hat
 --- !u!114 &1637774991
@@ -17009,8 +16984,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 937200020}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1688818061}
   accessoryType: hat
 --- !u!114 &1688818061
@@ -19298,6 +19271,7 @@ RectTransform:
   - {fileID: 1178418247}
   - {fileID: 1483515207}
   - {fileID: 1989402779}
+  - {fileID: 1283548193}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -19318,6 +19292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FeaturesBox: {fileID: 825234428}
+  AvatarDisplayArea: {fileID: 1283548192}
 --- !u!1 &1897056320
 GameObject:
   m_ObjectHideFlags: 0
@@ -19989,8 +19964,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 2034992213}
-  AvatarBody: {fileID: 1445746121}
-  AccessoryPanel: {fileID: 882474333}
   selectAccessoryButton: {fileID: 1987491074}
   accessoryType: hat
 --- !u!114 &1987491074
@@ -22407,4 +22380,3 @@ SceneRoots:
   - {fileID: 348705675}
   - {fileID: 1893059626}
   - {fileID: 1037834764}
-  - {fileID: 1283548193}

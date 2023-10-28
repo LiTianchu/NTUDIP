@@ -7,18 +7,14 @@ using TMPro;
 public class AvatarAccessories : MonoBehaviour
 {
     public GameObject AccessoryPrefab;
-    public GameObject AvatarBody;
-    public Transform AccessoryPanel;
     public Button selectAccessoryButton;
     public string accessoryType;
-
-    //private GameObject previousClone;
-    //private int cloneCount = 0;
-    //private Coroutine instantiationCoroutine;
+    GameObject AvatarDisplayArea;
+    bool isEquipped = false;
 
     void Start()
     {
-
+        AvatarDisplayArea = GameObject.Find("/Canvas/AvatarContainer");
     }
 
     void Update()
@@ -31,50 +27,14 @@ public class AvatarAccessories : MonoBehaviour
         Debug.Log("InstantiateAccessory called");
         string path = "Blender/" + AccessoryPrefab.name;
 
-        /*foreach (Transform child in AccessoryPanel.transform)
+        isEquipped = !isEquipped;
+        UpdateAvatarData(isEquipped);
+
+        GameObject avatar = GameObject.Find("/Canvas/AvatarContainer/Avatar");
+        if (avatar != null)
         {
-            Debug.Log("Child GameObject: " + child.gameObject.name);
-            if (child.gameObject == AccessoryPrefab)
-            {
-                child.gameObject.SetActive(!child.gameObject.activeSelf);
-
-                UpdateAvatarData(child.gameObject.activeSelf);
-            }
-            else
-            {
-                child.gameObject.SetActive(false);
-            }
-        }*/
-
-        switch (accessoryType)
-        {
-            case "colour":
-
-                break;
-            case "texture":
-
-                break;
-            case "expression":
-
-                break;
-            case "hat":
-                // Load hat accessory
-
-                break;
-            case "arm":
-                // Load arm accessory
-
-                break;
-            case "wings":
-
-                break;
-            case "tail":
-
-                break;
-            case "shoes":
-                // Load shoes accessory
-
-                break;
+            ClearAvatar();
+            AvatarManager.Instance.InitialiseAvatarCustomisation(AvatarDisplayArea);
         }
     }
 
@@ -150,13 +110,13 @@ public class AvatarAccessories : MonoBehaviour
         }
     }
 
-    public void ClearAccessoryType(GameObject[] AccessoryType, string accessoryType)
+    public void ClearAvatar()
     {
-        AccessoryType = GameObject.FindGameObjectsWithTag(accessoryType);
+        GameObject[] Avatar = GameObject.FindGameObjectsWithTag("AvatarCustomise");
 
-        foreach (GameObject accessory in AccessoryType)
+        foreach (GameObject a in Avatar)
         {
-            Destroy(accessory);
+            Destroy(a);
         }
     }
 }
