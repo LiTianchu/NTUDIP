@@ -14,7 +14,6 @@ using UnityEngine.UI;
 
 public class AvatarManager : Singleton<AvatarManager>
 {
-    public RuntimeAnimatorController animatorController;
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
 
     //path for files
@@ -190,7 +189,7 @@ public class AvatarManager : Singleton<AvatarManager>
                 fbx.AddComponent<Animator>();
 
                 Animator animator = fbx.GetComponent<Animator>();
-                animator.runtimeAnimatorController = animatorController;
+                animator.runtimeAnimatorController = AnimationManager.Instance.animatorController;
                 return fbx;
             }
             else
@@ -236,11 +235,19 @@ public class AvatarManager : Singleton<AvatarManager>
         SetAccessoryType("ArmAccessory", avatarBodyPaths, AVATAR_ARM_PATH);
     }
 
+    public void SetAccessories(string avatarBodyPath)
+    {
+        // Move hat accessory to mixamo rig head (To stick to head)
+        SetAccessoryType("HatAccessory", avatarBodyPath, AVATAR_HAT_PATH);
+        // Move arm accessory to mixamo rig right forearm
+        SetAccessoryType("ArmAccessory", avatarBodyPath, AVATAR_ARM_PATH);
+    }
+
     // multiple avatar spawns
     public void SetAccessoryType(string tag, string[] avatarBodyPaths, string accessoryPath)
     {
-        GameObject[] accessories = GameObject.FindGameObjectsWithTag("tag");
-        
+        GameObject[] accessories = GameObject.FindGameObjectsWithTag(tag);
+
         int i = 0;
         foreach (GameObject accessory in accessories)
         {
@@ -260,11 +267,11 @@ public class AvatarManager : Singleton<AvatarManager>
         }
     }
 
-    // single avatar spawns
+    // single avatar spawn
     public void SetAccessoryType(string tag, string avatarBodyPath, string accessoryPath)
     {
-        GameObject accessory = GameObject.FindWithTag("tag");
-        
+        GameObject accessory = GameObject.FindWithTag(tag);
+
         Debug.Log("Filepath: " + avatarBodyPath + accessoryPath);
         GameObject parent = GameObject.Find(avatarBodyPath + accessoryPath);
 

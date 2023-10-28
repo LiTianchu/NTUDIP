@@ -46,7 +46,7 @@ public class ARChat : PageSingleton<ARChat>
     private bool _isLoading;
 
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
-    private string[] AR_AVATAR_BODY_PATHS;
+    private string AR_AVATAR_BODY_PATH = "";
 
     public Avatar SelectedAvatar { get; set; }
     public List<Avatar> AvatarList { get { return _avatarList; } }
@@ -111,7 +111,8 @@ public class ARChat : PageSingleton<ARChat>
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
 
         //Set accessories correctly
-        AvatarManager.Instance.SetAccessories(ChatManager.Instance.AVATAR_BODY_PATHS);
+        AR_AVATAR_BODY_PATH = "/Avatars/" + avatarObj.name;
+        AvatarManager.Instance.SetAccessories(AR_AVATAR_BODY_PATH);
 
         //spawn light source
         GameObject lightsource = new GameObject();

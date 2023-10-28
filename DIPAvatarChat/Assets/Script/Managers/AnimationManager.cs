@@ -14,6 +14,7 @@ using UnityEngine.UI;
 
 public class AnimationManager : Singleton<AnimationManager>
 {
+    public RuntimeAnimatorController animatorController;
     // Map custom commands to play animation
     public readonly Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
     {
