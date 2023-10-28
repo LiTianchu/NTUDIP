@@ -3488,7 +3488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 587086997}
-  AvatarBody: {fileID: 0}
+  AvatarBody: {fileID: 1445746121}
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 369749958}
   accessoryType: shoes
@@ -3773,7 +3773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 781943009}
-  AvatarBody: {fileID: 0}
+  AvatarBody: {fileID: 1445746121}
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 387677647}
   accessoryType: shoes
@@ -5758,7 +5758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 291399543}
-  AvatarBody: {fileID: 0}
+  AvatarBody: {fileID: 1445746121}
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 614769113}
   accessoryType: shoes
@@ -9322,7 +9322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 361646302}
-  AvatarBody: {fileID: 0}
+  AvatarBody: {fileID: 1445746121}
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 953183966}
   accessoryType: shoes
@@ -13343,7 +13343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 338877651}
-  AvatarBody: {fileID: 0}
+  AvatarBody: {fileID: 1445746121}
   AccessoryPanel: {fileID: 855793831}
   selectAccessoryButton: {fileID: 1301589854}
   accessoryType: shoes
@@ -15643,7 +15643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccessoryPrefab: {fileID: 2040435803}
-  AvatarBody: {fileID: 0}
+  AvatarBody: {fileID: 1445746121}
   AccessoryPanel: {fileID: 718121647}
   selectAccessoryButton: {fileID: 1515751801}
   accessoryType: arm
