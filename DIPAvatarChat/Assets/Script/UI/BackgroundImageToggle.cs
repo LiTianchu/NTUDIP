@@ -141,7 +141,7 @@ public class BackgroundImageToggle : MonoBehaviour
         {
             if (backgroundImage != null)
             {
-                backgroundImage.sprite = alternateSprite;
+                backgroundImage.sprite = originalSprite;
             }
             if (headerImage != null)
             {
