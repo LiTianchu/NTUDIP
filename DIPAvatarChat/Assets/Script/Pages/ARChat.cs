@@ -111,8 +111,6 @@ public class ARChat : PageSingleton<ARChat>
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
 
         //Set accessories correctly
-        AR_AVATAR_BODY_PATH = "/Avatars/" + avatarObj.name;
-        AvatarManager.Instance.SetAccessories(AR_AVATAR_BODY_PATH);
 
         //spawn light source
         GameObject lightsource = new GameObject();

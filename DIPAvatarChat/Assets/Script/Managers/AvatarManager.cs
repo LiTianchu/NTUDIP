@@ -17,10 +17,10 @@ public class AvatarManager : Singleton<AvatarManager>
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
 
     //path for files
-    public readonly string AVATAR_BODY_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
+    public readonly string AVATAR_BODY_FILE_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";
-    public readonly string AVATAR_HAT_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
-    public readonly string AVATAR_ARM_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
+    public readonly string AVATAR_HAT_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
+    public readonly string AVATAR_ARM_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
 
     //rotation for avatar spawn
     public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
@@ -147,16 +147,19 @@ public class AvatarManager : Singleton<AvatarManager>
 
     public GameObject LoadAvatar(AvatarData avatarData)
     {
-        GameObject avatar = LoadAvatarBody(AVATAR_BODY_PATH);
+        GameObject avatar = LoadAvatarBody(AVATAR_BODY_FILE_PATH);
+        GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
+        GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
+        GameObject shoesParent = null;
 
         // Load hat accessory
-        LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, "HatAccessory");
+        LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, hatParent, "HatAccessory");
 
         // Load arm accessory
-        LoadAccessory(avatarData.arm, avatar, ARM_POS, ARM_SCALE, ARM_ROTATION, "ArmAccessory");
+        LoadAccessory(avatarData.arm, avatar, ARM_POS, ARM_SCALE, ARM_ROTATION, armParent, "ArmAccessory");
 
         // Load shoes accessory
-        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, "ShoesAccessory");
+        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParent, "ShoesAccessory");
 
         return avatar;
     }
@@ -201,7 +204,7 @@ public class AvatarManager : Singleton<AvatarManager>
         return null;
     }
 
-    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale, Quaternion itemRotation, string tag)
+    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale, Quaternion itemRotation, GameObject AccessoryParent, string tag)
     {
         if (fbxFileName != null && fbxFileName != "")
         {
@@ -215,6 +218,8 @@ public class AvatarManager : Singleton<AvatarManager>
                 fbx.transform.SetParent(AvatarBody.transform, false);
                 fbx.transform.localScale = itemScale;
                 fbx.tag = tag;
+
+                SetAccessory(fbx, AccessoryParent);
             }
             else
             {
@@ -223,58 +228,8 @@ public class AvatarManager : Singleton<AvatarManager>
         }
     }
 
-    public void SetAccessories(string[] avatarBodyPaths)
+    public void SetAccessory(GameObject accessory, GameObject parent)
     {
-        //GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
-        //GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
-        //GameObject[] ShoeAccessories = GameObject.FindGameObjectsWithTag("ShoesAccessory");
-
-        // Move hat accessory to mixamo rig head (To stick to head)
-        SetAccessoryType("HatAccessory", avatarBodyPaths, AVATAR_HAT_PATH);
-        // Move arm accessory to mixamo rig right forearm
-        SetAccessoryType("ArmAccessory", avatarBodyPaths, AVATAR_ARM_PATH);
-    }
-
-    public void SetAccessories(string avatarBodyPath)
-    {
-        // Move hat accessory to mixamo rig head (To stick to head)
-        SetAccessoryType("HatAccessory", avatarBodyPath, AVATAR_HAT_PATH);
-        // Move arm accessory to mixamo rig right forearm
-        SetAccessoryType("ArmAccessory", avatarBodyPath, AVATAR_ARM_PATH);
-    }
-
-    // multiple avatar spawns
-    public void SetAccessoryType(string tag, string[] avatarBodyPaths, string accessoryPath)
-    {
-        GameObject[] accessories = GameObject.FindGameObjectsWithTag(tag);
-
-        int i = 0;
-        foreach (GameObject accessory in accessories)
-        {
-            Debug.Log(i + " Filepath: " + avatarBodyPaths[i] + accessoryPath);
-            GameObject parent = GameObject.Find(avatarBodyPaths[i] + accessoryPath);
-
-            if (parent != null)
-            {
-                accessory.transform.SetParent(parent.transform, false);
-            }
-            else
-            {
-                Debug.Log("Parent not found. " + i);
-            }
-
-            i++;
-        }
-    }
-
-    // single avatar spawn
-    public void SetAccessoryType(string tag, string avatarBodyPath, string accessoryPath)
-    {
-        GameObject accessory = GameObject.FindWithTag(tag);
-
-        Debug.Log("Filepath: " + avatarBodyPath + accessoryPath);
-        GameObject parent = GameObject.Find(avatarBodyPath + accessoryPath);
-
         if (parent != null)
         {
             accessory.transform.SetParent(parent.transform, false);

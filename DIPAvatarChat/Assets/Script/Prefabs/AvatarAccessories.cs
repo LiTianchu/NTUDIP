@@ -59,11 +59,11 @@ public class AvatarAccessories : MonoBehaviour
                 break;
             case "hat":
                 // Load hat accessory
-                AvatarManager.Instance.LoadAccessory(path, AvatarBody, AvatarManager.Instance.HAT_POS, AvatarManager.Instance.HAT_SCALE, AvatarManager.Instance.HAT_ROTATION, "HatAccessory");
+
                 break;
             case "arm":
                 // Load arm accessory
-                AvatarManager.Instance.LoadAccessory(path, AvatarBody, AvatarManager.Instance.ARM_POS, AvatarManager.Instance.ARM_SCALE, AvatarManager.Instance.ARM_ROTATION, "ArmAccessory");
+
                 break;
             case "wings":
 
@@ -73,7 +73,7 @@ public class AvatarAccessories : MonoBehaviour
                 break;
             case "shoes":
                 // Load shoes accessory
-                AvatarManager.Instance.LoadAccessory(path, AvatarBody, AvatarManager.Instance.SHOES_POS, AvatarManager.Instance.SHOES_SCALE, AvatarManager.Instance.SHOES_ROTATION, "ShoesAccessory");
+
                 break;
         }
     }
