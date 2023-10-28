@@ -19,24 +19,13 @@ public class AvatarManager : Singleton<AvatarManager>
 
     //path for files
     public readonly string AVATAR_BODY_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
-    public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
-    public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
-    public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";
     public readonly string AVATAR_HAT_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
     public readonly string AVATAR_ARM_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
 
     //rotation for avatar spawn
-    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
-    public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
     public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
     public readonly Vector3 AVATAR_COLLIDER_CENTER = new Vector3(0f, 2f, 0f);
-
-    //pos for avatar spawn pos
-    public readonly Vector3 MY_AVATAR_POS = new Vector3(55f, 10f, -30f);
-    public readonly Vector3 THEIR_AVATAR_POS = new Vector3(-55f, 10f, -30f);
-    public readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
-    public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
 
     //pos for hat accessories
     public readonly Vector3 HAT_POS = new Vector3(-0.0005419354f, 0.0004996881f, 0.0008415249f);
@@ -235,36 +224,28 @@ public class AvatarManager : Singleton<AvatarManager>
         }
     }
 
-    public void SetAccessories()
+    public void SetAccessories(string[] avatarBodyPaths)
     {
-        GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
-        GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
-        GameObject[] ShoeAccessories = GameObject.FindGameObjectsWithTag("ShoesAccessory");
-        string[] AVATAR_BODY_PATHS = new string[] { MY_AVATAR_BODY_PATH, THEIR_AVATAR_BODY_PATH, POPUP_AVATAR_BODY_PATH };
+        //GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
+        //GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
+        //GameObject[] ShoeAccessories = GameObject.FindGameObjectsWithTag("ShoesAccessory");
 
         // Move hat accessory to mixamo rig head (To stick to head)
-        EquipAccessoryType(HatAccessories, AVATAR_BODY_PATHS, AVATAR_HAT_PATH);
+        SetAccessoryType("HatAccessory", avatarBodyPaths, AVATAR_HAT_PATH);
         // Move arm accessory to mixamo rig right forearm
-        EquipAccessoryType(ArmAccessories, AVATAR_BODY_PATHS, AVATAR_ARM_PATH);
+        SetAccessoryType("ArmAccessory", avatarBodyPaths, AVATAR_ARM_PATH);
     }
 
-    public void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent, Vector3 pos, Quaternion rot, float scale)
+    // multiple avatar spawns
+    public void SetAccessoryType(string tag, string[] avatarBodyPaths, string accessoryPath)
     {
-        avatarObj.transform.SetParent(avatarParent.transform, false);
-        avatarObj.name = name;
-        avatarObj.transform.localPosition = pos;
-        avatarObj.transform.localRotation = rot;
-
-        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
-    }
-
-    void EquipAccessoryType(GameObject[] accessories, string[] avatarBodyPaths, string path)
-    {
+        GameObject[] accessories = GameObject.FindGameObjectsWithTag("tag");
+        
         int i = 0;
         foreach (GameObject accessory in accessories)
         {
-            Debug.Log(i + " Filepath: " + avatarBodyPaths[i] + path);
-            GameObject parent = GameObject.Find(avatarBodyPaths[i] + path);
+            Debug.Log(i + " Filepath: " + avatarBodyPaths[i] + accessoryPath);
+            GameObject parent = GameObject.Find(avatarBodyPaths[i] + accessoryPath);
 
             if (parent != null)
             {
@@ -277,5 +258,33 @@ public class AvatarManager : Singleton<AvatarManager>
 
             i++;
         }
+    }
+
+    // single avatar spawns
+    public void SetAccessoryType(string tag, string avatarBodyPath, string accessoryPath)
+    {
+        GameObject accessory = GameObject.FindWithTag("tag");
+        
+        Debug.Log("Filepath: " + avatarBodyPath + accessoryPath);
+        GameObject parent = GameObject.Find(avatarBodyPath + accessoryPath);
+
+        if (parent != null)
+        {
+            accessory.transform.SetParent(parent.transform, false);
+        }
+        else
+        {
+            Debug.Log("Parent not found. ");
+        }
+    }
+
+    public void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent, Vector3 pos, Quaternion rot, float scale)
+    {
+        avatarObj.transform.SetParent(avatarParent.transform, false);
+        avatarObj.name = name;
+        avatarObj.transform.localPosition = pos;
+        avatarObj.transform.localRotation = rot;
+
+        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
 }

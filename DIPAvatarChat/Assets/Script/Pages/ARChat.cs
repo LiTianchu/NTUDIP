@@ -46,6 +46,7 @@ public class ARChat : PageSingleton<ARChat>
     private bool _isLoading;
 
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
+    private string[] AR_AVATAR_BODY_PATHS;
 
     public Avatar SelectedAvatar { get; set; }
     public List<Avatar> AvatarList { get { return _avatarList; } }
@@ -110,7 +111,7 @@ public class ARChat : PageSingleton<ARChat>
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
 
         //Set accessories correctly
-        AvatarManager.Instance.SetAccessories();
+        AvatarManager.Instance.SetAccessories(ChatManager.Instance.AVATAR_BODY_PATHS);
 
         //spawn light source
         GameObject lightsource = new GameObject();
@@ -145,7 +146,7 @@ public class ARChat : PageSingleton<ARChat>
 
     public void SendMessage()
     {
-        ChatManager.Instance.SendMessage(MessageInputField,SelectedAvatar.ConversationData.conversationID);
+        ChatManager.Instance.SendMessage(MessageInputField, SelectedAvatar.ConversationData.conversationID);
     }
 
     public void ClearChatDisplay()
@@ -196,19 +197,19 @@ public class ARChat : PageSingleton<ARChat>
         if (SelectedAvatar != null && context.performed)
         {
             if (TouchedOnUi()) { Debug.Log("Touched on UI"); return; }
-            
+
             //first check if the player is touching on the avatar
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if(Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit))
             {
                 Avatar touchedAvatar = hit.transform.GetComponent<Avatar>();
-                if (touchedAvatar!= null)
+                if (touchedAvatar != null)
                 {
                     if (touchedAvatar != SelectedAvatar) { ClearChatDisplay(); }
                     SelectedAvatar = touchedAvatar;
                     Debug.Log(SelectedAvatar.name + " touched");
-                    
+
                     OnAvatarSelected?.Invoke(SelectedAvatar);
                     return;
                 }

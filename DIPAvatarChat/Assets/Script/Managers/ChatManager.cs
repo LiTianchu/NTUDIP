@@ -19,6 +19,19 @@ public class ChatManager : Singleton<ChatManager>
     public Dictionary<string, ConversationData> EmailToConversationDict { get; set; }
     public Dictionary<string, UserData> EmailToUsersDict { get; set; }
 
+    public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
+    public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
+    public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
+    public string[] AVATAR_BODY_PATHS;
+
+    //pos for avatar spawn pos
+    public readonly Vector3 MY_AVATAR_POS = new Vector3(55f, 10f, -30f);
+    public readonly Vector3 THEIR_AVATAR_POS = new Vector3(-55f, 10f, -30f);
+    public readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
+    public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
+    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+    public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+
     private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
 
     // Map commands to custom emotes
@@ -47,6 +60,7 @@ public class ChatManager : Singleton<ChatManager>
         ConvIDToMessageDataDict = new Dictionary<string, HashSet<MessageData>>();
         EmailToUsersDict = new Dictionary<string, UserData>();
         EmailToConversationDict = new Dictionary<string, ConversationData>();
+        AVATAR_BODY_PATHS = new string[] { MY_AVATAR_BODY_PATH, THEIR_AVATAR_BODY_PATH, POPUP_AVATAR_BODY_PATH };
     }
 
     // Update is called once per frame
