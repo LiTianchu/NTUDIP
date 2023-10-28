@@ -11,7 +11,6 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Firebase.Auth;
 
 public class AnimationManager : Singleton<AnimationManager>
 {
