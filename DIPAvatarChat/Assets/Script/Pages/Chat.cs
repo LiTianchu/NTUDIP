@@ -21,7 +21,6 @@ public class Chat : MonoBehaviour
     public GameObject AvatarDisplayArea;
     public GameObject PopupTheirAvatar;
     public GameObject AvatarPopupDisplayArea;
-    //public RuntimeAnimatorController animatorController;
 
     //public static string currConvId { get; set; }
     //ConversationData currConvData;
@@ -32,7 +31,6 @@ public class Chat : MonoBehaviour
     private GameObject theirAvatarBody;
 
     private readonly float AVATAR_SCALE_CHAT = 30f;
-    string[] AVATAR_BODY_PATHS = new string[] { ChatManager.Instance.MY_AVATAR_BODY_PATH, ChatManager.Instance.THEIR_AVATAR_BODY_PATH, ChatManager.Instance.POPUP_AVATAR_BODY_PATH };
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +73,6 @@ public class Chat : MonoBehaviour
         if (await AvatarBackendManager.Instance.GetAvatarsForChat())
         {
             InitializeAvatars();
-            //SetAccessories();
         }
     }
 
@@ -99,7 +96,6 @@ public class Chat : MonoBehaviour
     public void PopupAvatar()
     {
         PopupTheirAvatar.SetActive(true);
-        //SetAccessories();
     }
 
     private async void ListenForNewMessages()
