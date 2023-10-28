@@ -76,25 +76,25 @@ public class Chat : MonoBehaviour
         if (await AvatarBackendManager.Instance.GetAvatarsForChat())
         {
             InitializeAvatars();
-            ChatManager.Instance.SetAccessories();
+            AvatarManager.Instance.SetAccessories();
         }
     }
 
     private void InitializeAvatars()
     {
-        GameObject myAvatar = ChatManager.Instance.LoadAvatar(AuthManager.Instance.currUser.email);
-        GameObject theirAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
+        GameObject myAvatar = AvatarManager.Instance.LoadAvatar(AuthManager.Instance.currUser.email);
+        GameObject theirAvatar = AvatarManager.Instance.LoadAvatar(recipientUserData.email);
 
         //initial settings
-        SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, ChatManager.Instance.MY_AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION);
-        SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, ChatManager.Instance.THEIR_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTATION);
+        SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, AvatarManager.Instance.MY_AVATAR_POS, AvatarManager.Instance.MY_AVATAR_ROTATION);
+        SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, AvatarManager.Instance.THEIR_AVATAR_POS, AvatarManager.Instance.THEIR_AVATAR_ROTATION);
 
         //Display popup avatar when click on friend's avatar
-        GameObject popupAvatar = ChatManager.Instance.LoadAvatar(recipientUserData.email);
-        SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, ChatManager.Instance.POPUP_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTATION);
+        GameObject popupAvatar = AvatarManager.Instance.LoadAvatar(recipientUserData.email);
+        SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, AvatarManager.Instance.POPUP_AVATAR_POS, AvatarManager.Instance.THEIR_AVATAR_ROTATION);
 
-        myAvatarBody = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
-        theirAvatarBody = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
+        myAvatarBody = GameObject.Find(AvatarManager.Instance.MY_AVATAR_BODY_PATH);
+        theirAvatarBody = GameObject.Find(AvatarManager.Instance.THEIR_AVATAR_BODY_PATH);
     }
 
     private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent, Vector3 pos, Quaternion rot)
@@ -111,7 +111,7 @@ public class Chat : MonoBehaviour
     public void PopupAvatar()
     {
         PopupTheirAvatar.SetActive(true);
-        ChatManager.Instance.SetAccessories();
+        AvatarManager.Instance.SetAccessories();
     }
 
     private async void ListenForNewMessages()
