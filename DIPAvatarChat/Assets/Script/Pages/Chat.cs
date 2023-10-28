@@ -86,26 +86,15 @@ public class Chat : MonoBehaviour
         GameObject theirAvatar = AvatarManager.Instance.LoadAvatar(recipientUserData.email);
 
         //initial settings
-        SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, AvatarManager.Instance.MY_AVATAR_POS, AvatarManager.Instance.MY_AVATAR_ROTATION);
-        SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, AvatarManager.Instance.THEIR_AVATAR_POS, AvatarManager.Instance.THEIR_AVATAR_ROTATION);
+        AvatarManager.Instance.SetAvatar("MyAvatarBody", myAvatar, AvatarDisplayArea, AvatarManager.Instance.MY_AVATAR_POS, AvatarManager.Instance.MY_AVATAR_ROTATION, AVATAR_SCALE_CHAT);
+        AvatarManager.Instance.SetAvatar("TheirAvatarBody", theirAvatar, AvatarDisplayArea, AvatarManager.Instance.THEIR_AVATAR_POS, AvatarManager.Instance.THEIR_AVATAR_ROTATION, AVATAR_SCALE_CHAT);
 
         //Display popup avatar when click on friend's avatar
         GameObject popupAvatar = AvatarManager.Instance.LoadAvatar(recipientUserData.email);
-        SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, AvatarManager.Instance.POPUP_AVATAR_POS, AvatarManager.Instance.THEIR_AVATAR_ROTATION);
+        AvatarManager.Instance.SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, AvatarManager.Instance.POPUP_AVATAR_POS, AvatarManager.Instance.THEIR_AVATAR_ROTATION, AVATAR_SCALE_CHAT);
 
         myAvatarBody = GameObject.Find(AvatarManager.Instance.MY_AVATAR_BODY_PATH);
         theirAvatarBody = GameObject.Find(AvatarManager.Instance.THEIR_AVATAR_BODY_PATH);
-    }
-
-    private void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent, Vector3 pos, Quaternion rot)
-    {
-        avatarObj.transform.SetParent(avatarParent.transform, false);
-        avatarObj.name = name;
-        avatarObj.transform.localPosition = pos;
-        avatarObj.transform.localRotation = rot;
-
-        float scale = AVATAR_SCALE_CHAT;
-        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
     }
 
     public void PopupAvatar()

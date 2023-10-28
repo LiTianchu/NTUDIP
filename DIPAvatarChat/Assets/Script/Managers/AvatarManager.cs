@@ -247,6 +247,17 @@ public class AvatarManager : Singleton<AvatarManager>
         EquipAccessoryType(ArmAccessories, AVATAR_BODY_PATHS, AVATAR_ARM_PATH);
     }
 
+    public void SetAvatar(string name, GameObject avatarObj, GameObject avatarParent, Vector3 pos, Quaternion rot, float scale)
+    {
+        avatarObj.transform.SetParent(avatarParent.transform, false);
+        avatarObj.name = name;
+        avatarObj.transform.localPosition = pos;
+        avatarObj.transform.localRotation = rot;
+
+        //float scale = AVATAR_SCALE_CHAT;
+        avatarObj.transform.localScale = new Vector3(scale, scale, scale);
+    }
+
     void EquipAccessoryType(GameObject[] accessories, string[] avatarBodyPaths, string path)
     {
         int i = 0;
