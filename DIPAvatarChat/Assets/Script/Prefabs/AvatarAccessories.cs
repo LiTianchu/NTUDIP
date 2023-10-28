@@ -7,6 +7,7 @@ using TMPro;
 public class AvatarAccessories : MonoBehaviour
 {
     public GameObject AccessoryPrefab;
+    public GameObject AvatarBody;
     public Transform AccessoryPanel;
     public Button selectAccessoryButton;
     public string accessoryType;
@@ -28,8 +29,9 @@ public class AvatarAccessories : MonoBehaviour
     public void InstantiateAccessory()
     {
         Debug.Log("InstantiateAccessory called");
+        string path = "Blender/" + AccessoryPrefab.name;
 
-        foreach (Transform child in AccessoryPanel.transform)
+        /*foreach (Transform child in AccessoryPanel.transform)
         {
             Debug.Log("Child GameObject: " + child.gameObject.name);
             if (child.gameObject == AccessoryPrefab)
@@ -42,6 +44,37 @@ public class AvatarAccessories : MonoBehaviour
             {
                 child.gameObject.SetActive(false);
             }
+        }*/
+
+        switch (accessoryType)
+        {
+            case "colour":
+
+                break;
+            case "texture":
+
+                break;
+            case "expression":
+
+                break;
+            case "hat":
+                // Load hat accessory
+                AvatarManager.Instance.LoadAccessory(path, AvatarBody, AvatarManager.Instance.HAT_POS, AvatarManager.Instance.HAT_SCALE, AvatarManager.Instance.HAT_ROTATION, "HatAccessory");
+                break;
+            case "arm":
+                // Load arm accessory
+                AvatarManager.Instance.LoadAccessory(path, AvatarBody, AvatarManager.Instance.ARM_POS, AvatarManager.Instance.ARM_SCALE, AvatarManager.Instance.ARM_ROTATION, "ArmAccessory");
+                break;
+            case "wings":
+
+                break;
+            case "tail":
+
+                break;
+            case "shoes":
+                // Load shoes accessory
+                AvatarManager.Instance.LoadAccessory(path, AvatarBody, AvatarManager.Instance.SHOES_POS, AvatarManager.Instance.SHOES_SCALE, AvatarManager.Instance.SHOES_ROTATION, "ShoesAccessory");
+                break;
         }
     }
 
@@ -117,42 +150,13 @@ public class AvatarAccessories : MonoBehaviour
         }
     }
 
-    /*private IEnumerator InstantiateAccessoryCoroutine()
+    public void ClearAccessoryType(GameObject[] AccessoryType, string accessoryType)
     {
-        // Yield one frame to ensure that the destruction has occurred
-        yield return null;
+        AccessoryType = GameObject.FindGameObjectsWithTag(accessoryType);
 
-        //UpdateAvatarData();
-
-        // Calculate the position for the new accessory clone based on the clone count
-        Vector3 clonePosition = new Vector3(0, -cloneCount * 100f, 0); // Adjust the Y position as needed
-
-        // Create a new accessory clone at the calculated position
-        GameObject newClone = Instantiate(AccessoryPrefab, clonePosition, Quaternion.identity, AccessoryPanel);
-
-        // Increment the clone count
-        cloneCount++;
-
-        // Assign the newClone to the previousClone variable
-        previousClone = newClone;
-
-        // Set the instantiation coroutine to null to allow for the next instantiation
-        instantiationCoroutine = null;
-    }
-
-    private void DisplayAccessory()
-    {
-        foreach (Transform child in AccessoryPanel.transform)
+        foreach (GameObject accessory in AccessoryType)
         {
-            Debug.Log("Child GameObject: " + child.gameObject.name);
-            if (child.gameObject == AccessoryPrefab)
-            {
-                child.gameObject.SetActive(!child.gameObject.activeSelf);
-            }
-            else
-            {
-                child.gameObject.SetActive(false);
-            }
+            Destroy(accessory);
         }
-    }*/
+    }
 }

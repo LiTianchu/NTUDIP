@@ -39,9 +39,9 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
 
     //pos for hat accessories
-    private readonly Vector3 HAT_POS = new Vector3(-0.0005419354f, 0.0004996881f, 0.0008415249f);
-    private readonly Vector3 HAT_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
-    private readonly Quaternion HAT_ROTATION = Quaternion.Euler(0.156f, 180f, 2.777f);
+    public readonly Vector3 HAT_POS = new Vector3(-0.0005419354f, 0.0004996881f, 0.0008415249f);
+    public readonly Vector3 HAT_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
+    public readonly Quaternion HAT_ROTATION = Quaternion.Euler(0.156f, 180f, 2.777f);
 
     //pos for arm accessories  
     public readonly Vector3 ARM_POS = new Vector3(0.000391079f, 0.002983337f, -0.0007772499f);
@@ -51,7 +51,7 @@ public class AvatarManager : Singleton<AvatarManager>
     //pos for shoes accessories
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
-    private readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+    public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 180f, 0f);
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
     {
