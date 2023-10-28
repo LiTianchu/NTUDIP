@@ -6,11 +6,9 @@ using TMPro;
 
 public class AvatarAccessories : MonoBehaviour
 {
-    public GameObject AccessoryPrefab;
-    public Button selectAccessoryButton;
+    public GameObject AccessoryName;
     public string accessoryType;
     GameObject AvatarDisplayArea;
-    bool isEquipped = false;
 
     void Start()
     {
@@ -25,10 +23,9 @@ public class AvatarAccessories : MonoBehaviour
     public void InstantiateAccessory()
     {
         Debug.Log("InstantiateAccessory called");
-        string path = "Blender/" + AccessoryPrefab.name;
+        string path = "Blender/" + AccessoryName.name;
 
-        isEquipped = !isEquipped;
-        UpdateAvatarData(isEquipped);
+        UpdateAvatarData();
 
         GameObject avatar = GameObject.Find("/Canvas/AvatarContainer/Avatar");
         if (avatar != null)
@@ -38,74 +35,44 @@ public class AvatarAccessories : MonoBehaviour
         }
     }
 
-    public void UpdateAvatarData(bool isActive)
+    public void UpdateAvatarData()
     {
         Debug.Log("Accessory Type: " + accessoryType + ", Accessory Name: " + AccessoryPrefab.name);
-        Debug.Log("Accessory is active: " + isActive);
+        string path = null;
 
-        string path = "Blender/" + AccessoryPrefab.name;
+        if (AccessoryName.name != "nothing")
+        {
+            path = "Blender/" + AccessoryName.name;
+        }
 
         if (AvatarBackendManager.Instance.currAvatarData != null)
         {
-            if (isActive)
+            switch (accessoryType)
             {
-                switch (accessoryType)
-                {
-                    case "colour":
-                        AvatarBackendManager.Instance.currAvatarData.colour = path;
-                        break;
-                    case "texture":
-                        AvatarBackendManager.Instance.currAvatarData.texture = path;
-                        break;
-                    case "expression":
-                        AvatarBackendManager.Instance.currAvatarData.expression = path;
-                        break;
-                    case "hat":
-                        AvatarBackendManager.Instance.currAvatarData.hat = path;
-                        break;
-                    case "arm":
-                        AvatarBackendManager.Instance.currAvatarData.arm = path;
-                        break;
-                    case "wings":
-                        AvatarBackendManager.Instance.currAvatarData.wings = path;
-                        break;
-                    case "tail":
-                        AvatarBackendManager.Instance.currAvatarData.tail = path;
-                        break;
-                    case "shoes":
-                        AvatarBackendManager.Instance.currAvatarData.shoes = path;
-                        break;
-                }
-            }
-            else
-            {
-                switch (accessoryType)
-                {
-                    case "colour":
-                        AvatarBackendManager.Instance.currAvatarData.colour = null;
-                        break;
-                    case "texture":
-                        AvatarBackendManager.Instance.currAvatarData.texture = null;
-                        break;
-                    case "expression":
-                        AvatarBackendManager.Instance.currAvatarData.expression = null;
-                        break;
-                    case "hat":
-                        AvatarBackendManager.Instance.currAvatarData.hat = null;
-                        break;
-                    case "arm":
-                        AvatarBackendManager.Instance.currAvatarData.arm = null;
-                        break;
-                    case "wings":
-                        AvatarBackendManager.Instance.currAvatarData.wings = null;
-                        break;
-                    case "tail":
-                        AvatarBackendManager.Instance.currAvatarData.tail = null;
-                        break;
-                    case "shoes":
-                        AvatarBackendManager.Instance.currAvatarData.shoes = null;
-                        break;
-                }
+                case "colour":
+                    AvatarBackendManager.Instance.currAvatarData.colour = path;
+                    break;
+                case "texture":
+                    AvatarBackendManager.Instance.currAvatarData.texture = path;
+                    break;
+                case "expression":
+                    AvatarBackendManager.Instance.currAvatarData.expression = path;
+                    break;
+                case "hat":
+                    AvatarBackendManager.Instance.currAvatarData.hat = path;
+                    break;
+                case "arm":
+                    AvatarBackendManager.Instance.currAvatarData.arm = path;
+                    break;
+                case "wings":
+                    AvatarBackendManager.Instance.currAvatarData.wings = path;
+                    break;
+                case "tail":
+                    AvatarBackendManager.Instance.currAvatarData.tail = path;
+                    break;
+                case "shoes":
+                    AvatarBackendManager.Instance.currAvatarData.shoes = path;
+                    break;
             }
         }
     }
