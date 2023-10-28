@@ -64,7 +64,8 @@ public class BackgroundImageToggle : MonoBehaviour
             Debug.LogWarning("headerImage component is missing.");
         }
 
-        if (chatUiHeaderImage == null) {
+        if (chatUiHeaderImage == null)
+        {
             Debug.LogWarning("chatUiHeaderImage component is missing.");
         }
 
@@ -80,11 +81,11 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 headerImage.color = new Color(0.188f, 0.161f, 0.212f);
             }
-            if (chatUiHeaderImage != null) 
+            if (chatUiHeaderImage != null)
             {
                 chatUiHeaderImage.color = new Color(0.278f, 0.239f, 0.31f);
             }
-            if (sourceImage != null) 
+            if (sourceImage != null)
             {
                 sourceImage.color = new Color(0.84f, 0.84f, 0.84f);
             }
@@ -113,7 +114,7 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 if (chatlistBoxBackground != null)
                 {
-                    chatlistBoxBackground.color = new Color(0.188f, 0.161f, 0.212f); 
+                    chatlistBoxBackground.color = new Color(0.188f, 0.161f, 0.212f);
                 }
                 if (chatlistBoxText != null)
                 {
@@ -138,12 +139,16 @@ public class BackgroundImageToggle : MonoBehaviour
         }
         else
         {
-            backgroundImage.sprite = originalSprite;
+            if (backgroundImage != null)
+            {
+                backgroundImage.sprite = alternateSprite;
+            }
             if (headerImage != null)
             {
                 headerImage.color = new Color(1f, 0.855f, 0.839f);
             }
-            if (chatUiHeaderImage != null) {
+            if (chatUiHeaderImage != null)
+            {
                 chatUiHeaderImage.color = new Color(1f, 0.855f, 0.839f);
             }
             if (sourceImage != null)
@@ -175,7 +180,7 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 if (chatlistBoxBackground != null)
                 {
-                    chatlistBoxBackground.color = new Color(0.937f, 0.914f, 0.906f); 
+                    chatlistBoxBackground.color = new Color(0.937f, 0.914f, 0.906f);
                 }
                 if (chatlistBoxText != null)
                 {
