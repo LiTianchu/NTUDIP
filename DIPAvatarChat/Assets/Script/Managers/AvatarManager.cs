@@ -223,24 +223,19 @@ public class AvatarManager : Singleton<AvatarManager>
                 fbx.transform.localScale = itemScale;
                 fbx.tag = tag;
 
-                SetAccessory(fbx, AccessoryParent);
+                if (AccessoryParent != null)
+                {
+                    fbx.transform.SetParent(AccessoryParent.transform, false);
+                }
+                else
+                {
+                    Debug.Log("Parent not found. ");
+                }
             }
             else
             {
                 Debug.LogError("FBX asset not found: " + fbxFileName);
             }
-        }
-    }
-
-    public void SetAccessory(GameObject accessory, GameObject parent)
-    {
-        if (parent != null)
-        {
-            accessory.transform.SetParent(parent.transform, false);
-        }
-        else
-        {
-            Debug.Log("Parent not found. ");
         }
     }
 
