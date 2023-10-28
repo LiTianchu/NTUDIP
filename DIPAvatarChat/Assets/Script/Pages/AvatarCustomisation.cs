@@ -14,11 +14,12 @@ using UnityEngine.UI;
 public class AvatarCustomisation : MonoBehaviour
 {
   public GameObject FeaturesBox;
+  public GameObject AvatarDisplayArea;
 
   // Start is called before the first frame update
   void Start()
   {
-    
+    AvatarManager.Instance.InitialiseAvatarCustomisation(AvatarDisplayArea);
   }
 
   // Update is called once per frame
