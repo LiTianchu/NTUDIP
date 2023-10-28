@@ -37,7 +37,7 @@ public class AvatarAccessories : MonoBehaviour
 
     public void UpdateAvatarData()
     {
-        Debug.Log("Accessory Type: " + accessoryType + ", Accessory Name: " + AccessoryPrefab.name);
+        Debug.Log("Accessory Type: " + accessoryType + ", Accessory Name: " + AccessoryName.name);
         string path = null;
 
         if (AccessoryName.name != "nothing")
