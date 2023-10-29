@@ -19,7 +19,7 @@ public class AvatarCustomisation : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    AvatarManager.Instance.InitialiseAvatarCustomisation(AvatarDisplayArea);
+    InitialiseAvatarCustomisation();
   }
 
   // Update is called once per frame
@@ -65,5 +65,29 @@ public class AvatarCustomisation : MonoBehaviour
     {
       Debug.LogError("Failed to update avatar data.");
     }
+  }
+
+  public void InitialiseAvatarCustomisation()
+  {
+    if (AvatarBackendManager.Instance.currAvatarData == null)
+    {
+      AvatarData newAvatarData = new AvatarData
+      {
+        createdAt = DateTime.Now,
+        lastUpdatedAt = DateTime.Now,
+        email = AuthManager.Instance.currUser.email,
+        arm = null,
+        colour = null,
+        expression = null,
+        hat = null,
+        shoes = null,
+        tail = null,
+        texture = null,
+        wings = null,
+      };
+      AvatarBackendManager.Instance.currAvatarData = newAvatarData;
+    }
+
+    AvatarManager.Instance.InitialiseAvatarCustomisation(AvatarDisplayArea);
   }
 }
