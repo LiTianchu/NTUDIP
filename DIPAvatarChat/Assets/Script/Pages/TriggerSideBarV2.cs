@@ -5,8 +5,8 @@ using UnityEngine;
 public class TriggerSideBarV2 : MonoBehaviour
 {
     public RectTransform sidebar; // Reference to the RectTransform of the sidebar panel
-    public float slideSpeed = 2f; // Speed at which the sidebar slides in/out
-    public float sidebarHiddenPos = 1000f;
+    public float slideSpeed = 0.5f; // Speed at which the sidebar slides in/out
+    public float sidebarHiddenPos = 500f;
     public float sidebarShownPos = 0f;
 
     private bool isSidebarVisible = false; // Flag to track if the sidebar is visible
