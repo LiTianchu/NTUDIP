@@ -4578,9 +4578,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sidebar: {fileID: 961867703}
-  slideSpeed: 10
-  sidebarHiddenPos: 500
-  sidebarShownPos: 0
 --- !u!114 &1333548671
 MonoBehaviour:
   m_ObjectHideFlags: 0
