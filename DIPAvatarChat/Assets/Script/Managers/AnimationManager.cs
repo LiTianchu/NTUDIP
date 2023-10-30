@@ -56,4 +56,11 @@ public class AnimationManager : Singleton<AnimationManager>
             Debug.Log("Error playing animation: " + e);
         }
     }
+
+    public void UI_SlideInFromRightSide(RectTransform UI, bool isVisible, float slideSpeed, float hiddenPos, float shownPos)
+    {
+        float targetX = isVisible ? shownPos : hiddenPos;
+        float newX = Mathf.Lerp(UI.anchoredPosition.x, targetX, Time.deltaTime * slideSpeed);
+        UI.anchoredPosition = new Vector2(newX, UI.anchoredPosition.y);
+    }
 }
