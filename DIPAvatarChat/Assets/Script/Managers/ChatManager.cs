@@ -70,7 +70,8 @@ public class ChatManager : Singleton<ChatManager>
     public GameObject InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
     {
         GameObject box = Instantiate(_ChatBubblePrefab);
-        box.transform.parent = _ChatBubbleParent.transform;
+        //box.transform.parent = _ChatBubbleParent.transform;
+        box.transform.SetParent(_ChatBubbleParent.transform, false);
         box.transform.localPosition = new Vector3(box.transform.localPosition.x, box.transform.localPosition.y, 0);
         box.name = messageId;
 
