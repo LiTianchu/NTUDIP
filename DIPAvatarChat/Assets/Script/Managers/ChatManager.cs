@@ -85,7 +85,7 @@ public class ChatManager : Singleton<ChatManager>
         {
             if (msgText.Contains(kvp.Key))
             {
-                msgText = msgText.Replace(kvp.Key, $"<size=36><sprite={kvp.Value}></size>");
+                msgText = msgText.Replace(kvp.Key, $"<size=24><sprite={kvp.Value}></size>");
             }
         }
 
