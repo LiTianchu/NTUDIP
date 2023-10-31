@@ -43,19 +43,68 @@ public class UIManager : Singleton<UIManager>
         isCooldown = false;
     }
 
-    public void PanelFadeIn(RectTransform panelUIRect, CanvasGroup panelCanvasGroup, float fadeTime)
+    public void PanelFadeIn(CanvasGroup panelCanvasGroup, float fadeTime, UIMoveDir dir, Vector2 uiPos)
     {
+        RectTransform panelUIRect = panelCanvasGroup.gameObject.GetComponent<RectTransform>();
         panelCanvasGroup.alpha = 0f; //starting opacity
-        panelUIRect.transform.localPosition = new Vector3(0,-1000,0); //starting position
-        panelUIRect.DOAnchorPos(Vector2.zero, fadeTime, false).SetEase(Ease.OutFlash); //falsh in animation
+        if (dir.Equals(UIMoveDir.Stay))
+        {
+            panelUIRect.transform.localPosition = uiPos;
+        }
+        else
+        {
+            panelUIRect.transform.localPosition = GetFadeDirPos(dir); //starting position
+        }
+        panelUIRect.DOAnchorPos(uiPos, fadeTime, false).SetEase(Ease.OutFlash); //falsh in animation
         panelCanvasGroup.DOFade(1, fadeTime); //fade out animtion
     }
 
-    public void PanelFadeOut(RectTransform panelUIRect, CanvasGroup panelCanvasGroup, float fadeTime)
+    public void PanelFadeOut(CanvasGroup panelCanvasGroup, float fadeTime, UIMoveDir dir, Vector2 uiPos)
     {
-        panelCanvasGroup.alpha = 1f; //starting opcaity
-        panelUIRect.transform.localPosition = Vector3.zero; //starting position
-        panelUIRect.DOAnchorPos(new Vector2(0f, -1000f), fadeTime, false).SetEase(Ease.InOutQuint); //flash out animation
-        panelCanvasGroup.DOFade(0, fadeTime); //fade out animation
+        RectTransform panelUIRect = panelCanvasGroup.gameObject.GetComponent<RectTransform>();
+        panelCanvasGroup.alpha = 0f; //starting opacity
+        panelUIRect.transform.localPosition = uiPos;
+        Vector2 targetPos;
+        if (dir.Equals(UIMoveDir.Stay))
+        {
+            targetPos = uiPos;
+        }
+        else
+        {
+            targetPos = GetFadeDirPos(dir); //starting position
+        }
+        panelUIRect.DOAnchorPos(targetPos, fadeTime, false).SetEase(Ease.OutFlash); //falsh in animation
+        panelCanvasGroup.DOFade(1, fadeTime); //fade out animtion
     }
+
+    private Vector2 GetFadeDirPos(UIMoveDir dir)
+    {
+        Vector2 dirStartPos = Vector2.zero;
+        switch (dir)
+        {
+            case UIMoveDir.FromLeft:
+                dirStartPos = new Vector2(-500f, 0f);
+                break;
+            case UIMoveDir.FromRight:
+                dirStartPos = new Vector2(500f, 0f);
+                break;
+            case UIMoveDir.FromTop:
+                dirStartPos = new Vector2(0f, 500f);
+                break;
+            case UIMoveDir.FromBottom:
+                dirStartPos = new Vector2(0f, -500f);
+                break;
+        }
+        return dirStartPos;
+    }
+
+    public enum UIMoveDir
+    {
+        FromLeft,
+        FromRight,
+        FromTop,
+        FromBottom,
+        Stay
+    }
+
 }

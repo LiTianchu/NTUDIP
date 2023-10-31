@@ -392,6 +392,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 302758876}
+  - component: {fileID: 302758877}
   m_Layer: 0
   m_Name: BottomBar
   m_TagString: Untagged
@@ -422,6 +423,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -283.9998}
   m_SizeDelta: {x: 0, y: 53.6583}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &302758877
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302758875}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &347362674
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +579,7 @@ GameObject:
   - component: {fileID: 373271925}
   - component: {fileID: 373271927}
   - component: {fileID: 373271926}
+  - component: {fileID: 373271928}
   m_Layer: 5
   m_Name: ScrollArea
   m_TagString: Untagged
@@ -637,6 +651,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &373271928
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373271924}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &421008100
 GameObject:
   m_ObjectHideFlags: 0
@@ -2674,6 +2700,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1753650977}
+  - component: {fileID: 1753650978}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -2704,6 +2731,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 233}
   m_SizeDelta: {x: 0, y: 61.54}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1753650978
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753650976}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1821381635
 GameObject:
   m_ObjectHideFlags: 0
@@ -3043,6 +3082,9 @@ MonoBehaviour:
   AvatarDisplayArea: {fileID: 1160785319}
   PopupTheirAvatar: {fileID: 998758285}
   AvatarPopupDisplayArea: {fileID: 1077173127}
+  topBar: {fileID: 1753650978}
+  bottomTextFieldBar: {fileID: 302758877}
+  chatScrollView: {fileID: 373271928}
 --- !u!114 &1989608748
 MonoBehaviour:
   m_ObjectHideFlags: 0

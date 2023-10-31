@@ -10,8 +10,9 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.UIElements;
 
-public class StartingPage : MonoBehaviour
+public class StartingPage : MonoBehaviour, IPageTransition
 {
     public GameObject LoadingUI;
     public bool autoLogin = true;
@@ -24,19 +25,25 @@ public class StartingPage : MonoBehaviour
         {
             LoadSession();
         }
-        FadeIn();
+        FadeInUI();
         
     }
 
-    private void FadeIn()
+    public void FadeInUI()
     {
-        RectTransform rectTransform = fadeInUI.GetComponent<RectTransform>();
         CanvasGroup canvasGroup = fadeInUI.GetComponent<CanvasGroup>();
 
-        UIManager.Instance.PanelFadeIn(rectTransform, canvasGroup, 0.5f);
+        UIManager.Instance.PanelFadeIn(canvasGroup, 2f,UIManager.UIMoveDir.FromBottom, Vector2.zero);
     }
     void LoadSession()
     {
+        StartCoroutine(ExitRoutine());
         StartCoroutine(AuthManager.Instance.LoadSession(0.25f, LoadingUI));
+    }
+
+    public IEnumerator ExitRoutine()
+    {
+        UIManager.Instance.PanelFadeOut(fadeInUI.GetComponent<CanvasGroup>(), 0.5f, UIManager.UIMoveDir.FromBottom, fadeInUI.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
+        yield return new WaitForSeconds(0.5f);
     }
 }
