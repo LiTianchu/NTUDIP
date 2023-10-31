@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Android;
 
 public class AvatarManager : Singleton<AvatarManager>
 {
@@ -94,9 +95,18 @@ public class AvatarManager : Singleton<AvatarManager>
 
     public async void DisplayFriendAvatar2d(DocumentSnapshot snapshot, GameObject AvatarHeadDisplayArea, GameObject AvatarSkinDisplayArea, GameObject AvatarHatDisplayArea)
     {
+        if (snapshot == null)
+        {
+            Debug.Log("Friend Avatar Data Not Found");
+
+            return;
+        }
         AvatarData avatarData = snapshot.ConvertTo<AvatarData>();
 
+        
+
         List<Sprite> sprites = LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat);
+       
 
         Sprite skin2d = sprites[0];
         Sprite head2d = sprites[1];
