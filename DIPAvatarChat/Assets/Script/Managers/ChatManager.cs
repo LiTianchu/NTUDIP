@@ -14,47 +14,22 @@ using UnityEngine.UI;
 
 public class ChatManager : Singleton<ChatManager>
 {
-    public RuntimeAnimatorController animatorController;
     public string CurrentRecipientName { get; set; }
     public Dictionary<string, HashSet<MessageData>> ConvIDToMessageDataDict { get; set; }
     public Dictionary<string, ConversationData> EmailToConversationDict { get; set; }
     public Dictionary<string, UserData> EmailToUsersDict { get; set; }
-    public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
 
-    //path for files
-    public readonly string AVATAR_BODY_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
     public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
     public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
     public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
-    public readonly string AVATAR_HAT_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
-    public readonly string AVATAR_ARM_PATH = "/Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
-
-    //rotation for avatar spawn
-    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
-    public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
-    public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
-    public readonly Vector3 AVATAR_COLLIDER_CENTER = new Vector3(0f, 2f, 0f);
 
     //pos for avatar spawn pos
     public readonly Vector3 MY_AVATAR_POS = new Vector3(55f, 10f, -30f);
     public readonly Vector3 THEIR_AVATAR_POS = new Vector3(-55f, 10f, -30f);
     public readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
     public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
-
-    //pos for hat accessories
-    private readonly Vector3 HAT_POS = new Vector3(-0.0005419354f, 0.0004996881f, 0.0008415249f);
-    private readonly Vector3 HAT_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
-    private readonly Quaternion HAT_ROTATION = Quaternion.Euler(0.156f, 180f, 2.777f);
-
-    //pos for arm accessories  
-    public readonly Vector3 ARM_POS = new Vector3(0.000391079f, 0.002983337f, -0.0007772499f);
-    public readonly Vector3 ARM_SCALE = new Vector3(0.0007f, 0.0007f, 0.0007f);
-    public readonly Quaternion ARM_ROTATION = Quaternion.Euler(-181.103f, 51.586f, -96.85901f);
-
-    //pos for shoes accessories
-    public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
-    public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
-    private readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+    public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+    public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
 
     private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
 
@@ -79,24 +54,10 @@ public class ChatManager : Singleton<ChatManager>
         { ":oops:", 53},
     };
 
-    public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
-    {
-        { "Blender/beret", "2D_assets/beret"},
-        { "Blender/crown", "2D_assets/crown"},
-        { "Blender/horns", "2D_assets/horns"},
-        { "Blender/nightcap", "2D_assets/sleepcap"},
-        { "Blender/partyhat", "2D_assets/partyhat"},
-        { "Blender/porkpiehat", "2D_assets/porkpiehat"},
-        { "Blender/starclip", "2D_assets/starclip"},
-        { "Blender/strawboater", "2D_assets/strawboater"},
-        { "Blender/sunflower", "2D_assets/flowers"},
-    };
-
     void Start()
     {
         ConvIDToMessageDataDict = new Dictionary<string, HashSet<MessageData>>();
         EmailToUsersDict = new Dictionary<string, UserData>();
-        EmailToAvatarDict = new Dictionary<string, AvatarData>();
         EmailToConversationDict = new Dictionary<string, ConversationData>();
     }
 
@@ -109,7 +70,8 @@ public class ChatManager : Singleton<ChatManager>
     public GameObject InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
     {
         GameObject box = Instantiate(_ChatBubblePrefab);
-        box.transform.parent = _ChatBubbleParent.transform;
+        //box.transform.parent = _ChatBubbleParent.transform;
+        box.transform.SetParent(_ChatBubbleParent.transform, false);
         box.transform.localPosition = new Vector3(box.transform.localPosition.x, box.transform.localPosition.y, 0);
         box.name = messageId;
 
@@ -180,144 +142,5 @@ public class ChatManager : Singleton<ChatManager>
             return sprite;
         }
         return null;
-    }
-
-    public List<Sprite> LoadAvatarSprite2d(string headFilePath, string skinFilePath, string hatFilePath)
-    {
-        List<Sprite> sprites = new List<Sprite>();
-
-        Sprite head2d = Resources.Load<Sprite>(headFilePath);
-        Sprite skin2d = Resources.Load<Sprite>(skinFilePath);
-        Sprite hat2d = null;
-
-        if (hatFilePath != null && hatFilePath != "")
-        {
-            foreach (var kvp in hatTo2dHatMap)
-            {
-                if (hatFilePath.Contains(kvp.Key))
-                {
-                    Debug.Log("2d Hat file path: " + kvp.Value);
-                    hat2d = Resources.Load<Sprite>(kvp.Value);
-                }
-            }
-        }
-
-        sprites.Add(skin2d);
-        sprites.Add(head2d);
-        sprites.Add(hat2d);
-
-        return sprites;
-    }
-
-    public GameObject LoadAvatar(AvatarData avatarData)
-    {
-        GameObject avatar = LoadAvatarBody(AVATAR_BODY_PATH);
-
-        // Load hat accessory
-        LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, "HatAccessory");
-
-        // Load arm accessory
-        LoadAccessory(avatarData.arm, avatar, ARM_POS, ARM_SCALE, ARM_ROTATION, "ArmAccessory");
-
-        // Load shoes accessory
-        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, "ShoesAccessory");
-
-        return avatar;
-    }
-
-    public GameObject LoadAvatar(string email)
-    {
-        if (EmailToAvatarDict.ContainsKey(email))
-        {
-            return LoadAvatar(this.EmailToAvatarDict[email]);
-        }
-        else
-        {
-            throw new KeyNotFoundException(email);
-        }
-    }
-
-    public GameObject LoadAvatarBody(string avatarBaseFbxFileName)
-    {
-        if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
-        {
-            GameObject loadedFBX = Resources.Load<GameObject>(avatarBaseFbxFileName); // Eg. Blender/catbasetest.fbx
-
-            if (loadedFBX != null)
-            {
-                GameObject fbx = Instantiate(loadedFBX);
-                BoxCollider collider = fbx.AddComponent<BoxCollider>(); //add collider to body to detect raycast
-                collider.size = AVATAR_COLLIDER_SIZE;
-                collider.center = AVATAR_COLLIDER_CENTER;
-
-                fbx.AddComponent<Animator>();
-
-                Animator animator = fbx.GetComponent<Animator>();
-                animator.runtimeAnimatorController = animatorController;
-                return fbx;
-            }
-            else
-            {
-                Debug.LogError("FBX asset not found: " + avatarBaseFbxFileName);
-                return null;
-            }
-        }
-        return null;
-    }
-
-    public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale, Quaternion itemRotation, string tag)
-    {
-        if (fbxFileName != null && fbxFileName != "")
-        {
-            // Load the FBX asset from the Resources folder
-            GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName); // Eg. Blender/porkpiehat.fbx
-            if (loadedFBX != null)
-            {
-                // Instantiate the loaded FBX as a GameObject in the scene
-                GameObject fbx = Instantiate(loadedFBX, itemPosition, itemRotation);
-
-                fbx.transform.SetParent(AvatarBody.transform, false);
-                fbx.transform.localScale = itemScale;
-                fbx.tag = tag;
-            }
-            else
-            {
-                Debug.LogError("FBX asset not found: " + fbxFileName);
-            }
-        }
-    }
-
-    public void SetAccessories()
-    {
-        GameObject[] HatAccessories = GameObject.FindGameObjectsWithTag("HatAccessory");
-        GameObject[] ArmAccessories = GameObject.FindGameObjectsWithTag("ArmAccessory");
-        GameObject[] ShoeAccessories = GameObject.FindGameObjectsWithTag("ShoesAccessory");
-        string[] AVATAR_BODY_PATHS = new string[] { MY_AVATAR_BODY_PATH, THEIR_AVATAR_BODY_PATH, POPUP_AVATAR_BODY_PATH };
-
-        // Move hat accessory to mixamo rig head (To stick to head)
-        EquipAccessoryType(HatAccessories, AVATAR_BODY_PATHS, AVATAR_HAT_PATH);
-        // Move arm accessory to mixamo rig right forearm
-        EquipAccessoryType(ArmAccessories, AVATAR_BODY_PATHS, AVATAR_ARM_PATH);
-    }
-
-    void EquipAccessoryType(GameObject[] accessories, string[] avatarBodyPaths, string path)
-    {
-        int i = 0;
-        foreach (GameObject accessory in accessories)
-        {
-            Debug.Log(i + " Filepath: " + avatarBodyPaths[i] + path);
-            GameObject parent = GameObject.Find(avatarBodyPaths[i] + path);
-
-            if (parent != null)
-            {
-                accessory.transform.SetParent(parent.transform, false);
-            }
-            else
-            {
-                Debug.Log("Parent not found. " + i);
-            }
-
-            i++;
-        }
     }
 }

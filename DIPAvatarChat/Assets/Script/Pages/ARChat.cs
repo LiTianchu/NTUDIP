@@ -46,6 +46,7 @@ public class ARChat : PageSingleton<ARChat>
     private bool _isLoading;
 
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
+    private string AR_AVATAR_BODY_PATH = "";
 
     public Avatar SelectedAvatar { get; set; }
     public List<Avatar> AvatarList { get { return _avatarList; } }
@@ -77,14 +78,14 @@ public class ARChat : PageSingleton<ARChat>
     }
     private async void RetrieveAvatarData(string email)
     {
-        bool avatarHasLoaded = ChatManager.Instance.EmailToAvatarDict.TryGetValue(email, out AvatarData data); //check if the avatar is already cached
+        bool avatarHasLoaded = AvatarManager.Instance.EmailToAvatarDict.TryGetValue(email, out AvatarData data); //check if the avatar is already cached
         if (!avatarHasLoaded) //if not cached, load from database
         {
             DocumentSnapshot avatarDataDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(email);
             data = avatarDataDoc.ConvertTo<AvatarData>();
 
 
-            ChatManager.Instance.EmailToAvatarDict[email] = data;
+            AvatarManager.Instance.EmailToAvatarDict[email] = data;
             _avatarList.Add(LoadAvatarObject(data));
 
         }
@@ -104,13 +105,12 @@ public class ARChat : PageSingleton<ARChat>
 
     private Avatar LoadAvatarObject(AvatarData data)
     {
-        GameObject avatarObj = ChatManager.Instance.LoadAvatar(data);
+        GameObject avatarObj = AvatarManager.Instance.LoadAvatar(data);
         avatarObj.transform.parent = AvatarContainer.transform;
         avatarObj.name = data.email + "_" + "Avatar";
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
 
         //Set accessories correctly
-        ChatManager.Instance.SetAccessories();
 
         //spawn light source
         GameObject lightsource = new GameObject();
@@ -145,7 +145,7 @@ public class ARChat : PageSingleton<ARChat>
 
     public void SendMessage()
     {
-        ChatManager.Instance.SendMessage(MessageInputField,SelectedAvatar.ConversationData.conversationID);
+        ChatManager.Instance.SendMessage(MessageInputField, SelectedAvatar.ConversationData.conversationID);
     }
 
     public void ClearChatDisplay()
@@ -196,19 +196,19 @@ public class ARChat : PageSingleton<ARChat>
         if (SelectedAvatar != null && context.performed)
         {
             if (TouchedOnUi()) { Debug.Log("Touched on UI"); return; }
-            
+
             //first check if the player is touching on the avatar
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if(Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit))
             {
                 Avatar touchedAvatar = hit.transform.GetComponent<Avatar>();
-                if (touchedAvatar!= null)
+                if (touchedAvatar != null)
                 {
                     if (touchedAvatar != SelectedAvatar) { ClearChatDisplay(); }
                     SelectedAvatar = touchedAvatar;
                     Debug.Log(SelectedAvatar.name + " touched");
-                    
+
                     OnAvatarSelected?.Invoke(SelectedAvatar);
                     return;
                 }

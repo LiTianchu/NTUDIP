@@ -52,6 +52,6 @@ public class ChatListBox : MonoBehaviour
     public async void DisplayFriendAvatar2d()
     {
         DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByConversationIdTask(Box.name);
-        AvatarBackendManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea, AvatarSkinDisplayArea, AvatarHatDisplayArea);
+        AvatarManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea, AvatarSkinDisplayArea, AvatarHatDisplayArea);
     }
 }

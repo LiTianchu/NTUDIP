@@ -72,15 +72,6 @@ public class EditProfile : MonoBehaviour
 
     public async void LoadAvatarCustomization()
     {
-        AvatarData newAvatarData = new AvatarData
-        {
-            createdAt = DateTime.Now,
-            lastUpdatedAt = DateTime.Now,
-            email = AuthManager.Instance.currUser.email,
-        };
-
-        AvatarBackendManager.Instance.currAvatarData = newAvatarData;
-
         AppManager.Instance.LoadScene("AvatarCustomisation");
     }
 

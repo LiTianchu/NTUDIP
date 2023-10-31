@@ -18,6 +18,15 @@ public class BackgroundImageToggle : MonoBehaviour
     public Image alternateButton;
     public Image arChatSlideBtn;
 
+    public GameObject chatlistBoxPrefab;
+    public Image chatlistBoxBackground;
+    public TextMeshProUGUI chatlistBoxText;
+
+    public GameObject loadingUiPrefab1;
+    public Image loadingUiBackground1;
+    public GameObject loadingUiPrefab2;
+    public Image loadingUiBackground2;
+
     private bool isAlternate = false;
 
     private void Start()
@@ -55,7 +64,8 @@ public class BackgroundImageToggle : MonoBehaviour
             Debug.LogWarning("headerImage component is missing.");
         }
 
-        if (chatUiHeaderImage == null) {
+        if (chatUiHeaderImage == null)
+        {
             Debug.LogWarning("chatUiHeaderImage component is missing.");
         }
 
@@ -71,11 +81,11 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 headerImage.color = new Color(0.188f, 0.161f, 0.212f);
             }
-            if (chatUiHeaderImage != null) 
+            if (chatUiHeaderImage != null)
             {
                 chatUiHeaderImage.color = new Color(0.278f, 0.239f, 0.31f);
             }
-            if (sourceImage != null) 
+            if (sourceImage != null)
             {
                 sourceImage.color = new Color(0.84f, 0.84f, 0.84f);
             }
@@ -99,15 +109,46 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 arChatSlideBtn.color = new Color(0.188f, 0.161f, 0.212f);
             }
+
+            if (chatlistBoxPrefab != null)
+            {
+                if (chatlistBoxBackground != null)
+                {
+                    chatlistBoxBackground.color = new Color(0.188f, 0.161f, 0.212f);
+                }
+                if (chatlistBoxText != null)
+                {
+                    chatlistBoxText.color = Color.white;
+                }
+            }
+
+            if (loadingUiPrefab1 != null)
+            {
+                if (loadingUiBackground1 != null)
+                {
+                    loadingUiBackground1.color = new Color(0.33f, 0.33f, 0.33f);
+                }
+            }
+            if (loadingUiPrefab2 != null)
+            {
+                if (loadingUiBackground2 != null)
+                {
+                    loadingUiBackground2.color = new Color(0.33f, 0.33f, 0.33f);
+                }
+            }
         }
         else
         {
-            backgroundImage.sprite = originalSprite;
+            if (backgroundImage != null)
+            {
+                backgroundImage.sprite = originalSprite;
+            }
             if (headerImage != null)
             {
                 headerImage.color = new Color(1f, 0.855f, 0.839f);
             }
-            if (chatUiHeaderImage != null) {
+            if (chatUiHeaderImage != null)
+            {
                 chatUiHeaderImage.color = new Color(1f, 0.855f, 0.839f);
             }
             if (sourceImage != null)
@@ -133,6 +174,33 @@ public class BackgroundImageToggle : MonoBehaviour
             if (arChatSlideBtn != null)
             {
                 arChatSlideBtn.color = new Color(1f, 0.855f, 0.839f);
+            }
+
+            if (chatlistBoxPrefab != null)
+            {
+                if (chatlistBoxBackground != null)
+                {
+                    chatlistBoxBackground.color = new Color(0.937f, 0.914f, 0.906f);
+                }
+                if (chatlistBoxText != null)
+                {
+                    chatlistBoxText.color = Color.white;
+                }
+            }
+
+            if (loadingUiPrefab1 != null)
+            {
+                if (loadingUiBackground1 != null)
+                {
+                    loadingUiBackground1.color = Color.white;
+                }
+            }
+            if (loadingUiPrefab2 != null)
+            {
+                if (loadingUiBackground2 != null)
+                {
+                    loadingUiBackground2.color = Color.white;
+                }
             }
         }
     }

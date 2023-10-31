@@ -11,10 +11,10 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Firebase.Auth;
 
 public class AnimationManager : Singleton<AnimationManager>
 {
+    public RuntimeAnimatorController animatorController;
     // Map custom commands to play animation
     public readonly Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
     {
@@ -46,10 +46,8 @@ public class AnimationManager : Singleton<AnimationManager>
                 if (msgText.Contains(kvp.Key))
                 {
                     Debug.Log("Animation: " + kvp.Value);
-
                     _animator.SetBool(kvp.Value, true);
                     _animator.SetBool("Default", true);
-                    StartCoroutine(Delay(1f));
                 }
             }
         }
@@ -57,10 +55,12 @@ public class AnimationManager : Singleton<AnimationManager>
         {
             Debug.Log("Error playing animation: " + e);
         }
+    }
 
-        IEnumerator Delay(float f)
-        {
-            yield return new WaitForSecondsRealtime(f);
-        }
+    public void UI_SlideInFromRightSide(RectTransform UI, bool isVisible, float slideSpeed, float hiddenPos, float shownPos)
+    {
+        float targetX = isVisible ? shownPos : hiddenPos;
+        float newX = Mathf.Lerp(UI.anchoredPosition.x, targetX, Time.deltaTime * slideSpeed);
+        UI.anchoredPosition = new Vector2(newX, UI.anchoredPosition.y);
     }
 }
