@@ -210,7 +210,6 @@ GameObject:
   - component: {fileID: 69839725}
   - component: {fileID: 69839728}
   - component: {fileID: 69839727}
-  - component: {fileID: 69839729}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -278,21 +277,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RaycastPrefab: {fileID: 0}
---- !u!114 &69839729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69839724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dea56a9eaadd1c439095de4f9a371cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedLibrary: {fileID: 11400000, guid: e79a338f3d59a2b41b2beff28c552fb0, type: 2}
-  m_MaxNumberOfMovingImages: 1
-  m_TrackedImagePrefab: {fileID: 8713967128396596668, guid: 81007acf593d8594c95771e04a06e4f6, type: 3}
 --- !u!1 &76545750
 GameObject:
   m_ObjectHideFlags: 0
@@ -4741,6 +4725,13 @@ MonoBehaviour:
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 1313042408}
   arChatSlideBtn: {fileID: 599081482}
+  chatlistBoxPrefab: {fileID: 0}
+  chatlistBoxBackground: {fileID: 0}
+  chatlistBoxText: {fileID: 0}
+  loadingUiPrefab1: {fileID: 0}
+  loadingUiBackground1: {fileID: 0}
+  loadingUiPrefab2: {fileID: 0}
+  loadingUiBackground2: {fileID: 0}
 --- !u!1 &2118428253
 GameObject:
   m_ObjectHideFlags: 0
