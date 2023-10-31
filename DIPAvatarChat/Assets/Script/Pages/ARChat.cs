@@ -109,6 +109,7 @@ public class ARChat : PageSingleton<ARChat>
         avatarObj.transform.parent = AvatarContainer.transform;
         avatarObj.name = data.email + "_" + "Avatar";
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
+        avatarObj.transform.localRotation = ChatManager.Instance.MY_AVATAR_ROTATION;
 
         //Set accessories correctly
 
