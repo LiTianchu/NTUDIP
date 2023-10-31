@@ -106,7 +106,8 @@ public class ARChat : PageSingleton<ARChat>
     private Avatar LoadAvatarObject(AvatarData data)
     {
         GameObject avatarObj = AvatarManager.Instance.LoadAvatar(data);
-        avatarObj.transform.parent = AvatarContainer.transform;
+        //avatarObj.transform.parent = AvatarContainer.transform;
+        avatarObj.transform.SetParent(AvatarContainer.transform, false);
         avatarObj.name = data.email + "_" + "Avatar";
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
         avatarObj.transform.localRotation = ChatManager.Instance.MY_AVATAR_ROTATION;
