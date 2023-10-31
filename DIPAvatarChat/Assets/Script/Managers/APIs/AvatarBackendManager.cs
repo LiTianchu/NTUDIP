@@ -127,13 +127,13 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
             }
             else
             {
-                Debug.LogError("Current avatar data is null. Cannot update avatar data.");
+                Debug.Log("Current avatar data is null. Cannot update avatar data.");
                 return false;
             }
         }
         catch (Exception e)
         {
-            Debug.LogError("Error updating avatar data: " + e.Message);
+            Debug.Log("Error updating avatar data: " + e.Message);
             return false;
         }
     }
@@ -159,7 +159,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
         catch (Exception e)
         {
-            Debug.LogError("Avatar Display Error: " + e.Message);
+            Debug.Log("Avatar Display Error: " + e.Message);
             return false;
         }
     }
@@ -176,7 +176,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         }
         catch (Exception e)
         {
-            Debug.LogError("Error deleting avatar data: " + e.Message);
+            Debug.Log("Error deleting avatar data: " + e.Message);
             return false;
         }
     }
