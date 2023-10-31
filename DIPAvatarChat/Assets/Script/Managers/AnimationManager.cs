@@ -21,7 +21,12 @@ public class AnimationManager : Singleton<AnimationManager>
         { ">:(", "Angry"},
         { ":angry:", "Angry"},
         { "hi!", "Wave"},
+        { ":laugh:", "Laugh"},
         { ":laughing:", "Laugh"},
+        { "😂", "Laugh"},
+        { ":O", "Surprised"},
+        { ":shocked:", "Surprised"},
+        { "😱", "Surprised"},
     };
 
     void Start()
