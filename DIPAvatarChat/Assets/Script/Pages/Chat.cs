@@ -11,8 +11,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Chat : MonoBehaviour
+public class Chat : MonoBehaviour, IPageTransition
 {
+    [Header("Functional")]
     public TMP_InputField MessageInputField;
     public TMP_Text RecipientName;
     public GameObject MyChatBubblePrefab;
@@ -22,6 +23,10 @@ public class Chat : MonoBehaviour
     public GameObject PopupTheirAvatar;
     public GameObject AvatarPopupDisplayArea;
 
+    [Header("UI Transition")]
+    public CanvasGroup topBar;
+    public CanvasGroup bottomTextFieldBar;
+    public CanvasGroup chatScrollView;
     //public static string currConvId { get; set; }
     //ConversationData currConvData;
     private UserData recipientUserData;
@@ -36,8 +41,10 @@ public class Chat : MonoBehaviour
     void Start()
     {
         Debug.Log("Scene 6 Loaded...");
+        FadeInUI();
         InitializeChatData();
         ListenForNewMessages(); // Start listening for new messages
+        
     }
 
     // Update is called once per frame
@@ -245,8 +252,8 @@ public class Chat : MonoBehaviour
         ChatManager.Instance.CurrentRecipientName = "";
         //ChatManager.Instance.MyAvatarData = null;
         //ChatManager.Instance.TheirAvatarData = null;
-
-        AppManager.Instance.LoadScene("4-ChatList");
+        StartCoroutine(ExitRoutine());
+        //AppManager.Instance.LoadScene("4-ChatList");
     }
 
     public void ClearDisplay()
@@ -259,5 +266,22 @@ public class Chat : MonoBehaviour
         {
             Destroy(tempPrefab);
         }
+    }
+
+    public void FadeInUI()
+    {
+        UIManager.Instance.PanelFadeIn(topBar, 0.5f, UIManager.UIMoveDir.FromTop, topBar.GetComponent<RectTransform>().anchoredPosition);
+        UIManager.Instance.PanelFadeIn(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition);
+        UIManager.Instance.PanelFadeIn(chatScrollView, 0.5f, UIManager.UIMoveDir.FromLeft, chatScrollView.GetComponent<RectTransform>().anchoredPosition);
+    }
+
+    public IEnumerator ExitRoutine()
+    {
+        UIManager.Instance.PanelFadeOut(topBar, 0.5f, UIManager.UIMoveDir.FromTop, topBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
+        UIManager.Instance.PanelFadeOut(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
+        UIManager.Instance.PanelFadeOut(chatScrollView, 0.5f, UIManager.UIMoveDir.FromLeft, chatScrollView.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
+
+        yield return new WaitForSeconds(0.5f);
+        AppManager.Instance.LoadScene("4-ChatList");
     }
 }

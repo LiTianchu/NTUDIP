@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -14,7 +15,7 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class ARChat : PageSingleton<ARChat>
+public class ARChat : PageSingleton<ARChat>, IPageTransition
 {
     [Header("UI Elements")]
     public TMP_InputField MessageInputField;
@@ -37,6 +38,10 @@ public class ARChat : PageSingleton<ARChat>
     public Vector3 TextBubblePos;
     public Vector3 NamePos;
 
+    [Header("UI Transition")]
+    public CanvasGroup topBar;
+    public CanvasGroup bottomTextFieldBar;
+
     private List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
 
     private bool _isPopulated = false;
@@ -58,6 +63,7 @@ public class ARChat : PageSingleton<ARChat>
     {
         _avatarList = new List<Avatar>();
         _isLoading = true;
+        FadeInUI();
         //load all avatar of friends and me
         foreach (string email in ChatManager.Instance.EmailToUsersDict.Keys)
         {
@@ -162,7 +168,7 @@ public class ARChat : PageSingleton<ARChat>
     public void BackToNormalChat()
     {
 
-        AppManager.Instance.LoadScene("4-ChatList");
+        StartCoroutine(ExitRoutine());
     }
 
     public bool IsUIPressed()
@@ -229,7 +235,17 @@ public class ARChat : PageSingleton<ARChat>
     }
 
 
+    public void FadeInUI()
+    {
+        UIManager.Instance.PanelFadeIn(topBar, 0.5f, UIManager.UIMoveDir.FromTop, topBar.GetComponent<RectTransform>().anchoredPosition);
+        UIManager.Instance.PanelFadeIn(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition);
+    }
 
-
-
+    public IEnumerator ExitRoutine()
+    {
+        //UIManager.Instance.PanelFadeOut(topBar, 0.5f, UIManager.UIMoveDir.Stay, topBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
+        UIManager.Instance.PanelFadeOut(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
+        yield return new WaitForSeconds(0.5f);
+        AppManager.Instance.LoadScene("4-ChatList");
+    }
 }

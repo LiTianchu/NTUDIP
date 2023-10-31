@@ -1015,6 +1015,7 @@ GameObject:
   - component: {fileID: 727557584}
   - component: {fileID: 727557586}
   - component: {fileID: 727557585}
+  - component: {fileID: 727557587}
   m_Layer: 5
   m_Name: ARChatList
   m_TagString: Untagged
@@ -1103,6 +1104,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 727557582}
   m_CullTransparentMesh: 1
+--- !u!225 &727557587
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727557582}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &856820711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3234,6 +3247,7 @@ GameObject:
   - component: {fileID: 1899694788}
   - component: {fileID: 1899694790}
   - component: {fileID: 1899694789}
+  - component: {fileID: 1899694791}
   m_Layer: 5
   m_Name: BottomBar
   m_TagString: Untagged
@@ -3300,6 +3314,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899694787}
   m_CullTransparentMesh: 1
+--- !u!225 &1899694791
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899694787}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1989608745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3527,6 +3553,8 @@ MonoBehaviour:
   PlacedObjectScale: 0.02
   TextBubblePos: {x: 0, y: 6, z: 0}
   NamePos: {x: 0, y: 5, z: 0}
+  topBar: {fileID: 727557587}
+  bottomTextFieldBar: {fileID: 1899694791}
 --- !u!114 &2118428258
 MonoBehaviour:
   m_ObjectHideFlags: 0
