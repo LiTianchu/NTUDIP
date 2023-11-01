@@ -22,6 +22,7 @@ public class ChatList : MonoBehaviour
     public GameObject SearchFriendInfoTab;
     public GameObject FriendRequestsTab;
     public GameObject FriendRequestBoxPrefab;
+    public GameObject SendRequestBoxPrefab;
     public Button SendFriendRequestBtn;
     public GameObject ChatListParent;
     public ChatListBox ChatListObject;
@@ -148,7 +149,7 @@ public class ChatList : MonoBehaviour
             LoadingUI.SetActive(false);
             StartCoroutine(DisableLoadingAnim(0.5f));
         }
-        
+
         // After populating the chat list, set needsRefresh to false
         needsRefresh = false;
     }
@@ -237,7 +238,7 @@ public class ChatList : MonoBehaviour
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
         DisplaySearchUserData(userDoc.ConvertTo<UserData>());
 
-        SendFriendRequestBtn.interactable = true;
+        //SendFriendRequestBtn.interactable = true;
     }
 
     async public void SendFriendRequest()
@@ -286,13 +287,13 @@ public class ChatList : MonoBehaviour
             Debug.Log("Friend Request cannot be sent...");
         }
 
-        SendFriendRequestBtn.interactable = false;
+        //SendFriendRequestBtn.interactable = false;
     }
 
     async public void DisplayFriendRequests()
     {
         EnableTab(FriendRequestsTab);
-        DestroyTempPrefabs();
+        DestroyTempPrefabs("TempPrefab");
         Debug.Log(AuthManager.Instance.currUser.email);
 
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
@@ -321,6 +322,8 @@ public class ChatList : MonoBehaviour
 
     public void DisplaySearchUserData(UserData userData)
     {
+        DestroyTempPrefabs("SearchFriendPrefab");
+
         if (userData == null)
         {
             Debug.Log("User Data is not found");
@@ -333,9 +336,18 @@ public class ChatList : MonoBehaviour
         Debug.Log(userData.friendRequests);
         Debug.Log(userData.friends);
 
-        SearchNameDisplay.text = userData.username;
-        SearchEmailDisplay.text = userData.email;
-        SearchStatusDisplay.text = userData.status;
+        //SearchNameDisplay.text = userData.username;
+        //SearchEmailDisplay.text = userData.email;
+        //SearchStatusDisplay.text = userData.status;
+
+        //Clone prefab for displaying friend request
+        GameObject box = Instantiate(SendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        box.transform.SetParent(GameObject.Find("SearchFriendInfoTab").transform, false);
+        box.name = userData.email;
+
+        //Show the email of the friend request sender
+        box.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TMP_Text>().text = userData.username;
+        box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = userData.status;
     }
 
     async public void AcceptFriendRequest(string theirEmail)
@@ -395,7 +407,6 @@ public class ChatList : MonoBehaviour
     {
         UIManager.Instance.DisableGeneralTab(SearchFriendTab);
         UIManager.Instance.DisableGeneralTab(SearchFriendInfoTab);
-        ClearDisplay();
     }
 
     public void EnableTab(GameObject Tab)
@@ -417,16 +428,16 @@ public class ChatList : MonoBehaviour
     public void ClearDisplay()
     {
         // Only clear the display if a refresh is needed
-        SearchNameDisplay.text = "";
-        SearchEmailDisplay.text = "";
-        SearchStatusDisplay.text = "";
+        //SearchNameDisplay.text = "";
+        //SearchEmailDisplay.text = "";
+        //SearchStatusDisplay.text = "";
     }
 
-    public void DestroyTempPrefabs()
+    public void DestroyTempPrefabs(string tag)
     {
         GameObject[] tempPrefabs;
 
-        tempPrefabs = GameObject.FindGameObjectsWithTag("TempPrefab");
+        tempPrefabs = GameObject.FindGameObjectsWithTag(tag);
 
         foreach (GameObject tempPrefab in tempPrefabs)
         {
