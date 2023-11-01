@@ -25,6 +25,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public GameObject ARChatBubblePrefab;
     public GameObject ScreenChatContainer;
     public GameObject AvatarContainer;
+    public GameObject textBubblePrefab;//avatar label
     //public GameObject UsernameContainer;
     public GameObject AvatarSelectionBar;
     public AvatarIconContainer AvatarIconContainer;
@@ -35,7 +36,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public ARRaycastManager RaycastManager;
     public ARPlaneManager PlaneManager;
     public float PlacedObjectScale = 0.5f;
-    public Vector3 TextBubblePos;
+    //public Vector3 TextBubblePos;
     public Vector3 NamePos;
 
     [Header("UI Transition")]
@@ -50,6 +51,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
     private bool _isLoading;
 
+    private readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.5f, 0);
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
     private string AR_AVATAR_BODY_PATH = "";
 
@@ -118,6 +120,10 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
         avatarObj.transform.localRotation = ChatManager.Instance.MY_AVATAR_ROTATION;
 
+        // Spawn the text bubble prefab and set its position to follow the avatar
+        GameObject textBubble = Instantiate(textBubblePrefab, avatarObj.transform);
+        textBubble.transform.localPosition = TEXT_BUBBLE_POS; // Adjust position as needed
+        textBubble.transform.rotation = Quaternion.identity;
         //Set accessories correctly
 
         //spawn light source
