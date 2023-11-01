@@ -29,6 +29,7 @@ public class ChatList : MonoBehaviour
     public GameObject LoadingUI;
     public GameObject LoadingSwipe;
     public TMP_Text FriendRequestSentText;
+    public TMP_Text AlreadyYourFriendText;
     private bool needsRefresh = true; // Flag to track whether chat list needs refreshing
                                       // Store existing chat list items by conversation ID
     private Dictionary<string, ChatListBox> chatListItems = new Dictionary<string, ChatListBox>();
@@ -293,6 +294,13 @@ public class ChatList : MonoBehaviour
         else
         {
             Debug.Log("Friend Request cannot be sent...");
+
+            // Display "Already Your Friend Sent!" message
+            AlreadyYourFriendText.text = "Already Your Friend!";
+            AlreadyYourFriendText.gameObject.SetActive(true);
+
+            // Start a coroutine to hide the message after a delay
+            StartCoroutine(HideAlreadyYourFriendText(2.0f)); // Adjust the delay as needed
         }
 
         SendFriendRequestBtn.interactable = false;
@@ -306,6 +314,12 @@ public class ChatList : MonoBehaviour
         FriendRequestSentText.text = "";
     }
 
+        private IEnumerator HideAlreadyYourFriendText(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AlreadyYourFriendText.gameObject.SetActive(false);
+        AlreadyYourFriendText.text = "";
+    }
 
 
     async public void DisplayFriendRequests()
