@@ -11,6 +11,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ChatList : MonoBehaviour
 {
 
@@ -27,6 +28,7 @@ public class ChatList : MonoBehaviour
     public ChatListBox ChatListObject;
     public GameObject LoadingUI;
     public GameObject LoadingSwipe;
+    public TMP_Text FriendRequestSentText;
     private bool needsRefresh = true; // Flag to track whether chat list needs refreshing
                                       // Store existing chat list items by conversation ID
     private Dictionary<string, ChatListBox> chatListItems = new Dictionary<string, ChatListBox>();
@@ -275,11 +277,18 @@ public class ChatList : MonoBehaviour
             }
         }
 
-        Debug.Log("isAlreadyMyFriend: " + isAlreadyMyFriend);
+       Debug.Log("isAlreadyMyFriend: " + isAlreadyMyFriend);
 
         if (theirEmail != myEmail && theirEmail != null && !isDuplicateFriendRequest && !isAlreadyMyFriend)
         {
             UserBackendManager.Instance.SendFriendRequestToThem(myEmail, theirEmail, friendAndFriendRequestLists[1]);
+        
+            // Display "Friend Request Sent!" message
+            FriendRequestSentText.text = "Friend Request Sent!";
+            FriendRequestSentText.gameObject.SetActive(true);
+
+            // Start a coroutine to hide the message after a delay
+            StartCoroutine(HideFriendRequestSentText(2.0f)); // Adjust the delay as needed
         }
         else
         {
@@ -287,7 +296,17 @@ public class ChatList : MonoBehaviour
         }
 
         SendFriendRequestBtn.interactable = false;
+
     }
+
+        private IEnumerator HideFriendRequestSentText(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        FriendRequestSentText.gameObject.SetActive(false);
+        FriendRequestSentText.text = "";
+    }
+
+
 
     async public void DisplayFriendRequests()
     {
