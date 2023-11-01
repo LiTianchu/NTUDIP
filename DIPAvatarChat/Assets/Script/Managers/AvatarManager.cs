@@ -28,7 +28,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly Vector3 AVATAR_COLLIDER_CENTER = new Vector3(0f, 2f, 0f);
 
     //pos for hat accessories
-    public readonly Vector3 HAT_POS = new Vector3(-0.0005419354f, 0.0004996881f, 0.0008415249f);
+    public readonly Vector3 HAT_POS = new Vector3(-0.0005419354f, -0.0004f, 0.0008415249f);
     public readonly Vector3 HAT_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
     public readonly Quaternion HAT_ROTATION = Quaternion.Euler(0.156f, 180f, 2.777f);
 
