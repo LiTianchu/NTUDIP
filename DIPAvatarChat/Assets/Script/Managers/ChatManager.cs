@@ -24,8 +24,8 @@ public class ChatManager : Singleton<ChatManager>
     public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
 
     //pos for avatar spawn pos
-    public readonly Vector3 MY_AVATAR_POS = new Vector3(55f, 10f, -30f);
-    public readonly Vector3 THEIR_AVATAR_POS = new Vector3(-55f, 10f, -30f);
+    public readonly Vector3 MY_AVATAR_POS = new Vector3(100f, 10f, -30f);
+    public readonly Vector3 THEIR_AVATAR_POS = new Vector3(-100f, 10f, -30f);
     public readonly Vector3 POPUP_AVATAR_POS = new Vector3(0f, -60f, -30f);
     public readonly Vector3 HEAD_AVATAR_POS = new Vector3(15f, -95f, -30f);
     public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 180f, 0f);
