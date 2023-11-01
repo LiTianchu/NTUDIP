@@ -17,6 +17,7 @@ public class BackgroundImageToggle : MonoBehaviour
     public TextMeshProUGUI alternateText3;
     public Image alternateButton;
     public Image arChatSlideBtn;
+    public Image arHeaderImage;
 
     public GameObject chatlistBoxPrefab;
     public Image chatlistBoxBackground;
@@ -109,6 +110,10 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 arChatSlideBtn.color = new Color(0.188f, 0.161f, 0.212f);
             }
+            if (arHeaderImage != null)
+            {
+                arHeaderImage.color = new Color(0.188f, 0.161f, 0.212f);
+            }
 
             if (chatlistBoxPrefab != null)
             {
@@ -174,6 +179,10 @@ public class BackgroundImageToggle : MonoBehaviour
             if (arChatSlideBtn != null)
             {
                 arChatSlideBtn.color = new Color(1f, 0.855f, 0.839f);
+            }
+            if (arHeaderImage != null)
+            {
+                arHeaderImage.color = new Color(1f, 0.855f, 0.839f);
             }
 
             if (chatlistBoxPrefab != null)

@@ -687,8 +687,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000017323007, y: -57.45227}
-  m_SizeDelta: {x: 160, y: 48.3052}
+  m_AnchoredPosition: {x: 0.000017323007, y: -66}
+  m_SizeDelta: {x: 160, y: 75.4575}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &599081480
 MonoBehaviour:
@@ -787,7 +787,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.8
 --- !u!222 &599081483
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1042,7 +1042,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -54.309998}
+  m_AnchoredPosition: {x: 0, y: -54.31006}
   m_SizeDelta: {x: 0, y: 108.619995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &727557584
@@ -1232,6 +1232,22 @@ PrefabInstance:
 --- !u!224 &856820712 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3211520979303767484, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
+  m_PrefabInstance: {fileID: 856820711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &856820713 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5630158019474725070, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
+  m_PrefabInstance: {fileID: 856820711}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &856820714 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 405757954075299603, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
   m_PrefabInstance: {fileID: 856820711}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &958206836
@@ -1744,14 +1760,14 @@ RectTransform:
   m_GameObject: {fileID: 1313042405}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.24971882, y: 0.24971882, z: 0.24971882}
+  m_LocalScale: {x: 0.22046283, y: 0.22046283, z: 0.22046283}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 727557583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 30.4, y: -5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1313042407
@@ -3136,7 +3152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000022888184, y: -9.9}
+  m_AnchoredPosition: {x: -0.000022888184, y: -18}
   m_SizeDelta: {x: 0.000061035, y: -19.3817}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1875191556
@@ -3455,9 +3471,10 @@ MonoBehaviour:
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 1313042408}
   arChatSlideBtn: {fileID: 599081482}
-  chatlistBoxPrefab: {fileID: 0}
+  arHeaderImage: {fileID: 1238599202}
+  chatlistBoxPrefab: {fileID: 856820714}
   chatlistBoxBackground: {fileID: 0}
-  chatlistBoxText: {fileID: 0}
+  chatlistBoxText: {fileID: 856820713}
   loadingUiPrefab1: {fileID: 0}
   loadingUiBackground1: {fileID: 0}
   loadingUiPrefab2: {fileID: 0}
