@@ -886,7 +886,7 @@ MonoBehaviour:
   headerImage: {fileID: 1889168531}
   chatUiHeaderImage: {fileID: 0}
   sourceImage: {fileID: 0}
-  alternateText1: {fileID: 0}
+  alternateText1: {fileID: 625924140}
   alternateText2: {fileID: 0}
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 0}
