@@ -124,6 +124,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         GameObject textBubble = Instantiate(textBubblePrefab, avatarObj.transform);
         textBubble.transform.localPosition = TEXT_BUBBLE_POS; // Adjust position as needed
         textBubble.transform.rotation = Quaternion.identity;
+        textBubble.GetComponentInChildren<TMP_Text>().text = ChatManager.Instance.EmailToUsersDict[data.email].username;
         //Set accessories correctly
 
         //spawn light source

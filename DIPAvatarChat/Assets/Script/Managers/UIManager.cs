@@ -43,7 +43,7 @@ public class UIManager : Singleton<UIManager>
         isCooldown = false;
     }
 
-    public void PanelFadeIn(CanvasGroup panelCanvasGroup, float fadeTime, UIMoveDir dir, Vector2 uiPos)
+    public void PanelFadeIn(CanvasGroup panelCanvasGroup, float fadeTime, UIMoveDir dir, Vector3 uiPos)
     {
         RectTransform panelUIRect = panelCanvasGroup.gameObject.GetComponent<RectTransform>();
         panelCanvasGroup.alpha = 0f; //starting opacity
@@ -53,13 +53,13 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            panelUIRect.transform.localPosition = GetFadeDirPos(dir); //starting position
+            panelUIRect.transform.localPosition = GetFadeDirPos(dir, uiPos.z); //starting position
         }
         panelUIRect.DOAnchorPos(uiPos, fadeTime, false).SetEase(Ease.OutFlash); //falsh in animation
         panelCanvasGroup.DOFade(1, fadeTime); //fade out animtion
     }
 
-    public void PanelFadeOut(CanvasGroup panelCanvasGroup, float fadeTime, UIMoveDir dir, Vector2 uiPos)
+    public void PanelFadeOut(CanvasGroup panelCanvasGroup, float fadeTime, UIMoveDir dir, Vector3 uiPos)
     {
         RectTransform panelUIRect = panelCanvasGroup.gameObject.GetComponent<RectTransform>();
         panelCanvasGroup.alpha = 0f; //starting opacity
@@ -71,28 +71,28 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            targetPos = GetFadeDirPos(dir); //starting position
+            targetPos = GetFadeDirPos(dir, uiPos.z); //starting position
         }
         panelUIRect.DOAnchorPos(targetPos, fadeTime, false).SetEase(Ease.OutFlash); //falsh in animation
         panelCanvasGroup.DOFade(1, fadeTime); //fade out animtion
     }
 
-    private Vector2 GetFadeDirPos(UIMoveDir dir)
+    private Vector3 GetFadeDirPos(UIMoveDir dir, float zPos)
     {
-        Vector2 dirStartPos = Vector2.zero;
+        Vector3 dirStartPos = Vector2.zero;
         switch (dir)
         {
             case UIMoveDir.FromLeft:
-                dirStartPos = new Vector2(-500f, 0f);
+                dirStartPos = new Vector3(-500f, 0f, zPos);
                 break;
             case UIMoveDir.FromRight:
-                dirStartPos = new Vector2(500f, 0f);
+                dirStartPos = new Vector3(500f, 0f, zPos);
                 break;
             case UIMoveDir.FromTop:
-                dirStartPos = new Vector2(0f, 500f);
+                dirStartPos = new Vector3(0f, 500f, zPos);
                 break;
             case UIMoveDir.FromBottom:
-                dirStartPos = new Vector2(0f, -500f);
+                dirStartPos = new Vector3(0f, -500f, zPos);
                 break;
         }
         return dirStartPos;
