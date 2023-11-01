@@ -2774,7 +2774,7 @@ MonoBehaviour:
   alternateText1: {fileID: 2087247998}
   alternateText2: {fileID: 0}
   alternateText3: {fileID: 0}
-  alternateButton: {fileID: 0}
+  alternateButton: {fileID: 1333548672}
   arChatSlideBtn: {fileID: 0}
   chatlistBoxPrefab: {fileID: 5551016608129215562, guid: 786ebba9cc4153043924d313b23536ae, type: 3}
   chatlistBoxBackground: {fileID: 0}
@@ -6989,7 +6989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 10.626999, y: -223.99998}
+  m_AnchoredPosition: {x: 10.627014, y: -223.99998}
   m_SizeDelta: {x: -21.254, y: 429.687}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1796884596

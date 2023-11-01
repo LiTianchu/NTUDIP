@@ -1042,7 +1042,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -54.309998}
+  m_AnchoredPosition: {x: 0, y: -54.31006}
   m_SizeDelta: {x: 0, y: 108.619995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &727557584
@@ -1744,14 +1744,14 @@ RectTransform:
   m_GameObject: {fileID: 1313042405}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.24971882, y: 0.24971882, z: 0.24971882}
+  m_LocalScale: {x: 0.22046283, y: 0.22046283, z: 0.22046283}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 727557583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 35, y: -5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1313042407
@@ -3455,8 +3455,8 @@ MonoBehaviour:
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 1313042408}
   arChatSlideBtn: {fileID: 599081482}
-  chatlistBoxPrefab: {fileID: 0}
-  chatlistBoxBackground: {fileID: 0}
+  chatlistBoxPrefab: {fileID: 1238599198}
+  chatlistBoxBackground: {fileID: 1238599202}
   chatlistBoxText: {fileID: 0}
   loadingUiPrefab1: {fileID: 0}
   loadingUiBackground1: {fileID: 0}
