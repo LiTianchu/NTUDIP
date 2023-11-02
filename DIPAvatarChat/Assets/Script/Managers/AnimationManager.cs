@@ -18,15 +18,10 @@ public class AnimationManager : Singleton<AnimationManager>
     // Map custom commands to play animation
     public readonly Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
     {
-        { ">:(", "Angry"},
         { ":angry:", "Angry"},
         { "hi!", "Wave"},
         { ":laugh:", "Laugh"},
-        { ":laughing:", "Laugh"},
-        { "😂", "Laugh"},
-        { ":O", "Surprised"},
         { ":shocked:", "Surprised"},
-        { "😱", "Surprised"},
     };
 
     void Start()

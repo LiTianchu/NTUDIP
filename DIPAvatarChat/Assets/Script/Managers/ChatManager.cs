@@ -36,26 +36,16 @@ public class ChatManager : Singleton<ChatManager>
     // Map commands to custom emotes
     private Dictionary<string, int> emojiToImageMap = new Dictionary<string, int>
     {
-        { ":)", 0},
         { ":smile:", 0},
-        { "☺️", 0 },
-        { ":O", 10},
         { ":shocked:", 10},
-        { "😱", 10},
-        { "XD", 12},
-        { ":P", 16},
+        { ":xdface:", 12},
+        { ":blepface:", 16},
         { ":nerd:", 18},
         { ":sus:", 19},
-        { ">:(", 21},
         { ":angry:", 21},
         { ":flushed:", 22},
         { ":laugh:", 24},
-        { ":laughing:", 24},
-        { "😂", 24},
-        { "T.T", 26},
         { ":cry:", 26 },
-        { ":crying:", 26},
-        { "😭", 26},
         { ":ok:", 39},
         { ":oops:", 53},
     };

@@ -22,6 +22,7 @@ public class Chat : MonoBehaviour, IPageTransition
     public GameObject AvatarDisplayArea;
     public GameObject PopupTheirAvatar;
     public GameObject AvatarPopupDisplayArea;
+    public GameObject EmoteSelectionArea;
 
     [Header("UI Transition")]
     public CanvasGroup topBar;
@@ -283,5 +284,15 @@ public class Chat : MonoBehaviour, IPageTransition
 
         yield return new WaitForSeconds(0.5f);
         AppManager.Instance.LoadScene("4-ChatList");
+    }
+
+    public void OpenEmoteSelectionTab()
+    {
+        EmoteSelectionArea.SetActive(!EmoteSelectionArea.activeSelf);
+    }
+
+    public void TypeEmoteInMessageInputField(string code)
+    {
+        MessageInputField.text = MessageInputField.text + code + " ";
     }
 }
