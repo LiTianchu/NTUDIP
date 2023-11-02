@@ -47,8 +47,9 @@ public class ChatManager : Singleton<ChatManager>
         { ":flushed:", 22},
         { ":laugh:", 24},
         { ":cry:", 26 },
-        { ":ok:", 39},
         { ":oops:", 53},
+        { ":ok:", 39},
+        { ":wave:", 9},
     };
 
     void Start()
