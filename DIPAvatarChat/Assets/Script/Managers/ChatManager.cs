@@ -77,6 +77,7 @@ public class ChatManager : Singleton<ChatManager>
         return box;
     }
 
+    // converts emoji code to picture
     public string EmojiUpdate(string text)
     {
         foreach (var kvp in emojiToImageMap)
