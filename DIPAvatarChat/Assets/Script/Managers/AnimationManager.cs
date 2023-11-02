@@ -17,11 +17,11 @@ public class AnimationManager : Singleton<AnimationManager>
     public RuntimeAnimatorController animatorController;
     // Map custom commands to play animation
     public readonly Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
-    {
-        { ":angry:", "Angry"},
+    {  
         { "hi!", "Wave"},
-        { ":laugh:", "Laugh"},
-        { ":shocked:", "Surprised"},
+        { "<size=24><sprite=10></size>", "Surprised"},
+        { "<size=24><sprite=21></size>", "Angry"},
+        { "<size=24><sprite=24></size>", "Laugh"},
     };
 
     void Start()

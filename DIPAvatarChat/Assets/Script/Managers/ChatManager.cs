@@ -71,16 +71,23 @@ public class ChatManager : Singleton<ChatManager>
         box.transform.localPosition = new Vector3(box.transform.localPosition.x, box.transform.localPosition.y, 0);
         box.name = messageId;
 
-        foreach (var kvp in emojiToImageMap)
-        {
-            if (msgText.Contains(kvp.Key))
-            {
-                msgText = msgText.Replace(kvp.Key, $"<size=24><sprite={kvp.Value}></size>");
-            }
-        }
+        msgText = EmojiUpdate(msgText);
 
         box.transform.GetComponentInChildren<TMP_Text>().text = msgText;
         return box;
+    }
+
+    public string EmojiUpdate(string text)
+    {
+        foreach (var kvp in emojiToImageMap)
+        {
+            if (text.Contains(kvp.Key))
+            {
+                text = text.Replace(kvp.Key, $"<size=24><sprite={kvp.Value}></size>");
+            }
+        }
+
+        return text;
     }
 
     public void SendMessage(TMP_InputField messageInputField)
