@@ -138,6 +138,7 @@ public class ChatList : MonoBehaviour
                 //    // If the message exceeds the maximum length, truncate it and add "..."
                 //    latestMessageText = latestMessageText.Substring(0, maxLength) + "...";
                 //}
+                //latestMessageText = ChatManager.Instance.ReverseEmojiUpdate(latestMessageText);
                 messageText.text = latestMessageText;
 
                 //cache the chatlist data

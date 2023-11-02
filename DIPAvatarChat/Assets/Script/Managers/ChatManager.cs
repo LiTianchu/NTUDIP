@@ -19,6 +19,7 @@ public class ChatManager : Singleton<ChatManager>
     public Dictionary<string, ConversationData> EmailToConversationDict { get; set; }
     public Dictionary<string, UserData> EmailToUsersDict { get; set; }
 
+    public readonly int EMOJI_SIZE = 24;
     public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
     public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
     public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
@@ -84,7 +85,21 @@ public class ChatManager : Singleton<ChatManager>
         {
             if (text.Contains(kvp.Key))
             {
-                text = text.Replace(kvp.Key, $"<size=24><sprite={kvp.Value}></size>");
+                text = text.Replace(kvp.Key, $"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>");
+            }
+        }
+
+        return text;
+    }
+
+    // converts the emoji back to code (so that it wont store html to the database)
+    public string ReverseEmojiUpdate(string text)
+    {
+        foreach (var kvp in emojiToImageMap)
+        {
+            if (text.Contains($"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>"))
+            {
+                text = text.Replace($"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>", kvp.Key);
             }
         }
 
@@ -116,7 +131,8 @@ public class ChatManager : Singleton<ChatManager>
 
         if (messageInputField.text != null && messageInputField.text != "")
         {
-            bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, messageInputField.text, myEmail, theirEmail);
+            string updText = ReverseEmojiUpdate(messageInputField.text);
+            bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, updText, myEmail, theirEmail);
             if (IsMessageSent)
             {
                 messageInputField.text = "";

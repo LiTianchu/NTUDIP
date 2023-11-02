@@ -15,13 +15,15 @@ using UnityEngine.UI;
 public class AnimationManager : Singleton<AnimationManager>
 {
     public RuntimeAnimatorController animatorController;
+
     // Map custom commands to play animation
     public readonly Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
     {  
-        { "hi!", "Wave"},
-        { "<size=24><sprite=10></size>", "Surprised"},
-        { "<size=24><sprite=21></size>", "Angry"},
-        { "<size=24><sprite=24></size>", "Laugh"},
+        //{ "hi!", "Wave"},
+        { ":shocked:", "Surprised"},
+        { ":angry:", "Angry"},
+        { ":laugh:", "Laugh"},
+        { ":sus:", "Thinking"},
     };
 
     void Start()
