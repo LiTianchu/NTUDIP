@@ -19,6 +19,7 @@ public class ChatManager : Singleton<ChatManager>
     public Dictionary<string, ConversationData> EmailToConversationDict { get; set; }
     public Dictionary<string, UserData> EmailToUsersDict { get; set; }
 
+    public readonly int EMOJI_SIZE = 24;
     public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
     public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
     public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
@@ -71,16 +72,38 @@ public class ChatManager : Singleton<ChatManager>
         box.transform.localPosition = new Vector3(box.transform.localPosition.x, box.transform.localPosition.y, 0);
         box.name = messageId;
 
-        foreach (var kvp in emojiToImageMap)
-        {
-            if (msgText.Contains(kvp.Key))
-            {
-                msgText = msgText.Replace(kvp.Key, $"<size=24><sprite={kvp.Value}></size>");
-            }
-        }
+        msgText = EmojiUpdate(msgText);
 
         box.transform.GetComponentInChildren<TMP_Text>().text = msgText;
         return box;
+    }
+
+    // converts emoji code to picture
+    public string EmojiUpdate(string text)
+    {
+        foreach (var kvp in emojiToImageMap)
+        {
+            if (text.Contains(kvp.Key))
+            {
+                text = text.Replace(kvp.Key, $"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>");
+            }
+        }
+
+        return text;
+    }
+
+    // converts the emoji back to code (so that it wont store html to the database)
+    public string ReverseEmojiUpdate(string text)
+    {
+        foreach (var kvp in emojiToImageMap)
+        {
+            if (text.Contains($"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>"))
+            {
+                text = text.Replace($"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>", kvp.Key);
+            }
+        }
+
+        return text;
     }
 
     public void SendMessage(TMP_InputField messageInputField)
@@ -108,7 +131,8 @@ public class ChatManager : Singleton<ChatManager>
 
         if (messageInputField.text != null && messageInputField.text != "")
         {
-            bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, messageInputField.text, myEmail, theirEmail);
+            string updText = ReverseEmojiUpdate(messageInputField.text);
+            bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, updText, myEmail, theirEmail);
             if (IsMessageSent)
             {
                 messageInputField.text = "";

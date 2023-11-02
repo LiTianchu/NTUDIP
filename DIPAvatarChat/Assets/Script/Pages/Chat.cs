@@ -45,7 +45,7 @@ public class Chat : MonoBehaviour, IPageTransition
         FadeInUI();
         InitializeChatData();
         ListenForNewMessages(); // Start listening for new messages
-        
+
     }
 
     // Update is called once per frame
@@ -148,6 +148,7 @@ public class Chat : MonoBehaviour, IPageTransition
                                 // Message is sent by the current user, spawn text bubble at right side
                                 Debug.Log("Received message from current user");
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
+                                Debug.Log("MMMMMMMMMMMMMM " + msgText);
                                 AnimationManager.Instance.PlayAnimation(myAvatarBody, msgText);
                             }
                             else
@@ -294,5 +295,10 @@ public class Chat : MonoBehaviour, IPageTransition
     public void TypeEmoteInMessageInputField(string code)
     {
         MessageInputField.text = MessageInputField.text + code + " ";
+    }
+
+    public void MessageInputFieldEmojiUpdate()
+    {
+        MessageInputField.text = ChatManager.Instance.EmojiUpdate(MessageInputField.text);
     }
 }
