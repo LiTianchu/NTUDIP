@@ -19,6 +19,7 @@ public class ChatManager : Singleton<ChatManager>
     public Dictionary<string, ConversationData> EmailToConversationDict { get; set; }
     public Dictionary<string, UserData> EmailToUsersDict { get; set; }
 
+    public readonly int EMOJI_SIZE = 24;
     public readonly string MY_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/MyAvatarBody";
     public readonly string THEIR_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/AvatarMask/AvatarArea/TheirAvatarBody";
     public readonly string POPUP_AVATAR_BODY_PATH = "/UserSelected/ChatUI/Canvas/PopUpTheirAvatar/AvatarPopupArea/PopupAvatarBody";
@@ -36,28 +37,19 @@ public class ChatManager : Singleton<ChatManager>
     // Map commands to custom emotes
     private Dictionary<string, int> emojiToImageMap = new Dictionary<string, int>
     {
-        { ":)", 0},
         { ":smile:", 0},
-        { "☺️", 0 },
-        { ":O", 10},
         { ":shocked:", 10},
-        { "😱", 10},
-        { "XD", 12},
-        { ":P", 16},
+        { ":xdface:", 12},
+        { ":blepface:", 16},
         { ":nerd:", 18},
         { ":sus:", 19},
-        { ">:(", 21},
         { ":angry:", 21},
         { ":flushed:", 22},
         { ":laugh:", 24},
-        { ":laughing:", 24},
-        { "😂", 24},
-        { "T.T", 26},
         { ":cry:", 26 },
-        { ":crying:", 26},
-        { "😭", 26},
-        { ":ok:", 39},
         { ":oops:", 53},
+        { ":ok:", 39},
+        { ":wave:", 9},
     };
 
     void Start()
@@ -81,16 +73,38 @@ public class ChatManager : Singleton<ChatManager>
         box.transform.localPosition = new Vector3(box.transform.localPosition.x, box.transform.localPosition.y, 0);
         box.name = messageId;
 
-        foreach (var kvp in emojiToImageMap)
-        {
-            if (msgText.Contains(kvp.Key))
-            {
-                msgText = msgText.Replace(kvp.Key, $"<size=24><sprite={kvp.Value}></size>");
-            }
-        }
+        msgText = EmojiUpdate(msgText);
 
         box.transform.GetComponentInChildren<TMP_Text>().text = msgText;
         return box;
+    }
+
+    // converts emoji code to picture
+    public string EmojiUpdate(string text)
+    {
+        foreach (var kvp in emojiToImageMap)
+        {
+            if (text.Contains(kvp.Key))
+            {
+                text = text.Replace(kvp.Key, $"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>");
+            }
+        }
+
+        return text;
+    }
+
+    // converts the emoji back to code (so that it wont store html to the database)
+    public string ReverseEmojiUpdate(string text)
+    {
+        foreach (var kvp in emojiToImageMap)
+        {
+            if (text.Contains($"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>"))
+            {
+                text = text.Replace($"<size={EMOJI_SIZE}><sprite={kvp.Value}></size>", kvp.Key);
+            }
+        }
+
+        return text;
     }
 
     public void SendMessage(TMP_InputField messageInputField)
@@ -118,7 +132,8 @@ public class ChatManager : Singleton<ChatManager>
 
         if (messageInputField.text != null && messageInputField.text != "")
         {
-            bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, messageInputField.text, myEmail, theirEmail);
+            string updText = ReverseEmojiUpdate(messageInputField.text);
+            bool IsMessageSent = await MessageBackendManager.Instance.SendMessageTask(currConvData, updText, myEmail, theirEmail);
             if (IsMessageSent)
             {
                 messageInputField.text = "";

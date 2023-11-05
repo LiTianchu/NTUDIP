@@ -9,6 +9,7 @@ TagManager:
   - ShoesAccessory
   - ArmAccessory
   - AvatarCustomise
+  - SearchFriendPrefab
   layers:
   - Default
   - TransparentFX
