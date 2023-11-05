@@ -17,15 +17,11 @@ public class ChatListBox : MonoBehaviour
 {
     public GameObject Box;
     public string CurrentAvatarUserEmail { get; set; }
-    public GameObject AvatarSkinDisplayArea;
-    public GameObject AvatarHeadDisplayArea;
-    public GameObject AvatarHatDisplayArea;
 
     // Start is called before the first frame update
     void Start()
     {
-        DisplayFriendAvatar2d();
-        Debug.Log("Avatars loaded");
+
     }
 
     // Update is called once per frame
@@ -47,11 +43,5 @@ public class ChatListBox : MonoBehaviour
             //GameObject.Find("Canvas").GetComponent<ChatList>().PopulateChatList();
             AppManager.Instance.ReloadScene();
         }
-    }
-
-    public async void DisplayFriendAvatar2d()
-    {
-        DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByConversationIdTask(Box.name);
-        AvatarManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea, AvatarSkinDisplayArea, AvatarHatDisplayArea);
     }
 }
