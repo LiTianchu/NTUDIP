@@ -16,14 +16,11 @@ using Firebase.Auth;
 public class FriendRequestBox : MonoBehaviour
 {
     public GameObject Box;
-    public GameObject AvatarSkinDisplayArea;
-    public GameObject AvatarHeadDisplayArea;
-    public GameObject AvatarHatDisplayArea;
 
     // Start is called before the first frame update
     void Start()
     {
-        DisplayFriendAvatar2d();
+
     }
 
     // Update is called once per frame
@@ -40,12 +37,5 @@ public class FriendRequestBox : MonoBehaviour
     public void RejectFriendRequest()
     {
         GameObject.Find("Canvas").GetComponent<ChatList>().RejectFriendRequest(Box.name);
-    }
-
-    public async void DisplayFriendAvatar2d()
-    {
-        //display 2d avatar
-        DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByEmailTask(Box.name);
-        AvatarManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea, AvatarSkinDisplayArea, AvatarHatDisplayArea);
     }
 }

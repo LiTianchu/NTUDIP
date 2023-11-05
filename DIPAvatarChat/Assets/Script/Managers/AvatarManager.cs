@@ -55,6 +55,13 @@ public class AvatarManager : Singleton<AvatarManager>
         { "Blender/sunflower", "2D_assets/flowers"},
     };
 
+    public Dictionary<string, string> textureTo2dTextureMap = new Dictionary<string, string>
+    {
+        { "Blender/Textures/scars", "2D_assets/scars"},
+        { "Blender/Textures/spots", "2D_assets/spots"},
+        { "Blender/Textures/stripes", "2D_assets/stripes"},
+    };
+
     void Start()
     {
         EmailToAvatarDict = new Dictionary<string, AvatarData>();
@@ -66,15 +73,16 @@ public class AvatarManager : Singleton<AvatarManager>
 
     }
 
-    public List<Sprite> LoadAvatarSprite2d(string headFilePath, string skinFilePath, string hatFilePath)
+    public List<Sprite> LoadAvatarSprite2d(string headFilePath, string skinFilePath, string hatFilePath, string textureFilePath)
     {
         List<Sprite> sprites = new List<Sprite>();
 
         Sprite head2d = Resources.Load<Sprite>(headFilePath);
         Sprite skin2d = Resources.Load<Sprite>(skinFilePath);
         Sprite hat2d = null;
+        Sprite texture2d = null;
 
-        if (hatFilePath != null && hatFilePath != "")
+        /*if (hatFilePath != null && hatFilePath != "")
         {
             foreach (var kvp in hatTo2dHatMap)
             {
@@ -84,16 +92,37 @@ public class AvatarManager : Singleton<AvatarManager>
                     hat2d = Resources.Load<Sprite>(kvp.Value);
                 }
             }
-        }
+        }*/
+
+        hat2d = Find2d(hat2d, hatFilePath, hatTo2dHatMap);
+        texture2d = Find2d(texture2d, textureFilePath, textureTo2dTextureMap);
 
         sprites.Add(skin2d);
         sprites.Add(head2d);
         sprites.Add(hat2d);
+        sprites.Add(texture2d);
 
         return sprites;
+
+        Sprite Find2d(Sprite sprite2d, string filePath, Dictionary<string, string> Map2d)
+        {
+            if (filePath != null && filePath != "")
+            {
+                foreach (var kvp in Map2d)
+                {
+                    if (filePath.Contains(kvp.Key))
+                    {
+                        Debug.Log("2d Hat file path: " + kvp.Value);
+                        sprite2d = Resources.Load<Sprite>(kvp.Value);
+                        return sprite2d;
+                    }
+                }
+            }
+            return null;
+        }
     }
 
-    public async void DisplayFriendAvatar2d(DocumentSnapshot snapshot, GameObject AvatarHeadDisplayArea, GameObject AvatarSkinDisplayArea, GameObject AvatarHatDisplayArea)
+    public async void DisplayFriendAvatar2d(DocumentSnapshot snapshot, GameObject AvatarHeadDisplayArea, GameObject AvatarSkinDisplayArea, GameObject AvatarHatDisplayArea, GameObject AvatarTextureDisplayArea)
     {
         if (snapshot == null)
         {
@@ -105,12 +134,13 @@ public class AvatarManager : Singleton<AvatarManager>
 
 
 
-        List<Sprite> sprites = LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat);
+        List<Sprite> sprites = LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat, avatarData.texture);
 
 
         Sprite skin2d = sprites[0];
         Sprite head2d = sprites[1];
         Sprite hat2d = sprites[2];
+        Sprite texture2d = sprites[3];
 
         if (skin2d != null)
         {
@@ -132,6 +162,9 @@ public class AvatarManager : Singleton<AvatarManager>
             Debug.Log("Head sprite not found");
         }
 
+        AvatarSkinDisplayArea.SetActive(true);
+        AvatarHeadDisplayArea.SetActive(true);
+
         if (hat2d != null)
         {
             // Get the Image component attached to the GameObject
@@ -142,16 +175,26 @@ public class AvatarManager : Singleton<AvatarManager>
 
             //LoadingUI.SetActive(false);
             AvatarHatDisplayArea.SetActive(true);
-            AvatarSkinDisplayArea.SetActive(true);
-            AvatarHeadDisplayArea.SetActive(true);
         }
         else
         {
             Debug.Log("No hat equipped");
+        }
+
+        if (texture2d != null)
+        {
+            // Get the Image component attached to the GameObject
+            Image imageComponent = AvatarTextureDisplayArea.GetComponent<Image>();
+
+            // Set the sprite
+            imageComponent.sprite = texture2d;
 
             //LoadingUI.SetActive(false);
-            AvatarSkinDisplayArea.SetActive(true);
-            AvatarHeadDisplayArea.SetActive(true);
+            AvatarTextureDisplayArea.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("No texture equipped");
         }
     }
 
