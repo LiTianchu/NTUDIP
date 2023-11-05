@@ -80,16 +80,16 @@ public class EditProfile : MonoBehaviour
         AppManager.Instance.LoadScene("3-EditProfile");
     }
 
-    [Header("Button Hover")]
-    public TMP_Text hoverText;
+    //[Header("Button Hover")]
+    //public TMP_Text hoverText;
 
-    public void OnCreateButtonEnter()
-    {
-        hoverText.text = "Press Here!";
-    }
+    //public void OnCreateButtonEnter()
+    //{
+      //  hoverText.text = "Press Here!";
+    //}
 
-    public void OnCreateButtonExit()
-    {
-        hoverText.text = "";
-    }
+    //public void OnCreateButtonExit()
+    //{
+      //  hoverText.text = "";
+    //}
 }
