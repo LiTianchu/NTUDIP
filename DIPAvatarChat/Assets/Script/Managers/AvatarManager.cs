@@ -103,10 +103,10 @@ public class AvatarManager : Singleton<AvatarManager>
         }
         AvatarData avatarData = snapshot.ConvertTo<AvatarData>();
 
-        
+
 
         List<Sprite> sprites = LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat);
-       
+
 
         Sprite skin2d = sprites[0];
         Sprite head2d = sprites[1];
@@ -170,6 +170,8 @@ public class AvatarManager : Singleton<AvatarManager>
 
         // Load shoes accessory
         LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParent, "ShoesAccessory");
+
+        LoadTexture(avatarData.texture, avatar);
 
         if (tag != null)
         {
@@ -245,6 +247,59 @@ public class AvatarManager : Singleton<AvatarManager>
             else
             {
                 Debug.LogError("FBX asset not found: " + fbxFileName);
+            }
+        }
+    }
+
+    public void LoadTexture(string fbxFileName, GameObject AvatarBody)
+    {
+        if (fbxFileName != null && fbxFileName != "")
+        {
+            // Load the FBX asset from the Resources folder
+            // Eg. Blender/Materials/spots/Materials/body.fbx
+
+            string BODY_MATERIAL_PATH = fbxFileName + "/Materials/body";
+            string HEAD_MATERIAL_PATH = fbxFileName + "/Materials/head";
+            string TAIL_MATERIAL_PATH = fbxFileName + "/Materials/tail";
+
+            AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer");
+            AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer");
+            AddMaterial(TAIL_MATERIAL_PATH, "Cat_Tail", "MeshRenderer");
+        }
+
+        void AddMaterial(string MATERIAL_PATH, string bodyPart, string rendererType)
+        {
+            Material mat = Resources.Load<Material>(MATERIAL_PATH);
+
+            if (mat != null)
+            {
+                if (rendererType == "SkinnedMeshRenderer")
+                {
+                    SkinnedMeshRenderer SMR = AvatarBody.transform.Find(bodyPart).gameObject.GetComponent<SkinnedMeshRenderer>();
+
+                    // Clone the current materials array and add the new material to it
+                    Material[] mats = new Material[SMR.sharedMaterials.Length + 1];
+                    SMR.sharedMaterials.CopyTo(mats, 0);
+                    mats[mats.Length - 1] = mat;
+
+                    // Assign the updated materials array to the Skinned Mesh Renderer
+                    SMR.sharedMaterials = mats;
+                    return;
+                }
+
+                if (rendererType == "MeshRenderer")
+                {
+                    MeshRenderer MR = AvatarBody.transform.Find(bodyPart).gameObject.GetComponent<MeshRenderer>();
+
+                    // Clone the current materials array and add the new material to it
+                    Material[] mats = new Material[MR.sharedMaterials.Length + 1];
+                    MR.sharedMaterials.CopyTo(mats, 0);
+                    mats[mats.Length - 1] = mat;
+
+                    // Assign the updated materials array to the Skinned Mesh Renderer
+                    MR.sharedMaterials = mats;
+                    return;
+                }
             }
         }
     }
