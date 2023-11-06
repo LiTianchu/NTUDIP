@@ -3507,7 +3507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadingUI: {fileID: 1917813994287706522}
-  autoLogin: 1
+  autoLogin: 0
   fadeInUI: {fileID: 2145223949}
 --- !u!114 &1880905985
 MonoBehaviour:
@@ -3532,6 +3532,7 @@ MonoBehaviour:
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 0}
   arChatSlideBtn: {fileID: 0}
+  arHeaderImage: {fileID: 0}
   chatlistBoxPrefab: {fileID: 0}
   chatlistBoxBackground: {fileID: 0}
   chatlistBoxText: {fileID: 0}
