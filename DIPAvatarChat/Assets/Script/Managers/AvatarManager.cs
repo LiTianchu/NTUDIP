@@ -305,21 +305,31 @@ public class AvatarManager : Singleton<AvatarManager>
             string HEAD_MATERIAL_PATH = fbxFileName + "/Materials/head";
             string TAIL_MATERIAL_PATH = fbxFileName + "/Materials/tail";
 
-            AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer");
-            AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer");
-            AddMaterial(TAIL_MATERIAL_PATH, "Cat_Tail", "MeshRenderer");
-        }
 
-        void AddMaterial(string MATERIAL_PATH, string bodyPart, string rendererType)
+            AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer", false);
+            AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer", false);
+            AddMaterial(TAIL_MATERIAL_PATH, "Cat_Tail", "MeshRenderer", false);
+
+        }
+        //add default materials
+        string IRIS_MATERIAL_PATH = "Blender/Materials/Eye_Sclera_Mat";
+        AddMaterial(IRIS_MATERIAL_PATH, "Eye_L_Sclera", "SkinnedMeshRenderer", true);
+        AddMaterial(IRIS_MATERIAL_PATH, "Eye_R_Sclera", "SkinnedMeshRenderer", true);
+
+        void AddMaterial(string MATERIAL_PATH, string bodyPart, string rendererType, bool replaceTexture)
         {
             Material mat = Resources.Load<Material>(MATERIAL_PATH);
 
-            if (mat != null)
+            if (mat == null) { return; }
+            if (rendererType == "SkinnedMeshRenderer")
             {
-                if (rendererType == "SkinnedMeshRenderer")
-                {
-                    SkinnedMeshRenderer SMR = AvatarBody.transform.Find(bodyPart).gameObject.GetComponent<SkinnedMeshRenderer>();
+                SkinnedMeshRenderer SMR = AvatarBody.transform.Find(bodyPart).gameObject.GetComponent<SkinnedMeshRenderer>();
 
+                if (replaceTexture)
+                {
+                    SMR.sharedMaterials = new Material[1] { mat };
+                }
+                {
                     // Clone the current materials array and add the new material to it
                     Material[] mats = new Material[SMR.sharedMaterials.Length + 1];
                     SMR.sharedMaterials.CopyTo(mats, 0);
@@ -327,13 +337,20 @@ public class AvatarManager : Singleton<AvatarManager>
 
                     // Assign the updated materials array to the Skinned Mesh Renderer
                     SMR.sharedMaterials = mats;
-                    return;
                 }
+                return;
+            }
 
-                if (rendererType == "MeshRenderer")
+            if (rendererType == "MeshRenderer")
+            {
+                MeshRenderer MR = AvatarBody.transform.Find(bodyPart).gameObject.GetComponent<MeshRenderer>();
+
+                if (replaceTexture)
                 {
-                    MeshRenderer MR = AvatarBody.transform.Find(bodyPart).gameObject.GetComponent<MeshRenderer>();
-
+                    MR.sharedMaterials = new Material[1] { mat };
+                }
+                else
+                {
                     // Clone the current materials array and add the new material to it
                     Material[] mats = new Material[MR.sharedMaterials.Length + 1];
                     MR.sharedMaterials.CopyTo(mats, 0);
@@ -341,9 +358,10 @@ public class AvatarManager : Singleton<AvatarManager>
 
                     // Assign the updated materials array to the Skinned Mesh Renderer
                     MR.sharedMaterials = mats;
-                    return;
                 }
+                return;
             }
+
         }
     }
 
