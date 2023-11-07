@@ -1,15 +1,9 @@
-using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
-using System.Collections.Generic;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Chat : MonoBehaviour, IPageTransition
 {
@@ -28,8 +22,6 @@ public class Chat : MonoBehaviour, IPageTransition
     public CanvasGroup topBar;
     public CanvasGroup bottomTextFieldBar;
     public CanvasGroup chatScrollView;
-    //public static string currConvId { get; set; }
-    //ConversationData currConvData;
     private UserData recipientUserData;
     private bool isPopulated = false;
     private ListenerRegistration listener;
@@ -184,9 +176,6 @@ public class Chat : MonoBehaviour, IPageTransition
             Timestamp msgTime = msg.createdAt;
             string messageId = message.Id;
 
-            // Check if the message has not been displayed already
-            // !displayedMessageIds.Contains(messageId)
-
             //cache the msg
             ChatManager.Instance.CacheMessage(conversationID, msg);
 
@@ -213,7 +202,7 @@ public class Chat : MonoBehaviour, IPageTransition
 
     public void SendMessage()
     {
-        if (!UIManager.Instance.isCooldown || UIManager.Instance.isCooldown == null)
+        if (!UIManager.Instance.isCooldown)
         {
             StartCoroutine(UIManager.Instance.StartCooldown(0.25f));
 
@@ -250,12 +239,8 @@ public class Chat : MonoBehaviour, IPageTransition
 
     public void ReturnToChatList()
     {
-        //ChatManager.Instance.CurrentMessages.Clear();
         ChatManager.Instance.CurrentRecipientName = "";
-        //ChatManager.Instance.MyAvatarData = null;
-        //ChatManager.Instance.TheirAvatarData = null;
         StartCoroutine(ExitRoutine());
-        //AppManager.Instance.LoadScene("4-ChatList");
     }
 
     public void ClearDisplay()
@@ -273,14 +258,12 @@ public class Chat : MonoBehaviour, IPageTransition
     public void FadeInUI()
     {
         UIManager.Instance.PanelFadeIn(topBar, 0.5f, UIManager.UIMoveDir.FromTop, topBar.GetComponent<RectTransform>().anchoredPosition);
-        //UIManager.Instance.PanelFadeIn(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition);
         UIManager.Instance.PanelFadeIn(chatScrollView, 0.5f, UIManager.UIMoveDir.FromLeft, chatScrollView.GetComponent<RectTransform>().anchoredPosition);
     }
 
     public IEnumerator ExitRoutine()
     {
         UIManager.Instance.PanelFadeOut(topBar, 0.5f, UIManager.UIMoveDir.FromTop, topBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
-        //UIManager.Instance.PanelFadeOut(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
         UIManager.Instance.PanelFadeOut(chatScrollView, 0.5f, UIManager.UIMoveDir.FromLeft, chatScrollView.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
 
         yield return new WaitForSeconds(0.5f);

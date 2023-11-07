@@ -3,14 +3,8 @@ using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ChatManager : Singleton<ChatManager>
 {
@@ -57,12 +51,6 @@ public class ChatManager : Singleton<ChatManager>
         ConvIDToMessageDataDict = new Dictionary<string, HashSet<MessageData>>();
         EmailToUsersDict = new Dictionary<string, UserData>();
         EmailToConversationDict = new Dictionary<string, ConversationData>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public GameObject InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)

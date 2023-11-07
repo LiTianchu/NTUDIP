@@ -1,16 +1,5 @@
-using Firebase.Extensions;
-using Firebase.Firestore;
 using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-//using UnityEditor.UIElements;
 
 public class StartingPage : MonoBehaviour, IPageTransition
 {

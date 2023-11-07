@@ -1,15 +1,6 @@
-using Firebase.Extensions;
 using Firebase.Firestore;
-using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EditProfile : MonoBehaviour
 {
@@ -22,12 +13,6 @@ public class EditProfile : MonoBehaviour
     void Start()
     {
         DisplayCurrentData();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public async void DisplayCurrentData()
@@ -70,7 +55,7 @@ public class EditProfile : MonoBehaviour
 
     }
 
-    public async void LoadAvatarCustomization()
+    public void LoadAvatarCustomization()
     {
         AppManager.Instance.LoadScene("AvatarCustomisation");
     }
@@ -80,16 +65,4 @@ public class EditProfile : MonoBehaviour
         AppManager.Instance.LoadScene("3-EditProfile");
     }
 
-    //[Header("Button Hover")]
-    //public TMP_Text hoverText;
-
-    //public void OnCreateButtonEnter()
-    //{
-      //  hoverText.text = "Press Here!";
-    //}
-
-    //public void OnCreateButtonExit()
-    //{
-      //  hoverText.text = "";
-    //}
 }
