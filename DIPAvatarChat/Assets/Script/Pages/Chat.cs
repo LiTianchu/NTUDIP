@@ -276,6 +276,12 @@ public class Chat : MonoBehaviour, IPageTransition
         UIManager.Instance.PanelFadeOut(topBar, 0.5f, UIManager.UIMoveDir.FromTop, topBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
         UIManager.Instance.PanelFadeOut(chatScrollView, 0.5f, UIManager.UIMoveDir.FromLeft, chatScrollView.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
 
+        AnimationManager.Instance.myAvatarBodyChat = null;
+        AnimationManager.Instance.theirAvatarBodyChat = null;
+
+        AnimationManager.Instance.myAnimatorChat = null;
+        AnimationManager.Instance.theirAnimatorChat = null;
+
         yield return new WaitForSeconds(0.5f);
         AppManager.Instance.LoadScene("4-ChatList");
     }
