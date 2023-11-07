@@ -15,6 +15,13 @@ using UnityEngine.UI;
 public class AnimationManager : Singleton<AnimationManager>
 {
     public RuntimeAnimatorController animatorController;
+    public bool isEmoteSent = false;
+    public GameObject myAvatarBodyChat;
+    public GameObject theirAvatarBodyChat;
+    string myAnimNameChat = null;
+    string theirAnimNameChat = null;
+    public Animator myAnimatorChat = null;
+    public Animator theirAnimatorChat = null;
 
     // Map custom commands to play animation
     public readonly Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
@@ -24,6 +31,7 @@ public class AnimationManager : Singleton<AnimationManager>
         { ":laugh:", "Laugh"},
         { ":sus:", "Thinking"},
         { ":wave:", "Wave"},
+        { ":xdface:", "Excited"},
     };
 
     void Start()
@@ -34,30 +42,45 @@ public class AnimationManager : Singleton<AnimationManager>
     // Update is called once per frame
     void Update()
     {
+        if (myAnimatorChat != null && myAnimNameChat != null)
+        {
+            AvatarPopUp(myAvatarBodyChat, myAnimatorChat.GetCurrentAnimatorStateInfo(0).IsName(myAnimNameChat), 8f, 100f, 65f, 40f, 160f);
+        }
 
+        if (theirAnimatorChat != null && theirAnimNameChat != null)
+        {
+            AvatarPopUp(theirAvatarBodyChat, theirAnimatorChat.GetCurrentAnimatorStateInfo(0).IsName(theirAnimNameChat), 8f, -100f, -65f, 40f, 160f);
+        }
     }
 
-    public bool PlayEmoteAnimation(GameObject avatar, string msgText)
+    public void PlayEmoteAnimation(GameObject avatar, Animator _animator, string msgText, bool isMyAvatar)
     {
         try
         {
-            Animator _animator = avatar.GetComponent<Animator>();
             foreach (var kvp in emojiToAnimMap)
             {
                 if (msgText.Contains(kvp.Key))
                 {
                     Debug.Log("Animation: " + kvp.Value);
                     _animator.SetBool(kvp.Value, true);
+                    
+                    if (isMyAvatar)
+                    {
+                        myAnimNameChat = kvp.Value;
+                    }
+                    else
+                    {
+                        theirAnimNameChat = kvp.Value;
+                    }
+
                     _animator.SetBool("Default", true);
-                    return true;
+                    return;
                 }
             }
-            return false;
         }
         catch (Exception e)
         {
             Debug.Log("Error playing animation: " + e);
-            return false;
         }
     }
 
@@ -70,13 +93,16 @@ public class AnimationManager : Singleton<AnimationManager>
 
     public void AvatarPopUp(GameObject avatarBody, bool isEmojiSent, float speed, float defaultXPos, float movedXPos, float defaultYPos, float movedYPos)
     {
-        float targetX = isEmojiSent ? movedXPos : defaultXPos;
-        float targetY = isEmojiSent ? movedYPos : defaultYPos;
+        if (avatarBody != null)
+        {
+            float targetX = isEmojiSent ? movedXPos : defaultXPos;
+            float targetY = isEmojiSent ? movedYPos : defaultYPos;
 
-        // Calculate the new position of the object
-        Vector3 targetPos = new Vector3(targetX, targetY, avatarBody.transform.localPosition.z);
+            // Calculate the new position of the object
+            Vector3 targetPos = new Vector3(targetX, targetY, avatarBody.transform.localPosition.z);
 
-        // Move the object upwards smoothly using Lerp
-        avatarBody.transform.localPosition = Vector3.Lerp(avatarBody.transform.localPosition, targetPos, speed * Time.deltaTime);
+            // Move the object upwards smoothly using Lerp
+            avatarBody.transform.localPosition = Vector3.Lerp(avatarBody.transform.localPosition, targetPos, speed * Time.deltaTime);
+        }
     }
 }

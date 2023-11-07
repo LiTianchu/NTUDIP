@@ -28,8 +28,6 @@ public class Chat : MonoBehaviour, IPageTransition
     private bool isTheirEmojiSent = false;
     private bool isAvatarsSpawned = false;
     private ListenerRegistration listener;
-    private GameObject myAvatarBody;
-    private GameObject theirAvatarBody;
 
     private readonly float AVATAR_SCALE_CHAT = 60f;
     private float popupTime = 1.25f;
@@ -56,12 +54,6 @@ public class Chat : MonoBehaviour, IPageTransition
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Pressed spacebar key!");
-        }
-
-        if (isAvatarsSpawned)
-        {
-            AnimationManager.Instance.AvatarPopUp(myAvatarBody, isMyEmojiSent, 5f, 100f, 65f, 10f, 120f);
-            AnimationManager.Instance.AvatarPopUp(theirAvatarBody, isTheirEmojiSent, 5f, -100f, -65f, 10f, 120f);
         }
     }
 
@@ -99,8 +91,11 @@ public class Chat : MonoBehaviour, IPageTransition
         GameObject popupAvatar = AvatarManager.Instance.LoadAvatar(recipientUserData.email);
         AvatarManager.Instance.SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, ChatManager.Instance.POPUP_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTATION, AVATAR_SCALE_CHAT);
 
-        myAvatarBody = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
-        theirAvatarBody = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
+        AnimationManager.Instance.myAvatarBodyChat = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
+        AnimationManager.Instance.theirAvatarBodyChat = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
+
+        AnimationManager.Instance.myAnimatorChat = AnimationManager.Instance.myAvatarBodyChat.GetComponent<Animator>();
+        AnimationManager.Instance.theirAnimatorChat = AnimationManager.Instance.theirAvatarBodyChat.GetComponent<Animator>();
 
         isAvatarsSpawned = true;
     }
@@ -153,7 +148,8 @@ public class Chat : MonoBehaviour, IPageTransition
                                 string myMsgText = msgText;
                                 Debug.Log("Received message from current user " + myMsgText);
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, myMsgText, messageId);
-                                StartCoroutine(PlayMyEmoteAnimation(popupTime, myMsgText));
+                                //StartCoroutine(PlayMyEmoteAnimation(popupTime, myMsgText));
+                                AnimationManager.Instance.PlayEmoteAnimation(AnimationManager.Instance.myAvatarBodyChat, AnimationManager.Instance.myAnimatorChat, msgText, true);
                             }
                             else
                             {
@@ -161,7 +157,8 @@ public class Chat : MonoBehaviour, IPageTransition
                                 string theirMsgText = msgText;
                                 Debug.Log("Received message from another user " + theirMsgText);
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, theirMsgText, messageId);
-                                StartCoroutine(PlayTheirEmoteAnimation(popupTime, theirMsgText));
+                                //StartCoroutine(PlayTheirEmoteAnimation(popupTime, theirMsgText));
+                                AnimationManager.Instance.PlayEmoteAnimation(AnimationManager.Instance.theirAvatarBodyChat, AnimationManager.Instance.theirAnimatorChat, msgText, false);
                             }
                         }
                     }
@@ -296,19 +293,5 @@ public class Chat : MonoBehaviour, IPageTransition
     public void MessageInputFieldEmojiUpdate()
     {
         MessageInputField.text = ChatManager.Instance.EmojiUpdate(MessageInputField.text);
-    }
-
-    public IEnumerator PlayMyEmoteAnimation(float f, string msgText)
-    {
-        isMyEmojiSent = AnimationManager.Instance.PlayEmoteAnimation(myAvatarBody, msgText);
-        yield return new WaitForSecondsRealtime(f);
-        isMyEmojiSent = false;
-    }
-
-    public IEnumerator PlayTheirEmoteAnimation(float f, string msgText)
-    {
-        isTheirEmojiSent = AnimationManager.Instance.PlayEmoteAnimation(theirAvatarBody, msgText);
-        yield return new WaitForSecondsRealtime(f);
-        isTheirEmojiSent = false;
     }
 }
