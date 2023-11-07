@@ -40,7 +40,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: in
+    m_ConditionEvent: search_in
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6800573123585137800}
@@ -190,13 +190,13 @@ AnimatorController:
   m_Name: SearchFriendTab
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: out
+  - m_Name: search_out
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: in
+  - m_Name: search_in
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -224,7 +224,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: out
+    m_ConditionEvent: search_out
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7103067004605198622}
