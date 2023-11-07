@@ -44,12 +44,12 @@ public class AnimationManager : Singleton<AnimationManager>
     {
         if (myAnimatorChat != null && myAnimNameChat != null)
         {
-            AvatarPopUp(myAvatarBodyChat, myAnimatorChat.GetCurrentAnimatorStateInfo(0).IsName(myAnimNameChat), 5f, 100f, 65f, 40f, 160f);
+            AvatarPopUp(myAvatarBodyChat, myAnimatorChat.GetCurrentAnimatorStateInfo(0).IsName(myAnimNameChat), 8f, 100f, 65f, 40f, 160f);
         }
 
         if (theirAnimatorChat != null && theirAnimNameChat != null)
         {
-            AvatarPopUp(theirAvatarBodyChat, theirAnimatorChat.GetCurrentAnimatorStateInfo(0).IsName(theirAnimNameChat), 5f, -100f, -65f, 40f, 160f);
+            AvatarPopUp(theirAvatarBodyChat, theirAnimatorChat.GetCurrentAnimatorStateInfo(0).IsName(theirAnimNameChat), 8f, -100f, -65f, 40f, 160f);
         }
     }
 
