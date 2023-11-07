@@ -4,10 +4,7 @@ using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AuthManager : Singleton<AuthManager>
@@ -18,8 +15,6 @@ public class AuthManager : Singleton<AuthManager>
     public FirebaseAuth auth = null;
     public FirebaseUser user;
 
-    //public string emailData { get; set; }
-    //public string passwordData { get; set; }
     public string userPathData { get; set; }
     public string friendRequestPathData { get; set; }
     public UserData currUser { get; set; }
@@ -246,8 +241,6 @@ public class AuthManager : Singleton<AuthManager>
             //Now get the result
             user = RegisterTask.Result.User;
 
-            //ps: I don't think we need to store password in database - Tianchu
-            //passwordData = _password;
             userPathData = "user/" + _email;
 
             bool recordSaved = UserBackendManager.Instance.AddUser(_email);

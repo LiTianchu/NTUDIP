@@ -1,14 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using Firebase.Firestore;
-using Firebase.Extensions;
 using System;
 using System.Threading.Tasks;
-using Random = System.Random;
 
 //This class contains API for Create/Update/Delete/Read(CRUD) database data
 //This class should be called from other classes(page scripts) to perform CRUD operations
@@ -18,7 +13,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
     FirebaseFirestore db;
 
     //cache
-    //public UserData currentUser { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -157,22 +151,5 @@ public class UserBackendManager : Singleton<UserBackendManager>
 
         db.Document("user/" + myEmail).UpdateAsync(myUserData);
     }
-
-    //Random ID generator
-    /*public static string GenerateRandomID(int length)
-    {
-        Random random = new Random();
-
-        var stringChars = new char[length];
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (int i = 0; i < stringChars.Length; i++)
-        {
-            stringChars[i] = chars[random.Next(chars.Length)];
-        }
-
-        var finalString = new String(stringChars);
-
-        return finalString;
-    }*/
 
 }

@@ -1,22 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.UI;
-using Firebase.Auth;
 
 public class AvatarBackendManager : Singleton<AvatarBackendManager>
 {
     FirebaseFirestore db;
-    private string _userPath;
 
     public AvatarData currAvatarData = null;
 
@@ -24,7 +14,6 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
     {
         // Initialize Firestore instance
         db = FirebaseFirestore.DefaultInstance;
-        _userPath = AuthManager.Instance.userPathData;
     }
 
     // A private method to upload avatar data and return the document reference

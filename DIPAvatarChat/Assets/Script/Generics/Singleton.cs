@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Diagnostics;
 using UnityEngine;
 
 //This class handles logic of creating singleton object
