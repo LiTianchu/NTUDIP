@@ -18,7 +18,7 @@ public class AnimationManager : Singleton<AnimationManager>
 
     // Map custom commands to play animation
     public readonly Dictionary<string, string> emojiToAnimMap = new Dictionary<string, string>
-    {  
+    {
         { ":shocked:", "Surprised"},
         { ":angry:", "Angry"},
         { ":laugh:", "Laugh"},
@@ -37,12 +37,11 @@ public class AnimationManager : Singleton<AnimationManager>
 
     }
 
-    public void PlayAnimation(GameObject avatar, string msgText)
+    public bool PlayEmoteAnimation(GameObject avatar, string msgText)
     {
-        Animator _animator = avatar.GetComponent<Animator>();
-
         try
         {
+            Animator _animator = avatar.GetComponent<Animator>();
             foreach (var kvp in emojiToAnimMap)
             {
                 if (msgText.Contains(kvp.Key))
@@ -50,12 +49,15 @@ public class AnimationManager : Singleton<AnimationManager>
                     Debug.Log("Animation: " + kvp.Value);
                     _animator.SetBool(kvp.Value, true);
                     _animator.SetBool("Default", true);
+                    return true;
                 }
             }
+            return false;
         }
         catch (Exception e)
         {
             Debug.Log("Error playing animation: " + e);
+            return false;
         }
     }
 
@@ -64,5 +66,17 @@ public class AnimationManager : Singleton<AnimationManager>
         float targetX = isVisible ? shownPos : hiddenPos;
         float newX = Mathf.Lerp(UI.anchoredPosition.x, targetX, Time.deltaTime * slideSpeed);
         UI.anchoredPosition = new Vector2(newX, UI.anchoredPosition.y);
+    }
+
+    public void AvatarPopUp(GameObject avatarBody, bool isEmojiSent, float speed, float defaultXPos, float movedXPos, float defaultYPos, float movedYPos)
+    {
+        float targetX = isEmojiSent ? movedXPos : defaultXPos;
+        float targetY = isEmojiSent ? movedYPos : defaultYPos;
+
+        // Calculate the new position of the object
+        Vector3 targetPos = new Vector3(targetX, targetY, avatarBody.transform.localPosition.z);
+
+        // Move the object upwards smoothly using Lerp
+        avatarBody.transform.localPosition = Vector3.Lerp(avatarBody.transform.localPosition, targetPos, speed * Time.deltaTime);
     }
 }

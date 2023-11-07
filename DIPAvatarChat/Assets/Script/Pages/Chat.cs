@@ -32,11 +32,15 @@ public class Chat : MonoBehaviour, IPageTransition
     //ConversationData currConvData;
     private UserData recipientUserData;
     private bool isPopulated = false;
+    private bool isMyEmojiSent = false;
+    private bool isTheirEmojiSent = false;
+    private bool isAvatarsSpawned = false;
     private ListenerRegistration listener;
     private GameObject myAvatarBody;
     private GameObject theirAvatarBody;
 
     private readonly float AVATAR_SCALE_CHAT = 60f;
+    private float popupTime = 1.25f;
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +64,12 @@ public class Chat : MonoBehaviour, IPageTransition
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Pressed spacebar key!");
+        }
+
+        if (isAvatarsSpawned)
+        {
+            AnimationManager.Instance.AvatarPopUp(myAvatarBody, isMyEmojiSent, 5f, 100f, 65f, 10f, 120f);
+            AnimationManager.Instance.AvatarPopUp(theirAvatarBody, isTheirEmojiSent, 5f, -100f, -65f, 10f, 120f);
         }
     }
 
@@ -99,6 +109,8 @@ public class Chat : MonoBehaviour, IPageTransition
 
         myAvatarBody = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
         theirAvatarBody = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
+
+        isAvatarsSpawned = true;
     }
 
     public void PopupAvatar()
@@ -149,14 +161,14 @@ public class Chat : MonoBehaviour, IPageTransition
                                 Debug.Log("Received message from current user");
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
                                 Debug.Log("MMMMMMMMMMMMMM " + msgText);
-                                AnimationManager.Instance.PlayAnimation(myAvatarBody, msgText);
+                                StartCoroutine(PlayMyEmoteAnimation(popupTime, msgText));
                             }
                             else
                             {
                                 // Message is sent by another user, spawn text bubble at left side
                                 Debug.Log("Received message from another user");
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
-                                AnimationManager.Instance.PlayAnimation(theirAvatarBody, msgText);
+                                StartCoroutine(PlayTheirEmoteAnimation(popupTime, msgText));
                             }
                         }
                     }
@@ -300,5 +312,19 @@ public class Chat : MonoBehaviour, IPageTransition
     public void MessageInputFieldEmojiUpdate()
     {
         MessageInputField.text = ChatManager.Instance.EmojiUpdate(MessageInputField.text);
+    }
+
+    public IEnumerator PlayMyEmoteAnimation(float f, string msgText)
+    {
+        isMyEmojiSent = AnimationManager.Instance.PlayEmoteAnimation(myAvatarBody, msgText);
+        yield return new WaitForSecondsRealtime(f);
+        isMyEmojiSent = false;
+    }
+
+    public IEnumerator PlayTheirEmoteAnimation(float f, string msgText)
+    {
+        isTheirEmojiSent = AnimationManager.Instance.PlayEmoteAnimation(theirAvatarBody, msgText);
+        yield return new WaitForSecondsRealtime(f);
+        isTheirEmojiSent = false;
     }
 }
