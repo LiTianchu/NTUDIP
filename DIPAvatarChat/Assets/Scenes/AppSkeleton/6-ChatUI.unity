@@ -831,7 +831,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0032501, y: -6.1}
+  m_AnchoredPosition: {x: 0.0032501, y: -10}
   m_SizeDelta: {x: 338.01, y: 61.54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &486116392
@@ -966,7 +966,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -61, y: -6.099962}
+  m_AnchoredPosition: {x: -61, y: -10}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &544521777
@@ -1314,7 +1314,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 26, y: -6.099962}
+  m_AnchoredPosition: {x: 26, y: -10}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &700509923
@@ -3184,7 +3184,6 @@ MonoBehaviour:
   alternateText3: {fileID: 0}
   alternateButton: {fileID: 700509924}
   arChatSlideBtn: {fileID: 0}
-  arHeaderImage: {fileID: 0}
   chatlistBoxPrefab: {fileID: 0}
   chatlistBoxBackground: {fileID: 0}
   chatlistBoxText: {fileID: 0}
