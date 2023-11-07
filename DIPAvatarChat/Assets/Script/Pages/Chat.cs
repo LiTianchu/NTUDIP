@@ -150,17 +150,18 @@ public class Chat : MonoBehaviour, IPageTransition
                             if (msgSender == AuthManager.Instance.currUser.email)
                             {
                                 // Message is sent by the current user, spawn text bubble at right side
-                                Debug.Log("Received message from current user");
-                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, msgText, messageId);
-                                Debug.Log("MMMMMMMMMMMMMM " + msgText);
-                                StartCoroutine(PlayMyEmoteAnimation(popupTime, msgText));
+                                string myMsgText = msgText;
+                                Debug.Log("Received message from current user " + myMsgText);
+                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, myMsgText, messageId);
+                                StartCoroutine(PlayMyEmoteAnimation(popupTime, myMsgText));
                             }
                             else
                             {
                                 // Message is sent by another user, spawn text bubble at left side
-                                Debug.Log("Received message from another user");
-                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, msgText, messageId);
-                                StartCoroutine(PlayTheirEmoteAnimation(popupTime, msgText));
+                                string theirMsgText = msgText;
+                                Debug.Log("Received message from another user " + theirMsgText);
+                                ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, theirMsgText, messageId);
+                                StartCoroutine(PlayTheirEmoteAnimation(popupTime, theirMsgText));
                             }
                         }
                     }

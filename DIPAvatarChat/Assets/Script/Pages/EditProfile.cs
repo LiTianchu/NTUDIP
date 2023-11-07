@@ -44,9 +44,10 @@ public class EditProfile : MonoBehaviour
             if (UserBackendManager.Instance.UpdateUsernameAndStatus(username, status) && await AvatarBackendManager.Instance.UploadAvatarTask())
             {
                 Debug.Log("Profile saved! ^.^");
+                AuthManager.Instance.currUser.username = username;
+                AuthManager.Instance.currUser.status = status;
                 AppManager.Instance.LoadScene("4-ChatList");
             }
-
         }
         else
         {
@@ -57,6 +58,8 @@ public class EditProfile : MonoBehaviour
 
     public void LoadAvatarCustomization()
     {
+        AuthManager.Instance.currUser.username = usernameField.text;
+        AuthManager.Instance.currUser.status = statusField.text;
         AppManager.Instance.LoadScene("AvatarCustomisation");
     }
 
