@@ -60,8 +60,8 @@ public class Chat : MonoBehaviour, IPageTransition
 
         if (isAvatarsSpawned)
         {
-            AnimationManager.Instance.AvatarPopUp(myAvatarBody, isMyEmojiSent, 5f, 100f, 65f, 10f, 120f);
-            AnimationManager.Instance.AvatarPopUp(theirAvatarBody, isTheirEmojiSent, 5f, -100f, -65f, 10f, 120f);
+            AnimationManager.Instance.AvatarPopUp(myAvatarBody, isMyEmojiSent, 5f, 100f, 65f, 40f, 120f);
+            AnimationManager.Instance.AvatarPopUp(theirAvatarBody, isTheirEmojiSent, 5f, -100f, -65f, 40f, 120f);
         }
     }
 
