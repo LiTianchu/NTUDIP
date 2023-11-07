@@ -1,28 +1,23 @@
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class ConversationBackendManager : Singleton<ConversationBackendManager>
 {
     FirebaseFirestore db;
-    private string _userPath;
 
     void Start()
     {
         db = FirebaseFirestore.DefaultInstance;
-        _userPath = AuthManager.Instance.userPathData;
     }
 
-    public async Task<DocumentReference> GetConversationReferenceTask(string conversationID)
+    public Task<DocumentReference> GetConversationReferenceTask(string conversationID)
     {
         DocumentReference docRef = db.Collection("conversation").Document(conversationID);
-        return docRef;
+        return Task.FromResult(docRef);
     }
 
     public async Task<DocumentSnapshot> GetConversationByIDTask(string conversationID)
@@ -99,7 +94,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
     public bool UpdateConversationDesc(string conversationID, string description)
     {
         db = FirebaseFirestore.DefaultInstance;
-        _userPath = AuthManager.Instance.userPathData;
 
         if (db == null)
         {
@@ -146,7 +140,6 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         try
         {
             db = FirebaseFirestore.DefaultInstance;
-            _userPath = AuthManager.Instance.userPathData;
             // Get a reference to the conversation document using the provided conversation ID
             DocumentReference conversationRef = db.Collection("conversation").Document(conversationID);
 
@@ -253,46 +246,5 @@ public class ConversationBackendManager : Singleton<ConversationBackendManager>
         db.Document("user/" + myEmail).UpdateAsync(myUserDict);
         db.Document("user/" + theirEmail).UpdateAsync(theirUserDict);
     }
-
-    //For future use, to get the conversation ID based on description for the purpose of easy deletion of the conversation
-    /*public void GetConversationIDByDescription(string description)
-    {
-        db = FirebaseFirestore.DefaultInstance;
-
-        if (db == null)
-        {
-            Debug.LogError("Firebase Firestore is not initialized. Make sure it's properly configured.");
-            return;
-        }
-
-        // Query the "conversation" collection to find the document with a specific description
-        db.Collection("conversation")
-            .WhereEqualTo("description", description)
-            .GetSnapshotAsync()
-            .ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCompleted)
-                {
-                    QuerySnapshot snapshot = task.Result;
-                    if (snapshot.Documents.Count > 0)
-                    {
-                    // If there are matching documents, you can access their IDs
-                    foreach (DocumentSnapshot documentSnapshot in snapshot.Documents)
-                        {
-                            string conversationID = documentSnapshot.Id;
-                            Debug.Log("Conversation ID: " + conversationID);
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("No matching conversation found.");
-                    }
-                }
-                else if (task.IsFaulted)
-                {
-                    Debug.LogError("Error querying conversation: " + task.Exception);
-                }
-            });
-    }*/
 }
 

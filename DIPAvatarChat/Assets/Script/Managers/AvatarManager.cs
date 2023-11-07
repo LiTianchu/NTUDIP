@@ -1,22 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase.Extensions;
-using Firebase.Firestore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Android;
+using Firebase.Firestore;
 
 public class AvatarManager : Singleton<AvatarManager>
 {
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
-
+     
     //path for files
     public readonly string AVATAR_BODY_FILE_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";

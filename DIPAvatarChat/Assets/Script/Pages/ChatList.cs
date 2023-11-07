@@ -1,13 +1,9 @@
-using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -369,10 +365,6 @@ public class ChatList : MonoBehaviour
         Debug.Log(userData.friendRequests);
         Debug.Log(userData.friends);
 
-        //SearchNameDisplay.text = userData.username;
-        //SearchEmailDisplay.text = userData.email;
-        //SearchStatusDisplay.text = userData.status;
-
         //Clone prefab for displaying friend request
         GameObject box = Instantiate(SendRequestBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         box.transform.SetParent(GameObject.Find("SearchFriendInfoTab").transform, false);
@@ -417,10 +409,6 @@ public class ChatList : MonoBehaviour
         List<string> myFriendsList = new List<string>(myUserData.friends);
         List<string> theirFriendsList = new List<string>(theirUserData.friends);
 
-        // friendAndFriendRequestLists[0] -> myFriendRequestsList
-        // friendAndFriendRequestLists[1] -> theirFriendRequestsList
-        // friendAndFriendRequestLists[2] -> myFriendsList
-        // friendAndFriendRequestLists[3] -> theirFriendsList
         List<string>[] friendAndFriendRequestLists = { myFriendRequestsList, theirFriendRequestsList, myFriendsList, theirFriendsList };
 
         return friendAndFriendRequestLists;
@@ -458,13 +446,13 @@ public class ChatList : MonoBehaviour
         UserData userData = myUserDoc.ConvertTo<UserData>();
     }
 
-    public void ClearDisplay()
-    {
-        // Only clear the display if a refresh is needed
-        //SearchNameDisplay.text = "";
-        //SearchEmailDisplay.text = "";
-        //SearchStatusDisplay.text = "";
-    }
+    //public void ClearDisplay()
+    //{
+    //    // Only clear the display if a refresh is needed
+    //    //SearchNameDisplay.text = "";
+    //    //SearchEmailDisplay.text = "";
+    //    //SearchStatusDisplay.text = "";
+    //}
 
     public void DestroyTempPrefabs(string tag)
     {

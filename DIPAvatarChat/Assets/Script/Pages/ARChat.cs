@@ -2,16 +2,11 @@ using Firebase.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
-//using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -19,14 +14,12 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 {
     [Header("UI Elements")]
     public TMP_InputField MessageInputField;
-    //public TMP_Text RecipientName;
     public GameObject MyChatBubblePrefab;
     public GameObject TheirChatBubblePrefab;
     public GameObject ARChatBubblePrefab;
     public GameObject ScreenChatContainer;
     public GameObject AvatarContainer;
     public GameObject textBubblePrefab;//avatar label
-    //public GameObject UsernameContainer;
     public GameObject AvatarSelectionBar;
     public AvatarIconContainer AvatarIconContainer;
     public LayerMask UILayer;
@@ -36,7 +29,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public ARRaycastManager RaycastManager;
     public ARPlaneManager PlaneManager;
     public float PlacedObjectScale = 0.5f;
-    //public Vector3 TextBubblePos;
     public Vector3 NamePos;
 
     [Header("UI Transition")]
@@ -45,15 +37,12 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
     private List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
 
-    private bool _isPopulated = false;
-    //private ListenerRegistration _listener;
     private List<Avatar> _avatarList;
 
     private bool _isLoading;
 
     private readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.5f, 0);
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
-    private string AR_AVATAR_BODY_PATH = "";
 
     public Avatar SelectedAvatar { get; set; }
     public List<Avatar> AvatarList { get { return _avatarList; } }
@@ -143,7 +132,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
         //need a way to get the username
         PopulateAvatarSelectionBar(avatar, data.email);
-        //avatar.ListenForNewMessages();
         return avatar;
     }
 
@@ -195,7 +183,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         eventDataCurrentPosition.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-        // return results.Count > 0;
         foreach (var item in results)
         {
             if ((UILayer & (1 << item.gameObject.layer)) != 0) //UI layer contains the item's layer
@@ -250,7 +237,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
     public IEnumerator ExitRoutine()
     {
-        //UIManager.Instance.PanelFadeOut(topBar, 0.5f, UIManager.UIMoveDir.Stay, topBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
         UIManager.Instance.PanelFadeOut(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
         yield return new WaitForSeconds(0.5f);
         AppManager.Instance.LoadScene("4-ChatList");

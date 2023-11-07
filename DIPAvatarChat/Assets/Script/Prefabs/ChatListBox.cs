@@ -1,17 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Firebase.Extensions;
-using Firebase.Firestore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.UI;
-using Firebase.Auth;
 
 public class ChatListBox : MonoBehaviour
 {
@@ -40,7 +27,6 @@ public class ChatListBox : MonoBehaviour
     {
         if (await ConversationBackendManager.Instance.DeleteConversationTask(Box.name))
         {
-            //GameObject.Find("Canvas").GetComponent<ChatList>().PopulateChatList();
             AppManager.Instance.ReloadScene();
         }
     }
