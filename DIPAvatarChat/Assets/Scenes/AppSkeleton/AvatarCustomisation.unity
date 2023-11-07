@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -763,7 +763,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_Spacing: 10
+  m_Spacing: 14
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -1646,8 +1646,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 8, y: 8}
+  m_CellSize: {x: 55, y: 50}
+  m_Spacing: {x: 12, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!1 &370046172
@@ -2370,8 +2370,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 8, y: 8}
+  m_CellSize: {x: 55, y: 50}
+  m_Spacing: {x: 12, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!1 &527544513
@@ -5277,8 +5277,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 8, y: 8}
+  m_CellSize: {x: 55, y: 50}
+  m_Spacing: {x: 12, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!1 &1019244298
@@ -6768,8 +6768,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90, y: -25}
-  m_SizeDelta: {x: 50, y: 50}
+  m_AnchoredPosition: {x: 109.5, y: -30}
+  m_SizeDelta: {x: 55, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1213143171
 MonoBehaviour:
@@ -7199,8 +7199,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 8, y: 8}
+  m_CellSize: {x: 55, y: 50}
+  m_Spacing: {x: 12, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!1 &1236373905
@@ -7453,8 +7453,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 8, y: 8}
+  m_CellSize: {x: 55, y: 50}
+  m_Spacing: {x: 12, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!1 &1282431159
@@ -7484,7 +7484,7 @@ RectTransform:
   m_GameObject: {fileID: 1282431159}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5213574, y: 0.71373, z: 0.71373}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1213143170}
@@ -8995,8 +8995,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 35, y: -25}
-  m_SizeDelta: {x: 50, y: 50}
+  m_AnchoredPosition: {x: 42.5, y: -30}
+  m_SizeDelta: {x: 55, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1483991228
 MonoBehaviour:
@@ -10672,11 +10672,11 @@ MonoBehaviour:
     m_Right: 15
     m_Top: 5
     m_Bottom: -30
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 8, y: 8}
+  m_CellSize: {x: 55, y: 50}
+  m_Spacing: {x: 12, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!114 &1739508122
@@ -11479,6 +11479,7 @@ GameObject:
   - component: {fileID: 1893059624}
   - component: {fileID: 1893059623}
   - component: {fileID: 1893059627}
+  - component: {fileID: 1893059628}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -11587,6 +11588,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FeaturesBox: {fileID: 825234428}
   AvatarDisplayArea: {fileID: 1283548192}
+--- !u!114 &1893059628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893059622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80c2683f1eac834e856dd9538865446, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundImage: {fileID: 0}
+  originalSprite: {fileID: 0}
+  alternateSprite: {fileID: 0}
+  headerImage: {fileID: 588340590}
+  chatUiHeaderImage: {fileID: 0}
+  sourceImage: {fileID: 0}
+  alternateText1: {fileID: 1445058313}
+  alternateText2: {fileID: 0}
+  alternateText3: {fileID: 0}
+  alternateButton: {fileID: 2047863827}
+  arChatSlideBtn: {fileID: 0}
+  arHeaderImage: {fileID: 0}
+  chatlistBoxPrefab: {fileID: 0}
+  chatlistBoxBackground: {fileID: 0}
+  chatlistBoxText: {fileID: 0}
+  loadingUiPrefab1: {fileID: 0}
+  loadingUiBackground1: {fileID: 0}
+  loadingUiPrefab2: {fileID: 0}
+  loadingUiBackground2: {fileID: 0}
 --- !u!1 &1896822764
 GameObject:
   m_ObjectHideFlags: 0
@@ -11684,8 +11716,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 8, y: 8}
+  m_CellSize: {x: 55, y: 50}
+  m_Spacing: {x: 12, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!1 &1920240252
@@ -12887,11 +12919,11 @@ MonoBehaviour:
     m_Right: 15
     m_Top: 5
     m_Bottom: -30
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 8, y: 8}
+  m_CellSize: {x: 55, y: 50}
+  m_Spacing: {x: 12, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!1 &2136596551
