@@ -331,10 +331,12 @@ public class AvatarManager : Singleton<AvatarManager>
 
         }
         //add default materials
-        string IRIS_MATERIAL_PATH = "Blender/Materials/Eye_Sclera_Mat";
-        AddMaterial(IRIS_MATERIAL_PATH, "Eye_L_Sclera", "SkinnedMeshRenderer", true);
-        AddMaterial(IRIS_MATERIAL_PATH, "Eye_R_Sclera", "SkinnedMeshRenderer", true);
-
+        string SCLERA_MATERIAL_PATH = "Blender/Materials/Eye_Sclera_Mat";
+        string IRIS_MATERIAL_PATH = "Blender/Materials/Eye_Iris_Mat";
+        AddMaterial(SCLERA_MATERIAL_PATH, "Eye_L_Sclera", "SkinnedMeshRenderer", true);
+        AddMaterial(SCLERA_MATERIAL_PATH, "Eye_R_Sclera", "SkinnedMeshRenderer", true);
+        AddMaterial(IRIS_MATERIAL_PATH, "Eye_L_Iris", "SkinnedMeshRenderer", true);
+        AddMaterial(IRIS_MATERIAL_PATH, "Eye_R_Iris", "SkinnedMeshRenderer", true);
         void AddMaterial(string MATERIAL_PATH, string bodyPart, string rendererType, bool replaceTexture)
         {
             Material mat = Resources.Load<Material>(MATERIAL_PATH);
