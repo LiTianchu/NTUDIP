@@ -6,9 +6,10 @@ using Firebase.Firestore;
 public class AvatarManager : Singleton<AvatarManager>
 {
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
-     
+    public GameObject avatarPrefab;
+
     //path for files
-    public readonly string AVATAR_BODY_FILE_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
+    public readonly string AVATAR_BODY_FILE_PATH = "Blender/Base_Avatar"; //"Blender/CatBaseTest2_v0_30";
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";
     public readonly string AVATAR_HAT_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
     public readonly string AVATAR_ARM_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
@@ -190,7 +191,7 @@ public class AvatarManager : Singleton<AvatarManager>
 
     public GameObject LoadAvatar(AvatarData avatarData, string tag = null)
     {
-        GameObject avatar = LoadAvatarBody(AVATAR_BODY_FILE_PATH);
+        GameObject avatar = LoadAvatarBody(avatarPrefab);
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParent = null;
@@ -225,7 +226,7 @@ public class AvatarManager : Singleton<AvatarManager>
         }
     }
 
-    public GameObject LoadAvatarBody(string avatarBaseFbxFileName)
+    /*public GameObject LoadAvatarBody(string avatarBaseFbxFileName)
     {
         if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
         {
@@ -249,6 +250,24 @@ public class AvatarManager : Singleton<AvatarManager>
                 Debug.LogError("FBX asset not found: " + avatarBaseFbxFileName);
                 return null;
             }
+        }
+        return null;
+    }*/
+
+    public GameObject LoadAvatarBody(GameObject prefab)
+    {
+        if (prefab != null)
+        {
+            GameObject fbx = Instantiate(prefab);
+            BoxCollider collider = fbx.AddComponent<BoxCollider>(); //add collider to body to detect raycast
+            collider.size = AVATAR_COLLIDER_SIZE;
+            collider.center = AVATAR_COLLIDER_CENTER;
+
+            fbx.AddComponent<Animator>();
+
+            Animator animator = fbx.GetComponent<Animator>();
+            animator.runtimeAnimatorController = AnimationManager.Instance.animatorController;
+            return fbx;
         }
         return null;
     }
@@ -298,7 +317,7 @@ public class AvatarManager : Singleton<AvatarManager>
 
             AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer", false);
             AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer", false);
-            AddMaterial(TAIL_MATERIAL_PATH, "Cat_Tail", "MeshRenderer", false);
+            AddMaterial(TAIL_MATERIAL_PATH, "Character_Rig/mixamorig:Hips/Cat_Tail", "MeshRenderer", false);
 
         }
         //add default materials
