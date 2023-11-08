@@ -755,11 +755,11 @@ RectTransform:
   - {fileID: 2122748600}
   - {fileID: 1507160593}
   - {fileID: 1666959546}
+  - {fileID: 120342556}
   - {fileID: 1560381567}
   - {fileID: 1934916456}
   - {fileID: 1732277873}
   - {fileID: 1326150016}
-  - {fileID: 120342556}
   m_Father: {fileID: 1989608746}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
