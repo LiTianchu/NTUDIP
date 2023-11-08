@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 258146241}
   - component: {fileID: 258146243}
   - component: {fileID: 258146242}
+  - component: {fileID: 258146244}
   m_Layer: 5
   m_Name: SubHeader
   m_TagString: Untagged
@@ -271,7 +272,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press Figure Below to Create Your Avatar!
+  m_text: Tap to Customise!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d8f9e94a2cea9542bb3861f54b8492d, type: 2}
   m_sharedMaterial: {fileID: 7706850775573256292, guid: 6d8f9e94a2cea9542bb3861f54b8492d, type: 2}
@@ -348,6 +349,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258146240}
   m_CullTransparentMesh: 1
+--- !u!95 &258146244
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258146240}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 55c7fa7f10592c54ca09c614a9544f88, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &317218161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1667,8 +1689,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 21
+  m_fontSizeBase: 21
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2351,7 +2373,7 @@ RectTransform:
   m_GameObject: {fileID: 918559951}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.86741, y: 0.86741, z: 0.86741}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 576056573}
@@ -2361,7 +2383,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 255.97005}
+  m_AnchoredPosition: {x: 0, y: 251}
   m_SizeDelta: {x: 237.9715, y: 90.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &986602408
@@ -3275,8 +3297,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21
-  m_fontSizeBase: 21
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
