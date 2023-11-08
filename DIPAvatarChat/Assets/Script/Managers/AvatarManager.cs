@@ -6,10 +6,9 @@ using Firebase.Firestore;
 public class AvatarManager : Singleton<AvatarManager>
 {
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
-    public GameObject avatarPrefab;
-
+     
     //path for files
-    public readonly string AVATAR_BODY_FILE_PATH = "Blender/Base_Avatar"; //"Blender/CatBaseTest2_v0_30";
+    public readonly string AVATAR_BODY_FILE_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";
     public readonly string AVATAR_HAT_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
     public readonly string AVATAR_ARM_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
@@ -191,7 +190,7 @@ public class AvatarManager : Singleton<AvatarManager>
 
     public GameObject LoadAvatar(AvatarData avatarData, string tag = null)
     {
-        GameObject avatar = LoadAvatarBody(avatarPrefab);
+        GameObject avatar = LoadAvatarBody(AVATAR_BODY_FILE_PATH);
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParent = null;
@@ -226,7 +225,7 @@ public class AvatarManager : Singleton<AvatarManager>
         }
     }
 
-    /*public GameObject LoadAvatarBody(string avatarBaseFbxFileName)
+    public GameObject LoadAvatarBody(string avatarBaseFbxFileName)
     {
         if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
         {
@@ -248,34 +247,6 @@ public class AvatarManager : Singleton<AvatarManager>
             else
             {
                 Debug.LogError("FBX asset not found: " + avatarBaseFbxFileName);
-                return null;
-            }
-        }
-        return null;
-    }*/
-
-    public GameObject LoadAvatarBody(GameObject prefab)
-    {
-        if (prefab != null)
-        {
-            GameObject avatar = Instantiate(prefab);
-
-            if (avatar != null)
-            {
-                GameObject fbx = Instantiate(avatar);
-                BoxCollider collider = fbx.AddComponent<BoxCollider>(); //add collider to body to detect raycast
-                collider.size = AVATAR_COLLIDER_SIZE;
-                collider.center = AVATAR_COLLIDER_CENTER;
-
-                fbx.AddComponent<Animator>();
-
-                Animator animator = fbx.GetComponent<Animator>();
-                animator.runtimeAnimatorController = AnimationManager.Instance.animatorController;
-                return fbx;
-            }
-            else
-            {
-                Debug.LogError("FBX asset not found: ");
                 return null;
             }
         }
@@ -327,16 +298,14 @@ public class AvatarManager : Singleton<AvatarManager>
 
             AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer", false);
             AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer", false);
-            AddMaterial(TAIL_MATERIAL_PATH, "Character_Rig/mixamorig:Hips/Cat_Tail", "MeshRenderer", false);
+            AddMaterial(TAIL_MATERIAL_PATH, "Cat_Tail", "MeshRenderer", false);
 
         }
         //add default materials
-        string SCLERA_MATERIAL_PATH = "Blender/Materials/Eye_Sclera_Mat";
-        string IRIS_MATERIAL_PATH = "Blender/Materials/Eye_Iris_Mat";
-        AddMaterial(SCLERA_MATERIAL_PATH, "Eye_L_Sclera", "SkinnedMeshRenderer", true);
-        AddMaterial(SCLERA_MATERIAL_PATH, "Eye_R_Sclera", "SkinnedMeshRenderer", true);
-        AddMaterial(IRIS_MATERIAL_PATH, "Eye_L_Iris", "SkinnedMeshRenderer", true);
-        AddMaterial(IRIS_MATERIAL_PATH, "Eye_R_Iris", "SkinnedMeshRenderer", true);
+        string IRIS_MATERIAL_PATH = "Blender/Materials/Eye_Sclera_Mat";
+        AddMaterial(IRIS_MATERIAL_PATH, "Eye_L_Sclera", "SkinnedMeshRenderer", true);
+        AddMaterial(IRIS_MATERIAL_PATH, "Eye_R_Sclera", "SkinnedMeshRenderer", true);
+
         void AddMaterial(string MATERIAL_PATH, string bodyPart, string rendererType, bool replaceTexture)
         {
             Material mat = Resources.Load<Material>(MATERIAL_PATH);
@@ -350,7 +319,6 @@ public class AvatarManager : Singleton<AvatarManager>
                 {
                     SMR.sharedMaterials = new Material[1] { mat };
                 }
-                else
                 {
                     // Clone the current materials array and add the new material to it
                     Material[] mats = new Material[SMR.sharedMaterials.Length + 1];
