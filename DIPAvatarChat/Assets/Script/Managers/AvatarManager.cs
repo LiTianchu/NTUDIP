@@ -8,7 +8,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
      
     //path for files
-    public readonly string AVATAR_BODY_FILE_PATH = "Blender/Cat_Base_v3_3"; //"Blender/CatBaseTest2_v0_30";
+    public readonly string AVATAR_BODY_FILE_PATH = "Blender/Base_Avatar"; //"Blender/CatBaseTest2_v0_30";
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";
     public readonly string AVATAR_HAT_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
     public readonly string AVATAR_ARM_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
@@ -298,7 +298,7 @@ public class AvatarManager : Singleton<AvatarManager>
 
             AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer", false);
             AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer", false);
-            AddMaterial(TAIL_MATERIAL_PATH, "Cat_Tail", "MeshRenderer", false);
+            AddMaterial(TAIL_MATERIAL_PATH, "Character_Rig/mixamorig:Hips/Cat_Tail", "MeshRenderer", false);
 
         }
         //add default materials
@@ -319,6 +319,7 @@ public class AvatarManager : Singleton<AvatarManager>
                 {
                     SMR.sharedMaterials = new Material[1] { mat };
                 }
+                else
                 {
                     // Clone the current materials array and add the new material to it
                     Material[] mats = new Material[SMR.sharedMaterials.Length + 1];
