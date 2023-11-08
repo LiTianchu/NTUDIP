@@ -39,12 +39,11 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public CanvasGroup bottomTextFieldBar;
 
     private List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
-
     private List<Avatar> _avatarList;
-
     private bool _isLoading;
     private bool isPopulated = false;
     private ListenerRegistration listener;
+    private Camera _mainCam;
 
     private readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.5f, 0);
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
@@ -59,6 +58,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     {
         _avatarList = new List<Avatar>();
         _isLoading = true;
+        _mainCam = Camera.main;
         FadeInUI();
         //load all avatar of friends and me
         foreach (string email in ChatManager.Instance.EmailToUsersDict.Keys)
@@ -233,6 +233,9 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                 SelectedAvatar.gameObject.SetActive(true);
                 SelectedAvatar.transform.position = _raycastHits[0].pose.position;
                 SelectedAvatar.transform.rotation = _raycastHits[0].pose.rotation;
+                //Vector3 lookAtDirection = transform.position - Camera.main.transform.position;
+                //SelectedAvatar.transform.rotation = Quaternion.LookRotation(lookAtDirection);
+                //SelectedAvatar.transform.rotation = Quaternion.Euler(0, angle, 0);
                 SelectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
             }
         }
