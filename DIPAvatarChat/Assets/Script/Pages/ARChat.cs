@@ -21,6 +21,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public GameObject AvatarContainer;
     public GameObject textBubblePrefab;//avatar label
     public GameObject AvatarSelectionBar;
+    public GameObject EmoteSelectionArea;
     public AvatarIconContainer AvatarIconContainer;
     public LayerMask UILayer;
 
@@ -107,7 +108,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         avatarObj.transform.SetParent(AvatarContainer.transform, false);
         avatarObj.name = data.email + "_" + "Avatar";
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
-        avatarObj.transform.localRotation = ChatManager.Instance.MY_AVATAR_ROTATION;
+        avatarObj.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
         // Spawn the text bubble prefab and set its position to follow the avatar
         GameObject textBubble = Instantiate(textBubblePrefab, avatarObj.transform);
@@ -240,5 +241,20 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         UIManager.Instance.PanelFadeOut(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
         yield return new WaitForSeconds(0.5f);
         AppManager.Instance.LoadScene("4-ChatList");
+    }
+
+    public void OpenEmoteSelectionTab()
+    {
+        EmoteSelectionArea.SetActive(!EmoteSelectionArea.activeSelf);
+    }
+
+    public void TypeEmoteInMessageInputField(string code)
+    {
+        MessageInputField.text = MessageInputField.text + code + " ";
+    }
+
+    public void MessageInputFieldEmojiUpdate()
+    {
+        MessageInputField.text = ChatManager.Instance.EmojiUpdate(MessageInputField.text);
     }
 }
