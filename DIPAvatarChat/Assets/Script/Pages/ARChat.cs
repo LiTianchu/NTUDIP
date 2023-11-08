@@ -115,7 +115,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         avatarObj.transform.SetParent(AvatarContainer.transform, false);
         avatarObj.name = data.email + "_" + "Avatar";
         avatarObj.transform.localScale = PlacedObjectScale * Vector3.one;
-        avatarObj.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+        avatarObj.transform.localRotation = Quaternion.identity;
 
         // Spawn the text bubble prefab and set its position to follow the avatar
         GameObject textBubble = Instantiate(textBubblePrefab, avatarObj.transform);
