@@ -11,6 +11,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using static UnityEngine.GraphicsBuffer;
 
 public class ARChat : PageSingleton<ARChat>, IPageTransition
 {
@@ -153,7 +154,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     void OnDestroy()
     {
         // Destroy the listener when the scene is changed
-        listener.Stop();
+        listener?.Stop();
     }
 
     public void SendMessage()
@@ -232,10 +233,30 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
             {
                 SelectedAvatar.gameObject.SetActive(true);
                 SelectedAvatar.transform.position = _raycastHits[0].pose.position;
-                SelectedAvatar.transform.rotation = _raycastHits[0].pose.rotation;
-                //Vector3 lookAtDirection = transform.position - Camera.main.transform.position;
-                //SelectedAvatar.transform.rotation = Quaternion.LookRotation(lookAtDirection);
-                //SelectedAvatar.transform.rotation = Quaternion.Euler(0, angle, 0);
+                
+                //Vector3 directionOfCamera = (SelectedAvatar.transform.position - _mainCam.transform.position).normalized;
+                //Vector3 forwardDir = SelectedAvatar.transform.forward.normalized;
+                //float dotProduct = Vector3.Dot(forwardDir, directionOfCamera);
+                //float angle = Mathf.Acos(dotProduct) * Mathf.Rad2Deg;
+                //SelectedAvatar.transform.rotation = Quaternion.Euler(0, SelectedAvatar.transform.rotation.y + angle, 0);
+
+
+                //SelectedAvatar.transform.rotation = _raycastHits[0].pose.rotation;
+                Vector3 direction =  _mainCam.transform.position - SelectedAvatar.transform.position;
+
+                // Project the direction onto the XZ plane
+                Vector3 xzDirection = new Vector3(direction.x, 0, direction.z).normalized;
+
+                // Calculate the rotation to look at the target on the XZ plane
+                Quaternion targetRotation = Quaternion.LookRotation(xzDirection, Vector3.up);
+                Debug.Log("Camera Rotation: " + _mainCam.transform.rotation.ToString());
+                Debug.Log("Avatar Rotation: " + SelectedAvatar.transform.rotation.ToString());
+                Debug.Log("Rotation: " + targetRotation.ToString());
+                // Apply the rotation, only affecting the Y-axis
+                SelectedAvatar.transform.rotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+                
+
+                //SelectedAvatar.transform.rotation = Quaternion.Euler(0, SelectedAvatar.transform.rotation.y + angle, 0);
                 SelectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
             }
         }
