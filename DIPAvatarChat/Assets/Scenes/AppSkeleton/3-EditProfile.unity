@@ -3209,8 +3209,8 @@ MonoBehaviour:
   chatlistBoxPrefab: {fileID: 0}
   chatlistBoxBackground: {fileID: 0}
   chatlistBoxText: {fileID: 0}
-  loadingUiPrefab1: {fileID: 0}
-  loadingUiBackground1: {fileID: 0}
+  loadingUiPrefab1: {fileID: 2026482831}
+  loadingUiBackground1: {fileID: 1152395181}
   loadingUiPrefab2: {fileID: 0}
   loadingUiBackground2: {fileID: 0}
 --- !u!1 &1604577280
