@@ -34,7 +34,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
     public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 180f, 0f);
-    public readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.5f, 0);
+    public readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.25f, 0);
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
     {
@@ -397,12 +397,16 @@ public class AvatarManager : Singleton<AvatarManager>
         SetAvatar("Avatar", avatar, AvatarDisplayArea, AVATAR_POS, Quaternion.Euler(0f, 180f, 0f), AVATAR_SCALE);
     }
 
-    public void SetNametag(GameObject avatarObj, string email)
+    public async void SetNametag(GameObject avatarObj, string email)
     {
         // Spawn the text bubble prefab and set its position to follow the avatar
         GameObject textBubble = Instantiate(textBubblePrefab, avatarObj.transform);
         textBubble.transform.localPosition = TEXT_BUBBLE_POS; // Adjust position as needed
         textBubble.transform.rotation = Quaternion.identity;
-        textBubble.GetComponentInChildren<TMP_Text>().text = email;
+
+        DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(email);
+        UserData userData = userDoc.ConvertTo<UserData>();
+
+        textBubble.GetComponentInChildren<TMP_Text>().text = userData.username;
     }
 }
