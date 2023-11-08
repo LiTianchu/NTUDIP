@@ -8,7 +8,7 @@ public class TriggerSideBarV2 : MonoBehaviour
     private bool isSidebarVisible = false; // Flag to track if the sidebar is visible
     float slideSpeed = 8f; // Speed at which the sidebar slides in/out
     float sidebarHiddenPos = 250f;
-    float sidebarShownPos = 25f;
+    float sidebarShownPos = 10f;
 
     // Start is called before the first frame update
     void Start()
