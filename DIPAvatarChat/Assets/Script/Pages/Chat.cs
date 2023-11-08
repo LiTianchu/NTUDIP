@@ -55,6 +55,8 @@ public class Chat : MonoBehaviour, IPageTransition
         {
             Debug.Log("Pressed spacebar key!");
         }
+
+        AnimationManager.Instance.UI_SlideInFromBelow(AvatarDisplayArea.GetComponent<RectTransform>(), EmoteSelectionArea.activeSelf, 8f, -90f, 0f);
     }
 
     void OnDestroy()
