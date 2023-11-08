@@ -63,7 +63,7 @@ public class AnimationManager : Singleton<AnimationManager>
                 {
                     Debug.Log("Animation: " + kvp.Value);
                     _animator.SetBool(kvp.Value, true);
-                    
+
                     if (isMyAvatar)
                     {
                         myAnimNameChat = kvp.Value;
@@ -89,6 +89,13 @@ public class AnimationManager : Singleton<AnimationManager>
         float targetX = isVisible ? shownPos : hiddenPos;
         float newX = Mathf.Lerp(UI.anchoredPosition.x, targetX, Time.deltaTime * slideSpeed);
         UI.anchoredPosition = new Vector2(newX, UI.anchoredPosition.y);
+    }
+
+    public void UI_SlideInFromBelow(RectTransform UI, bool isVisible, float slideSpeed, float hiddenPos, float shownPos)
+    {
+        float targetY = isVisible ? shownPos : hiddenPos;
+        float newY = Mathf.Lerp(UI.anchoredPosition.y, targetY, Time.deltaTime * slideSpeed);
+        UI.anchoredPosition = new Vector2(UI.anchoredPosition.x, newY);
     }
 
     public void AvatarPopUp(GameObject avatarBody, bool isEmojiSent, float speed, float defaultXPos, float movedXPos, float defaultYPos, float movedYPos)
