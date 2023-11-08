@@ -372,6 +372,6 @@ public class AvatarManager : Singleton<AvatarManager>
 
         GameObject avatar = LoadAvatar(AvatarBackendManager.Instance.currAvatarData, "AvatarCustomise");
         avatar.AddComponent<SpinObject>();
-        SetAvatar("Avatar", avatar, AvatarDisplayArea, AVATAR_POS, ChatManager.Instance.MY_AVATAR_ROTATION, AVATAR_SCALE);
+        SetAvatar("Avatar", avatar, AvatarDisplayArea, AVATAR_POS, Quaternion.Euler(0f, 180f, 0f), AVATAR_SCALE);
     }
 }
