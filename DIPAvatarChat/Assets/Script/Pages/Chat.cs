@@ -14,6 +14,11 @@ public class Chat : MonoBehaviour, IPageTransition
     public GameObject TheirChatBubblePrefab;
     public GameObject ChatBubbleParent;
     public GameObject AvatarDisplayArea;
+    public GameObject AvatarDisplayArea2d;
+    public GameObject AvatarSkinDisplayArea2d;
+    public GameObject AvatarHeadDisplayArea2d;
+    public GameObject AvatarHatDisplayArea2d;
+    public GameObject AvatarTextureDisplayArea2d;
     public GameObject PopupTheirAvatar;
     public GameObject AvatarPopupDisplayArea;
     public GameObject EmoteSelectionArea;
@@ -81,7 +86,7 @@ public class Chat : MonoBehaviour, IPageTransition
         }
     }
 
-    private void InitializeAvatars()
+    private async void InitializeAvatars()
     {
         GameObject myAvatar = AvatarManager.Instance.LoadAvatar(AuthManager.Instance.currUser.email);
         GameObject theirAvatar = AvatarManager.Instance.LoadAvatar(recipientUserData.email);
@@ -102,6 +107,11 @@ public class Chat : MonoBehaviour, IPageTransition
 
         AvatarManager.Instance.SetNametag(myAvatar, AuthManager.Instance.currUser.email);
         AvatarManager.Instance.SetNametag(theirAvatar, recipientUserData.email);
+
+        //display 2d avatar
+        DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByEmailTask(recipientUserData.email);
+
+        AvatarManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea2d, AvatarSkinDisplayArea2d, AvatarHatDisplayArea2d, AvatarTextureDisplayArea2d);
 
         isAvatarsSpawned = true;
     }
