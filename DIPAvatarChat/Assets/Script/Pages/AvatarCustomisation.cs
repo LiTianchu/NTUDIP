@@ -69,25 +69,9 @@ public class AvatarCustomisation : MonoBehaviour
 
   public void InitialiseAvatarCustomisation()
   {
-    if (AvatarBackendManager.Instance.currAvatarData == null)
+    if (AvatarBackendManager.Instance.currAvatarData != null)
     {
-      AvatarData newAvatarData = new AvatarData
-      {
-        createdAt = DateTime.Now,
-        lastUpdatedAt = DateTime.Now,
-        email = AuthManager.Instance.currUser.email,
-        arm = null,
-        colour = null,
-        expression = null,
-        hat = null,
-        shoes = null,
-        tail = null,
-        texture = null,
-        wings = null,
-      };
-      AvatarBackendManager.Instance.currAvatarData = newAvatarData;
+      AvatarManager.Instance.InitialiseAvatarCustomisation(AvatarDisplayArea);
     }
-
-    AvatarManager.Instance.InitialiseAvatarCustomisation(AvatarDisplayArea);
   }
 }

@@ -15,6 +15,8 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";
     public readonly string AVATAR_HAT_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
     public readonly string AVATAR_ARM_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
+    public readonly string AVATAR_EARS_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/";
+    public readonly string AVATAR_TAIL_PATH = "Character_Rig/mixamorig:Hips";
 
     //rotation for avatar spawn
     public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
@@ -34,6 +36,17 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
     public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+
+    //pos for ears
+    public readonly Vector3 EARS_POS = new Vector3(0f, 0f, 0f);
+    public readonly Vector3 EARS_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
+    public readonly Quaternion EARS_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+
+    //pos for tail
+    public readonly Vector3 TAIL_POS = new Vector3(0.000594871f, 0.0002483991f, -0.004111664f);
+    public readonly Vector3 TAIL_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
+    public readonly Quaternion TAIL_ROTATION = Quaternion.Euler(94.58002f, 35.286f, 130.632f);
+
     public readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.25f, 0);
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
@@ -198,6 +211,8 @@ public class AvatarManager : Singleton<AvatarManager>
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParent = null;
+        GameObject earsParent = avatar.transform.Find(AVATAR_EARS_PATH).gameObject;
+        GameObject tailParent = avatar.transform.Find(AVATAR_TAIL_PATH).gameObject;
 
         // Load hat accessory
         LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, hatParent, "HatAccessory");
@@ -207,6 +222,12 @@ public class AvatarManager : Singleton<AvatarManager>
 
         // Load shoes accessory
         LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParent, "ShoesAccessory");
+
+        // Load ears
+        LoadAccessory(avatarData.ears, avatar, EARS_POS, EARS_SCALE, EARS_ROTATION, earsParent, "ShoesAccessory");
+
+        // Load tail
+        LoadAccessory(avatarData.tail, avatar, TAIL_POS, TAIL_SCALE, TAIL_ROTATION, tailParent, "ShoesAccessory");
 
         LoadTexture(avatarData.texture, avatar);
 
