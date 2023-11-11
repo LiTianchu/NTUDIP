@@ -1,6 +1,15 @@
+using Firebase.Extensions;
 using Firebase.Firestore;
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EditProfile : MonoBehaviour
 {
@@ -31,6 +40,15 @@ public class EditProfile : MonoBehaviour
         if (myAvatarDoc != null)
         {
             AvatarBackendManager.Instance.currAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
+        }
+        else
+        {
+            InitialiseNewAvatar();
+            if (await AvatarBackendManager.Instance.UpdateAvatarData())
+            {
+                myAvatarDoc = await AvatarBackendManager.Instance.GetAvatarByEmailTask(AuthManager.Instance.currUser.email);
+                AvatarBackendManager.Instance.currAvatarData = myAvatarDoc.ConvertTo<AvatarData>();
+            }
         }
     }
 
@@ -66,6 +84,29 @@ public class EditProfile : MonoBehaviour
     public void LoadEditProfile()
     {
         AppManager.Instance.LoadScene("3-EditProfile");
+    }
+
+    public async void InitialiseNewAvatar()
+    {
+        if (AvatarBackendManager.Instance.currAvatarData == null)
+        {
+            AvatarData newAvatarData = new AvatarData
+            {
+                createdAt = DateTime.Now,
+                lastUpdatedAt = DateTime.Now,
+                email = AuthManager.Instance.currUser.email,
+                arm = null,
+                colour = null,
+                expression = null,
+                hat = null,
+                shoes = null,
+                tail = "Blender/cattail",
+                ears = "Blender/catear",
+                texture = null,
+                wings = null,
+            };
+            AvatarBackendManager.Instance.currAvatarData = newAvatarData;
+        }
     }
 
 }

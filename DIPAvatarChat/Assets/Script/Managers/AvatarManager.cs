@@ -211,6 +211,8 @@ public class AvatarManager : Singleton<AvatarManager>
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParent = null;
+        GameObject earsParent = avatar.transform.Find(AVATAR_EARS_PATH).gameObject;
+        GameObject tailParent = avatar.transform.Find(AVATAR_TAIL_PATH).gameObject;
 
         // Load hat accessory
         LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, hatParent, "HatAccessory");
@@ -220,6 +222,12 @@ public class AvatarManager : Singleton<AvatarManager>
 
         // Load shoes accessory
         LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParent, "ShoesAccessory");
+
+        // Load ears
+        LoadAccessory(avatarData.ears, avatar, EARS_POS, EARS_SCALE, EARS_ROTATION, earsParent, "ShoesAccessory");
+
+        // Load tail
+        LoadAccessory(avatarData.tail, avatar, TAIL_POS, TAIL_SCALE, TAIL_ROTATION, tailParent, "ShoesAccessory");
 
         LoadTexture(avatarData.texture, avatar);
 
