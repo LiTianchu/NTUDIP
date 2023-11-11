@@ -145,10 +145,20 @@ public class AvatarManager : Singleton<AvatarManager>
         }
         AvatarData avatarData = snapshot.ConvertTo<AvatarData>();
 
+        List<Sprite> sprites = null;
 
-
-        List<Sprite> sprites = LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat, avatarData.texture);
-
+        switch (avatarData.ears)
+        {
+            case "Blender/catear":
+                sprites = LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat, avatarData.texture);
+                break;
+            case "Blender/dogear":
+                sprites = LoadAvatarSprite2d("2D_assets/dogbase", "2D_assets/dogcolor", avatarData.hat, avatarData.texture);
+                break;
+            default:
+                Debug.Log("invalid ear type: " + avatarData.ears);
+                break;
+        }
 
         Sprite skin2d = sprites[0];
         Sprite head2d = sprites[1];

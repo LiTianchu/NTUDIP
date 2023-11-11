@@ -76,6 +76,9 @@ public class AvatarAccessories : MonoBehaviour
                 case "shoes":
                     AvatarBackendManager.Instance.currAvatarData.shoes = path;
                     break;
+                default:
+                    Debug.Log("invalid accessoryType: " + accessoryType);
+                    break;
             }
         }
     }
