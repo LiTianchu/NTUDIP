@@ -81,8 +81,8 @@ public class AvatarCustomisation : MonoBehaviour
         expression = null,
         hat = null,
         shoes = null,
-        tail = null,
-        ears = null,
+        tail = "Blender/cattail",
+        ears = "Blender/catear",
         texture = null,
         wings = null,
       };
