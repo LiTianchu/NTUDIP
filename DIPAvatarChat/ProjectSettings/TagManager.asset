@@ -10,6 +10,8 @@ TagManager:
   - ArmAccessory
   - AvatarCustomise
   - SearchFriendPrefab
+  - AvatarEars
+  - AvatarTail
   layers:
   - Default
   - TransparentFX
