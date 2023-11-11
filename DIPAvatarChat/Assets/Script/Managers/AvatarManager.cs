@@ -15,8 +15,6 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";
     public readonly string AVATAR_HAT_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
     public readonly string AVATAR_ARM_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
-    public readonly string AVATAR_EARS_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/";
-    public readonly string AVATAR_TAIL_PATH = "Character_Rig/mixamorig:Hips";
 
     //rotation for avatar spawn
     public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
@@ -67,6 +65,14 @@ public class AvatarManager : Singleton<AvatarManager>
         { "Blender/Textures/scars", "2D_assets/scars"},
         { "Blender/Textures/spots", "2D_assets/spots"},
         { "Blender/Textures/stripes", "2D_assets/stripes"},
+    };
+
+    public Dictionary<string, string> bodyPartToBodyPartPathMap = new Dictionary<string, string>
+    {
+        { "Blender/cattail", "Character_Rig/mixamorig:Hips/cattail"},
+        { "Blender/dogtail", "Character_Rig/mixamorig:Hips/dogtail"},
+        { "Blender/catear", "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/catear"},
+        { "Blender/dogear", "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/dogear"},
     };
 
     void Start()
@@ -211,8 +217,6 @@ public class AvatarManager : Singleton<AvatarManager>
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParent = null;
-        GameObject earsParent = avatar.transform.Find(AVATAR_EARS_PATH).gameObject;
-        GameObject tailParent = avatar.transform.Find(AVATAR_TAIL_PATH).gameObject;
 
         // Load hat accessory
         LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, hatParent, "HatAccessory");
@@ -223,11 +227,8 @@ public class AvatarManager : Singleton<AvatarManager>
         // Load shoes accessory
         LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParent, "ShoesAccessory");
 
-        // Load ears
-        LoadAccessory(avatarData.ears, avatar, EARS_POS, EARS_SCALE, EARS_ROTATION, earsParent, "ShoesAccessory");
-
-        // Load tail
-        LoadAccessory(avatarData.tail, avatar, TAIL_POS, TAIL_SCALE, TAIL_ROTATION, tailParent, "ShoesAccessory");
+        // Load ears and tail
+        LoadBodyParts(avatarData.ears, avatarData.tail, avatar);
 
         LoadTexture(avatarData.texture, avatar);
 
@@ -249,34 +250,6 @@ public class AvatarManager : Singleton<AvatarManager>
             throw new KeyNotFoundException(email);
         }
     }
-
-    /*public GameObject LoadAvatarBody(string avatarBaseFbxFileName)
-    {
-        if (avatarBaseFbxFileName != null && avatarBaseFbxFileName != "")
-        {
-            GameObject loadedFBX = Resources.Load<GameObject>(avatarBaseFbxFileName); // Eg. Blender/catbasetest.fbx
-
-            if (loadedFBX != null)
-            {
-                GameObject fbx = Instantiate(loadedFBX);
-                BoxCollider collider = fbx.AddComponent<BoxCollider>(); //add collider to body to detect raycast
-                collider.size = AVATAR_COLLIDER_SIZE;
-                collider.center = AVATAR_COLLIDER_CENTER;
-
-                fbx.AddComponent<Animator>();
-
-                Animator animator = fbx.GetComponent<Animator>();
-                animator.runtimeAnimatorController = AnimationManager.Instance.animatorController;
-                return fbx;
-            }
-            else
-            {
-                Debug.LogError("FBX asset not found: " + avatarBaseFbxFileName);
-                return null;
-            }
-        }
-        return null;
-    }*/
 
     public GameObject LoadAvatarBody(GameObject prefab)
     {
@@ -341,7 +314,8 @@ public class AvatarManager : Singleton<AvatarManager>
 
             AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer", false);
             AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer", false);
-            AddMaterial(TAIL_MATERIAL_PATH, "Character_Rig/mixamorig:Hips/Cat_Tail", "MeshRenderer", false);
+            AddMaterial(TAIL_MATERIAL_PATH, "Character_Rig/mixamorig:Hips/cattail", "MeshRenderer", false);
+            AddMaterial(TAIL_MATERIAL_PATH, "Character_Rig/mixamorig:Hips/dogtail", "MeshRenderer", false);
 
         }
         //add default materials
@@ -357,6 +331,7 @@ public class AvatarManager : Singleton<AvatarManager>
             if (rendererType == "SkinnedMeshRenderer")
             {
                 SkinnedMeshRenderer SMR = AvatarBody.transform.Find(bodyPart).gameObject.GetComponent<SkinnedMeshRenderer>();
+                if (SMR == null) { return; }
 
                 if (replaceTexture)
                 {
@@ -377,6 +352,7 @@ public class AvatarManager : Singleton<AvatarManager>
             if (rendererType == "MeshRenderer")
             {
                 MeshRenderer MR = AvatarBody.transform.Find(bodyPart).gameObject.GetComponent<MeshRenderer>();
+                if (MR == null) { return; }
 
                 if (replaceTexture)
                 {
@@ -394,7 +370,19 @@ public class AvatarManager : Singleton<AvatarManager>
                 }
                 return;
             }
+        }
+    }
 
+    public void LoadBodyParts(string earType, string tailType, GameObject avatar)
+    {
+        if (earType == null || tailType == null) { return; }
+
+        foreach (var kvp in bodyPartToBodyPartPathMap)
+        {
+            if (kvp.Key != earType && kvp.Key != tailType)
+            {
+                Destroy(avatar.transform.Find(kvp.Value).gameObject);
+            }
         }
     }
 
