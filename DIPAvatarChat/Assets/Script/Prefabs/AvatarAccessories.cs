@@ -70,6 +70,9 @@ public class AvatarAccessories : MonoBehaviour
                 case "tail":
                     AvatarBackendManager.Instance.currAvatarData.tail = path;
                     break;
+                case "ears":
+                    AvatarBackendManager.Instance.currAvatarData.ears = path;
+                    break;
                 case "shoes":
                     AvatarBackendManager.Instance.currAvatarData.shoes = path;
                     break;

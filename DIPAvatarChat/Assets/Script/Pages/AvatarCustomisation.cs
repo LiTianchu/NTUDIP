@@ -82,6 +82,7 @@ public class AvatarCustomisation : MonoBehaviour
         hat = null,
         shoes = null,
         tail = null,
+        ears = null,
         texture = null,
         wings = null,
       };
