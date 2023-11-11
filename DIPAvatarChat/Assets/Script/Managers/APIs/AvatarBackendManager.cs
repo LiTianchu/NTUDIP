@@ -105,7 +105,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
                     { "arm", currAvatarData.arm },
                     { "wings", currAvatarData.wings },
                     { "tail", currAvatarData.tail },
-                    { "tail", currAvatarData.ears },
+                    { "ears", currAvatarData.ears },
                     { "shoes", currAvatarData.shoes },
                     { "lastUpdatedAt", DateTime.Now },
                 };
