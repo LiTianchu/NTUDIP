@@ -22,7 +22,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public GameObject ARChatBubblePrefab;
     public GameObject ScreenChatContainer;
     public GameObject AvatarContainer;
-    public GameObject textBubblePrefab;//avatar label
+    public GameObject usernameBubblePrefab;//avatar label
     public GameObject AvatarSelectionBar;
     public GameObject EmoteSelectionArea;
     public AvatarIconContainer AvatarIconContainer;
@@ -119,7 +119,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         avatarObj.transform.localRotation = Quaternion.identity;
 
         // Spawn the text bubble prefab and set its position to follow the avatar
-        GameObject textBubble = Instantiate(textBubblePrefab, avatarObj.transform);
+        GameObject textBubble = Instantiate(usernameBubblePrefab, avatarObj.transform);
         textBubble.transform.localPosition = TEXT_BUBBLE_POS; // Adjust position as needed
         textBubble.transform.rotation = Quaternion.identity;
         textBubble.GetComponentInChildren<TMP_Text>().text = ChatManager.Instance.EmailToUsersDict[data.email].username;
@@ -234,13 +234,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                 SelectedAvatar.gameObject.SetActive(true);
                 SelectedAvatar.transform.position = _raycastHits[0].pose.position;
                 
-                //Vector3 directionOfCamera = (SelectedAvatar.transform.position - _mainCam.transform.position).normalized;
-                //Vector3 forwardDir = SelectedAvatar.transform.forward.normalized;
-                //float dotProduct = Vector3.Dot(forwardDir, directionOfCamera);
-                //float angle = Mathf.Acos(dotProduct) * Mathf.Rad2Deg;
-                //SelectedAvatar.transform.rotation = Quaternion.Euler(0, SelectedAvatar.transform.rotation.y + angle, 0);
-
-
                 //SelectedAvatar.transform.rotation = _raycastHits[0].pose.rotation;
                 Vector3 direction =  _mainCam.transform.position - SelectedAvatar.transform.position;
 
@@ -291,75 +284,5 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         MessageInputField.text = ChatManager.Instance.EmojiUpdate(MessageInputField.text);
     }
 
-    /*private async void ListenForNewMessages()
-    {
-        DocumentReference docRef = await ConversationBackendManager.Instance.GetConversationReferenceTask(AuthManager.Instance.currConvId);
-        listener = docRef.Listen(async snapshot =>
-        {
-
-            // Check if the snapshot exists and contains valid data
-            if (snapshot.Exists)
-            {
-                Debug.Log("snapshot exists");
-                // Extract the new message data
-                ConversationData conversation = snapshot.ConvertTo<ConversationData>();
-
-                if (conversation.messages.Last() != null)
-                {
-                    DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages.Last());
-                    MessageData msg = messageDoc.ConvertTo<MessageData>();
-
-                    string msgSender = msg.sender;
-                    string msgText = msg.message;
-                    string messageId = messageDoc.Id;
-
-                    // if messages are not loaded in yet
-                    if (!isPopulated)
-                    {
-                        foreach (string email in ChatManager.Instance.EmailToUsersDict.Keys)
-                        {
-
-                            RetrieveAvatarData(email);
-
-                        }
-                    }
-                    else
-                    {
-
-                        // Check if the message has not been displayed already
-                        if (GameObject.Find(messageId) == null)
-                        {
-                            //cache message
-                            ChatManager.Instance.CacheMessage(conversation.conversationID, msg);
-
-                            Debug.Log(AuthManager.Instance.currUser.email + " " + messageId);
-                            if (msgSender == AuthManager.Instance.currUser.email)
-                            {
-                                // Message is sent by the current user, spawn text bubble at right side
-                                string myMsgText = msgText;
-                                Debug.Log("Received message from current user " + myMsgText);
-                                ChatManager.Instance.InstantiateChatBubble(ScreenChatContainer, MyChatBubblePrefab, myMsgText, messageId);
-                                //StartCoroutine(PlayMyEmoteAnimation(popupTime, myMsgText));
-                                AnimationManager.Instance.PlayEmoteAnimation(AnimationManager.Instance.myAvatarBodyChat, AnimationManager.Instance.myAnimatorChat, msgText, true);
-                            }
-                            else
-                            {
-                                // Message is sent by another user, spawn text bubble at left side
-                                string theirMsgText = msgText;
-                                Debug.Log("Received message from another user " + theirMsgText);
-                                ChatManager.Instance.InstantiateChatBubble(ScreenChatContainer, TheirChatBubblePrefab, theirMsgText, messageId);
-                                //StartCoroutine(PlayTheirEmoteAnimation(popupTime, theirMsgText));
-                                AnimationManager.Instance.PlayEmoteAnimation(AnimationManager.Instance.theirAvatarBodyChat, AnimationManager.Instance.theirAnimatorChat, msgText, false);
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // Handle the case where the snapshot does not exist or contains invalid data
-                Debug.LogError("Snapshot does not exist or contains invalid data.");
-            }
-        });
-    }*/
+ 
 }
