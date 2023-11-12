@@ -22,6 +22,7 @@ public class Chat : MonoBehaviour, IPageTransition
     public GameObject PopupTheirAvatar;
     public GameObject AvatarPopupDisplayArea;
     public GameObject EmoteSelectionArea;
+    public GameObject UsernameBubblePrefab;
 
     [Header("UI Transition")]
     public CanvasGroup topBar;
@@ -105,8 +106,8 @@ public class Chat : MonoBehaviour, IPageTransition
         AnimationManager.Instance.myAnimatorChat = AnimationManager.Instance.myAvatarBodyChat.GetComponent<Animator>();
         AnimationManager.Instance.theirAnimatorChat = AnimationManager.Instance.theirAvatarBodyChat.GetComponent<Animator>();
 
-        AvatarManager.Instance.SetNametag(myAvatar, AuthManager.Instance.currUser.email);
-        AvatarManager.Instance.SetNametag(theirAvatar, recipientUserData.email);
+        AvatarManager.Instance.SetNametag(myAvatar,UsernameBubblePrefab, AuthManager.Instance.currUser.email);
+        AvatarManager.Instance.SetNametag(theirAvatar,UsernameBubblePrefab, recipientUserData.email);
 
         //display 2d avatar
         DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByEmailTask(recipientUserData.email);

@@ -6745,6 +6745,7 @@ MonoBehaviour:
   PopupTheirAvatar: {fileID: 998758285}
   AvatarPopupDisplayArea: {fileID: 1077173127}
   EmoteSelectionArea: {fileID: 120342553}
+  UsernameBubblePrefab: {fileID: 2049543253272678458, guid: e41108666477e1548b6e8c3be787ffc2, type: 3}
   topBar: {fileID: 1753650978}
   bottomTextFieldBar: {fileID: 302758877}
   chatScrollView: {fileID: 373271928}

@@ -8,7 +8,6 @@ public class AvatarManager : Singleton<AvatarManager>
 {
     public Dictionary<string, AvatarData> EmailToAvatarDict { get; set; }
     public GameObject avatarPrefab;
-    public GameObject textBubblePrefab;//avatar label
 
     //path for files
     public readonly string AVATAR_BODY_FILE_PATH = "Blender/Base_Avatar"; //"Blender/CatBaseTest2_v0_30";
@@ -224,6 +223,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public GameObject LoadAvatar(AvatarData avatarData, string tag = null)
     {
         GameObject avatar = LoadAvatarBody(avatarPrefab);
+        
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParent = null;
@@ -416,10 +416,10 @@ public class AvatarManager : Singleton<AvatarManager>
         SetAvatar("Avatar", avatar, AvatarDisplayArea, AVATAR_POS, Quaternion.Euler(0f, 180f, 0f), AVATAR_SCALE);
     }
 
-    public async void SetNametag(GameObject avatarObj, string email)
+    public async void SetNametag(GameObject avatarObj,GameObject nametagPrefab, string email)
     {
         // Spawn the text bubble prefab and set its position to follow the avatar
-        GameObject textBubble = Instantiate(textBubblePrefab, avatarObj.transform);
+        GameObject textBubble = Instantiate(nametagPrefab, avatarObj.transform);
         textBubble.transform.localPosition = TEXT_BUBBLE_POS; // Adjust position as needed
         textBubble.transform.rotation = Quaternion.identity;
 

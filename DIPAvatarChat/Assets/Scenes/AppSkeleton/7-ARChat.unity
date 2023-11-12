@@ -6603,7 +6603,7 @@ MonoBehaviour:
   ARChatBubblePrefab: {fileID: 2465401093224701783, guid: f51d6e338a89e00469d3678d56c0884a, type: 3}
   ScreenChatContainer: {fileID: 570572102}
   AvatarContainer: {fileID: 1160785319}
-  textBubblePrefab: {fileID: 6983170886809237930, guid: c27e6661440369949b66888ecdc5e0e3, type: 3}
+  usernameBubblePrefab: {fileID: 6983170886809237930, guid: c27e6661440369949b66888ecdc5e0e3, type: 3}
   AvatarSelectionBar: {fileID: 1646144185}
   EmoteSelectionArea: {fileID: 504686877}
   AvatarIconContainer: {fileID: 7310531263443929814, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}

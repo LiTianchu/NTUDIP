@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7639044683665582101}
   - component: {fileID: 8047247957468122692}
   m_Layer: 0
-  m_Name: TextBubble
+  m_Name: TextBubble_Old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
