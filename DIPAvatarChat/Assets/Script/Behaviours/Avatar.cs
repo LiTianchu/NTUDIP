@@ -18,14 +18,14 @@ public class Avatar : MonoBehaviour
     }
     private void OnEnable()
     {
-        ARChat.Instance.OnAvatarSelected += HandleAvatarSelected;
+        ARChat.Instance.OnAvatarStartMessaging += HandleAvatarSelected;
     }
 
     private void OnDisable()
     {
         if (!this.gameObject.scene.isLoaded) return;
         _listener?.Stop();
-        ARChat.Instance.OnAvatarSelected -= HandleAvatarSelected;
+        ARChat.Instance.OnAvatarStartMessaging -= HandleAvatarSelected;
     }
 
     private void HandleAvatarSelected(Avatar avatarSelected)

@@ -26,6 +26,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public GameObject AvatarSelectionBar;
     public GameObject EmoteSelectionArea;
     public AvatarIconContainer AvatarIconContainer;
+    
     public LayerMask UILayer;
 
     [Header("AR")]
@@ -37,23 +38,25 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
     [Header("UI Transition")]
     public CanvasGroup topBar;
-    public CanvasGroup bottomTextFieldBar;
+    //public CanvasGroup bottomTextFieldBar;
+    public CanvasGroup ChatSection;
 
     private List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
     private List<Avatar> _avatarList;
     private bool _isLoading;
-    private bool isPopulated = false;
     private ListenerRegistration listener;
     private Camera _mainCam;
+    private bool isChatShown;
 
     private readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.5f, 0);
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
 
     public Avatar SelectedAvatar { get; set; }
+    public Avatar TalkingAvatar {  get; set; }  
     public List<Avatar> AvatarList { get { return _avatarList; } }
 
     public event Action OnARFinishedLoading;
-    public event Action<Avatar> OnAvatarSelected;
+    public event Action<Avatar> OnAvatarStartMessaging;
     // Start is called before the first frame update
     void Start()
     {
@@ -104,8 +107,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
             _isLoading = false;
             OnARFinishedLoading?.Invoke(); //invoke the event
         }
-
-        isPopulated = true;
 
     }
 
@@ -159,7 +160,14 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
     public void SendMessage()
     {
-        ChatManager.Instance.SendMessage(MessageInputField, SelectedAvatar.ConversationData.conversationID);
+        if (TalkingAvatar != null)
+        {
+            ChatManager.Instance.SendMessage(MessageInputField, TalkingAvatar.ConversationData.conversationID);
+        }
+        else
+        {
+            Debug.Log("No avatar selected, aborting sending message");
+        }
     }
 
     public void ClearChatDisplay()
@@ -218,11 +226,11 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                 Avatar touchedAvatar = hit.transform.GetComponent<Avatar>();
                 if (touchedAvatar != null)
                 {
-                    if (touchedAvatar != SelectedAvatar) { ClearChatDisplay(); }
-                    SelectedAvatar = touchedAvatar;
-                    Debug.Log(SelectedAvatar.name + " touched");
+                    if (touchedAvatar != TalkingAvatar) { ClearChatDisplay(); }
+                    TalkingAvatar = touchedAvatar;
+                    Debug.Log(TalkingAvatar.name + " touched");
 
-                    OnAvatarSelected?.Invoke(SelectedAvatar);
+                    OnAvatarStartMessaging?.Invoke(TalkingAvatar);
                     return;
                 }
             }
@@ -251,6 +259,21 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
                 //SelectedAvatar.transform.rotation = Quaternion.Euler(0, SelectedAvatar.transform.rotation.y + angle, 0);
                 SelectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
+
+                //spawning the chat
+                if (TalkingAvatar != SelectedAvatar) //if the avatar is placing is not the same as the one talking right now, switch the talking avatar
+                {
+                    ClearChatDisplay();
+                    TalkingAvatar = SelectedAvatar;
+                    OnAvatarStartMessaging?.Invoke(TalkingAvatar);
+                }
+                
+                if (!isChatShown)
+                {
+                    isChatShown = true;
+                    ChatSection.gameObject.SetActive(true);
+                    UIManager.Instance.PanelFadeIn(ChatSection, 0.5f, UIManager.UIMoveDir.FromBottom, ChatSection.GetComponent<RectTransform>().anchoredPosition);
+                }
             }
         }
     }
@@ -259,13 +282,18 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public void FadeInUI()
     {
         UIManager.Instance.PanelFadeIn(topBar, 0.5f, UIManager.UIMoveDir.FromTop, topBar.GetComponent<RectTransform>().anchoredPosition);
-        UIManager.Instance.PanelFadeIn(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition);
+        UIManager.Instance.PanelFadeIn(ChatSection, 0.5f, UIManager.UIMoveDir.FromBottom, ChatSection.GetComponent<RectTransform>().anchoredPosition);
     }
 
     public IEnumerator ExitRoutine()
     {
-        UIManager.Instance.PanelFadeOut(bottomTextFieldBar, 0.5f, UIManager.UIMoveDir.FromBottom, bottomTextFieldBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
-        yield return new WaitForSeconds(0.5f);
+        float waitTime = 0f;
+        if (ChatSection.gameObject.activeSelf)
+        {
+            UIManager.Instance.PanelFadeOut(ChatSection, 0.5f, UIManager.UIMoveDir.FromBottom, ChatSection.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
+            waitTime = 0.5f;
+        }
+        yield return new WaitForSeconds(waitTime);
         AppManager.Instance.LoadScene("4-ChatList");
     }
 
