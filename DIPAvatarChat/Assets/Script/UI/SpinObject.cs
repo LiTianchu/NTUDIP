@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpinObject : MonoBehaviour
 {
-    float rotationSpeed = 10f; // Speed at which the object spins (in degrees per second)
+    float rotationSpeed = 20f; // Increased speed at which the object spins (in degrees per second)
 
     void Update()
     {

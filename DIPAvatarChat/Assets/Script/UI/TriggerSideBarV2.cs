@@ -6,14 +6,15 @@ public class TriggerSideBarV2 : MonoBehaviour
 {
     public RectTransform sidebar; // Reference to the RectTransform of the sidebar panel
     private bool isSidebarVisible = false; // Flag to track if the sidebar is visible
-    float slideSpeed = 8f; // Speed at which the sidebar slides in/out
-    float sidebarHiddenPos = 250f;
-    float sidebarShownPos = 10f;
+    [SerializeField] private float slideSpeed = 8f; // Speed at which the sidebar slides in/out
+    [SerializeField] private float sidebarHiddenPos = 250f;
+    [SerializeField] private float sidebarShownPos = 10f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Initialize the sidebar position based on its initial visibility
+        UpdateSidebarPosition();
     }
 
     // Update is called once per frame
@@ -27,5 +28,18 @@ public class TriggerSideBarV2 : MonoBehaviour
     {
         // Toggle the visibility flag
         isSidebarVisible = !isSidebarVisible;
+
+        // Update the sidebar position immediately when toggling
+        UpdateSidebarPosition();
     }
+
+    #region Helper Methods
+
+    private void UpdateSidebarPosition()
+    {
+        // Set the sidebar position based on its visibility status
+        sidebar.anchoredPosition = isSidebarVisible ? new Vector2(sidebarShownPos, sidebar.anchoredPosition.y) : new Vector2(sidebarHiddenPos, sidebar.anchoredPosition.y);
+    }
+
+    #endregion
 }

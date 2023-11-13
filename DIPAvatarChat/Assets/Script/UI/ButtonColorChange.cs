@@ -3,15 +3,20 @@ using UnityEngine.UI;
 
 public class ButtonColorChange : MonoBehaviour
 {
-    public Button buttonToChange; // Reference to the button
-    public Color newColor = Color.red; // Change this to the desired color
+    [SerializeField] private Button buttonToChange; // Reference to the button
+    [SerializeField] private Color newColor = Color.red; // Change this to the desired color
 
     private void Start()
+    {
+        InitializeButtonColorChange();
+    }
+
+    private void InitializeButtonColorChange()
     {
         // Attach a click event listener to the button
         if (buttonToChange == null)
         {
-            Debug.Log("Button to change is null in ButtonColorChange.cs");
+            Debug.LogError("Button to change is null in ButtonColorChange.cs on GameObject: " + gameObject.name);
         }
         else
         {
@@ -24,7 +29,7 @@ public class ButtonColorChange : MonoBehaviour
         // Change the color of the button when it's clicked
         if (buttonToChange == null)
         {
-            Debug.Log("Button to change is null in ButtonColorChange.cs");
+            Debug.LogError("Button to change is null in ButtonColorChange.cs on GameObject: " + gameObject.name);
             return;
         }
         buttonToChange.image.color = newColor;
