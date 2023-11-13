@@ -18,7 +18,7 @@ Framework: Unity3D 2022.3.9f1
 Database & Authentication: Firebase  
 3D Modelling: Blender  
 Texture: Adobe Substance 3D Painter  
-2D Graphics: Figma  
+2D Graphics: Figma, Adobe Illustrator  
 IDE: Visual Studio 2022  
 Programming Language: C#  
 Unity Plugins: AR Foundation, Google AR Core, Dotween, XR Simulation Environments  
