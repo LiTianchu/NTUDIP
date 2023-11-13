@@ -3,7 +3,7 @@
 #### This is a unique Unity 3D chat app project integrated with AR and 3D technologies
 
 ## Team  
-Yunxuan - Leader, 2D Artist, 3D Modeler  
+Yunxuan - Leader, 2D Artist, 3D Modeler, Animator  
 Aloysious - Frontend & Backend Programmer  
 Frewin - 3D Modeler, Animator, Texture Designer  
 Rushdina - UI Artist, Frontend Programmer  
