@@ -270,14 +270,28 @@ public class AvatarManager : Singleton<AvatarManager>
             collider.size = AVATAR_COLLIDER_SIZE;
             collider.center = AVATAR_COLLIDER_CENTER;
 
-            fbx.AddComponent<Animator>();
+            // Check if the GameObject already has an Animator component
+            Animator existingAnimator = fbx.GetComponent<Animator>();
+
+            if (existingAnimator == null)
+            {
+                // If not, add a new Animator component
+                fbx.AddComponent<Animator>();
+            }
+            else
+            {
+                // If an Animator component already exists, log a warning or handle it as needed
+                Debug.LogWarning("Animator component already exists on the GameObject: " + fbx.name);
+            }
 
             Animator animator = fbx.GetComponent<Animator>();
             animator.runtimeAnimatorController = AnimationManager.Instance.animatorController;
             return fbx;
         }
+
         return null;
     }
+
 
     public void LoadAccessory(string fbxFileName, GameObject AvatarBody, Vector3 itemPosition, Vector3 itemScale, Quaternion itemRotation, GameObject AccessoryParent, string tag)
     {
@@ -291,7 +305,19 @@ public class AvatarManager : Singleton<AvatarManager>
                 GameObject fbx = Instantiate(loadedFBX, itemPosition, itemRotation);
 
                 fbx.transform.SetParent(AvatarBody.transform, false);
-                fbx.transform.localScale = itemScale;
+
+                // Check if the accessory is shoes
+                if (tag == "ShoesAccessory")
+                {
+                    // Scale the shoes accessory to be bigger
+                    fbx.transform.localScale = new Vector3(SHOES_SCALE.x * 1.5f, SHOES_SCALE.y * 1.5f, SHOES_SCALE.z * 1.5f);
+                }
+                else
+                {
+                    // For other accessories, use the provided scale
+                    fbx.transform.localScale = itemScale;
+                }
+
                 fbx.tag = tag;
 
                 if (AccessoryParent != null)
@@ -309,6 +335,7 @@ public class AvatarManager : Singleton<AvatarManager>
             }
         }
     }
+
 
     public void LoadTexture(string fbxFileName, GameObject AvatarBody)
     {
