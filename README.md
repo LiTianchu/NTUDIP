@@ -25,9 +25,9 @@ Unity Plugins: AR Foundation, Dotween
 
 ## Features
 1. Users are able to create and customize a unique 3D avatar  
-2. A 3D avatar is able to play corresponding animations when an emoji is sent  
-3. A Whatsapp-like normal chatting mode where the user is able to see the opponent's avatar  
+2. 3D avatars are able to play corresponding animations when an emoji is sent  
+3. Whatsapp-like normal chatting mode where the user is able to see the opponent's avatar  
 4. An AR mode where the user can place multiple friends' avatars in an AR space and chat with them altogether  
-5. Adding other users as friends that can chat with them  
-6. Sign Up, Login In, Sign Out  
+5. Adding other users as friends so that can chat with them  
+6. Authentication including Sign Up, Login In, and Sign Out  
 7. Other miscellaneous chat app functions such as starting a new chat, changing status and display name, etc  
