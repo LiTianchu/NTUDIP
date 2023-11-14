@@ -23,12 +23,17 @@ public class ChatList : MonoBehaviour
     public Button SendFriendRequestBtn;
     public GameObject ChatListParent;
     public ChatListBox ChatListObject;
+    public GameObject AvatarDisplayArea2d;
+    public GameObject AvatarSkinDisplayArea2d;
+    public GameObject AvatarHeadDisplayArea2d;
+    public GameObject AvatarHatDisplayArea2d;
+    public GameObject AvatarTextureDisplayArea2d;
     public GameObject LoadingUI;
     public GameObject LoadingSwipe;
     public TMP_Text FriendRequestSentText;
     public TMP_Text AlreadyYourFriendText;
-    private bool needsRefresh = true; // Flag to track whether chat list needs refreshing
-                                      // Store existing chat list items by conversation ID
+    
+    // Store existing chat list items by conversation ID
     private Dictionary<string, ChatListBox> chatListItems = new Dictionary<string, ChatListBox>();
 
 
@@ -36,8 +41,6 @@ public class ChatList : MonoBehaviour
     void Start()
     {
         PopulateChatList();
-        needsRefresh = false; // Set the flag to false after the initial refresh
-
     }
 
     async public void PopulateChatList()
@@ -143,15 +146,16 @@ public class ChatList : MonoBehaviour
             }
         }
 
+        //display 2d avatar
+        DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByEmailTask(AuthManager.Instance.currUser.email);
+        AvatarManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea2d, AvatarSkinDisplayArea2d, AvatarHatDisplayArea2d, AvatarTextureDisplayArea2d);
+
         if (LoadingUI != null)
         {
             ChatListParent.SetActive(true);
             LoadingUI.SetActive(false);
             StartCoroutine(DisableLoadingAnim(0.5f));
         }
-
-        // After populating the chat list, set needsRefresh to false
-        needsRefresh = false;
     }
 
     void ClearChatList()
@@ -233,7 +237,7 @@ public class ChatList : MonoBehaviour
 
     async public void SearchUserByEmailAsync()
     {
-        if(emailSearchBar.text == null || emailSearchBar.text.Length == 0)
+        if (emailSearchBar.text == null || emailSearchBar.text.Length == 0)
         {
             return;
         }
@@ -280,12 +284,12 @@ public class ChatList : MonoBehaviour
             }
         }
 
-       Debug.Log("isAlreadyMyFriend: " + isAlreadyMyFriend);
+        Debug.Log("isAlreadyMyFriend: " + isAlreadyMyFriend);
 
         if (theirEmail != myEmail && theirEmail != null && !isDuplicateFriendRequest && !isAlreadyMyFriend)
         {
             UserBackendManager.Instance.SendFriendRequestToThem(myEmail, theirEmail, friendAndFriendRequestLists[1]);
-        
+
             // Display "Friend Request Sent!" message
             FriendRequestSentText.text = "Friend Request Sent!";
             FriendRequestSentText.gameObject.SetActive(true);
@@ -308,14 +312,14 @@ public class ChatList : MonoBehaviour
         //SendFriendRequestBtn.interactable = false;
     }
 
-        private IEnumerator HideFriendRequestSentText(float delay)
+    private IEnumerator HideFriendRequestSentText(float delay)
     {
         yield return new WaitForSeconds(delay);
         FriendRequestSentText.gameObject.SetActive(false);
         FriendRequestSentText.text = "";
     }
 
-        private IEnumerator HideAlreadyYourFriendText(float delay)
+    private IEnumerator HideAlreadyYourFriendText(float delay)
     {
         yield return new WaitForSeconds(delay);
         AlreadyYourFriendText.gameObject.SetActive(false);

@@ -111,7 +111,6 @@ public class Chat : MonoBehaviour, IPageTransition
 
         //display 2d avatar
         DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByEmailTask(recipientUserData.email);
-
         AvatarManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea2d, AvatarSkinDisplayArea2d, AvatarHatDisplayArea2d, AvatarTextureDisplayArea2d);
 
         isAvatarsSpawned = true;
