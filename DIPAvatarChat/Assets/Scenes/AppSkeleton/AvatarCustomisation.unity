@@ -12202,6 +12202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FeaturesBox: {fileID: 825234428}
   AvatarDisplayArea: {fileID: 1283548192}
+  notification: {fileID: 8219841273301980285, guid: 8093bc995b5c4dc4a844f8d2ffacfde0, type: 3}
 --- !u!114 &1893059628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12817,7 +12818,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -12.200012, y: -22.7}
+  m_AnchoredPosition: {x: -14.8, y: -11.5}
   m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1989402781
