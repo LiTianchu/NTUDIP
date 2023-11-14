@@ -321,7 +321,7 @@ public class ChatList : MonoBehaviour
 
     async public void DisplayFriendRequests()
     {
-        EnableTab(FriendRequestsTab);
+        //EnableTab(FriendRequestsTab);
         DestroyTempPrefabs("TempPrefab");
         Debug.Log(AuthManager.Instance.currUser.email);
 
