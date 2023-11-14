@@ -14,6 +14,8 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly string CUSTOMISE_AVATAR_BODY_PATH = "/Canvas/AvatarContainer/Avatar";
     public readonly string AVATAR_HAT_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/mixamorig:HeadTop_End";
     public readonly string AVATAR_ARM_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
+    public readonly string AVATAR_SHOE_L_PATH = "Character_Rig/mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot/Empty_R_Shoes";
+    public readonly string AVATAR_SHOE_R_PATH = "Character_Rig/mixamorig:Hips/mixamorig:RightUpLeg/mixamorig:RightLeg/mixamorig:RightFoot/Empty_L_Shoes";
 
     //rotation for avatar spawn
     public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
@@ -31,8 +33,8 @@ public class AvatarManager : Singleton<AvatarManager>
 
     //pos for shoes accessories
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
-    public readonly Vector3 SHOES_SCALE = new Vector3(1f, 1f, 1f);
-    public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(0f, 180f, 0f);
+    public readonly Vector3 SHOES_SCALE = new Vector3(0.009f, 0.009f, 0.009f);
+    public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(180f, 90f, 90f);
 
     //pos for ears
     public readonly Vector3 EARS_POS = new Vector3(0f, 0f, 0f);
@@ -226,7 +228,8 @@ public class AvatarManager : Singleton<AvatarManager>
         
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
-        GameObject shoesParent = null;
+        GameObject shoesParentL = avatar.transform.Find(AVATAR_SHOE_L_PATH).gameObject;
+        GameObject shoesParentR = avatar.transform.Find(AVATAR_SHOE_R_PATH).gameObject;
 
         // Load hat accessory
         LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, hatParent, "HatAccessory");
@@ -235,7 +238,8 @@ public class AvatarManager : Singleton<AvatarManager>
         LoadAccessory(avatarData.arm, avatar, ARM_POS, ARM_SCALE, ARM_ROTATION, armParent, "ArmAccessory");
 
         // Load shoes accessory
-        LoadAccessory(avatarData.shoes, avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParent, "ShoesAccessory");
+        LoadAccessory(avatarData.shoes + "left", avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParentL, "ShoesAccessory");
+        LoadAccessory(avatarData.shoes + "right", avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParentR, "ShoesAccessory");
 
         // Load ears and tail
         LoadBodyParts(avatarData.ears, avatarData.tail, avatar);
@@ -298,6 +302,7 @@ public class AvatarManager : Singleton<AvatarManager>
         if (fbxFileName != null && fbxFileName != "")
         {
             // Load the FBX asset from the Resources folder
+            Debug.Log("Accessory Loaded: " + fbxFileName);
             GameObject loadedFBX = Resources.Load<GameObject>(fbxFileName); // Eg. Blender/porkpiehat.fbx
             if (loadedFBX != null)
             {
