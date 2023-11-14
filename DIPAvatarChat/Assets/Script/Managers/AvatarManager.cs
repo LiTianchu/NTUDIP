@@ -312,6 +312,14 @@ public class AvatarManager : Singleton<AvatarManager>
                 fbx.transform.localScale = itemScale;
                 fbx.tag = tag;
 
+                // Temporary values for certain accessories that is different size and rotation
+                /*if (fbxFileName == "Blender/Shoes/businessshoesleft" || fbxFileName == "Blender/Shoes/businessshoesright" || fbxFileName == "Blender/Shoes/laceupbootsleft" || fbxFileName == "Blender/Shoes/laceupbootsright")
+                {
+                    fbx = Instantiate(loadedFBX, itemPosition, Quaternion.Euler(0f, 0f, 180f));
+                    fbx.transform.SetParent(AvatarBody.transform, false);
+                    fbx.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+                }*/
+
                 if (AccessoryParent != null)
                 {
                     fbx.transform.SetParent(AccessoryParent.transform, false);
