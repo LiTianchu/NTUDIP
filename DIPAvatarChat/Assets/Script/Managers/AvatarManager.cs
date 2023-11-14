@@ -33,7 +33,7 @@ public class AvatarManager : Singleton<AvatarManager>
 
     //pos for shoes accessories
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
-    public readonly Vector3 SHOES_SCALE = new Vector3(0.009f, 0.009f, 0.009f);
+    public readonly Vector3 SHOES_SCALE = new Vector3(0.013f, 0.013f, 0.013f);
     public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(180f, 90f, 90f);
 
     //pos for ears
@@ -308,21 +308,8 @@ public class AvatarManager : Singleton<AvatarManager>
             {
                 // Instantiate the loaded FBX as a GameObject in the scene
                 GameObject fbx = Instantiate(loadedFBX, itemPosition, itemRotation);
-
                 fbx.transform.SetParent(AvatarBody.transform, false);
-
-                // Check if the accessory is shoes
-                if (tag == "ShoesAccessory")
-                {
-                    // Scale the shoes accessory to be bigger
-                    fbx.transform.localScale = new Vector3(SHOES_SCALE.x * 1.5f, SHOES_SCALE.y * 1.5f, SHOES_SCALE.z * 1.5f);
-                }
-                else
-                {
-                    // For other accessories, use the provided scale
-                    fbx.transform.localScale = itemScale;
-                }
-
+                fbx.transform.localScale = itemScale;
                 fbx.tag = tag;
 
                 if (AccessoryParent != null)
