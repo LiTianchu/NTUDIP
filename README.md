@@ -8,7 +8,7 @@ Aloysious - Frontend & Backend Programmer
 Frewin - 3D Modeler, Animator, Texture Designer  
 Rushdina - UI Artist, Frontend Programmer  
 Min Keat - Frontend & Backend Programmer  
-Malvin - Frontend Programmer  
+Malvin - UI Artitst, Frontend Programmer  
 Tianchu - Software Architect, Frontend & Backend Programmer  
 Yuwen - UI Artist, Frontend Programmer  
 Yuyang - 3D Modeler, Animator  
