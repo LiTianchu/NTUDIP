@@ -233,6 +233,10 @@ public class ChatList : MonoBehaviour
 
     async public void SearchUserByEmailAsync()
     {
+        if(emailSearchBar.text == null || emailSearchBar.text.Length == 0)
+        {
+            return;
+        }
         EnableTab(SearchFriendInfoTab);
 
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);

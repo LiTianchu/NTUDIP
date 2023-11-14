@@ -61,7 +61,7 @@ public class UIManager : Singleton<UIManager>
     public void PanelFadeOut(CanvasGroup panelCanvasGroup, float fadeTime, UIMoveDir dir, Vector3 uiPos)
     {
         RectTransform panelUIRect = panelCanvasGroup.gameObject.GetComponent<RectTransform>();
-        panelCanvasGroup.alpha = 0f; //starting opacity
+        panelCanvasGroup.alpha = 1f; //starting opacity
         panelUIRect.transform.localPosition = uiPos;
         Vector2 targetPos;
         if (dir.Equals(UIMoveDir.Stay))
@@ -73,7 +73,7 @@ public class UIManager : Singleton<UIManager>
             targetPos = GetFadeDirPos(dir, uiPos.z); //starting position
         }
         panelUIRect.DOAnchorPos(targetPos, fadeTime, false).SetEase(Ease.OutFlash); //falsh in animation
-        panelCanvasGroup.DOFade(1, fadeTime); //fade out animtion
+        panelCanvasGroup.DOFade(0, fadeTime); //fade out animtion
     }
 
     private Vector3 GetFadeDirPos(UIMoveDir dir, float zPos)

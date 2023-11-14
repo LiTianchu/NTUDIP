@@ -2624,7 +2624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emailLoginField: {fileID: 1864317758}
   passwordLoginField: {fileID: 1829982471}
-  warningLoginText: {fileID: 0}
+  warningLoginText: {fileID: 944261758}
   confirmLoginText: {fileID: 741184183}
   emailRegisterField: {fileID: 607102125}
   passwordRegisterField: {fileID: 1520488315}
@@ -4269,7 +4269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &741184182
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4309,7 +4309,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Login successful!
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5846,12 +5846,12 @@ GameObject:
   - component: {fileID: 944261759}
   - component: {fileID: 944261758}
   m_Layer: 5
-  m_Name: WarningRegisterText
+  m_Name: WarningLoginText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &944261757
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5891,7 +5891,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Wrong email or password!
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b4dbf9e2f66021f4a8565ca1b6ad5715, type: 2}
   m_sharedMaterial: {fileID: -1910928926859737293, guid: b4dbf9e2f66021f4a8565ca1b6ad5715, type: 2}
@@ -6840,7 +6840,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonToChange: {fileID: 0}
   newColor: {r: 0.5803922, g: 0.74509805, b: 0.9607844, a: 1}
 --- !u!1 &1129731397
 GameObject:
@@ -9329,7 +9328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonToChange: {fileID: 1581890267}
   newColor: {r: 0.5686275, g: 0.7490196, b: 0.96470594, a: 1}
 --- !u!1 &1630326548
 GameObject:
@@ -10502,7 +10500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonToChange: {fileID: 1880221658}
   newColor: {r: 0.5686275, g: 0.7568628, b: 0.9607844, a: 1}
 --- !u!1 &1889168529
 GameObject:
