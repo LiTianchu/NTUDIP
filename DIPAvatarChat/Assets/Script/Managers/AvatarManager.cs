@@ -33,7 +33,7 @@ public class AvatarManager : Singleton<AvatarManager>
 
     //pos for shoes accessories
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
-    public readonly Vector3 SHOES_SCALE = new Vector3(0.013f, 0.013f, 0.013f);
+    public readonly Vector3 SHOES_SCALE = new Vector3(0.011f, 0.011f, 0.011f);
     public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(180f, 90f, 90f);
 
     //pos for ears
