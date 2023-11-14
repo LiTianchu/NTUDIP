@@ -52,9 +52,24 @@ public class RegisterAndLogin : MonoBehaviour
 
     public async void LoginButton()
     {
+        //front end validation
+        if (emailLoginField.text.Trim().Length == 0 || passwordLoginField.text.Trim().Length == 0) {
+            SetLoginWarning("Fields cannot be empty");
+            return;
+        }
+
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailLoginField.text);
+        
+        if(myUserDoc == null)
+        {
+            SetLoginWarning("Account does not exist"); return;
+        }
         UserData myUserData = myUserDoc.ConvertTo<UserData>();
 
+        if (myUserData == null)
+        {
+            SetLoginWarning("Account does not exist"); return;
+        }
         if (myUserData.username != null && myUserData.status != null && myUserData.currentAvatar != null)
         {
             AuthManager.Instance.StartLogin(emailLoginField.text, passwordLoginField.text, "4-ChatList");
@@ -67,11 +82,21 @@ public class RegisterAndLogin : MonoBehaviour
 
     public void RegisterButton()
     {
+        //front end validation
+        if (emailRegisterField.text.Trim().Length == 0 || passwordRegisterField.text.Trim().Length == 0)
+        {
+            SetRegisterWarning("Fields cannot be empty");
+            return;
+        }
         AuthManager.Instance.StartRegistration(emailRegisterField.text, passwordRegisterField.text);
     }
 
     public void PasswordResetButton()
     {
+        if (emailForPasswordResetField.text.Trim().Length == 0)
+        {
+            return;
+        }
         AuthManager.Instance.StartPasswordReset(emailForPasswordResetField.text);
     }
 
@@ -109,9 +134,18 @@ public class RegisterAndLogin : MonoBehaviour
 
     private void ClearText()
     {
-        warningLoginText.text = "";
-        warningRegisterText.text = "";
-        confirmLoginText.text = "";
+        if (warningLoginText != null)
+        {
+            warningLoginText.text = "";
+        }
+        if (warningRegisterText != null)
+        {
+            warningRegisterText.text = "";
+        }
+        if (confirmLoginText != null)
+        {
+            confirmLoginText.text = "";
+        }
     }
 
 

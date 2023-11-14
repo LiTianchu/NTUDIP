@@ -331,7 +331,7 @@ public class AvatarManager : Singleton<AvatarManager>
             }
             else
             {
-                Debug.LogError("FBX asset not found: " + fbxFileName);
+                Debug.LogWarning("FBX asset not found: " + fbxFileName);
             }
         }
     }

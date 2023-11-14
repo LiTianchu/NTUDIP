@@ -783,7 +783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonToChange: {fileID: 0}
+  buttonToChange: {fileID: 333176489}
   newColor: {r: 0.6901961, g: 0.79215693, b: 0.8196079, a: 1}
 --- !u!1 &466861997
 GameObject:
