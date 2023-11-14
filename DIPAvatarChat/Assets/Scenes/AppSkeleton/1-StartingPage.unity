@@ -877,7 +877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonToChange: {fileID: 578745209}
   newColor: {r: 0.60784316, g: 0.73333335, b: 0.9176471, a: 1}
 --- !u!1 &654249629
 GameObject:
@@ -2786,7 +2785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonToChange: {fileID: 1705074193}
   newColor: {r: 0.61960787, g: 0.7294118, b: 0.909804, a: 1}
 --- !u!1 &1761719759
 GameObject:
@@ -3083,7 +3081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c406c9c31e6ea5444a08b25e4a44b007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonToChange: {fileID: 1783710998}
   newColor: {r: 0.60784316, g: 0.7176471, b: 0.91372555, a: 1}
 --- !u!1 &1827504764
 GameObject:

@@ -30,7 +30,7 @@ public class TriggerSideBarV2 : MonoBehaviour
         isSidebarVisible = !isSidebarVisible;
 
         // Update the sidebar position immediately when toggling
-        UpdateSidebarPosition();
+        //UpdateSidebarPosition();
     }
 
     #region Helper Methods
