@@ -1532,8 +1532,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 11.816, y: 0}
+  m_SizeDelta: {x: -23.632, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &438966278
 MonoBehaviour:
@@ -1589,7 +1589,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2153,6 +2153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatList: {fileID: 1467296472}
+  animationDelay: 1
+  animationDuration: 0.5
 --- !u!1 &714981596
 GameObject:
   m_ObjectHideFlags: 0
@@ -2560,8 +2562,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 11.816, y: 0}
+  m_SizeDelta: {x: -23.632, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &813084626
 MonoBehaviour:
@@ -2617,7 +2619,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2906,8 +2908,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 11.816, y: 0}
+  m_SizeDelta: {x: -23.632, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &875543646
 MonoBehaviour:
@@ -2963,7 +2965,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3284,6 +3286,7 @@ GameObject:
   - component: {fileID: 961867703}
   - component: {fileID: 961867706}
   - component: {fileID: 961867705}
+  - component: {fileID: 961867707}
   m_Layer: 5
   m_Name: SidebarMenu
   m_TagString: Untagged
@@ -3349,6 +3352,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961867702}
   m_CullTransparentMesh: 1
+--- !u!95 &961867707
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961867702}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 92a04e5007eae7041b109a266add3ecb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &999563813 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6925083403292994354, guid: a15d2a6ff01b6834caf5f1b69a56d764, type: 3}
@@ -4318,6 +4342,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sidebar: {fileID: 961867703}
+  slideSpeed: 8
+  sidebarHiddenPos: 250
+  sidebarShownPos: 10
 --- !u!114 &1333548671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4372,6 +4399,30 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 961867707}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: sideBar_in
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 961867707}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: sideBar_out
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1333548672
@@ -5456,8 +5507,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 11.816, y: 0}
+  m_SizeDelta: {x: -23.632, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1564788582
 MonoBehaviour:
@@ -5513,7 +5564,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -5642,8 +5693,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 11.816, y: 0}
+  m_SizeDelta: {x: -23.632, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1589380293
 MonoBehaviour:
@@ -5699,7 +5750,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
