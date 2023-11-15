@@ -8,6 +8,7 @@ using UnityEngine;
 public class NewChat : MonoBehaviour, IPageTransition
 {
     public GameObject ContactsBoxPrefab;
+    public Transform contactBoxContainer;
 
     [Header("UI Transition")]
     public CanvasGroup topBar;
@@ -55,7 +56,7 @@ public class NewChat : MonoBehaviour, IPageTransition
 
                 //Clone prefab for displaying friend request
                 GameObject box = Instantiate(ContactsBoxPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-                box.transform.SetParent(GameObject.Find("ContactsContent").transform, false);
+                box.transform.SetParent(contactBoxContainer, false);
                 box.name = theirUserData.email;
 
                 //Show the email of the friend request sender
@@ -63,6 +64,9 @@ public class NewChat : MonoBehaviour, IPageTransition
                 box.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TMP_Text>().text = theirUserData.status;
             }
         }
+
+        contactBoxContainer.GetComponent<VerticalResizable>().Resize();
+        
     }
 
     public async Task<string> GetCurrConvId(UserData currUserData, string recipientEmail)
@@ -85,6 +89,11 @@ public class NewChat : MonoBehaviour, IPageTransition
                 DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversation);
                 ConversationData currConversation = conversationDoc.ConvertTo<ConversationData>();
 
+                if(currConversation == null)
+                {
+                    Debug.LogWarning("Conversation with ID: " +  conversation + " not found in database");
+                    continue;
+                }
                 foreach (string member in currConversation.members)
                 {
                     if (recipientEmail == member)
