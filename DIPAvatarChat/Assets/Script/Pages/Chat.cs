@@ -36,6 +36,8 @@ public class Chat : MonoBehaviour, IPageTransition
     private ListenerRegistration listener;
 
     private readonly float AVATAR_SCALE_CHAT = 60f;
+    public readonly Vector3 MY_TEXT_BUBBLE_POS = new Vector3(-1, 4.25f, 1.8f);
+    public readonly Vector3 THEIR_TEXT_BUBBLE_POS = new Vector3(1, 4.25f, 1.8f);
     private float popupTime = 1.25f;
 
     // Start is called before the first frame update
@@ -106,8 +108,8 @@ public class Chat : MonoBehaviour, IPageTransition
         AnimationManager.Instance.myAnimatorChat = AnimationManager.Instance.myAvatarBodyChat.GetComponent<Animator>();
         AnimationManager.Instance.theirAnimatorChat = AnimationManager.Instance.theirAvatarBodyChat.GetComponent<Animator>();
 
-        AvatarManager.Instance.SetNametag(myAvatar,UsernameBubblePrefab, AuthManager.Instance.currUser.email);
-        AvatarManager.Instance.SetNametag(theirAvatar,UsernameBubblePrefab, recipientUserData.email);
+        AvatarManager.Instance.SetNametag(myAvatar,UsernameBubblePrefab, AuthManager.Instance.currUser.email,MY_TEXT_BUBBLE_POS);
+        AvatarManager.Instance.SetNametag(theirAvatar,UsernameBubblePrefab, recipientUserData.email,THEIR_TEXT_BUBBLE_POS);
 
         //display 2d avatar
         DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByEmailTask(recipientUserData.email);
