@@ -76,6 +76,11 @@ public class ChatList : MonoBehaviour
                 DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversations[i]);
                 conversation = conversationDoc.ConvertTo<ConversationData>();
 
+                if(conversation == null)
+                {
+                    Debug.LogWarning(conversations[i] + " is not found in conversation document");
+                    continue;
+                }
                 foreach (string member in conversation.members)
                 {
                     if (member != AuthManager.Instance.currUser.email)
