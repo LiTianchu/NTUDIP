@@ -160,9 +160,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FriendRequestBox, Assembly-CSharp
-        m_MethodName: AcceptFriendRequest
+      - m_Target: {fileID: 1027961369831954534}
+        m_TargetAssemblyTypeName: SendRequestBox, Assembly-CSharp
+        m_MethodName: SendFriendRequest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
