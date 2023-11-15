@@ -63,6 +63,8 @@ public class ChatList : MonoBehaviour
         UserData friendData = null;
         string friendEmail = null;
 
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
+        AuthManager.Instance.currUser = myUserDoc.ConvertTo<UserData>();
         List<string> conversations = AuthManager.Instance.currUser.conversations;
 
         for (int i = conversations.Count - 1; i >= 0; i--)
@@ -391,12 +393,6 @@ public class ChatList : MonoBehaviour
         List<string>[] friendAndFriendRequestLists = await GetFriendAndFriendRequestListsTask(myEmail, theirEmail);
 
         UserBackendManager.Instance.AcceptFriendRequest(myEmail, theirEmail, friendAndFriendRequestLists[0], friendAndFriendRequestLists[1], friendAndFriendRequestLists[2], friendAndFriendRequestLists[3]);
-
-        UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email).ContinueWithOnMainThread(task =>
-        {
-            DocumentSnapshot currUserDoc = task.Result;
-            AuthManager.Instance.currUser = currUserDoc.ConvertTo<UserData>();
-        });
 
         DisplayFriendRequests();
     }
