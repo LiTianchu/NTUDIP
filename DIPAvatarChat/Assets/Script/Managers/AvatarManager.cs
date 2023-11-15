@@ -46,7 +46,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly Vector3 TAIL_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
     public readonly Quaternion TAIL_ROTATION = Quaternion.Euler(94.58002f, 35.286f, 130.632f);*/
 
-    public readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.25f, 0);
+    public readonly Vector3 TEXT_BUBBLE_POS = new Vector3(1, 4.25f, 1.8f);
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
     {
@@ -506,11 +506,11 @@ public class AvatarManager : Singleton<AvatarManager>
         SetAvatar("Avatar", avatar, AvatarDisplayArea, AVATAR_POS, Quaternion.Euler(0f, 180f, 0f), AVATAR_SCALE);
     }
 
-    public async void SetNametag(GameObject avatarObj, GameObject nametagPrefab, string email)
+    public async void SetNametag(GameObject avatarObj, GameObject nametagPrefab, string email, Vector3 pos)
     {
         // Spawn the text bubble prefab and set its position to follow the avatar
         GameObject textBubble = Instantiate(nametagPrefab, avatarObj.transform);
-        textBubble.transform.localPosition = TEXT_BUBBLE_POS; // Adjust position as needed
+        textBubble.transform.localPosition = pos; // Adjust position as needed
         textBubble.transform.rotation = Quaternion.identity;
 
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(email);

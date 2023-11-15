@@ -177,7 +177,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
 
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(email);
         UserData userData = userDoc.ConvertTo<UserData>();
-        if (userData.currentAvatar == null)
+        if (userData == null || userData.currentAvatar == null)
         {
             Debug.Log("Theres no avatar fir user: " + email);
             return null;

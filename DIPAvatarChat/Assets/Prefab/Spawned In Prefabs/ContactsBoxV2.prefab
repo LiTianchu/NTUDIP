@@ -565,8 +565,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0029296875, y: 7.9974976}
-  m_SizeDelta: {x: -0.01, y: -15.995}
+  m_AnchoredPosition: {x: 0, y: 7.9974976}
+  m_SizeDelta: {x: -120, y: -15.995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7550535739978893162
 CanvasRenderer:
@@ -641,7 +641,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
@@ -906,3 +906,4 @@ MonoBehaviour:
   AvatarHeadDisplayArea: {fileID: 218378080676359946}
   AvatarHatDisplayArea: {fileID: 2686594009803590288}
   AvatarTextureDisplayArea: {fileID: 5441916888965032903}
+  isConv: 0
