@@ -1,8 +1,9 @@
 using Firebase.Firestore;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class RegisterAndLogin : MonoBehaviour
+public class RegisterAndLogin : MonoBehaviour, IPageTransition
 {
     //Login variables
     [Header("Login")]
@@ -27,8 +28,17 @@ public class RegisterAndLogin : MonoBehaviour
 
     public static string emailData { get; set; }
 
+    private CanvasGroup loginFormCG;
+    private CanvasGroup registerFormCG;
+    private CanvasGroup resetPasswordFormCG;
+
     private void OnEnable()
     {
+        loginFormCG = loginForm.GetComponent<CanvasGroup>();
+        registerFormCG = registerForm.GetComponent<CanvasGroup>();
+        resetPasswordFormCG = resetPasswordForm.GetComponent<CanvasGroup>();
+
+        FadeInUI();
         //attach event listeners on enable
         AuthManager.Instance.RegisterWarning += SetRegisterWarning;
         AuthManager.Instance.LoginWarning += SetLoginWarning;
@@ -125,6 +135,20 @@ public class RegisterAndLogin : MonoBehaviour
     public void ToggleUI()
     {
         UIManager.Instance.ToggleLoginRegister(loginForm, registerForm);
+        if (registerForm.activeSelf)
+        {
+            //if login form is on, fade away the login and fade in the register
+            UIManager.Instance.PanelFadeOut(loginFormCG, 0.2f, UIManager.UIMoveDir.Stay, loginFormCG.GetComponent<RectTransform>().anchoredPosition);
+            UIManager.Instance.PanelFadeIn(registerFormCG, 0.3f, UIManager.UIMoveDir.Stay, registerFormCG.GetComponent<RectTransform>().anchoredPosition);
+        }
+        else if(loginForm.activeSelf)
+        {
+            //if register form is on fade away the register and fade in the login
+
+            UIManager.Instance.PanelFadeOut(registerFormCG, 0.2f, UIManager.UIMoveDir.Stay, registerFormCG.GetComponent<RectTransform>().anchoredPosition);
+            UIManager.Instance.PanelFadeIn(loginFormCG, 0.3f, UIManager.UIMoveDir.Stay, loginFormCG.GetComponent<RectTransform>().anchoredPosition);
+        }
+        
     }
 
     public void ToggleResetPasswordForm()
@@ -148,5 +172,14 @@ public class RegisterAndLogin : MonoBehaviour
         }
     }
 
+    public void FadeInUI()
+    {
+        UIManager.Instance.PanelFadeIn(registerFormCG, 0.5f, UIManager.UIMoveDir.FromLeft, registerFormCG.GetComponent<RectTransform>().anchoredPosition);
+        
+    }
 
+    public IEnumerator ExitRoutine()
+    {
+        throw new System.NotImplementedException();
+    }
 }
