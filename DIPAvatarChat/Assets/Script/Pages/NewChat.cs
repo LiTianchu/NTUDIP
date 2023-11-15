@@ -8,6 +8,7 @@ using UnityEngine;
 public class NewChat : MonoBehaviour, IPageTransition
 {
     public GameObject ContactsBoxPrefab;
+    FirebaseFirestore db;
 
     [Header("UI Transition")]
     public CanvasGroup topBar;
@@ -32,7 +33,7 @@ public class NewChat : MonoBehaviour, IPageTransition
 
     public void ChatList()
     {
-        
+
         StartCoroutine(ExitRoutine());
     }
 
@@ -67,12 +68,16 @@ public class NewChat : MonoBehaviour, IPageTransition
 
     public async Task<string> GetCurrConvId(UserData currUserData, string recipientEmail)
     {
-        //db = FirebaseFirestore.DefaultInstance;
+        db = FirebaseFirestore.DefaultInstance;
         string currConvId = null;
 
         DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);
         UserData theirUserData = theirUserDoc.ConvertTo<UserData>();
         Debug.Log("Current user email: " + currUserData.email);
+
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
+        currUserData = myUserDoc.ConvertTo<UserData>();
+        AuthManager.Instance.currUser = currUserData;
 
         List<string> currUserConversationsList = new List<string>(currUserData.conversations);
         List<string> theirUserConversationsList = new List<string>(theirUserData.conversations);
