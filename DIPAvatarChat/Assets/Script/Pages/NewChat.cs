@@ -33,7 +33,7 @@ public class NewChat : MonoBehaviour, IPageTransition
 
     public void ChatList()
     {
-        
+
         StartCoroutine(ExitRoutine());
     }
 
@@ -77,6 +77,10 @@ public class NewChat : MonoBehaviour, IPageTransition
         DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);
         UserData theirUserData = theirUserDoc.ConvertTo<UserData>();
         Debug.Log("Current user email: " + currUserData.email);
+
+        DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
+        currUserData = myUserDoc.ConvertTo<UserData>();
+        AuthManager.Instance.currUser = currUserData;
 
         List<string> currUserConversationsList = new List<string>(currUserData.conversations);
         List<string> theirUserConversationsList = new List<string>(theirUserData.conversations);

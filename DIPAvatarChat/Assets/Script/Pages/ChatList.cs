@@ -1,3 +1,6 @@
+using Firebase;
+using Firebase.Auth;
+using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +35,7 @@ public class ChatList : MonoBehaviour
     public GameObject LoadingSwipe;
     public TMP_Text FriendRequestSentText;
     public TMP_Text AlreadyYourFriendText;
-    
+
     // Store existing chat list items by conversation ID
     private Dictionary<string, ChatListBox> chatListItems = new Dictionary<string, ChatListBox>();
 
@@ -60,9 +63,10 @@ public class ChatList : MonoBehaviour
         UserData friendData = null;
         string friendEmail = null;
 
-        QuerySnapshot convDocQuery = await ConversationBackendManager.Instance.GetAllConversationsTask(AuthManager.Instance.currUser.email);
+        //QuerySnapshot convDocQuery = await ConversationBackendManager.Instance.GetAllConversationsTask(AuthManager.Instance.currUser.email);
 
-        List<string> conversations = FilterConversationList(convDocQuery);
+        //List<string> conversations = FilterConversationList(convDocQuery);
+        List<string> conversations = AuthManager.Instance.currUser.conversations;
 
         for (int i = conversations.Count - 1; i >= 0; i--)
         {
@@ -390,6 +394,13 @@ public class ChatList : MonoBehaviour
         List<string>[] friendAndFriendRequestLists = await GetFriendAndFriendRequestListsTask(myEmail, theirEmail);
 
         UserBackendManager.Instance.AcceptFriendRequest(myEmail, theirEmail, friendAndFriendRequestLists[0], friendAndFriendRequestLists[1], friendAndFriendRequestLists[2], friendAndFriendRequestLists[3]);
+
+        UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email).ContinueWithOnMainThread(task =>
+        {
+            DocumentSnapshot currUserDoc = task.Result;
+            AuthManager.Instance.currUser = currUserDoc.ConvertTo<UserData>();
+        });
+
         DisplayFriendRequests();
     }
 
