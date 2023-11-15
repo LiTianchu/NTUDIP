@@ -347,13 +347,28 @@ public class AvatarManager : Singleton<AvatarManager>
                 fbx.transform.localScale = itemScale;
                 fbx.tag = tag;
 
-                // Temporary values for certain accessories that is different size and rotation
-                /*if (fbxFileName == "Blender/Shoes/businessshoesleft" || fbxFileName == "Blender/Shoes/businessshoesright" || fbxFileName == "Blender/Shoes/laceupbootsleft" || fbxFileName == "Blender/Shoes/laceupbootsright")
+                // Manually rescale certain broken accessories
+                ///////////////////////////////////////////////////////////////////////////////////////////
+                // shoes not correct size and rotation
+                if (fbxFileName == "Blender/Shoes/businessshoesleft" || fbxFileName == "Blender/Shoes/businessshoesright" || fbxFileName == "Blender/Shoes/laceupbootsleft" || fbxFileName == "Blender/Shoes/laceupbootsright")
                 {
                     fbx = Instantiate(loadedFBX, itemPosition, Quaternion.Euler(0f, 0f, 180f));
-                    fbx.transform.SetParent(AvatarBody.transform, false);
                     fbx.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
-                }*/
+                }
+
+                // porkpiehat not correct size
+                if (fbxFileName == "Blender/porkpiehat")
+                {
+                    fbx.transform.localScale = new Vector3(0.004f, 0.004f, 0.004f);
+                }
+
+                // beret not correct size
+                if (fbxFileName == "Blender/beret")
+                {
+
+                }
+                ///////////////////////////////////////////////////////////////////////////////////////////
+
 
                 if (AccessoryParent != null)
                 {
@@ -401,7 +416,7 @@ public class AvatarManager : Singleton<AvatarManager>
                 AddMaterial(TAIL_MATERIAL_PATH, "Character_Rig/mixamorig:Hips/dogtail", "MeshRenderer", false);
             }
         }
-        
+
         //add default materials
         string IRIS_MATERIAL_PATH = "Blender/Materials/Eye_Sclera_Mat";
         AddMaterial(IRIS_MATERIAL_PATH, "Eye_L_Sclera", "SkinnedMeshRenderer", true);
