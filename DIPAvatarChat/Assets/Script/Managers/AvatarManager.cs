@@ -225,7 +225,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public GameObject LoadAvatar(AvatarData avatarData, string tag = null)
     {
         GameObject avatar = LoadAvatarBody(avatarPrefab);
-        
+
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParentL = avatar.transform.Find(AVATAR_SHOE_L_PATH).gameObject;
@@ -244,7 +244,7 @@ public class AvatarManager : Singleton<AvatarManager>
         // Load ears and tail
         LoadBodyParts(avatarData.ears, avatarData.tail, avatar);
 
-        LoadTexture(avatarData.texture, avatar);
+        LoadTexture(avatarData.texture, avatarData.colour, avatar);
 
         if (tag != null)
         {
@@ -337,17 +337,26 @@ public class AvatarManager : Singleton<AvatarManager>
     }
 
 
-    public void LoadTexture(string fbxFileName, GameObject AvatarBody)
+    public void LoadTexture(string textureName, string colourName, GameObject AvatarBody)
     {
-        if (fbxFileName != null && fbxFileName != "")
+        if (textureName != null && textureName != "" && colourName != null && colourName != "")
         {
             // Load the FBX asset from the Resources folder
             // Eg. Blender/Materials/spots/Materials/body.fbx
 
-            string BODY_MATERIAL_PATH = fbxFileName + "/Materials/body";
-            string HEAD_MATERIAL_PATH = fbxFileName + "/Materials/head";
-            string TAIL_MATERIAL_PATH = fbxFileName + "/Materials/tail";
+            string BODY_COLOUR_PATH = colourName + "/bodycolour";
+            string HEAD_COLOUR_PATH = colourName + "/headcolour";
+            string TAIL_COLOUR_PATH = colourName + "/tailcolour";
+            string DOG_TAIL_COLOUR_PATH = colourName + "/dogtailcolour";
 
+            string BODY_MATERIAL_PATH = textureName + "/Materials/body";
+            string HEAD_MATERIAL_PATH = textureName + "/Materials/head";
+            string TAIL_MATERIAL_PATH = textureName + "/Materials/tail";
+
+            AddMaterial(BODY_COLOUR_PATH, "Body", "SkinnedMeshRenderer", false);
+            AddMaterial(HEAD_COLOUR_PATH, "Head_Base", "SkinnedMeshRenderer", false);
+            AddMaterial(TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/cattail", "MeshRenderer", false);
+            AddMaterial(DOG_TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/dogtail", "MeshRenderer", false);
 
             AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer", false);
             AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer", false);
@@ -443,7 +452,7 @@ public class AvatarManager : Singleton<AvatarManager>
         SetAvatar("Avatar", avatar, AvatarDisplayArea, AVATAR_POS, Quaternion.Euler(0f, 180f, 0f), AVATAR_SCALE);
     }
 
-    public async void SetNametag(GameObject avatarObj,GameObject nametagPrefab, string email)
+    public async void SetNametag(GameObject avatarObj, GameObject nametagPrefab, string email)
     {
         // Spawn the text bubble prefab and set its position to follow the avatar
         GameObject textBubble = Instantiate(nametagPrefab, avatarObj.transform);
