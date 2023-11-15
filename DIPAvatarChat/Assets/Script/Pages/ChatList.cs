@@ -63,9 +63,6 @@ public class ChatList : MonoBehaviour
         UserData friendData = null;
         string friendEmail = null;
 
-        //QuerySnapshot convDocQuery = await ConversationBackendManager.Instance.GetAllConversationsTask(AuthManager.Instance.currUser.email);
-
-        //List<string> conversations = FilterConversationList(convDocQuery);
         List<string> conversations = AuthManager.Instance.currUser.conversations;
 
         for (int i = conversations.Count - 1; i >= 0; i--)
