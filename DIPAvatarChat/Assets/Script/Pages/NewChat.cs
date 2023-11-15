@@ -69,23 +69,23 @@ public class NewChat : MonoBehaviour, IPageTransition
         
     }
 
-    public async Task<string> GetCurrConvId(UserData currUserData, string recipientEmail)
+    public async Task<string> GetCurrConvId(string recipientEmail)
     {
         //db = FirebaseFirestore.DefaultInstance;
         string currConvId = null;
 
         DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);
         UserData theirUserData = theirUserDoc.ConvertTo<UserData>();
-        Debug.Log("Current user email: " + currUserData.email);
 
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
-        currUserData = myUserDoc.ConvertTo<UserData>();
-        AuthManager.Instance.currUser.conversations = currUserData.conversations;
+        AuthManager.Instance.currUser = myUserDoc.ConvertTo<UserData>();
+        Debug.Log("Current user email: " + AuthManager.Instance.currUser.email);
 
-        List<string> currUserConversationsList = new List<string>(currUserData.conversations);
+
+        List<string> currUserConversationsList = new List<string>(AuthManager.Instance.currUser.conversations);
         List<string> theirUserConversationsList = new List<string>(theirUserData.conversations);
 
-        foreach (string conversation in currUserData.conversations)
+        foreach (string conversation in AuthManager.Instance.currUser.conversations)
         {
             if (conversation != null && conversation != "")
             {
@@ -114,7 +114,7 @@ public class NewChat : MonoBehaviour, IPageTransition
         if (currConvId == null)
         {
             Debug.Log("Start new conversation");
-            currConvId = await ConversationBackendManager.Instance.StartNewConversation(currUserData, theirUserData, currUserConversationsList, theirUserConversationsList);
+            currConvId = await ConversationBackendManager.Instance.StartNewConversation(AuthManager.Instance.currUser, theirUserData, currUserConversationsList, theirUserConversationsList);
         }
 
         return currConvId;
