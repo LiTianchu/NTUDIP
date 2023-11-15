@@ -226,11 +226,15 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                 Avatar touchedAvatar = hit.transform.GetComponent<Avatar>();
                 if (touchedAvatar != null)
                 {
-                    if (touchedAvatar != TalkingAvatar) { ClearChatDisplay(); }
-                    TalkingAvatar = touchedAvatar;
+                    if (touchedAvatar != TalkingAvatar) { 
+                        ClearChatDisplay();
+                        TalkingAvatar = touchedAvatar;
+                        OnAvatarStartMessaging?.Invoke(TalkingAvatar);
+                    }
+                    //TalkingAvatar = touchedAvatar;
                     Debug.Log(TalkingAvatar.name + " touched");
 
-                    OnAvatarStartMessaging?.Invoke(TalkingAvatar);
+                    //OnAvatarStartMessaging?.Invoke(TalkingAvatar);
                     return;
                 }
             }
