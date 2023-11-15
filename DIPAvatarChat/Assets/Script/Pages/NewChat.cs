@@ -80,7 +80,7 @@ public class NewChat : MonoBehaviour, IPageTransition
 
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
         currUserData = myUserDoc.ConvertTo<UserData>();
-        AuthManager.Instance.currUser = currUserData;
+        AuthManager.Instance.currUser.conversations = currUserData.conversations;
 
         List<string> currUserConversationsList = new List<string>(currUserData.conversations);
         List<string> theirUserConversationsList = new List<string>(theirUserData.conversations);
