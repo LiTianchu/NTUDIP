@@ -61,6 +61,28 @@ public class AvatarManager : Singleton<AvatarManager>
         { "Blender/sunflower", "2D_assets/flowers"},
     };
 
+    public Dictionary<string, string> colourTo2dColourMap = new Dictionary<string, string>
+    {
+        { "Blender/Textures/ColorSchemes/Materials/1", "2D_assets/catcolor"},
+        { "Blender/Textures/ColorSchemes/Materials/2", "2D_assets/catpurplecolor"},
+        { "Blender/Textures/ColorSchemes/Materials/3", "2D_assets/catbluecolor"},
+        { "Blender/Textures/ColorSchemes/Materials/4", "2D_assets/catpinkcolor"},
+        { "Blender/Textures/ColorSchemes/Materials/5", "2D_assets/catorangecolor"},
+        { "Blender/Textures/ColorSchemes/Materials/6", "2D_assets/catgreencolor"},
+        { "Blender/Textures/ColorSchemes/Materials/7", "2D_assets/catredcolor"},
+    };
+
+    public Dictionary<string, string> dogColourTo2dColourMap = new Dictionary<string, string>
+    {
+        { "Blender/Textures/ColorSchemes/Materials/1", "2D_assets/dogcolor"},
+        { "Blender/Textures/ColorSchemes/Materials/2", "2D_assets/dogpurplecolor"},
+        { "Blender/Textures/ColorSchemes/Materials/3", "2D_assets/dogbluecolor"},
+        { "Blender/Textures/ColorSchemes/Materials/4", "2D_assets/dogpinkcolor"},
+        { "Blender/Textures/ColorSchemes/Materials/5", "2D_assets/dogorangecolor"},
+        { "Blender/Textures/ColorSchemes/Materials/6", "2D_assets/doggreencolor"},
+        { "Blender/Textures/ColorSchemes/Materials/7", "2D_assets/dogredcolor"},
+    };
+
     public Dictionary<string, string> textureTo2dTextureMap = new Dictionary<string, string>
     {
         { "Blender/Textures/scars", "2D_assets/scars"},
@@ -87,12 +109,12 @@ public class AvatarManager : Singleton<AvatarManager>
 
     }
 
-    public List<Sprite> LoadAvatarSprite2d(string headFilePath, string skinFilePath, string hatFilePath, string textureFilePath)
+    public List<Sprite> LoadAvatarSprite2d(string headFilePath, string skinFilePath, string hatFilePath, string textureFilePath, AvatarData avatarData)
     {
         List<Sprite> sprites = new List<Sprite>();
 
         Sprite head2d = Resources.Load<Sprite>(headFilePath);
-        Sprite skin2d = Resources.Load<Sprite>(skinFilePath);
+        Sprite skin2d = null;
         Sprite hat2d = null;
         Sprite texture2d = null;
 
@@ -110,6 +132,19 @@ public class AvatarManager : Singleton<AvatarManager>
 
         hat2d = Find2d(hat2d, hatFilePath, hatTo2dHatMap);
         texture2d = Find2d(texture2d, textureFilePath, textureTo2dTextureMap);
+
+        switch (avatarData.ears)
+        {
+            case "Blender/catear":
+                skin2d = Find2d(skin2d, skinFilePath, colourTo2dColourMap);
+                break;
+            case "Blender/dogear":
+                skin2d = Find2d(skin2d, skinFilePath, dogColourTo2dColourMap);
+                break;
+            default:
+                Debug.Log("invalid ear type: " + avatarData.ears);
+                break;
+        }
 
         sprites.Add(skin2d);
         sprites.Add(head2d);
@@ -151,10 +186,10 @@ public class AvatarManager : Singleton<AvatarManager>
         switch (avatarData.ears)
         {
             case "Blender/catear":
-                sprites = LoadAvatarSprite2d("2D_assets/catbase", "2D_assets/catcolor", avatarData.hat, avatarData.texture);
+                sprites = LoadAvatarSprite2d("2D_assets/catbase", avatarData.colour, avatarData.hat, avatarData.texture, avatarData);
                 break;
             case "Blender/dogear":
-                sprites = LoadAvatarSprite2d("2D_assets/dogbase", "2D_assets/dogcolor", avatarData.hat, avatarData.texture);
+                sprites = LoadAvatarSprite2d("2D_assets/dogbase", avatarData.colour, avatarData.hat, avatarData.texture, avatarData);
                 break;
             default:
                 Debug.Log("invalid ear type: " + avatarData.ears);
