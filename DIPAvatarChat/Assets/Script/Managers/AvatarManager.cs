@@ -36,7 +36,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly Vector3 SHOES_SCALE = new Vector3(0.011f, 0.011f, 0.011f);
     public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(180f, 90f, 90f);
 
-    //pos for ears
+    /*/pos for ears
     public readonly Vector3 EARS_POS = new Vector3(0f, 0f, 0f);
     public readonly Vector3 EARS_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
     public readonly Quaternion EARS_ROTATION = Quaternion.Euler(0f, 180f, 0f);
@@ -44,7 +44,7 @@ public class AvatarManager : Singleton<AvatarManager>
     //pos for tail
     public readonly Vector3 TAIL_POS = new Vector3(0.000594871f, 0.0002483991f, -0.004111664f);
     public readonly Vector3 TAIL_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
-    public readonly Quaternion TAIL_ROTATION = Quaternion.Euler(94.58002f, 35.286f, 130.632f);
+    public readonly Quaternion TAIL_ROTATION = Quaternion.Euler(94.58002f, 35.286f, 130.632f);*/
 
     public readonly Vector3 TEXT_BUBBLE_POS = new Vector3(0, 4.25f, 0);
 
@@ -225,7 +225,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public GameObject LoadAvatar(AvatarData avatarData, string tag = null)
     {
         GameObject avatar = LoadAvatarBody(avatarPrefab);
-        
+
         GameObject hatParent = avatar.transform.Find(AVATAR_HAT_PATH).gameObject;
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParentL = avatar.transform.Find(AVATAR_SHOE_L_PATH).gameObject;
@@ -244,7 +244,7 @@ public class AvatarManager : Singleton<AvatarManager>
         // Load ears and tail
         LoadBodyParts(avatarData.ears, avatarData.tail, avatar);
 
-        LoadTexture(avatarData.texture, avatar);
+        LoadTexture(avatarData.texture, avatarData.colour, avatar);
 
         if (tag != null)
         {
@@ -312,6 +312,14 @@ public class AvatarManager : Singleton<AvatarManager>
                 fbx.transform.localScale = itemScale;
                 fbx.tag = tag;
 
+                // Temporary values for certain accessories that is different size and rotation
+                /*if (fbxFileName == "Blender/Shoes/businessshoesleft" || fbxFileName == "Blender/Shoes/businessshoesright" || fbxFileName == "Blender/Shoes/laceupbootsleft" || fbxFileName == "Blender/Shoes/laceupbootsright")
+                {
+                    fbx = Instantiate(loadedFBX, itemPosition, Quaternion.Euler(0f, 0f, 180f));
+                    fbx.transform.SetParent(AvatarBody.transform, false);
+                    fbx.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+                }*/
+
                 if (AccessoryParent != null)
                 {
                     fbx.transform.SetParent(AccessoryParent.transform, false);
@@ -329,17 +337,26 @@ public class AvatarManager : Singleton<AvatarManager>
     }
 
 
-    public void LoadTexture(string fbxFileName, GameObject AvatarBody)
+    public void LoadTexture(string textureName, string colourName, GameObject AvatarBody)
     {
-        if (fbxFileName != null && fbxFileName != "")
+        if (textureName != null && textureName != "" && colourName != null && colourName != "")
         {
             // Load the FBX asset from the Resources folder
             // Eg. Blender/Materials/spots/Materials/body.fbx
 
-            string BODY_MATERIAL_PATH = fbxFileName + "/Materials/body";
-            string HEAD_MATERIAL_PATH = fbxFileName + "/Materials/head";
-            string TAIL_MATERIAL_PATH = fbxFileName + "/Materials/tail";
+            string BODY_COLOUR_PATH = colourName + "/bodycolour";
+            string HEAD_COLOUR_PATH = colourName + "/headcolour";
+            string TAIL_COLOUR_PATH = colourName + "/tailcolour";
+            string DOG_TAIL_COLOUR_PATH = colourName + "/dogtailcolour";
 
+            string BODY_MATERIAL_PATH = textureName + "/Materials/body";
+            string HEAD_MATERIAL_PATH = textureName + "/Materials/head";
+            string TAIL_MATERIAL_PATH = textureName + "/Materials/tail";
+
+            AddMaterial(BODY_COLOUR_PATH, "Body", "SkinnedMeshRenderer", true);
+            AddMaterial(HEAD_COLOUR_PATH, "Head_Base", "SkinnedMeshRenderer", true);
+            AddMaterial(TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/cattail", "MeshRenderer", true);
+            AddMaterial(DOG_TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/dogtail", "MeshRenderer", true);
 
             AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer", false);
             AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer", false);
@@ -366,6 +383,7 @@ public class AvatarManager : Singleton<AvatarManager>
                 {
                     SMR.sharedMaterials = new Material[1] { mat };
                 }
+                else
                 {
                     // Clone the current materials array and add the new material to it
                     Material[] mats = new Material[SMR.sharedMaterials.Length + 1];
@@ -435,7 +453,7 @@ public class AvatarManager : Singleton<AvatarManager>
         SetAvatar("Avatar", avatar, AvatarDisplayArea, AVATAR_POS, Quaternion.Euler(0f, 180f, 0f), AVATAR_SCALE);
     }
 
-    public async void SetNametag(GameObject avatarObj,GameObject nametagPrefab, string email)
+    public async void SetNametag(GameObject avatarObj, GameObject nametagPrefab, string email)
     {
         // Spawn the text bubble prefab and set its position to follow the avatar
         GameObject textBubble = Instantiate(nametagPrefab, avatarObj.transform);
