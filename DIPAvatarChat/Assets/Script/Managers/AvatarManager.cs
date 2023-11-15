@@ -353,10 +353,10 @@ public class AvatarManager : Singleton<AvatarManager>
             string HEAD_MATERIAL_PATH = textureName + "/Materials/head";
             string TAIL_MATERIAL_PATH = textureName + "/Materials/tail";
 
-            AddMaterial(BODY_COLOUR_PATH, "Body", "SkinnedMeshRenderer", false);
-            AddMaterial(HEAD_COLOUR_PATH, "Head_Base", "SkinnedMeshRenderer", false);
-            AddMaterial(TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/cattail", "MeshRenderer", false);
-            AddMaterial(DOG_TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/dogtail", "MeshRenderer", false);
+            AddMaterial(BODY_COLOUR_PATH, "Body", "SkinnedMeshRenderer", true);
+            AddMaterial(HEAD_COLOUR_PATH, "Head_Base", "SkinnedMeshRenderer", true);
+            AddMaterial(TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/cattail", "MeshRenderer", true);
+            AddMaterial(DOG_TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/dogtail", "MeshRenderer", true);
 
             AddMaterial(BODY_MATERIAL_PATH, "Body", "SkinnedMeshRenderer", false);
             AddMaterial(HEAD_MATERIAL_PATH, "Head_Base", "SkinnedMeshRenderer", false);
@@ -383,6 +383,7 @@ public class AvatarManager : Singleton<AvatarManager>
                 {
                     SMR.sharedMaterials = new Material[1] { mat };
                 }
+                else
                 {
                     // Clone the current materials array and add the new material to it
                     Material[] mats = new Material[SMR.sharedMaterials.Length + 1];

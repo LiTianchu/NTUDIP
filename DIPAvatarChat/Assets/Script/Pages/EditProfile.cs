@@ -96,7 +96,7 @@ public class EditProfile : MonoBehaviour
                 lastUpdatedAt = DateTime.Now,
                 email = AuthManager.Instance.currUser.email,
                 arm = null,
-                colour = null,
+                colour = "Blender/Textures/ColorSchemes/Materials/1",
                 expression = null,
                 hat = null,
                 shoes = null,
