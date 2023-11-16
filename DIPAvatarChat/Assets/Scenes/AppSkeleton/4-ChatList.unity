@@ -2467,6 +2467,7 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 43cbf9a494bc56e4bbb7a577abe1a776, type: 3}
   headerImage: {fileID: 1750477318}
   chatUiHeaderImage: {fileID: 0}
+  sidebarImage: {fileID: 961867705}
   sourceImage: {fileID: 0}
   alternateText1: {fileID: 2087247998}
   alternateText2: {fileID: 921352923}
@@ -2475,12 +2476,15 @@ MonoBehaviour:
   arChatSlideBtn: {fileID: 2039998219}
   arHeaderImage: {fileID: 20452131}
   chatlistBoxPrefab: {fileID: 5551016608129215562, guid: 786ebba9cc4153043924d313b23536ae, type: 3}
-  chatlistBoxBackground: {fileID: 0}
-  chatlistBoxText: {fileID: 0}
+  friendRequestBoxPrefab: {fileID: 7726203703301093251, guid: 89315bbbee64282408dae687884e0f93, type: 3}
+  contactsBoxPrefab: {fileID: 0}
+  myTextBubblePrefab: {fileID: 0}
+  theirTextBubblePrefab: {fileID: 0}
   loadingUiPrefab1: {fileID: 805001303}
   loadingUiBackground1: {fileID: 805001305}
   loadingUiPrefab2: {fileID: 999563813}
   loadingUiBackground2: {fileID: 8902519076766564178}
+  messageBarImage: {fileID: 0}
 --- !u!114 &692963942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2528,8 +2532,8 @@ RectTransform:
   - {fileID: 1369002605}
   - {fileID: 2060874423}
   - {fileID: 1675644360}
-  - {fileID: 1403945842}
   - {fileID: 1046019428}
+  - {fileID: 1403945842}
   m_Father: {fileID: 1662469372}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -3786,7 +3790,7 @@ GameObject:
   - component: {fileID: 1046019429}
   m_Layer: 5
   m_Name: DarkModeBtn
-  m_TagString: Untagged
+  m_TagString: SidebarTabPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4869,7 +4873,7 @@ GameObject:
   - component: {fileID: 1369002606}
   m_Layer: 5
   m_Name: SearchFriendTabBtn
-  m_TagString: Untagged
+  m_TagString: SidebarTabPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5002,7 +5006,7 @@ GameObject:
   - component: {fileID: 1403945843}
   m_Layer: 5
   m_Name: SignOutBtn
-  m_TagString: Untagged
+  m_TagString: SidebarTabPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6371,7 +6375,7 @@ GameObject:
   - component: {fileID: 1675644361}
   m_Layer: 5
   m_Name: EditProfileBtn
-  m_TagString: Untagged
+  m_TagString: SidebarTabPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7591,7 +7595,7 @@ GameObject:
   - component: {fileID: 2060874424}
   m_Layer: 5
   m_Name: FriendRequestsTabBtn
-  m_TagString: Untagged
+  m_TagString: SidebarTabPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

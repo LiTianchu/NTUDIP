@@ -3129,17 +3129,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3211520979303767484, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
   m_PrefabInstance: {fileID: 856820711}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &856820713 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5630158019474725070, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
-  m_PrefabInstance: {fileID: 856820711}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &856820714 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 405757954075299603, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
@@ -6434,12 +6423,15 @@ MonoBehaviour:
   arChatSlideBtn: {fileID: 599081482}
   arHeaderImage: {fileID: 1238599202}
   chatlistBoxPrefab: {fileID: 856820714}
-  chatlistBoxBackground: {fileID: 0}
-  chatlistBoxText: {fileID: 856820713}
+  friendRequestBoxPrefab: {fileID: 0}
+  contactsBoxPrefab: {fileID: 0}
+  myTextBubblePrefab: {fileID: 6655866526961314476, guid: 9680a7e02d61fc041a44b2011b08bc20, type: 3}
+  theirTextBubblePrefab: {fileID: 6655866526961314476, guid: 8fdadd0911ebe3b4384c6223a85eb3fd, type: 3}
   loadingUiPrefab1: {fileID: 0}
   loadingUiBackground1: {fileID: 0}
   loadingUiPrefab2: {fileID: 0}
   loadingUiBackground2: {fileID: 0}
+  messageBarImage: {fileID: 471961825}
 --- !u!1 &1995709345
 GameObject:
   m_ObjectHideFlags: 0
