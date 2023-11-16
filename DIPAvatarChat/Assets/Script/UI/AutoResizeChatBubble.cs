@@ -11,7 +11,7 @@ public class AutoResizeChatBubble : MonoBehaviour
     public TextMeshProUGUI message; // Reference to your TMP Text component
     float minHeight = 20f;
     float minWidth = 40f;
-    float maxWidth = 220f;
+    float maxWidth = 160f;
     float paddingHeight = 2f;
     float paddingWidth = 2f;
     float textHeight;
