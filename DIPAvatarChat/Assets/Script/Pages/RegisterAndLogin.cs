@@ -17,6 +17,7 @@ public class RegisterAndLogin : MonoBehaviour, IPageTransition
     public TMP_InputField emailRegisterField;
     public TMP_InputField passwordRegisterField;
     public TMP_Text warningRegisterText;
+    public TMP_Text confirmRegisterText;
 
     [Header("Reset Password")]
     public TMP_InputField emailForPasswordResetField;
@@ -44,7 +45,7 @@ public class RegisterAndLogin : MonoBehaviour, IPageTransition
         AuthManager.Instance.LoginWarning += SetLoginWarning;
         AuthManager.Instance.RegisterConfirm += SetRegisterConfirm;
         AuthManager.Instance.LoginConfirm += SetLoginConfirm;
-        AuthManager.Instance.ClearWarning += ClearText;
+        //AuthManager.Instance.ClearWarning += ClearText;
         AuthManager.Instance.EmailVerificationSent += ToggleUI;
     }
 
@@ -56,21 +57,22 @@ public class RegisterAndLogin : MonoBehaviour, IPageTransition
         AuthManager.Instance.LoginWarning -= SetLoginWarning;
         AuthManager.Instance.RegisterConfirm -= SetRegisterConfirm;
         AuthManager.Instance.LoginConfirm -= SetLoginConfirm;
-        AuthManager.Instance.ClearWarning -= ClearText;
+        //AuthManager.Instance.ClearWarning -= ClearText;
         AuthManager.Instance.EmailVerificationSent += ToggleUI;
     }
 
     public async void LoginButton()
     {
         //front end validation
-        if (emailLoginField.text.Trim().Length == 0 || passwordLoginField.text.Trim().Length == 0) {
+        if (emailLoginField.text.Trim().Length == 0 || passwordLoginField.text.Trim().Length == 0)
+        {
             SetLoginWarning("Fields cannot be empty");
             return;
         }
 
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailLoginField.text);
-        
-        if(myUserDoc == null)
+
+        if (myUserDoc == null)
         {
             SetLoginWarning("Account does not exist"); return;
         }
@@ -112,25 +114,34 @@ public class RegisterAndLogin : MonoBehaviour, IPageTransition
 
     private void SetLoginWarning(string warning)
     {
-        ClearText();
         warningLoginText.text = warning;
+        StartCoroutine(ClearTextAfterDelay(warningLoginText, 2f)); // 2 seconds delay (adjust as needed)
     }
 
     private void SetRegisterWarning(string warning)
     {
-        ClearText();
         warningRegisterText.text = warning;
+        StartCoroutine(ClearTextAfterDelay(warningRegisterText, 2f)); // 2 seconds delay (adjust as needed)
     }
 
     private void SetLoginConfirm(string confirm)
     {
-        ClearText();
         confirmLoginText.text = confirm;
+        StartCoroutine(ClearTextAfterDelay(confirmLoginText, 2f)); // 2 seconds delay (adjust as needed)
     }
 
     private void SetRegisterConfirm(string confirm)
     {
-        ClearText();
+        confirmRegisterText.text = confirm;
+        // Assuming you want to clear the register confirmation text as well
+        StartCoroutine(ClearTextAfterDelay(confirmRegisterText, 2f)); // 2 seconds delay (adjust as needed)
+    }
+
+    // Coroutine to clear the text after a delay
+    private IEnumerator ClearTextAfterDelay(TMP_Text textComponent, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        textComponent.text = "";
     }
     public void ToggleUI()
     {
@@ -141,14 +152,14 @@ public class RegisterAndLogin : MonoBehaviour, IPageTransition
             UIManager.Instance.PanelFadeOut(loginFormCG, 0.2f, UIManager.UIMoveDir.Stay, loginFormCG.GetComponent<RectTransform>().anchoredPosition);
             UIManager.Instance.PanelFadeIn(registerFormCG, 0.3f, UIManager.UIMoveDir.Stay, registerFormCG.GetComponent<RectTransform>().anchoredPosition);
         }
-        else if(loginForm.activeSelf)
+        else if (loginForm.activeSelf)
         {
             //if register form is on fade away the register and fade in the login
 
             UIManager.Instance.PanelFadeOut(registerFormCG, 0.2f, UIManager.UIMoveDir.Stay, registerFormCG.GetComponent<RectTransform>().anchoredPosition);
             UIManager.Instance.PanelFadeIn(loginFormCG, 0.3f, UIManager.UIMoveDir.Stay, loginFormCG.GetComponent<RectTransform>().anchoredPosition);
         }
-        
+
     }
 
     public void ToggleResetPasswordForm()
@@ -156,26 +167,12 @@ public class RegisterAndLogin : MonoBehaviour, IPageTransition
         UIManager.Instance.ToggleGeneralTab(resetPasswordForm);
     }
 
-    private void ClearText()
-    {
-        if (warningLoginText != null)
-        {
-            warningLoginText.text = "";
-        }
-        if (warningRegisterText != null)
-        {
-            warningRegisterText.text = "";
-        }
-        if (confirmLoginText != null)
-        {
-            confirmLoginText.text = "";
-        }
-    }
+
 
     public void FadeInUI()
     {
         UIManager.Instance.PanelFadeIn(registerFormCG, 0.5f, UIManager.UIMoveDir.FromLeft, registerFormCG.GetComponent<RectTransform>().anchoredPosition);
-        
+
     }
 
     public IEnumerator ExitRoutine()
