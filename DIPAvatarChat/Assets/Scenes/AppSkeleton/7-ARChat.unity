@@ -3129,11 +3129,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3211520979303767484, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
   m_PrefabInstance: {fileID: 856820711}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &856820714 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 405757954075299603, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
-  m_PrefabInstance: {fileID: 856820711}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &930417455
 GameObject:
   m_ObjectHideFlags: 0
@@ -3607,8 +3602,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 14.9771, y: -0.60995483}
-  m_SizeDelta: {x: 276.4328, y: 107.4}
+  m_AnchoredPosition: {x: 15, y: -0.60995483}
+  m_SizeDelta: {x: 236.4328, y: 107.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1238599200
 MonoBehaviour:
@@ -6415,6 +6410,7 @@ MonoBehaviour:
   alternateSprite: {fileID: 0}
   headerImage: {fileID: 727557585}
   chatUiHeaderImage: {fileID: 0}
+  sidebarImage: {fileID: 0}
   sourceImage: {fileID: 0}
   alternateText1: {fileID: 1875191556}
   alternateText2: {fileID: 0}
@@ -6422,7 +6418,7 @@ MonoBehaviour:
   alternateButton: {fileID: 1313042408}
   arChatSlideBtn: {fileID: 599081482}
   arHeaderImage: {fileID: 1238599202}
-  chatlistBoxPrefab: {fileID: 856820714}
+  chatlistBoxPrefab: {fileID: 0}
   friendRequestBoxPrefab: {fileID: 0}
   contactsBoxPrefab: {fileID: 0}
   myTextBubblePrefab: {fileID: 6655866526961314476, guid: 9680a7e02d61fc041a44b2011b08bc20, type: 3}
