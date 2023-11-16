@@ -158,7 +158,7 @@ public class BackgroundImageToggle : MonoBehaviour
             }
             if (myTextBubblePrefab != null && theirTextBubblePrefab != null)
             {
-                UpdateChatBubblePrefabColor(purpleColor, blackColor2, offWhiteColor);
+                UpdateChatBubblePrefabColor(purpleColor, blackColor2, textBlackColor, offWhiteColor);
             }
 
             if (loadingUiPrefab1 != null)
@@ -247,7 +247,7 @@ public class BackgroundImageToggle : MonoBehaviour
             }
             if (myTextBubblePrefab != null && theirTextBubblePrefab != null)
             {
-                UpdateChatBubblePrefabColor(newPinkColor, offWhiteColor, textBlackColor);
+                UpdateChatBubblePrefabColor(newPinkColor, offWhiteColor, textBlackColor, textBlackColor);
             }
 
             if (loadingUiPrefab1 != null)
@@ -316,17 +316,17 @@ public class BackgroundImageToggle : MonoBehaviour
             contactsBoxPrefab.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
         }
 
-        void UpdateChatBubblePrefabColor(Color bgMy, Color bgTh, Color text1)
+        void UpdateChatBubblePrefabColor(Color bgMy, Color bgTh, Color text1, Color text2)
         {
             // user box color
             myTextBubblePrefab.transform.GetChild(0).gameObject.GetComponent<Image>().color = bgMy;
             // user text color
-            myTextBubblePrefab.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
+            myTextBubblePrefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
 
             // recipient box color
             theirTextBubblePrefab.transform.GetChild(0).gameObject.GetComponent<Image>().color = bgTh;
             // recipient text color
-            theirTextBubblePrefab.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
+            theirTextBubblePrefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
         }
     }
 
