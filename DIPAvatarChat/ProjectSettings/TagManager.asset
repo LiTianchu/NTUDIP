@@ -12,6 +12,10 @@ TagManager:
   - SearchFriendPrefab
   - AvatarEars
   - AvatarTail
+  - ChatListBoxPrefab
+  - FriendReqBoxPrefab
+  - ContactsBoxPrefab
+  - SidebarTabPrefab
   layers:
   - Default
   - TransparentFX

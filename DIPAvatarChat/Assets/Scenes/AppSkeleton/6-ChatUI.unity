@@ -6849,12 +6849,15 @@ MonoBehaviour:
   arChatSlideBtn: {fileID: 0}
   arHeaderImage: {fileID: 0}
   chatlistBoxPrefab: {fileID: 0}
-  chatlistBoxBackground: {fileID: 0}
-  chatlistBoxText: {fileID: 0}
+  friendRequestBoxPrefab: {fileID: 0}
+  contactsBoxPrefab: {fileID: 0}
+  myTextBubblePrefab: {fileID: 6655866526961314476, guid: 9680a7e02d61fc041a44b2011b08bc20, type: 3}
+  theirTextBubblePrefab: {fileID: 6655866526961314476, guid: 8fdadd0911ebe3b4384c6223a85eb3fd, type: 3}
   loadingUiPrefab1: {fileID: 0}
   loadingUiBackground1: {fileID: 0}
   loadingUiPrefab2: {fileID: 0}
   loadingUiBackground2: {fileID: 0}
+  messageBarImage: {fileID: 1560381568}
 --- !u!1 &2036423258
 GameObject:
   m_ObjectHideFlags: 0

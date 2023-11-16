@@ -10,6 +10,7 @@ public class BackgroundImageToggle : MonoBehaviour
     public Sprite alternateSprite;
     public Image headerImage;
     public Image chatUiHeaderImage;
+    public Image sidebarImage;
     public Image sourceImage;
 
     public TextMeshProUGUI alternateText1;
@@ -20,15 +21,31 @@ public class BackgroundImageToggle : MonoBehaviour
     public Image arHeaderImage;
 
     public GameObject chatlistBoxPrefab;
-    public Image chatlistBoxBackground;
-    public TextMeshProUGUI chatlistBoxText;
+    public GameObject friendRequestBoxPrefab;
+    public GameObject contactsBoxPrefab;
+    public GameObject myTextBubblePrefab;
+    public GameObject theirTextBubblePrefab;
 
     public GameObject loadingUiPrefab1;
     public Image loadingUiBackground1;
     public GameObject loadingUiPrefab2;
     public Image loadingUiBackground2;
 
+    public Image messageBarImage;
+
     private bool isAlternate = false;
+
+    Color newPinkColor = new Color(0.9339623f, 0.8576292f, 0.849377f);
+    Color oldPinkColor = new Color(1f, 0.855f, 0.839f);
+    Color blackColor1 = new Color(0.188f, 0.161f, 0.212f);
+    Color blackColor2 = new Color(0.278f, 0.239f, 0.31f);
+    Color blackColor3 = new Color(0.33f, 0.33f, 0.33f);
+    Color offWhiteColor = new Color(0.937f, 0.914f, 0.906f);
+    Color textGreyColor = new Color(0.4666667f, 0.4666667f, 0.4666667f);
+    Color textBlackColor = new Color(0.1960784f, 0.1960784f, 0.1960784f);
+    Color purpleColor = new Color(0.6509804f, 0.5450981f, 0.8588236f);
+    Color sidebarPurpleColor = new Color(0.8035422f, 0.7181085f, 0.8584906f, 0.509804f);
+    Color sidebarBlackColor = new Color(0.188f, 0.161f, 0.212f, 0.509804f);
 
     private void Start()
     {
@@ -40,16 +57,24 @@ public class BackgroundImageToggle : MonoBehaviour
         UpdateButtonState();
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
     public void ToggleBackgroundImage()
     {
         Debug.Log("ToggleBackgroundImage method called.");
         isAlternate = !isAlternate;
         SaveBackgroundState(); // Save the state before transitioning to the next scene.
-        UpdateButtonState();
+        SceneManager.LoadScene("4-Chatlist");
     }
 
     private void UpdateButtonState()
     {
+        GameObject[] sidebarTabPrefabs = GameObject.FindGameObjectsWithTag("SidebarTabPrefab");
+
         if (backgroundImage == null)
         {
             Debug.LogWarning("backgroundImage component is missing.");
@@ -80,15 +105,19 @@ public class BackgroundImageToggle : MonoBehaviour
             }
             if (headerImage != null)
             {
-                headerImage.color = new Color(0.188f, 0.161f, 0.212f);
+                headerImage.color = blackColor1;
             }
             if (chatUiHeaderImage != null)
             {
-                chatUiHeaderImage.color = new Color(0.278f, 0.239f, 0.31f);
+                chatUiHeaderImage.color = blackColor1;
             }
             if (sourceImage != null)
             {
                 sourceImage.color = new Color(0.84f, 0.84f, 0.84f);
+            }
+            if (sidebarImage != null)
+            {
+                sidebarImage.color = sidebarBlackColor;
             }
             if (alternateText1 != null)
             {
@@ -108,38 +137,53 @@ public class BackgroundImageToggle : MonoBehaviour
             }
             if (arChatSlideBtn != null)
             {
-                arChatSlideBtn.color = new Color(0.188f, 0.161f, 0.212f);
+                arChatSlideBtn.color = blackColor1;
             }
             if (arHeaderImage != null)
             {
-                arHeaderImage.color = new Color(0.188f, 0.161f, 0.212f);
+                arHeaderImage.color = blackColor1;
             }
 
             if (chatlistBoxPrefab != null)
             {
-                if (chatlistBoxBackground != null)
-                {
-                    chatlistBoxBackground.color = new Color(0.188f, 0.161f, 0.212f);
-                }
-                if (chatlistBoxText != null)
-                {
-                    chatlistBoxText.color = Color.white;
-                }
+                UpdateChatListBoxPrefabColor(blackColor2, Color.white, offWhiteColor);
+            }
+            if (friendRequestBoxPrefab != null)
+            {
+                UpdateFriendRequestBoxPrefabColor(blackColor2, Color.white, offWhiteColor, blackColor1);
+            }
+            if (contactsBoxPrefab != null)
+            {
+                UpdateContactsBoxPrefabColor(blackColor2, Color.white, offWhiteColor);
+            }
+            if (myTextBubblePrefab != null && theirTextBubblePrefab != null)
+            {
+                UpdateChatBubblePrefabColor(purpleColor, blackColor2, offWhiteColor);
             }
 
             if (loadingUiPrefab1 != null)
             {
                 if (loadingUiBackground1 != null)
                 {
-                    loadingUiBackground1.color = new Color(0.33f, 0.33f, 0.33f);
+                    loadingUiBackground1.color = blackColor3;
                 }
             }
             if (loadingUiPrefab2 != null)
             {
                 if (loadingUiBackground2 != null)
                 {
-                    loadingUiBackground2.color = new Color(0.33f, 0.33f, 0.33f);
+                    loadingUiBackground2.color = blackColor3;
                 }
+            }
+            if (messageBarImage != null)
+            {
+                messageBarImage.color = blackColor1;
+            }
+
+            foreach (GameObject obj in sidebarTabPrefabs)
+            {
+                obj.GetComponent<Image>().color = blackColor2;
+                obj.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = offWhiteColor;
             }
         }
         else
@@ -150,51 +194,60 @@ public class BackgroundImageToggle : MonoBehaviour
             }
             if (headerImage != null)
             {
-                headerImage.color = new Color(1f, 0.855f, 0.839f);
+                headerImage.color = newPinkColor;
             }
             if (chatUiHeaderImage != null)
             {
-                chatUiHeaderImage.color = new Color(1f, 0.855f, 0.839f);
+                chatUiHeaderImage.color = newPinkColor;
             }
             if (sourceImage != null)
             {
                 sourceImage.color = Color.white;
             }
+            if (sidebarImage != null)
+            {
+                sidebarImage.color = sidebarPurpleColor;
+            }
             if (alternateText1 != null)
             {
-                alternateText1.color = new Color(0.333f, 0.333f, 0.333f);
+                alternateText1.color = blackColor3;
             }
             if (alternateText2 != null)
             {
-                alternateText2.color = new Color(0.333f, 0.333f, 0.333f);
+                alternateText2.color = blackColor3;
             }
             if (alternateText3 != null)
             {
-                alternateText3.color = new Color(0.333f, 0.333f, 0.333f);
+                alternateText3.color = blackColor3;
             }
             if (alternateButton != null)
             {
-                alternateButton.color = new Color(0.333f, 0.333f, 0.333f);
+                alternateButton.color = blackColor3;
             }
             if (arChatSlideBtn != null)
             {
-                arChatSlideBtn.color = new Color(1f, 0.855f, 0.839f);
+                arChatSlideBtn.color = newPinkColor;
             }
             if (arHeaderImage != null)
             {
-                arHeaderImage.color = new Color(1f, 0.855f, 0.839f);
+                arHeaderImage.color = newPinkColor;
             }
 
             if (chatlistBoxPrefab != null)
             {
-                if (chatlistBoxBackground != null)
-                {
-                    chatlistBoxBackground.color = new Color(0.937f, 0.914f, 0.906f);
-                }
-                if (chatlistBoxText != null)
-                {
-                    chatlistBoxText.color = Color.white;
-                }
+                UpdateChatListBoxPrefabColor(offWhiteColor, textBlackColor, textGreyColor);
+            }
+            if (friendRequestBoxPrefab != null)
+            {
+                UpdateFriendRequestBoxPrefabColor(offWhiteColor, textBlackColor, textGreyColor, offWhiteColor);
+            }
+            if (contactsBoxPrefab != null)
+            {
+                UpdateContactsBoxPrefabColor(offWhiteColor, textBlackColor, textGreyColor);
+            }
+            if (myTextBubblePrefab != null && theirTextBubblePrefab != null)
+            {
+                UpdateChatBubblePrefabColor(newPinkColor, offWhiteColor, textBlackColor);
             }
 
             if (loadingUiPrefab1 != null)
@@ -211,6 +264,69 @@ public class BackgroundImageToggle : MonoBehaviour
                     loadingUiBackground2.color = Color.white;
                 }
             }
+
+            if (messageBarImage != null)
+            {
+                messageBarImage.color = newPinkColor;
+                //messageBarImage.color = new Color(0.9339623f, 0.8576292f, 0.849377f);
+            }
+
+            foreach (GameObject obj in sidebarTabPrefabs)
+            {
+                obj.GetComponent<Image>().color = offWhiteColor;
+                obj.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = textBlackColor;
+            }
+        }
+
+        void UpdateChatListBoxPrefabColor(Color bg, Color text1, Color text2)
+        {
+            // Box Color
+            chatlistBoxPrefab.transform.GetChild(0).gameObject.GetComponent<Image>().color = bg;
+            // Time color
+            chatlistBoxPrefab.transform.GetChild(0).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
+            // Username color
+            chatlistBoxPrefab.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
+            // status color
+            chatlistBoxPrefab.transform.GetChild(0).GetChild(2).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
+        }
+
+        void UpdateFriendRequestBoxPrefabColor(Color bg, Color text1, Color text2, Color btn)
+        {
+            // Box Color
+            friendRequestBoxPrefab.transform.GetChild(0).gameObject.GetComponent<Image>().color = bg;
+            // Username Color
+            friendRequestBoxPrefab.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
+            // Email Color
+            friendRequestBoxPrefab.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
+            // Btn Colors
+            friendRequestBoxPrefab.transform.GetChild(0).GetChild(2).GetChild(0).gameObject.GetComponent<Image>().color = btn;
+            friendRequestBoxPrefab.transform.GetChild(0).GetChild(2).GetChild(1).gameObject.GetComponent<Image>().color = btn;
+            // Btn text Colors
+            friendRequestBoxPrefab.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
+            friendRequestBoxPrefab.transform.GetChild(0).GetChild(2).GetChild(1).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
+        }
+
+        void UpdateContactsBoxPrefabColor(Color bg, Color text1, Color text2)
+        {
+            // Box Color
+            contactsBoxPrefab.transform.GetChild(0).gameObject.GetComponent<Image>().color = bg;
+            // Username Color
+            contactsBoxPrefab.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
+            // Status Color
+            contactsBoxPrefab.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
+        }
+
+        void UpdateChatBubblePrefabColor(Color bgMy, Color bgTh, Color text1)
+        {
+            // user box color
+            myTextBubblePrefab.transform.GetChild(0).gameObject.GetComponent<Image>().color = bgMy;
+            // user text color
+            myTextBubblePrefab.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
+
+            // recipient box color
+            theirTextBubblePrefab.transform.GetChild(0).gameObject.GetComponent<Image>().color = bgTh;
+            // recipient text color
+            theirTextBubblePrefab.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
         }
     }
 
