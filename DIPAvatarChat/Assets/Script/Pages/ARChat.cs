@@ -148,6 +148,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     private void PopulateAvatarSelectionBar(Avatar avatarRetrieved, string email)
     {
         AvatarIconContainer avContainer = Instantiate(AvatarIconContainer, AvatarSelectionBar.transform);
+        avContainer.name = email;
         avContainer.AttachedAvatar = avatarRetrieved;
         avContainer.GetComponentInChildren<TMP_Text>().text = ChatManager.Instance.EmailToUsersDict[email].username;
     }
