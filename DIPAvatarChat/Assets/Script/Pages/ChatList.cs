@@ -76,7 +76,7 @@ public class ChatList : MonoBehaviour
                 DocumentSnapshot conversationDoc = await ConversationBackendManager.Instance.GetConversationByIDTask(conversations[i]);
                 conversation = conversationDoc.ConvertTo<ConversationData>();
 
-                if(conversation == null)
+                if (conversation == null)
                 {
                     Debug.LogWarning(conversations[i] + " is not found in conversation document");
                     continue;
@@ -489,6 +489,11 @@ public class ChatList : MonoBehaviour
     public void SignOut()
     {
         AuthManager.Instance.SignOut();
+
+        ChatManager.Instance.ConvIDToMessageDataDict = new Dictionary<string, HashSet<MessageData>>();
+        ChatManager.Instance.EmailToUsersDict = new Dictionary<string, UserData>();
+        ChatManager.Instance.EmailToConversationDict = new Dictionary<string, ConversationData>();
+
         AppManager.Instance.LoadScene("2-RegisterAndLogin");
     }
 

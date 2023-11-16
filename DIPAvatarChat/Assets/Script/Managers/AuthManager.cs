@@ -324,5 +324,6 @@ public class AuthManager : Singleton<AuthManager>
 
         auth.SignOut();
         Debug.Log("User signed out successfully");
+        
     }
 }
