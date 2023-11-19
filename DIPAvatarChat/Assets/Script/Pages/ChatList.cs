@@ -82,13 +82,6 @@ public class ChatList : MonoBehaviour
                     Debug.LogWarning(conversations[i] + " is not found in conversation document");
                     continue;
                 }
-                foreach (string member in conversation.members)
-                {
-                    if (member != AuthManager.Instance.currUser.email)
-                    {
-                        friendEmail = member;
-                    }
-                }
 
                 conversationsSorted.Add(conversation);
             }
@@ -99,6 +92,14 @@ public class ChatList : MonoBehaviour
 
         foreach (ConversationData conv in conversationsSorted)
         {
+            foreach (string member in conv.members)
+            {
+                if (member != AuthManager.Instance.currUser.email)
+                {
+                    friendEmail = member;
+                }
+            }
+
             //get message document and retrieve the message details and the user
             if (conv.messages != null && conv.messages.Count > 1) // messages[0] is null when instantiated, start count from 1
             {
