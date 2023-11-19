@@ -25,6 +25,7 @@ public class BackgroundImageToggle : MonoBehaviour
     public GameObject contactsBoxPrefab;
     public GameObject myTextBubblePrefab;
     public GameObject theirTextBubblePrefab;
+    public GameObject avatarIconContainerPrefab;
 
     public GameObject loadingUiPrefab1;
     public Image loadingUiBackground1;
@@ -46,6 +47,8 @@ public class BackgroundImageToggle : MonoBehaviour
     Color purpleColor = new Color(0.6509804f, 0.5450981f, 0.8588236f);
     Color sidebarPurpleColor = new Color(0.8035422f, 0.7181085f, 0.8584906f, 0.509804f);
     Color sidebarBlackColor = new Color(0.188f, 0.161f, 0.212f, 0.509804f);
+    Color avatarIconWhiteColor = new Color(1f, 1f, 1f, 0.5450981f);
+    Color avatarIconBlackColor = new Color(0.278f, 0.239f, 0.31f, 0.5450981f);
 
     private void Start()
     {
@@ -160,6 +163,10 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 UpdateChatBubblePrefabColor(purpleColor, blackColor2, textBlackColor, offWhiteColor);
             }
+            if (avatarIconContainerPrefab != null)
+            {
+                UpdateAvatarIconContainerPrefabColor(avatarIconBlackColor, offWhiteColor);
+            }
 
             if (loadingUiPrefab1 != null)
             {
@@ -249,6 +256,10 @@ public class BackgroundImageToggle : MonoBehaviour
             {
                 UpdateChatBubblePrefabColor(newPinkColor, offWhiteColor, textBlackColor, textBlackColor);
             }
+            if (avatarIconContainerPrefab != null)
+            {
+                UpdateAvatarIconContainerPrefabColor(avatarIconWhiteColor, textBlackColor);
+            }
 
             if (loadingUiPrefab1 != null)
             {
@@ -327,6 +338,14 @@ public class BackgroundImageToggle : MonoBehaviour
             theirTextBubblePrefab.transform.GetChild(0).gameObject.GetComponent<Image>().color = bgTh;
             // recipient text color
             theirTextBubblePrefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = text2;
+        }
+
+        void UpdateAvatarIconContainerPrefabColor(Color bg, Color text1)
+        {
+            // Box color when clicked on
+            avatarIconContainerPrefab.GetComponent<Image>().color = bg;
+            // text color
+            avatarIconContainerPrefab.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = text1;
         }
     }
 
