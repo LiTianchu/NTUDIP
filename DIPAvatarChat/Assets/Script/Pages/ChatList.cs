@@ -66,6 +66,7 @@ public class ChatList : MonoBehaviour
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
         AuthManager.Instance.currUser = myUserDoc.ConvertTo<UserData>();
         List<string> conversations = AuthManager.Instance.currUser.conversations;
+        List<ConversationData> conversationsSorted = new List<ConversationData>();
 
         for (int i = conversations.Count - 1; i >= 0; i--)
         {
@@ -81,77 +82,86 @@ public class ChatList : MonoBehaviour
                     Debug.LogWarning(conversations[i] + " is not found in conversation document");
                     continue;
                 }
-                foreach (string member in conversation.members)
-                {
-                    if (member != AuthManager.Instance.currUser.email)
-                    {
-                        friendEmail = member;
-                    }
-                }
 
-                //get message document and retrieve the message details and the user
-                if (conversation.messages != null && conversation.messages.Count > 1) // messages[0] is null when instantiated, start count from 1
-                {
-                    DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conversation.messages[conversation.messages.Count - 1]);
-                    latestMessage = messageDoc.ConvertTo<MessageData>();
-
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
-                    friendData = userDoc.ConvertTo<UserData>();
-                    if (friendData == null)
-                    {
-                        Debug.Log(latestMessage.sender + " has no corresponding document");
-                    }
-                }
-                else
-                {
-                    //handle empty conversation
-                    latestMessage = new MessageData();
-                    latestMessage.message = "No messages yet";
-                    DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
-                    friendData = userDoc.ConvertTo<UserData>();
-                }
-
-                string convId = conversationDoc.Id;
-                string displayMessage = latestMessage.message;
-                string displaySenderUsername = friendData.username;
-                Timestamp displayTime = latestMessage.createdAt;
-
-                // Instantiate the ChatListObject (ChatDisplayBox) prefab if it doesn't exist
-                ChatListBox chatListItem;
-                if (!chatListItems.TryGetValue(convId, out chatListItem))
-                {
-                    chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity);
-                    chatListItem.transform.SetParent(ChatListParent.transform, false);
-                    chatListItem.name = convId;
-                    chatListItem.CurrentAvatarUserEmail = friendEmail;
-                    chatListItems.Add(convId, chatListItem);
-                }
-
-                // Access the Text components within the prefab
-                TMP_Text timeText = chatListItem.transform.Find("ChatDisplayBoxBtn/Time").GetComponent<TMP_Text>();
-                TMP_Text usernameText = chatListItem.transform.Find("ChatDisplayBoxBtn/UserInfo/Username").GetComponent<TMP_Text>();
-                TMP_Text messageText = chatListItem.transform.Find("ChatDisplayBoxBtn/UserInfo/LatestMessage").GetComponent<TMP_Text>();
-
-                // Set the text values based on your latestMessage and sender data
-                messageText.text = latestMessage?.message;
-                usernameText.text = friendData?.username;
-                timeText.text = ChatTimestamp(displayTime);
-
-                // Set the text values based on your latestMessage and sender data
-                string latestMessageText = latestMessage?.message;
-                //int maxLength = 20; // Set the maximum length you want for the message
-                //if (!string.IsNullOrEmpty(latestMessageText) && latestMessageText.Length > maxLength)
-                //{
-                //    // If the message exceeds the maximum length, truncate it and add "..."
-                //    latestMessageText = latestMessageText.Substring(0, maxLength) + "...";
-                //}
-                //latestMessageText = ChatManager.Instance.ReverseEmojiUpdate(latestMessageText);
-                messageText.text = latestMessageText;
-
-                //cache the chatlist data
-                ChatManager.Instance.EmailToUsersDict[friendData.email] = friendData;
-                ChatManager.Instance.EmailToConversationDict[friendData.email] = conversation;
+                conversationsSorted.Add(conversation);
             }
+        }
+
+        conversationsSorted.Sort((x, y) => DateTime.Compare(x.latestMessageCreatedAt, y.latestMessageCreatedAt));
+        conversationsSorted.Reverse();
+
+        foreach (ConversationData conv in conversationsSorted)
+        {
+            foreach (string member in conv.members)
+            {
+                if (member != AuthManager.Instance.currUser.email)
+                {
+                    friendEmail = member;
+                }
+            }
+
+            //get message document and retrieve the message details and the user
+            if (conv.messages != null && conv.messages.Count > 1) // messages[0] is null when instantiated, start count from 1
+            {
+                DocumentSnapshot messageDoc = await MessageBackendManager.Instance.GetMessageByIDTask(conv.messages[conv.messages.Count - 1]);
+                latestMessage = messageDoc.ConvertTo<MessageData>();
+
+                DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
+                friendData = userDoc.ConvertTo<UserData>();
+                if (friendData == null)
+                {
+                    Debug.Log(latestMessage.sender + " has no corresponding document");
+                }
+            }
+            else
+            {
+                //handle empty conversation
+                latestMessage = new MessageData();
+                latestMessage.message = "No messages yet";
+                DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(friendEmail);
+                friendData = userDoc.ConvertTo<UserData>();
+            }
+
+            string convId = conv.conversationID;
+            string displayMessage = latestMessage.message;
+            string displaySenderUsername = friendData.username;
+            Timestamp displayTime = latestMessage.createdAt;
+
+            // Instantiate the ChatListObject (ChatDisplayBox) prefab if it doesn't exist
+            ChatListBox chatListItem;
+            if (!chatListItems.TryGetValue(convId, out chatListItem))
+            {
+                chatListItem = Instantiate(ChatListObject, new Vector3(0, 0, 0), Quaternion.identity);
+                chatListItem.transform.SetParent(ChatListParent.transform, false);
+                chatListItem.name = convId;
+                chatListItem.CurrentAvatarUserEmail = friendEmail;
+                chatListItems.Add(convId, chatListItem);
+            }
+
+            // Access the Text components within the prefab
+            TMP_Text timeText = chatListItem.transform.Find("ChatDisplayBoxBtn/Time").GetComponent<TMP_Text>();
+            TMP_Text usernameText = chatListItem.transform.Find("ChatDisplayBoxBtn/UserInfo/Username").GetComponent<TMP_Text>();
+            TMP_Text messageText = chatListItem.transform.Find("ChatDisplayBoxBtn/UserInfo/LatestMessage").GetComponent<TMP_Text>();
+
+            // Set the text values based on your latestMessage and sender data
+            messageText.text = latestMessage?.message;
+            usernameText.text = friendData?.username;
+            timeText.text = ChatTimestamp(displayTime);
+
+            // Set the text values based on your latestMessage and sender data
+            string latestMessageText = latestMessage?.message;
+            //int maxLength = 20; // Set the maximum length you want for the message
+            //if (!string.IsNullOrEmpty(latestMessageText) && latestMessageText.Length > maxLength)
+            //{
+            //    // If the message exceeds the maximum length, truncate it and add "..."
+            //    latestMessageText = latestMessageText.Substring(0, maxLength) + "...";
+            //}
+            //latestMessageText = ChatManager.Instance.ReverseEmojiUpdate(latestMessageText);
+            messageText.text = latestMessageText;
+
+            //cache the chatlist data
+            ChatManager.Instance.EmailToUsersDict[friendData.email] = friendData;
+            ChatManager.Instance.EmailToConversationDict[friendData.email] = conversation;
         }
 
         //display 2d avatar
