@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 69839728}
   - component: {fileID: 69839727}
   m_Layer: 0
-  m_Name: XR Origin
+  m_Name: XR_Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6615,7 +6615,7 @@ GameObject:
   - component: {fileID: 2118428257}
   - component: {fileID: 2118428258}
   m_Layer: 0
-  m_Name: AR Session
+  m_Name: AR_Session
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
