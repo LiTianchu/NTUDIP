@@ -34,11 +34,6 @@ public class AnimationManager : Singleton<AnimationManager>
         { ":xdface:", "Excited"},
     };
 
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -53,7 +48,33 @@ public class AnimationManager : Singleton<AnimationManager>
         }
     }
 
-    public void PlayEmoteAnimation(GameObject avatar, Animator _animator, string msgText, bool isMyAvatar)
+    public void InitializeAnimation(GameObject myAvatarObj, GameObject theirAvatarObj)
+    {
+        //myAvatarBodyChat = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
+        //theirAvatarBodyChat = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
+        myAvatarBodyChat = myAvatarObj;
+        theirAvatarBodyChat = theirAvatarObj;
+
+        if (myAvatarObj != null)
+        {
+            myAnimatorChat = myAvatarBodyChat.GetComponent<Animator>();
+        }
+        if (theirAvatarObj != null)
+        {
+            theirAnimatorChat = theirAvatarBodyChat.GetComponent<Animator>();
+        }
+    }
+
+    public void EndAnimation()
+    {
+        myAvatarBodyChat = null;
+        Instance.theirAvatarBodyChat = null;
+
+        Instance.myAnimatorChat = null;
+        Instance.theirAnimatorChat = null;
+    }
+
+    public void PlayEmoteAnimation(string msgText, bool isPoppingUp ,bool isMyAvatar)
     {
         try
         {
@@ -62,18 +83,45 @@ public class AnimationManager : Singleton<AnimationManager>
                 if (msgText.Contains(kvp.Key))
                 {
                     Debug.Log("Animation: " + kvp.Value);
-                    _animator.SetBool(kvp.Value, true);
+                    
 
-                    if (isMyAvatar)
+                    if (isMyAvatar && myAnimatorChat!=null)
                     {
-                        myAnimNameChat = kvp.Value;
+                        myAnimatorChat.SetBool(kvp.Value, true);
+                        if (isPoppingUp) //set flag for popping up
+                        {
+                            myAnimNameChat = kvp.Value;
+                        }
+                        myAnimatorChat.SetBool("Default", true);
                     }
-                    else
+                    else if(!isMyAvatar && theirAnimatorChat!=null)
                     {
-                        theirAnimNameChat = kvp.Value;
+                        theirAnimatorChat.SetBool(kvp.Value, true);
+                        if (isPoppingUp) //set flag for popping up
+                        {
+                            theirAnimNameChat = kvp.Value;
+                        }
+                        theirAnimatorChat.SetBool("Default", true);
                     }
 
-                    _animator.SetBool("Default", true);
+                    //if (myAnimatorChat != null)
+                    //{
+                    //    myAnimatorChat.SetBool("Default", true);
+                    //}
+                    //else
+                    //{
+                    //    Debug.LogWarning("myAnimatorChat is null");
+                    //}
+                    
+                    //if (theirAnimatorChat != null)
+                    //{
+                    //    theirAnimatorChat.SetBool("Default", true);
+                    //}
+                    //else
+                    //{
+                    //    Debug.LogWarning("theirAnimatorChat is null");
+                    //}
+
                     return;
                 }
             }
