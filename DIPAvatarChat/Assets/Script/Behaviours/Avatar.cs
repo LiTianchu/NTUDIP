@@ -115,7 +115,7 @@ public class Avatar : MonoBehaviour
     private async void PopulateMessage()
     {
         string email = AvatarData.email;
-
+        Debug.Log("AvatarData email: " + AvatarData.email + "| Conversation ID: " + _conversationData.conversationID);
 
         if (!ChatManager.Instance.ConvIDToMessageDataDict.ContainsKey(_conversationData.conversationID))
         {
