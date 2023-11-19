@@ -32,6 +32,7 @@ public class AnimationManager : Singleton<AnimationManager>
         { ":sus:", "Thinking"},
         { ":wave:", "Wave"},
         { ":xdface:", "Excited"},
+        { ":cry:", "Crying"},
     };
 
     // Update is called once per frame
