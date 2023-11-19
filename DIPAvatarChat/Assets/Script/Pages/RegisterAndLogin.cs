@@ -52,7 +52,7 @@ public class RegisterAndLogin : MonoBehaviour, IPageTransition
     private void OnDisable()
     {
         //detach event listeners on disable
-        if (!this.gameObject.scene.isLoaded) return;
+        //if (!this.gameObject.scene.isLoaded) return;
         AuthManager.Instance.RegisterWarning -= SetRegisterWarning;
         AuthManager.Instance.LoginWarning -= SetLoginWarning;
         AuthManager.Instance.RegisterConfirm -= SetRegisterConfirm;
