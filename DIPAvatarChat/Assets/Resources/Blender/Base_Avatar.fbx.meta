@@ -3,7 +3,42 @@ guid: a8549b0c1561cf941a9c55973b4b34c6
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cat_Body_Mat_Color
+    second: {fileID: 2100000, guid: dfc2521a4bd35b7428ab53f9586a4801, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cat_Head_Mat_Color
+    second: {fileID: 2100000, guid: 38470da576d383b4d9843bf47b859b36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cat_Tail_Mat_Color
+    second: {fileID: 2100000, guid: 6517cd922f950504c9c8302d795802f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dog_Ear_Mat_Color
+    second: {fileID: 2100000, guid: e6b50c254ae96724690e6f7b5dbb4493, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dog_Tail_Mat_Color
+    second: {fileID: 2100000, guid: 8c7b6918982049e469427ba1b5334a7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eye_Iris_Mat
+    second: {fileID: 2100000, guid: bc39566beaf0e5b4ca61b1cd47bc5641, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eye_Sclera_Mat
+    second: {fileID: 2100000, guid: 205a9fa8c315f9047b2b77d492556deb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
