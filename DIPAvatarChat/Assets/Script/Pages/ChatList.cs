@@ -97,6 +97,7 @@ public class ChatList : MonoBehaviour
                 if (member != AuthManager.Instance.currUser.email)
                 {
                     friendEmail = member;
+                    Debug.Log("Friend email: " + friendEmail);
                 }
             }
 
@@ -161,7 +162,7 @@ public class ChatList : MonoBehaviour
 
             //cache the chatlist data
             ChatManager.Instance.EmailToUsersDict[friendData.email] = friendData;
-            ChatManager.Instance.EmailToConversationDict[friendData.email] = conversation;
+            ChatManager.Instance.EmailToConversationDict[friendData.email] = conv;
         }
 
         //display 2d avatar
