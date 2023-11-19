@@ -88,6 +88,7 @@ public class Avatar : MonoBehaviour
                                 Debug.Log("Received message from current user");
                                 GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ARChat.Instance.ScreenChatContainer, ARChat.Instance.MyChatBubblePrefab, msgText, messageId);
                                 bubble.transform.localScale = Vector3.one;
+                                AnimationManager.Instance.PlayEmoteAnimation(msgText, false, true);
 
                             }
                             else
@@ -96,6 +97,7 @@ public class Avatar : MonoBehaviour
                                 Debug.Log("Received message from another user");
                                 GameObject bubble = ChatManager.Instance.InstantiateChatBubble(ARChat.Instance.ScreenChatContainer, ARChat.Instance.TheirChatBubblePrefab, msgText, messageId);
                                 bubble.transform.localScale = Vector3.one;
+                                AnimationManager.Instance.PlayEmoteAnimation(msgText, false, false);
                             }
                         }
                     }
