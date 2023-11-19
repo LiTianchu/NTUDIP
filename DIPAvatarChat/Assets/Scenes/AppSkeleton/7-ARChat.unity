@@ -6423,6 +6423,7 @@ MonoBehaviour:
   contactsBoxPrefab: {fileID: 0}
   myTextBubblePrefab: {fileID: 6655866526961314476, guid: 9680a7e02d61fc041a44b2011b08bc20, type: 3}
   theirTextBubblePrefab: {fileID: 6655866526961314476, guid: 8fdadd0911ebe3b4384c6223a85eb3fd, type: 3}
+  avatarIconContainerPrefab: {fileID: 405757954075299603, guid: 67f1b5c0cf204ab4d963108ee8173244, type: 3}
   loadingUiPrefab1: {fileID: 0}
   loadingUiBackground1: {fileID: 0}
   loadingUiPrefab2: {fileID: 0}
