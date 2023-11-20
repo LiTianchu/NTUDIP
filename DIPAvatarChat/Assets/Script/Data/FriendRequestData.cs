@@ -1,5 +1,4 @@
 using Firebase.Firestore;
-using System.Collections.Generic;
 
 [FirestoreData]
 

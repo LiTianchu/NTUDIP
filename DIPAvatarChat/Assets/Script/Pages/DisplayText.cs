@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,47 +5,6 @@ using TMPro;
 
 public class DisplayText : MonoBehaviour
 {
-    // Using enter key:
-    
-    /*public GameObject chatMessagePrefab; // Reference to the prefab containing the image and TextMeshPro component
-    public Transform chatPanel; // Parent transform for the chat messages
-    public TMP_InputField chatBubble;
-
-    private const string ChatMessageKeyPrefix = "ChatMessage_";
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Load any previously saved chat messages (if needed)
-        LoadChatMessages();
-    }
-
-    public void Create()
-    {
-        string text = chatBubble.text;
-
-        // Check if the input is not empty
-        if (!string.IsNullOrWhiteSpace(text))
-        {
-            // Create a new chat message GameObject
-            GameObject chatMessage = Instantiate(chatMessagePrefab, chatPanel);
-
-            // Access the TextMeshPro component within the chat message GameObject
-            TMP_Text messageText = chatMessage.GetComponentInChildren<TMP_Text>();
-
-            // Set the text
-            messageText.text = text;
-
-            // Save the text to PlayerPrefs (if needed)
-            SaveChatMessage(text);
-
-            // Clear the input field
-            chatBubble.text = "";
-        }
-    }*/
-
-    // Using send button:
-
     public GameObject chatMessagePrefab; // Reference to the prefab containing the image and TextMeshPro component
     public Transform chatPanel; // Parent transform for the chat messages
     public TMP_InputField chatBubble;
@@ -128,11 +86,5 @@ public class DisplayText : MonoBehaviour
         // Save the chat message with a unique key
         PlayerPrefs.SetString(ChatMessageKeyPrefix + messageIndex, text);
         PlayerPrefs.Save();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

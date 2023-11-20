@@ -2,8 +2,6 @@ using Firebase.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -11,7 +9,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using static UnityEngine.GraphicsBuffer;
 
 public class ARChat : PageSingleton<ARChat>, IPageTransition
 {
@@ -26,7 +23,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     public GameObject AvatarSelectionBar;
     public GameObject EmoteSelectionArea;
     public AvatarIconContainer AvatarIconContainer;
-    
+
     public LayerMask UILayer;
 
     [Header("AR")]
@@ -38,7 +35,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
     [Header("UI Transition")]
     public CanvasGroup topBar;
-    //public CanvasGroup bottomTextFieldBar;
     public CanvasGroup ChatSection;
 
     private List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
@@ -52,7 +48,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     private readonly Vector3 LIGHT_SOURCE_LOCAL_POS = new Vector3(0, 5, 0);
 
     public Avatar SelectedAvatar { get; set; }
-    public Avatar TalkingAvatar {  get; set; }  
+    public Avatar TalkingAvatar { get; set; }
     public List<Avatar> AvatarList { get { return _avatarList; } }
 
     public event Action OnARFinishedLoading;
@@ -72,18 +68,8 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
             RetrieveAvatarData(email);
 
         }
-        //ListenForNewMessages();
     }
 
-    private void Update()
-    {
-        if (_isLoading)
-        {
-            //TODO: show loading UI
-            Debug.Log("loading...");
-        }
-
-    }
     private async void RetrieveAvatarData(string email)
     {
         bool avatarHasLoaded = AvatarManager.Instance.EmailToAvatarDict.TryGetValue(email, out AvatarData data); //check if the avatar is already cached
@@ -127,15 +113,14 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         textBubble.GetComponentInChildren<TMP_Text>().text = ChatManager.Instance.EmailToUsersDict[data.email].username;
         //Set accessories correctly
 
-        //spawn light source
-        GameObject lightsource = new GameObject();
-        lightsource.transform.parent = avatarObj.transform;
-        lightsource.name = "Lightsource";
-        Light light = lightsource.AddComponent<Light>();
-        light.type = LightType.Point;
-        light.intensity = 0.5f;
-        lightsource.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
-
+        ////spawn light source
+        //GameObject lightsource = new GameObject();
+        //lightsource.transform.parent = avatarObj.transform;
+        //lightsource.name = "Lightsource";
+        //Light light = lightsource.AddComponent<Light>();
+        //light.type = LightType.Point;
+        //light.intensity = 0.5f;
+        //lightsource.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
         Avatar avatar = avatarObj.AddComponent<Avatar>();
         avatar.AvatarData = data;
         avatarObj.SetActive(false);
@@ -144,7 +129,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         //need a way to get the username
         PopulateAvatarSelectionBar(avatar, data.email);
 
-        
+
         return avatar;
     }
 
@@ -220,7 +205,11 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
     {
         if (SelectedAvatar != null && context.performed)
         {
-            if (TouchedOnUi()) { Debug.Log("Touched on UI"); return; }
+            if (TouchedOnUi())
+            {
+                Debug.Log("Touched on UI");
+                return;
+            }
 
             //first check if the player is touching on the avatar
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -230,14 +219,23 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                 Avatar touchedAvatar = hit.transform.GetComponent<Avatar>();
                 if (touchedAvatar != null)
                 {
-                    if (touchedAvatar != TalkingAvatar) { 
+                    if (touchedAvatar != TalkingAvatar)
+                    {
                         ClearChatDisplay();
                         TalkingAvatar = touchedAvatar;
                         OnAvatarStartMessaging?.Invoke(TalkingAvatar);
                         AnimationManager.Instance.InitializeAnimation(null, TalkingAvatar.gameObject);
                     }
+                    else
+                    {
+                        ClearChatDisplay();
+                        TalkingAvatar = null;
+                    }
                     //TalkingAvatar = touchedAvatar;
-                    Debug.Log(TalkingAvatar.name + " touched");
+                    if (TalkingAvatar != null)
+                    {
+                        Debug.Log(TalkingAvatar.name + " touched");
+                    }
 
                     //OnAvatarStartMessaging?.Invoke(TalkingAvatar);
                     return;
@@ -250,9 +248,12 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
             {
                 SelectedAvatar.gameObject.SetActive(true);
                 SelectedAvatar.transform.position = _raycastHits[0].pose.position;
-                
+
+                // Make plane invisible
+                SetTrackablesVisibility(false);
+
                 //SelectedAvatar.transform.rotation = _raycastHits[0].pose.rotation;
-                Vector3 direction =  _mainCam.transform.position - SelectedAvatar.transform.position;
+                Vector3 direction = _mainCam.transform.position - SelectedAvatar.transform.position;
 
                 // Project the direction onto the XZ plane
                 Vector3 xzDirection = new Vector3(direction.x, 0, direction.z).normalized;
@@ -264,7 +265,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                 Debug.Log("Rotation: " + targetRotation.ToString());
                 // Apply the rotation, only affecting the Y-axis
                 SelectedAvatar.transform.rotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
-                
+
 
                 //SelectedAvatar.transform.rotation = Quaternion.Euler(0, SelectedAvatar.transform.rotation.y + angle, 0);
                 SelectedAvatar.transform.localScale = this.PlacedObjectScale * Vector3.one;
@@ -277,7 +278,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                     OnAvatarStartMessaging?.Invoke(TalkingAvatar);
                     AnimationManager.Instance.InitializeAnimation(null, TalkingAvatar.gameObject);
                 }
-                
+
                 if (!isChatShown)
                 {
                     isChatShown = true;
@@ -288,6 +289,15 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         }
     }
 
+    public void SetTrackablesVisibility(bool isVisible)
+    {
+        GameObject TrackablesPlane = GameObject.Find("XR_Origin").transform.GetChild(1).gameObject;
+        if (TrackablesPlane != null)
+        {
+            Debug.Log("Is AR Plane Enabled: " + isVisible);
+            TrackablesPlane.SetActive(isVisible);
+        }
+    }
 
     public void FadeInUI()
     {
@@ -323,5 +333,5 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         MessageInputField.text = ChatManager.Instance.EmojiUpdate(MessageInputField.text);
     }
 
- 
+
 }

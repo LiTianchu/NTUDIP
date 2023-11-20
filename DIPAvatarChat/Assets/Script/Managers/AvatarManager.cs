@@ -36,16 +36,6 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly Vector3 SHOES_SCALE = new Vector3(0.011f, 0.011f, 0.011f);
     public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(180f, 90f, 90f);
 
-    /*/pos for ears
-    public readonly Vector3 EARS_POS = new Vector3(0f, 0f, 0f);
-    public readonly Vector3 EARS_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
-    public readonly Quaternion EARS_ROTATION = Quaternion.Euler(0f, 180f, 0f);
-
-    //pos for tail
-    public readonly Vector3 TAIL_POS = new Vector3(0.000594871f, 0.0002483991f, -0.004111664f);
-    public readonly Vector3 TAIL_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
-    public readonly Quaternion TAIL_ROTATION = Quaternion.Euler(94.58002f, 35.286f, 130.632f);*/
-
     public readonly Vector3 TEXT_BUBBLE_POS = new Vector3(1, 4.25f, 1.8f);
 
     public Dictionary<string, string> hatTo2dHatMap = new Dictionary<string, string>
@@ -398,11 +388,13 @@ public class AvatarManager : Singleton<AvatarManager>
             string HEAD_COLOUR_PATH = colourName + "/headcolour";
             string TAIL_COLOUR_PATH = colourName + "/tailcolour";
             string DOG_TAIL_COLOUR_PATH = colourName + "/dogtailcolour";
+            string DOG_EAR_COLOUR_PATH = colourName + "/dogearcolour";
 
             AddMaterial(BODY_COLOUR_PATH, "Body", "SkinnedMeshRenderer", true);
             AddMaterial(HEAD_COLOUR_PATH, "Head_Base", "SkinnedMeshRenderer", true);
             AddMaterial(TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/cattail", "MeshRenderer", true);
             AddMaterial(DOG_TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/dogtail", "MeshRenderer", true);
+            AddMaterial(DOG_EAR_COLOUR_PATH, "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/dogear", "MeshRenderer", true);
 
             if (textureName != null && textureName != "")
             {

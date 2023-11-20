@@ -15,12 +15,6 @@ public class TriggerARChat : MonoBehaviour
         animator = transform.parent.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ToggleAnimation()
     {
         if (animator != null)

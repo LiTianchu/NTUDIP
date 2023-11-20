@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerSideBarV2 : MonoBehaviour
@@ -28,9 +26,6 @@ public class TriggerSideBarV2 : MonoBehaviour
     {
         // Toggle the visibility flag
         isSidebarVisible = !isSidebarVisible;
-
-        // Update the sidebar position immediately when toggling
-        //UpdateSidebarPosition();
     }
 
     #region Helper Methods

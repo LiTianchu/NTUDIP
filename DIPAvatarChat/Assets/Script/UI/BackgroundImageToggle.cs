@@ -60,12 +60,6 @@ public class BackgroundImageToggle : MonoBehaviour
         UpdateButtonState();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void ToggleBackgroundImage()
     {
         Debug.Log("ToggleBackgroundImage method called.");

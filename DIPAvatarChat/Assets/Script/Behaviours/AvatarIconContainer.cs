@@ -29,6 +29,12 @@ public class AvatarIconContainer : MonoBehaviour
         }
         _img.enabled = true;
         ARChat.Instance.SelectedAvatar = this._avatar;
+        GameObject.Find("AR_Session").GetComponent<ARChat>().ClearChatDisplay();
+    }
+
+    public void ToggleARDefaultPlane()
+    {
+        GameObject.Find("AR_Session").GetComponent<ARChat>().SetTrackablesVisibility(true);
     }
 
 }

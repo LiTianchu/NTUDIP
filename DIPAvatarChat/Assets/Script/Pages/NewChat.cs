@@ -16,9 +16,6 @@ public class NewChat : MonoBehaviour, IPageTransition
 
     List<string> friendsList;
 
-    //string testEmail = "dipgrp6@gmail.com";
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -71,7 +68,6 @@ public class NewChat : MonoBehaviour, IPageTransition
 
     public async Task<string> GetCurrConvId(string recipientEmail)
     {
-        //db = FirebaseFirestore.DefaultInstance;
         string currConvId = null;
 
         DocumentSnapshot theirUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(recipientEmail);

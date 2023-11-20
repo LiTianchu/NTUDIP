@@ -1,16 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase.Extensions;
-using Firebase.Firestore;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.UI;
 
 public class AnimationManager : Singleton<AnimationManager>
 {
@@ -32,6 +22,7 @@ public class AnimationManager : Singleton<AnimationManager>
         { ":sus:", "Thinking"},
         { ":wave:", "Wave"},
         { ":xdface:", "Excited"},
+        { ":cry:", "Crying"},
     };
 
     // Update is called once per frame
@@ -50,8 +41,6 @@ public class AnimationManager : Singleton<AnimationManager>
 
     public void InitializeAnimation(GameObject myAvatarObj, GameObject theirAvatarObj)
     {
-        //myAvatarBodyChat = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
-        //theirAvatarBodyChat = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
         myAvatarBodyChat = myAvatarObj;
         theirAvatarBodyChat = theirAvatarObj;
 
@@ -103,24 +92,6 @@ public class AnimationManager : Singleton<AnimationManager>
                         }
                         theirAnimatorChat.SetBool("Default", true);
                     }
-
-                    //if (myAnimatorChat != null)
-                    //{
-                    //    myAnimatorChat.SetBool("Default", true);
-                    //}
-                    //else
-                    //{
-                    //    Debug.LogWarning("myAnimatorChat is null");
-                    //}
-                    
-                    //if (theirAnimatorChat != null)
-                    //{
-                    //    theirAnimatorChat.SetBool("Default", true);
-                    //}
-                    //else
-                    //{
-                    //    Debug.LogWarning("theirAnimatorChat is null");
-                    //}
 
                     return;
                 }

@@ -45,19 +45,16 @@ public class RegisterAndLogin : MonoBehaviour, IPageTransition
         AuthManager.Instance.LoginWarning += SetLoginWarning;
         AuthManager.Instance.RegisterConfirm += SetRegisterConfirm;
         AuthManager.Instance.LoginConfirm += SetLoginConfirm;
-        //AuthManager.Instance.ClearWarning += ClearText;
         AuthManager.Instance.EmailVerificationSent += ToggleUI;
     }
 
     private void OnDisable()
     {
         //detach event listeners on disable
-        //if (!this.gameObject.scene.isLoaded) return;
         AuthManager.Instance.RegisterWarning -= SetRegisterWarning;
         AuthManager.Instance.LoginWarning -= SetLoginWarning;
         AuthManager.Instance.RegisterConfirm -= SetRegisterConfirm;
         AuthManager.Instance.LoginConfirm -= SetLoginConfirm;
-        //AuthManager.Instance.ClearWarning -= ClearText;
         AuthManager.Instance.EmailVerificationSent += ToggleUI;
     }
 

@@ -30,15 +30,11 @@ public class Chat : MonoBehaviour, IPageTransition
     public CanvasGroup chatScrollView;
     private UserData recipientUserData;
     private bool isPopulated = false;
-    private bool isMyEmojiSent = false;
-    private bool isTheirEmojiSent = false;
-    private bool isAvatarsSpawned = false;
     private ListenerRegistration listener;
 
     private readonly float AVATAR_SCALE_CHAT = 60f;
     public readonly Vector3 MY_TEXT_BUBBLE_POS = new Vector3(-1, 4.25f, 1.8f);
     public readonly Vector3 THEIR_TEXT_BUBBLE_POS = new Vector3(1, 4.25f, 1.8f);
-    private float popupTime = 1.25f;
 
     // Start is called before the first frame update
     void Start()
@@ -111,7 +107,6 @@ public class Chat : MonoBehaviour, IPageTransition
         DocumentSnapshot snapshot = await AvatarBackendManager.Instance.GetAvatarByEmailTask(recipientUserData.email);
         AvatarManager.Instance.DisplayFriendAvatar2d(snapshot, AvatarHeadDisplayArea2d, AvatarSkinDisplayArea2d, AvatarHatDisplayArea2d, AvatarTextureDisplayArea2d);
 
-        isAvatarsSpawned = true;
     }
 
     public void PopupAvatar()
@@ -196,8 +191,6 @@ public class Chat : MonoBehaviour, IPageTransition
             MessageData msg = message.ConvertTo<MessageData>();
             string msgText = msg.message;
             string msgSender = msg.sender;
-            string msgReceiver = msg.receiver;
-            Timestamp msgTime = msg.createdAt;
             string messageId = message.Id;
 
             //cache the msg
