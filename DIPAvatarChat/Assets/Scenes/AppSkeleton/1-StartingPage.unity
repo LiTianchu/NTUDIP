@@ -3090,7 +3090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720c768a75a524248a325e807ca71c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  avatarPrefab: {fileID: 1668426829505818319, guid: 93a69564cba2aa24bb1789d9abeb6f2d, type: 3}
+  avatarPrefab: {fileID: 510987195074529956, guid: c617c09302956fd439281007ee999796, type: 3}
 --- !u!1 &1837749115
 GameObject:
   m_ObjectHideFlags: 0
@@ -3448,6 +3448,7 @@ MonoBehaviour:
   alternateSprite: {fileID: 21300000, guid: 43cbf9a494bc56e4bbb7a577abe1a776, type: 3}
   headerImage: {fileID: 662702342}
   chatUiHeaderImage: {fileID: 0}
+  sidebarImage: {fileID: 0}
   sourceImage: {fileID: 662702342}
   alternateText1: {fileID: 0}
   alternateText2: {fileID: 0}
@@ -3456,12 +3457,16 @@ MonoBehaviour:
   arChatSlideBtn: {fileID: 0}
   arHeaderImage: {fileID: 0}
   chatlistBoxPrefab: {fileID: 0}
-  chatlistBoxBackground: {fileID: 0}
-  chatlistBoxText: {fileID: 0}
+  friendRequestBoxPrefab: {fileID: 0}
+  contactsBoxPrefab: {fileID: 0}
+  myTextBubblePrefab: {fileID: 0}
+  theirTextBubblePrefab: {fileID: 0}
+  avatarIconContainerPrefab: {fileID: 0}
   loadingUiPrefab1: {fileID: 1917813994287706522}
   loadingUiBackground1: {fileID: 899804214}
   loadingUiPrefab2: {fileID: 0}
   loadingUiBackground2: {fileID: 0}
+  messageBarImage: {fileID: 0}
 --- !u!1 &2021752167
 GameObject:
   m_ObjectHideFlags: 0
