@@ -2372,7 +2372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720c768a75a524248a325e807ca71c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  avatarPrefab: {fileID: 1668426829505818319, guid: 93a69564cba2aa24bb1789d9abeb6f2d, type: 3}
+  avatarPrefab: {fileID: 510987195074529956, guid: c617c09302956fd439281007ee999796, type: 3}
 --- !u!1 &1837749115
 GameObject:
   m_ObjectHideFlags: 0
