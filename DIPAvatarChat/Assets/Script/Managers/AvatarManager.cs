@@ -352,7 +352,7 @@ public class AvatarManager : Singleton<AvatarManager>
                 // shoes not correct size and rotation
                 if (fbxFileName == "Blender/Shoes/businessshoesleft" || fbxFileName == "Blender/Shoes/businessshoesright" || fbxFileName == "Blender/Shoes/laceupbootsleft" || fbxFileName == "Blender/Shoes/laceupbootsright")
                 {
-                    fbx = Instantiate(loadedFBX, itemPosition, Quaternion.Euler(0f, 0f, 180f));
+                    fbx.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
                     fbx.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
                 }
 
@@ -363,9 +363,10 @@ public class AvatarManager : Singleton<AvatarManager>
                 }
 
                 // beret not correct size
-                if (fbxFileName == "Blender/beret")
+                if (fbxFileName == "Blender/butterflywings")
                 {
-
+                    fbx.transform.localPosition = new Vector3(0.0001f, 0.0016f, -0.005f);
+                    fbx.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
                 }
                 ///////////////////////////////////////////////////////////////////////////////////////////
 
