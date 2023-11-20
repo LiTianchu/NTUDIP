@@ -64,6 +64,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         _isLoading = true;
         _mainCam = Camera.main;
         FadeInUI();
+
         //load all avatar of friends and me
         foreach (string email in ChatManager.Instance.EmailToUsersDict.Keys)
         {
@@ -142,6 +143,8 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
         //need a way to get the username
         PopulateAvatarSelectionBar(avatar, data.email);
+
+        
         return avatar;
     }
 
@@ -231,6 +234,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                         ClearChatDisplay();
                         TalkingAvatar = touchedAvatar;
                         OnAvatarStartMessaging?.Invoke(TalkingAvatar);
+                        AnimationManager.Instance.InitializeAnimation(null, TalkingAvatar.gameObject);
                     }
                     //TalkingAvatar = touchedAvatar;
                     Debug.Log(TalkingAvatar.name + " touched");
@@ -271,6 +275,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
                     ClearChatDisplay();
                     TalkingAvatar = SelectedAvatar;
                     OnAvatarStartMessaging?.Invoke(TalkingAvatar);
+                    AnimationManager.Instance.InitializeAnimation(null, TalkingAvatar.gameObject);
                 }
                 
                 if (!isChatShown)
@@ -299,6 +304,7 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
             waitTime = 0.5f;
         }
         yield return new WaitForSeconds(waitTime);
+        AnimationManager.Instance.EndAnimation();
         AppManager.Instance.LoadScene("4-ChatList");
     }
 

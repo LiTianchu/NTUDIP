@@ -102,11 +102,7 @@ public class Chat : MonoBehaviour, IPageTransition
         GameObject popupAvatar = AvatarManager.Instance.LoadAvatar(recipientUserData.email);
         AvatarManager.Instance.SetAvatar("PopupAvatarBody", popupAvatar, AvatarPopupDisplayArea, ChatManager.Instance.POPUP_AVATAR_POS, ChatManager.Instance.THEIR_AVATAR_ROTATION, AVATAR_SCALE_CHAT);
 
-        AnimationManager.Instance.myAvatarBodyChat = GameObject.Find(ChatManager.Instance.MY_AVATAR_BODY_PATH);
-        AnimationManager.Instance.theirAvatarBodyChat = GameObject.Find(ChatManager.Instance.THEIR_AVATAR_BODY_PATH);
-
-        AnimationManager.Instance.myAnimatorChat = AnimationManager.Instance.myAvatarBodyChat.GetComponent<Animator>();
-        AnimationManager.Instance.theirAnimatorChat = AnimationManager.Instance.theirAvatarBodyChat.GetComponent<Animator>();
+        AnimationManager.Instance.InitializeAnimation(myAvatar, theirAvatar);
 
         AvatarManager.Instance.SetNametag(myAvatar,UsernameBubblePrefab, AuthManager.Instance.currUser.email,MY_TEXT_BUBBLE_POS);
         AvatarManager.Instance.SetNametag(theirAvatar,UsernameBubblePrefab, recipientUserData.email,THEIR_TEXT_BUBBLE_POS);
@@ -167,7 +163,7 @@ public class Chat : MonoBehaviour, IPageTransition
                                 Debug.Log("Received message from current user " + myMsgText);
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, MyChatBubblePrefab, myMsgText, messageId);
                                 //StartCoroutine(PlayMyEmoteAnimation(popupTime, myMsgText));
-                                AnimationManager.Instance.PlayEmoteAnimation(AnimationManager.Instance.myAvatarBodyChat, AnimationManager.Instance.myAnimatorChat, msgText, true);
+                                AnimationManager.Instance.PlayEmoteAnimation(msgText, true, true);
                             }
                             else
                             {
@@ -176,7 +172,7 @@ public class Chat : MonoBehaviour, IPageTransition
                                 Debug.Log("Received message from another user " + theirMsgText);
                                 ChatManager.Instance.InstantiateChatBubble(ChatBubbleParent, TheirChatBubblePrefab, theirMsgText, messageId);
                                 //StartCoroutine(PlayTheirEmoteAnimation(popupTime, theirMsgText));
-                                AnimationManager.Instance.PlayEmoteAnimation(AnimationManager.Instance.theirAvatarBodyChat, AnimationManager.Instance.theirAnimatorChat, msgText, false);
+                                AnimationManager.Instance.PlayEmoteAnimation(msgText, true, false);
                             }
                         }
                     }
@@ -294,11 +290,7 @@ public class Chat : MonoBehaviour, IPageTransition
         UIManager.Instance.PanelFadeOut(topBar, 0.5f, UIManager.UIMoveDir.FromTop, topBar.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
         UIManager.Instance.PanelFadeOut(chatScrollView, 0.5f, UIManager.UIMoveDir.FromLeft, chatScrollView.GetComponent<RectTransform>().anchoredPosition); //fade out all UI
 
-        AnimationManager.Instance.myAvatarBodyChat = null;
-        AnimationManager.Instance.theirAvatarBodyChat = null;
-
-        AnimationManager.Instance.myAnimatorChat = null;
-        AnimationManager.Instance.theirAnimatorChat = null;
+        AnimationManager.Instance.EndAnimation();
 
         yield return new WaitForSeconds(0.5f);
         AppManager.Instance.LoadScene("4-ChatList");
