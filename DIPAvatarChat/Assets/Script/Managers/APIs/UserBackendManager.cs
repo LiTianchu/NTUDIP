@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Firebase.Firestore;
@@ -90,7 +89,6 @@ public class UserBackendManager : Singleton<UserBackendManager>
         {
             DocumentReference usernameDoc = db.Collection("user").Document(email);
             doc = await usernameDoc.GetSnapshotAsync();
-            //currentUser = ProcessUserDocument(doc);
 
         }
         catch (Exception ex)

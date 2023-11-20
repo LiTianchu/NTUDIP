@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class AvatarAccessories : MonoBehaviour
 {
@@ -13,11 +9,6 @@ public class AvatarAccessories : MonoBehaviour
     void Start()
     {
         AvatarDisplayArea = GameObject.Find("/Canvas/AvatarContainer");
-    }
-
-    void Update()
-    {
-        // You can add any update logic here if needed
     }
 
     public void InstantiateAccessory()

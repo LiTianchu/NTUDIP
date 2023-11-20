@@ -2,8 +2,6 @@ using Firebase.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -11,7 +9,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using static UnityEngine.GraphicsBuffer;
 
 public class ARChat : PageSingleton<ARChat>, IPageTransition
 {
@@ -38,7 +35,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
 
     [Header("UI Transition")]
     public CanvasGroup topBar;
-    //public CanvasGroup bottomTextFieldBar;
     public CanvasGroup ChatSection;
 
     private List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
@@ -72,18 +68,8 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
             RetrieveAvatarData(email);
 
         }
-        //ListenForNewMessages();
     }
 
-    private void Update()
-    {
-        if (_isLoading)
-        {
-            //TODO: show loading UI
-            Debug.Log("loading...");
-        }
-
-    }
     private async void RetrieveAvatarData(string email)
     {
         bool avatarHasLoaded = AvatarManager.Instance.EmailToAvatarDict.TryGetValue(email, out AvatarData data); //check if the avatar is already cached

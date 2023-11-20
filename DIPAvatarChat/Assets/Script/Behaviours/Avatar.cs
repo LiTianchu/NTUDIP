@@ -11,11 +11,7 @@ public class Avatar : MonoBehaviour
     private ConversationData _conversationData;
     public AvatarData AvatarData { get; set; }
     public ConversationData ConversationData { get { return _conversationData;} }
-    // Start is called before the first frame update
-    void Start()
-    {
-        //ListenForNewMessages();
-    }
+
     private void OnEnable()
     {
         ARChat.Instance.OnAvatarStartMessaging += HandleAvatarSelected;

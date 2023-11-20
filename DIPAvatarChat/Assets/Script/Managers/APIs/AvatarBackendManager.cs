@@ -16,9 +16,7 @@ public class AvatarBackendManager : Singleton<AvatarBackendManager>
         db = FirebaseFirestore.DefaultInstance;
     }
 
-    // A private method to upload avatar data and return the document reference
     // A private method to create a new avatar data and return the document reference
-
     private async Task<DocumentReference> CreateNewAvatarData()
     {
         try
