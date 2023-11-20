@@ -5,22 +5,10 @@ public class ChatListBox : MonoBehaviour
     public GameObject Box;
     public string CurrentAvatarUserEmail { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void EnterChat()
     {
         AuthManager.Instance.currConvId = Box.name;
-        AppManager.Instance.LoadScene("6-ChatUI"); // 6-ChatUI | 6-ChatFrontEnd | Test-6
+        AppManager.Instance.LoadScene("6-ChatUI");
     }
 
     public async void DeleteChat()

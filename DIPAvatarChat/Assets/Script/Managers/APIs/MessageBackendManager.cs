@@ -1,10 +1,7 @@
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -15,12 +12,10 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
 {
 
     FirebaseFirestore db;
-    private string _userPath;
 
     void Start()
     {
         db = FirebaseFirestore.DefaultInstance;
-        _userPath = AuthManager.Instance.userPathData;
 
     }
 
@@ -97,7 +92,6 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
         try
         {
             db = FirebaseFirestore.DefaultInstance;
-            _userPath = AuthManager.Instance.userPathData;
             // Get a reference to the conversation document using the provided conversation ID
             DocumentReference msgRef = db.Collection("message").Document(msgID);
 
@@ -114,12 +108,10 @@ public class MessageBackendManager : Singleton<MessageBackendManager>
                 }
             });
 
-            //return true; // Return true to indicate that the deletion process has started.
         }
         catch (Exception e)
         {
             Debug.LogError("Error deleting msg: " + e.Message);
-            //return false; // Return false to indicate that an error occurred during deletion.
         }
     }
 }

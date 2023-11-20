@@ -1,6 +1,3 @@
-using Firebase;
-using Firebase.Auth;
-using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
@@ -151,12 +148,7 @@ public class ChatList : MonoBehaviour
 
             // Set the text values based on your latestMessage and sender data
             string latestMessageText = latestMessage?.message;
-            //int maxLength = 20; // Set the maximum length you want for the message
-            //if (!string.IsNullOrEmpty(latestMessageText) && latestMessageText.Length > maxLength)
-            //{
-            //    // If the message exceeds the maximum length, truncate it and add "..."
-            //    latestMessageText = latestMessageText.Substring(0, maxLength) + "...";
-            //}
+      
             //latestMessageText = ChatManager.Instance.ReverseEmojiUpdate(latestMessageText);
             messageText.text = latestMessageText;
 
@@ -265,7 +257,6 @@ public class ChatList : MonoBehaviour
         DocumentSnapshot userDoc = await UserBackendManager.Instance.GetUserByEmailTask(emailSearchBar.text);
         DisplaySearchUserData(userDoc.ConvertTo<UserData>());
 
-        //SendFriendRequestBtn.interactable = true;
     }
 
     async public void SendFriendRequest()
@@ -328,7 +319,6 @@ public class ChatList : MonoBehaviour
             StartCoroutine(HideAlreadyYourFriendText(2.0f)); // Adjust the delay as needed
         }
 
-        //SendFriendRequestBtn.interactable = false;
     }
 
     private IEnumerator HideFriendRequestSentText(float delay)
@@ -348,7 +338,6 @@ public class ChatList : MonoBehaviour
 
     async public void DisplayFriendRequests()
     {
-        //EnableTab(FriendRequestsTab);
         DestroyTempPrefabs("TempPrefab");
         Debug.Log(AuthManager.Instance.currUser.email);
 
@@ -473,14 +462,6 @@ public class ChatList : MonoBehaviour
         DocumentSnapshot myUserDoc = await UserBackendManager.Instance.GetUserByEmailTask(AuthManager.Instance.currUser.email);
         UserData userData = myUserDoc.ConvertTo<UserData>();
     }
-
-    //public void ClearDisplay()
-    //{
-    //    // Only clear the display if a refresh is needed
-    //    //SearchNameDisplay.text = "";
-    //    //SearchEmailDisplay.text = "";
-    //    //SearchStatusDisplay.text = "";
-    //}
 
     public void DestroyTempPrefabs(string tag)
     {

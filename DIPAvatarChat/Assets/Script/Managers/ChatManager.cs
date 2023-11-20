@@ -2,7 +2,6 @@ using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -26,23 +25,15 @@ public class ChatManager : Singleton<ChatManager>
     public readonly Quaternion MY_AVATAR_ROTATION = Quaternion.Euler(0f, 210f, 0f);
     public readonly Quaternion THEIR_AVATAR_ROTATION = Quaternion.Euler(0f, 150f, 0f);
 
-    private Dictionary<string, Animation> emojiAnimations = new Dictionary<string, Animation>();
-
     // Map commands to custom emotes
     private Dictionary<string, int> emojiToImageMap = new Dictionary<string, int>
     {
-        //{ ":smile:", 0},
         { ":shocked:", 10},
         { ":xdface:", 12},
-        //{ ":blepface:", 16},
-        //{ ":nerd:", 18},
         { ":sus:", 19},
         { ":angry:", 21},
-        //{ ":flushed:", 22},
         { ":laugh:", 24},
         { ":cry:", 26 },
-        //{ ":oops:", 53},
-        //{ ":ok:", 39},
         { ":wave:", 9},
     };
 
@@ -56,7 +47,6 @@ public class ChatManager : Singleton<ChatManager>
     public GameObject InstantiateChatBubble(GameObject _ChatBubbleParent, GameObject _ChatBubblePrefab, string msgText, string messageId)
     {
         GameObject box = Instantiate(_ChatBubblePrefab);
-        //box.transform.parent = _ChatBubbleParent.transform;
         box.transform.SetParent(_ChatBubbleParent.transform, false);
         box.transform.localPosition = new Vector3(box.transform.localPosition.x, box.transform.localPosition.y, 0);
         box.name = messageId;
