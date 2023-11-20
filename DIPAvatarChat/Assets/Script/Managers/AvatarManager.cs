@@ -388,11 +388,13 @@ public class AvatarManager : Singleton<AvatarManager>
             string HEAD_COLOUR_PATH = colourName + "/headcolour";
             string TAIL_COLOUR_PATH = colourName + "/tailcolour";
             string DOG_TAIL_COLOUR_PATH = colourName + "/dogtailcolour";
+            string DOG_EAR_COLOUR_PATH = colourName + "/dogearcolour";
 
             AddMaterial(BODY_COLOUR_PATH, "Body", "SkinnedMeshRenderer", true);
             AddMaterial(HEAD_COLOUR_PATH, "Head_Base", "SkinnedMeshRenderer", true);
             AddMaterial(TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/cattail", "MeshRenderer", true);
             AddMaterial(DOG_TAIL_COLOUR_PATH, "Character_Rig/mixamorig:Hips/dogtail", "MeshRenderer", true);
+            AddMaterial(DOG_EAR_COLOUR_PATH, "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/dogear", "MeshRenderer", true);
 
             if (textureName != null && textureName != "")
             {
