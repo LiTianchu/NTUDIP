@@ -16,6 +16,7 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly string AVATAR_ARM_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm";
     public readonly string AVATAR_SHOE_L_PATH = "Character_Rig/mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot/Empty_R_Shoes";
     public readonly string AVATAR_SHOE_R_PATH = "Character_Rig/mixamorig:Hips/mixamorig:RightUpLeg/mixamorig:RightLeg/mixamorig:RightFoot/Empty_L_Shoes";
+    public readonly string AVATAR_WINGS_PATH = "Character_Rig/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1";
 
     //rotation for avatar spawn
     public readonly Vector3 AVATAR_COLLIDER_SIZE = new Vector3(2f, 4f, 2f);
@@ -35,6 +36,11 @@ public class AvatarManager : Singleton<AvatarManager>
     public readonly Vector3 SHOES_POS = new Vector3(0f, 0f, 0f);
     public readonly Vector3 SHOES_SCALE = new Vector3(0.011f, 0.011f, 0.011f);
     public readonly Quaternion SHOES_ROTATION = Quaternion.Euler(180f, 90f, 90f);
+
+    //pos for wings accessories
+    public readonly Vector3 WINGS_POS = new Vector3(0.0001f, 0.0016f, -0.001f);
+    public readonly Vector3 WINGS_SCALE = new Vector3(0.004f, 0.004f, 0.004f);
+    public readonly Quaternion WINGS_ROTATION = Quaternion.Euler(60f, 0f, 0f);
 
     public readonly Vector3 TEXT_BUBBLE_POS = new Vector3(1, 4.25f, 1.8f);
 
@@ -255,6 +261,7 @@ public class AvatarManager : Singleton<AvatarManager>
         GameObject armParent = avatar.transform.Find(AVATAR_ARM_PATH).gameObject;
         GameObject shoesParentL = avatar.transform.Find(AVATAR_SHOE_L_PATH).gameObject;
         GameObject shoesParentR = avatar.transform.Find(AVATAR_SHOE_R_PATH).gameObject;
+        GameObject wingsParent = avatar.transform.Find(AVATAR_WINGS_PATH).gameObject;
 
         // Load hat accessory
         LoadAccessory(avatarData.hat, avatar, HAT_POS, HAT_SCALE, HAT_ROTATION, hatParent, "HatAccessory");
@@ -265,6 +272,9 @@ public class AvatarManager : Singleton<AvatarManager>
         // Load shoes accessory
         LoadAccessory(avatarData.shoes + "left", avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParentL, "ShoesAccessory");
         LoadAccessory(avatarData.shoes + "right", avatar, SHOES_POS, SHOES_SCALE, SHOES_ROTATION, shoesParentR, "ShoesAccessory");
+
+        // Load wings accessory
+        LoadAccessory(avatarData.wings, avatar, WINGS_POS, WINGS_SCALE, WINGS_ROTATION, wingsParent, "ShoesAccessory");
 
         // Load ears and tail
         LoadBodyParts(avatarData.ears, avatarData.tail, avatar);
