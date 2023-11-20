@@ -121,7 +121,6 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         //light.type = LightType.Point;
         //light.intensity = 0.5f;
         //lightsource.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
-
         Avatar avatar = avatarObj.AddComponent<Avatar>();
         avatar.AvatarData = data;
         avatarObj.SetActive(false);
