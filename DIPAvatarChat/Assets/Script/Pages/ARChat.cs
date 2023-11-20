@@ -114,13 +114,13 @@ public class ARChat : PageSingleton<ARChat>, IPageTransition
         //Set accessories correctly
 
         //spawn light source
-        GameObject lightsource = new GameObject();
+        /*GameObject lightsource = new GameObject();
         lightsource.transform.parent = avatarObj.transform;
         lightsource.name = "Lightsource";
         Light light = lightsource.AddComponent<Light>();
         light.type = LightType.Point;
         light.intensity = 0.5f;
-        lightsource.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;
+        lightsource.transform.localPosition = LIGHT_SOURCE_LOCAL_POS;*/
 
         Avatar avatar = avatarObj.AddComponent<Avatar>();
         avatar.AvatarData = data;
